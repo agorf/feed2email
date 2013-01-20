@@ -84,7 +84,7 @@ module RSS2Email
     end
 
     def process
-      send_as_mail(to_mail)
+      send_as_mail
     end
 
     def processable?
@@ -97,8 +97,8 @@ module RSS2Email
       @entry_data.published > @feed.fetch_time
     end
 
-    def send_as_mail(mail)
-      open("|#{SENDMAIL} #{mail.to.join(' ')}", 'w') do |f|
+    def send_as_mail
+      open("|#{SENDMAIL} #{to_mail.to.join(' ')}", 'w') do |f|
         f.write(mail)
       end
     end
