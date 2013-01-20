@@ -62,7 +62,7 @@ work. Don't forget to adjust (1) the path to the script source, (2) your email,
 
 ## License
 
-Licensed under the MIT license (see LICENSE).
+Licensed under the MIT license (see `LICENSE`).
 
 ## Author
 
