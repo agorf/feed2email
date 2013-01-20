@@ -63,7 +63,7 @@ module RSS2Email
     end
 
     def process
-      each_entry {|entry| entry.process if entry.new? }
+      each_entry {|entry| entry.process if entry.processable? }
     end
 
     def processable?
@@ -81,15 +81,19 @@ module RSS2Email
       @feed = feed
     end
 
-    def new?
-      @entry_data.published > @feed.fetch_time
-    end
-
     def process
       send_as_mail(to_mail)
     end
 
+    def processable?
+      new?
+    end
+
     private
+
+    def new?
+      @entry_data.published > @feed.fetch_time
+    end
 
     def send_as_mail(mail)
       open("|#{SENDMAIL} #{mail.to.join(' ')}", 'w') do |f|
