@@ -26,7 +26,7 @@ module RSS2Email
 
     def check
       process if processable?
-      sync_fetch_time
+      sync_fetch_time if !seen_before? || fetched?
     end
 
     def fetch_time
