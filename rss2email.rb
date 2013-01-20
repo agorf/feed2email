@@ -3,10 +3,10 @@ require 'feedzirra'
 require 'mail'
 
 module RSS2Email
-  FEEDS_FILE = 'feeds.yml' # list of feed URIs to check
-  CACHE_FILE = 'cache.yml' # mapping of feed fetch times
   SENDMAIL   = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
   MAILTO     = ENV['MAILTO'] || ENV['USER']
+  FEEDS_FILE = 'feeds.yml' # list of feed URIs to check
+  CACHE_FILE = 'cache.yml' # mapping of feed fetch times
   USER_AGENT = 'rss2email.rb'
 
   class Feed
