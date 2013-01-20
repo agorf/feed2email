@@ -33,11 +33,6 @@ module RSS2Email
       @@fetch_times[@uri]
     end
 
-    def feed_data
-      @fetched_at ||= Time.now
-      @feed_data ||= Feedzirra::Feed.fetch_and_parse(@uri)
-    end
-
     def title
       feed_data.title
     end
@@ -48,6 +43,11 @@ module RSS2Email
       feed_data.entries.each do |entry_data|
         yield Entry.new(entry_data, self)
       end
+    end
+
+    def feed_data
+      @fetched_at ||= Time.now
+      @feed_data ||= Feedzirra::Feed.fetch_and_parse(@uri)
     end
 
     def fetched?
