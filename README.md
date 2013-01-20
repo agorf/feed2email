@@ -4,11 +4,11 @@ Receive RSS/Atom feed updates in your email.
 
 ## Why
 
-I don't like having a separate application for feeds when I'm checking my email
-anyway. I also never read anything when feeds are kept in a separate place.
+I don't like having a separate application for feeds when I'm already checking
+my email. I also never read a thing when feeds are kept in a separate place.
 
 The script was written primarily as a replacement of the [rss2email][] program
-which is big, bloated, buggy and hard to configure.
+which is rather big, slow, bloated and hard to use.
 
 [rss2email]: http://www.allthingsrss.com/rss2email/
 
