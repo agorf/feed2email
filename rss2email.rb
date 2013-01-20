@@ -8,24 +8,17 @@ SENDMAIL = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
 MAILTO = ENV['MAILTO'] || ENV['USER']
 
 module RSS2Email
-  def self.check_feeds
-    Feed.fetch_times = YAML.load(open(CACHE_FILE)) rescue {}
-    feed_uris = YAML.load(open(FEEDS_FILE)) rescue []
-    feed_uris.each {|uri| Feed.check(uri) }
-    open(CACHE_FILE, 'w') {|f| f.write(Feed.fetch_times.to_yaml) }
-  end
 
   class Feed
     def self.check(uri)
       Feed.new(uri).check
     end
 
-    def self.fetch_times
-      @@fetch_times
-    end
-
-    def self.fetch_times=(fetch_times)
-      @@fetch_times = fetch_times
+    def self.check_all
+      @@fetch_times = YAML.load(open(CACHE_FILE)) rescue {}
+      feed_uris = YAML.load(open(FEEDS_FILE)) rescue []
+      feed_uris.each {|uri| Feed.check(uri) }
+      open(CACHE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
     end
 
     def initialize(uri)
@@ -119,4 +112,4 @@ module RSS2Email
   end
 end
 
-RSS2Email.check_feeds
+RSS2Email::Feed.check_all
