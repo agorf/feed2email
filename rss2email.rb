@@ -2,12 +2,11 @@
 require 'feedzirra'
 require 'mail'
 
-FEEDS_FILE = 'feeds.yml' # list of feed URIs to check
-CACHE_FILE = 'cache.yml' # mapping of feed fetch times
-SENDMAIL = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
-MAILTO = ENV['MAILTO'] || ENV['USER']
-
 module RSS2Email
+  FEEDS_FILE = 'feeds.yml' # list of feed URIs to check
+  CACHE_FILE = 'cache.yml' # mapping of feed fetch times
+  SENDMAIL   = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
+  MAILTO     = ENV['MAILTO'] || ENV['USER']
 
   class Feed
     def self.check(uri)
