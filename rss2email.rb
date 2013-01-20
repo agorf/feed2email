@@ -3,7 +3,7 @@ require 'feedzirra'
 require 'mail'
 
 SENDMAIL_BIN = ENV['SENDMAIL_BIN'] || '/usr/sbin/sendmail'
-RECIPIENT = ENV['RECIPIENT']
+MAILTO = ENV['MAILTO']
 
 feed_uris = YAML.load(open('feeds.yml')) rescue []
 fetch_times = YAML.load(open('cache.yml')) rescue {}
@@ -18,7 +18,7 @@ feed_uris.each do |feed_uri|
         if entry.published > fetch_times[feed_uri]
           mail = Mail.new do
             from entry.author if entry.author
-            to RECIPIENT
+            to MAILTO
             subject "[#{feed.title}] #{entry.title}"
             html_part do
               content_type 'text/html; charset=UTF-8'
