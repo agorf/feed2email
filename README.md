@@ -1,6 +1,6 @@
 # rss2email
 
-Receive RSS/Atom feed updates in your email.
+RSS/Atom feed updates in your email.
 
 ## Why
 
