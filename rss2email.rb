@@ -94,8 +94,8 @@ module RSS2Email
     private
 
     def email
-      open("|#{SENDMAIL} #{to_mail.to.join(' ')}", 'w') do |f|
-        f.write(mail)
+      open("|#{SENDMAIL} #{MAILTO}", 'w') do |f|
+        f.write(to_mail)
       end
     end
 
