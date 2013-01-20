@@ -110,7 +110,7 @@ module RSS2Email
       mail.subject = "[#{@feed.title}] #{@entry_data.title}"
       html_part = Mail::Part.new
       html_part.content_type = 'text/html; charset=UTF-8'
-      html_part.body = @entry_data.summary
+      html_part.body = @entry_data.content || @entry_data.summary
       mail.html_part = html_part
       mail
     end
