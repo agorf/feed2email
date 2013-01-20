@@ -1,6 +1,6 @@
 # rss2email
 
-RSS/Atom feed updates in your email.
+RSS/Atom feed updates in your email
 
 ## Why
 
@@ -44,7 +44,7 @@ If you want to receive existing entries from a specific feed, you can alter the
 timestamp for that feed in `cache.yml` to a value in the past. Next time you run
 the script, all entries published past that timestamp will be sent with email.
 
-Here's how to run the script manually with [Bundler][]:
+To run the script manually with [Bundler][]:
 
     $ MAILTO=agorfatagorfdotgr bundle exec ruby rss2email.rb
 
@@ -55,7 +55,7 @@ You can place the following line in your crontab to have it run once every hour:
     0 * * * * cd ~/src/rss2email/ && MAILTO=agorfatagorfdotgr ~/.rbenv/versions/1.9.3-p327/bin/bundle exec ruby rss2email.rb
 
 **Note:** You need to have [rbenv][] and [Bundler][] installed for the above to
-work. Don't forget to adjust (1) the path to the script source, (2) your email,
+work. Make sure you adjust (1) the path to the script source, (2) your email,
 (3) the path to the Ruby binary!
 
 [rbenv]: https://github.com/sstephenson/rbenv
