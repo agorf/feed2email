@@ -7,6 +7,7 @@ module RSS2Email
   CACHE_FILE = 'cache.yml' # mapping of feed fetch times
   SENDMAIL   = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
   MAILTO     = ENV['MAILTO'] || ENV['USER']
+  USER_AGENT = 'rss2email.rb'
 
   class Feed
     def self.check(uri)
@@ -47,7 +48,8 @@ module RSS2Email
 
     def feed_data
       @fetched_at ||= Time.now
-      @feed_data ||= Feedzirra::Feed.fetch_and_parse(@uri)
+      @feed_data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent =>
+        USER_AGENT || Feedzirra::Feed::USER_AGENT)
     end
 
     def fetched?
