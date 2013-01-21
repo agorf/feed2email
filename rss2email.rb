@@ -1,6 +1,13 @@
 # coding: utf-8
+require 'cgi'
 require 'feedzirra'
 require 'mail'
+
+class String
+  def escape_html
+    CGI.escapeHTML(self)
+  end
+end
 
 module RSS2Email
   SENDMAIL   = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
@@ -99,6 +106,23 @@ module RSS2Email
       end
     end
 
+    def mail_body
+      body_data = {
+        :url     => @entry_data.url.escape_html,
+        :title   => @entry_data.title.escape_html,
+        :content => @entry_data.content || @entry_data.summary,
+      }
+      %{
+        <html>
+        <body>
+        <h1><a href="%{url}">%{title}</a></h1>
+        %{content}
+        <p><a href="%{url}">%{url}</a></p>
+        </body>
+        </html>
+      }.gsub(/^\s+/, '') % body_data
+    end
+
     def new?
       @entry_data.published > @feed.fetch_time
     end
@@ -110,7 +134,7 @@ module RSS2Email
       mail.subject = "[#{@feed.title}] #{@entry_data.title}"
       html_part = Mail::Part.new
       html_part.content_type = 'text/html; charset=UTF-8'
-      html_part.body = @entry_data.content || @entry_data.summary
+      html_part.body = mail_body
       mail.html_part = html_part
       mail
     end
