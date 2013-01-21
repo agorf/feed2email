@@ -4,6 +4,10 @@ require 'feedzirra'
 require 'mail'
 
 class String
+  def blank?
+    self.nil? || self.strip.empty?
+  end
+
   def escape_html
     CGI.escapeHTML(self)
   end
@@ -123,15 +127,29 @@ module RSS2Email
       }.gsub(/^\s+/, '') % body_data
     end
 
+    def mail_from
+      from_data = {
+        :name  => @feed.title,
+        :email => @entry_data.author,
+      }
+
+      if from_data[:email].blank? || from_data[:email]['@'].nil?
+        require 'socket'
+        from_data[:email] = "#{ENV['USER']}@#{Socket.gethostname}"
+      end
+
+      '"%{name}" <%{email}>' % from_data
+    end
+
     def new?
       @entry_data.published > @feed.fetch_time
     end
 
     def to_mail
       mail = Mail.new
-      mail.from = @entry_data.author if @entry_data.author
+      mail.from = mail_from
       mail.to = MAILTO
-      mail.subject = "[#{@feed.title}] #{@entry_data.title}"
+      mail.subject = @entry_data.title
       html_part = Mail::Part.new
       html_part.content_type = 'text/html; charset=UTF-8'
       html_part.body = mail_body
