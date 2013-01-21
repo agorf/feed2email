@@ -14,11 +14,13 @@ which is rather big, slow, bloated and hard to use.
 
 ## Installation
 
-It's easy with [Bundler][]:
+Using git and [Bundler][]:
 
-    $ git clone git://github.com/agorf/rss2email.git
-    $ cd rss2email/
-    $ bundle install
+~~~ sh
+$ git clone git://github.com/agorf/rss2email.git
+$ cd rss2email/
+$ bundle install
+~~~
 
 You also need to have [Sendmail][] working in your system to send mail. I use
 [msmtp][] which is a nice alternative with a compatible Sendmail interface.
@@ -32,8 +34,8 @@ You also need to have [Sendmail][] working in your system to send mail. I use
 Copy `feeds.yml.sample` to `feeds.yml` and add the address of each feed you want
 to subscribe to, prefixed with a dash and a space.
 
-When run for the first time, the script runs in "dry run" mode which is why it
-exits almost immediately. During dry run mode:
+When run for the first time, the script enters "dry run" mode and exits almost
+immediately. During dry run mode:
 
 * No feeds are fetched and, thus, no email is sent (existing feed entries are
   considered already seen)
@@ -46,7 +48,9 @@ the script, all entries published past that timestamp will be sent with email.
 
 To run the script manually with [Bundler][]:
 
-    $ MAILTO=agorfatagorfdotgr bundle exec ruby rss2email.rb
+~~~ sh
+$ MAILTO=agorfatagorfdotgr bundle exec ruby rss2email.rb
+~~~
 
 **Note:** I've replaced email symbols with words to avoid spam.
 
