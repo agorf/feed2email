@@ -41,34 +41,30 @@ module RSS2Email
       sync_fetch_time if !seen_before? || fetched?
     end
 
-    def fetch_time
-      @@fetch_times[@uri]
+    def data
+      @fetched_at ||= Time.now
+      @data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent =>
+        USER_AGENT || Feedzirra::Feed::USER_AGENT)
     end
 
-    def title
-      feed_data.title
+    def fetch_time
+      @@fetch_times[@uri]
     end
 
     private
 
     def each_entry
-      feed_data.entries.each do |entry_data|
+      data.entries.each do |entry_data|
         yield Entry.new(entry_data, self)
       end
     end
 
-    def feed_data
-      @fetched_at ||= Time.now
-      @feed_data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent =>
-        USER_AGENT || Feedzirra::Feed::USER_AGENT)
-    end
-
     def fetched?
-      feed_data.respond_to?(:entries)
+      data.respond_to?(:entries)
     end
 
     def have_entries?
-      feed_data.entries.any?
+      data.entries.any?
     end
 
     def seen_before?
@@ -76,7 +72,7 @@ module RSS2Email
     end
 
     def process
-      each_entry {|entry| entry.process if entry.processable? }
+      each_entry {|entry| entry.process }
     end
 
     def processable?
@@ -89,32 +85,38 @@ module RSS2Email
   end
 
   class Entry
-    def initialize(entry_data, feed)
-      @entry_data = entry_data
+    attr_reader :data, :feed
+
+    def initialize(data, feed)
+      @data = data
       @feed = feed
     end
 
     def process
-      email
-    end
-
-    def processable?
-      new?
+      to_mail.send if new?
     end
 
     private
 
-    def email
-      open("|#{SENDMAIL} #{MAILTO}", 'w') do |f|
-        f.write(to_mail)
-      end
+    def new?
+      @data.published > @feed.fetch_time
     end
 
-    def mail_body
+    def to_mail
+      Mail.new(self)
+    end
+  end
+
+  class Mail
+    def initialize(entry)
+      @entry = entry
+    end
+
+    def body
       body_data = {
-        :url     => @entry_data.url.escape_html,
-        :title   => @entry_data.title.escape_html,
-        :content => @entry_data.content || @entry_data.summary,
+        :url     => @entry.data.url.escape_html,
+        :title   => @entry.data.title.escape_html,
+        :content => @entry.data.content || @entry.data.summary,
       }
       %{
         <html>
@@ -127,10 +129,10 @@ module RSS2Email
       }.gsub(/^\s+/, '') % body_data
     end
 
-    def mail_from
+    def from
       from_data = {
-        :name  => @feed.title,
-        :email => @entry_data.author,
+        :name  => @entry.feed.data.title,
+        :email => @entry.data.author,
       }
 
       if from_data[:email].blank? || from_data[:email]['@'].nil?
@@ -141,20 +143,34 @@ module RSS2Email
       '"%{name}" <%{email}>' % from_data
     end
 
-    def new?
-      @entry_data.published > @feed.fetch_time
+    def html_part
+      part = ::Mail::Part.new
+      part.content_type = 'text/html; charset=UTF-8'
+      part.body = body
+      part
     end
 
-    def to_mail
-      mail = Mail.new
-      mail.from = mail_from
-      mail.to = MAILTO
-      mail.subject = @entry_data.title
-      html_part = Mail::Part.new
-      html_part.content_type = 'text/html; charset=UTF-8'
-      html_part.body = mail_body
-      mail.html_part = html_part
-      mail
+    def mail
+      ::Mail.new.tap do |m|
+        m.from      = from
+        m.to        = to
+        m.subject   = subject
+        m.html_part = html_part
+      end
+    end
+
+    def send
+      open("|#{SENDMAIL} #{MAILTO}", 'w') do |f|
+        f.write(mail)
+      end
+    end
+
+    def subject
+      @entry.data.title
+    end
+
+    def to
+      MAILTO
     end
   end
 end
