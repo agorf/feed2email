@@ -160,7 +160,7 @@ module RSS2Email
     end
 
     def send
-      open("|#{SENDMAIL} #{MAILTO}", 'w') do |f|
+      open("|#{SENDMAIL} #{to}", 'w') do |f|
         f.write(mail)
       end
     end
