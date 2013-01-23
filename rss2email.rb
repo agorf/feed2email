@@ -4,10 +4,6 @@ require 'feedzirra'
 require 'mail'
 
 class String
-  def blank?
-    self.nil? || self.strip.empty?
-  end
-
   def escape_html
     CGI.escapeHTML(self)
   end
@@ -130,9 +126,8 @@ module RSS2Email
         :email => @entry.data.author,
       }
 
-      if from_data[:email].blank? || from_data[:email]['@'].nil?
-        require 'socket'
-        from_data[:email] = "#{ENV['USER']}@#{Socket.gethostname}"
+      if from_data[:email].nil? || from_data[:email]['@'].nil?
+        from_data[:email] = to
       end
 
       '"%{name}" <%{email}>' % from_data
