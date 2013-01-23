@@ -34,11 +34,6 @@ module RSS2Email
       @uri = uri
     end
 
-    def data
-      @fetched_at ||= Time.now
-      @data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent => USER_AGENT)
-    end
-
     def fetch_time
       @@fetch_times[@uri]
     end
@@ -48,7 +43,16 @@ module RSS2Email
       sync_fetch_time if !seen_before? || fetched?
     end
 
+    def title
+      data.title
+    end
+
     private
+
+    def data
+      @fetched_at ||= Time.now
+      @data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent => USER_AGENT)
+    end
 
     def each_entry
       data.entries.each do |entry_data|
@@ -78,15 +82,31 @@ module RSS2Email
   end
 
   class Entry
-    attr_reader :data, :feed
+    attr_reader :feed
 
     def initialize(data, feed)
       @data = data
       @feed = feed
     end
 
+    def author
+      @data.author
+    end
+
+    def content
+      @data.content || @data.summary
+    end
+
     def process
       to_mail.send if new?
+    end
+
+    def title
+      @data.title
+    end
+
+    def url
+      @data.url
     end
 
     private
@@ -107,9 +127,9 @@ module RSS2Email
 
     def body
       body_data = {
-        :url     => @entry.data.url.escape_html,
-        :title   => @entry.data.title.escape_html,
-        :content => @entry.data.content || @entry.data.summary,
+        :url     => @entry.url.escape_html,
+        :title   => @entry.title.escape_html,
+        :content => @entry.content,
       }
       %{
         <html>
@@ -124,8 +144,8 @@ module RSS2Email
 
     def from
       from_data = {
-        :name  => @entry.feed.data.title,
-        :email => @entry.data.author,
+        :name  => @entry.feed.title,
+        :email => @entry.author,
       }
 
       if from_data[:email].nil? || from_data[:email]['@'].nil?
@@ -158,7 +178,7 @@ module RSS2Email
     end
 
     def subject
-      @entry.data.title
+      @entry.title
     end
 
     def to
