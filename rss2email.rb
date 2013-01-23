@@ -23,8 +23,10 @@ module RSS2Email
 
     def self.process_all
       @@fetch_times = YAML.load(open(CACHE_FILE)) rescue {}
+
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue []
       feed_uris.each {|uri| Feed.process(uri) }
+
       open(CACHE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
     end
 
