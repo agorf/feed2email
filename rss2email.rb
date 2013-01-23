@@ -38,8 +38,7 @@ module RSS2Email
 
     def data
       @fetched_at ||= Time.now
-      @data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent =>
-        USER_AGENT || Feedzirra::Feed::USER_AGENT)
+      @data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent => USER_AGENT)
     end
 
     def fetch_time
