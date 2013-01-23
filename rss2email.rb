@@ -21,24 +21,19 @@ module RSS2Email
   USER_AGENT = 'rss2email.rb'
 
   class Feed
-    def self.check(uri)
-      Feed.new(uri).check
+    def self.process(uri)
+      Feed.new(uri).process
     end
 
-    def self.check_all
+    def self.process_all
       @@fetch_times = YAML.load(open(CACHE_FILE)) rescue {}
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue []
-      feed_uris.each {|uri| Feed.check(uri) }
+      feed_uris.each {|uri| Feed.process(uri) }
       open(CACHE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
     end
 
     def initialize(uri)
       @uri = uri
-    end
-
-    def check
-      process if processable?
-      sync_fetch_time if !seen_before? || fetched?
     end
 
     def data
@@ -49,6 +44,11 @@ module RSS2Email
 
     def fetch_time
       @@fetch_times[@uri]
+    end
+
+    def process
+      process_entries if seen_before? && fetched? && have_entries?
+      sync_fetch_time if !seen_before? || fetched?
     end
 
     private
@@ -71,12 +71,8 @@ module RSS2Email
       fetch_time.is_a?(Time)
     end
 
-    def process
+    def process_entries
       each_entry {|entry| entry.process }
-    end
-
-    def processable?
-      seen_before? && fetched? && have_entries?
     end
 
     def sync_fetch_time
@@ -175,4 +171,4 @@ module RSS2Email
   end
 end
 
-RSS2Email::Feed.check_all
+RSS2Email::Feed.process_all
