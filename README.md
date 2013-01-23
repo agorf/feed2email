@@ -1,4 +1,4 @@
-# rss2email
+# feed2email
 
 RSS/Atom feed updates in your email
 
@@ -17,8 +17,8 @@ which is rather big, slow, bloated and hard to use.
 Using git and [Bundler][]:
 
 ~~~ sh
-$ git clone git://github.com/agorf/rss2email.git
-$ cd rss2email/
+$ git clone git://github.com/agorf/feed2email.git
+$ cd feed2email/
 $ bundle install
 ~~~
 
@@ -49,14 +49,14 @@ the script, all entries published past that timestamp will be sent with email.
 To run the script manually with [Bundler][]:
 
 ~~~ sh
-$ MAILTO=agorfatagorfdotgr bundle exec ruby rss2email.rb
+$ MAILTO=agorfatagorfdotgr bundle exec ruby feed2email.rb
 ~~~
 
 **Note:** I've replaced email symbols with words to avoid spam.
 
 You can place the following line in your crontab to have it run once every hour:
 
-    0 * * * * cd ~/src/rss2email/ && MAILTO=agorfatagorfdotgr ~/.rbenv/versions/1.9.3-p327/bin/bundle exec ruby rss2email.rb
+    0 * * * * cd ~/src/feed2email/ && MAILTO=agorfatagorfdotgr ~/.rbenv/versions/1.9.3-p327/bin/bundle exec ruby feed2email.rb
 
 **Note:** You need to have [rbenv][] and [Bundler][] installed for the above to
 work. Make sure you adjust (1) the path to the script source, (2) your email,

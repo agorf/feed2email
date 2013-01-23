@@ -9,12 +9,12 @@ class String
   end
 end
 
-module RSS2Email
+module Feed2Email
   SENDMAIL   = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
   MAILTO     = ENV['MAILTO'] || ENV['USER']
   FEEDS_FILE = 'feeds.yml' # list of feed URIs to check
   CACHE_FILE = 'cache.yml' # mapping of feed fetch times
-  USER_AGENT = 'rss2email.rb'
+  USER_AGENT = 'feed2email'
 
   class Feed
     def self.process(uri)
@@ -187,4 +187,4 @@ module RSS2Email
   end
 end
 
-RSS2Email::Feed.process_all
+Feed2Email::Feed.process_all
