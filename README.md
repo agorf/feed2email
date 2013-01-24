@@ -42,7 +42,13 @@ Here's how to run the script:
 $ MAILTO=agorfatagorfdotgr feed2email
 ~~~
 
-**Note:** Email symbols have been replaced with words to avoid spam.
+It's also possible to override the path to the [Sendmail][] binary:
+
+~~~ sh
+$ SENDMAIL=/path/to/sendmail MAILTO=agorfatagorfdotgr feed2email
+~~~
+
+**Note:** Email symbols in the above examples have been replaced with words to avoid spam.
 
 You can use [cron][] to run the script e.g. once every hour.
 
