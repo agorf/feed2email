@@ -54,10 +54,8 @@ module Feed2Email
       @data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent => USER_AGENT)
     end
 
-    def each_entry
-      data.entries.each do |entry_data|
-        yield Entry.new(entry_data, self)
-      end
+    def entries
+      data.entries
     end
 
     def fetched?
@@ -68,12 +66,14 @@ module Feed2Email
       data.entries.any?
     end
 
-    def seen_before?
-      fetch_time.is_a?(Time)
+    def process_entries
+      entries.each do |entry_data|
+        Entry.process(entry_data, self)
+      end
     end
 
-    def process_entries
-      each_entry {|entry| entry.process }
+    def seen_before?
+      fetch_time.is_a?(Time)
     end
 
     def sync_fetch_time
@@ -83,6 +83,10 @@ module Feed2Email
 
   class Entry
     attr_reader :feed
+
+    def self.process(data, feed)
+      Entry.new(data, feed).process
+    end
 
     def initialize(data, feed)
       @data = data
