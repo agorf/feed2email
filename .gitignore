@@ -1,1 +1,5 @@
+*.gem
 *.yml
+.bundle
+Gemfile.lock
+pkg/

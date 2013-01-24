@@ -1,0 +1,10 @@
+require 'cgi'
+require 'feedzirra'
+require 'mail'
+require 'yaml'
+
+require 'feed2email/version'
+require 'feed2email/core_ext'
+require 'feed2email/mail'
+require 'feed2email/entry'
+require 'feed2email/feed'
