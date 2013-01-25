@@ -4,23 +4,26 @@ module Feed2Email
   USER_AGENT = "feed2email/#{VERSION}"
 
   class Feed
-    def self.process(uri)
-      Feed.new(uri).process
+    def self.process(uri, options)
+      Feed.new(uri, options).process
     end
 
-    def self.process_all
+    def self.process_all(options)
       Dir.mkdir(File.dirname(CACHE_FILE)) rescue nil
 
       @@fetch_times = YAML.load(open(CACHE_FILE)) rescue {}
 
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue []
-      feed_uris.each {|uri| Feed.process(uri) }
+      feed_uris.each {|uri| Feed.process(uri, options) }
 
       open(CACHE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
     end
 
-    def initialize(uri)
+    attr_reader :options
+
+    def initialize(uri, options)
       @uri = uri
+      @options = options
     end
 
     def fetch_time

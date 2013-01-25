@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
 
+if %w{-h --help}.include?(ARGV[0]) || (ARGV[0].nil? && ENV['MAILTO'].nil?)
+  $stderr.puts "usage: #{$0} <recipient>"
+  exit 1
+end
+
 require 'feed2email'
 
-Feed2Email::Feed.process_all
+Feed2Email::Feed.process_all(:recipient => ARGV[0] || ENV['MAILTO'])

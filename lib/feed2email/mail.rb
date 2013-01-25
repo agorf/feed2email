@@ -1,6 +1,5 @@
 module Feed2Email
   SENDMAIL = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
-  MAILTO   = ENV['MAILTO'] || ENV['USER']
 
   class Mail
     def initialize(entry)
@@ -64,7 +63,7 @@ module Feed2Email
     end
 
     def to
-      MAILTO
+      @entry.feed.options[:recipient]
     end
   end
 end

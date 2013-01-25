@@ -39,16 +39,14 @@ If you want to receive existing entries from a specific feed, you can alter the 
 Here's how to run the script:
 
 ~~~ sh
-$ MAILTO=agorfatagorfdotgr feed2email
+$ feed2email name@example.com
 ~~~
 
 It's also possible to override the path to the [Sendmail][] binary:
 
 ~~~ sh
-$ SENDMAIL=/path/to/sendmail MAILTO=agorfatagorfdotgr feed2email
+$ SENDMAIL=/path/to/sendmail feed2email name@example.com
 ~~~
-
-**Note:** Email symbols in the above examples have been replaced with words to avoid spam.
 
 You can use [cron][] to run the script e.g. once every hour.
 
