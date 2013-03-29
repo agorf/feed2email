@@ -27,7 +27,7 @@ module Feed2Email
       @data.title
     end
 
-    def url
+    def uri
       @data.url
     end
 

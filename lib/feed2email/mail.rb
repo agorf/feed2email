@@ -8,16 +8,16 @@ module Feed2Email
 
     def body
       body_data = {
-        :url     => @entry.url.escape_html,
+        :uri     => @entry.uri.escape_html,
         :title   => @entry.title.escape_html,
         :content => @entry.content,
       }
       %{
         <html>
         <body>
-        <h1><a href="%{url}">%{title}</a></h1>
+        <h1><a href="%{uri}">%{title}</a></h1>
         %{content}
-        <p><a href="%{url}">%{url}</a></p>
+        <p><a href="%{uri}">%{uri}</a></p>
         </body>
         </html>
       }.gsub(/^\s+/, '') % body_data
