@@ -34,7 +34,7 @@ When run for the first time, the script enters "dry run" mode and exits almost i
 * No feeds are fetched and, thus, no email is sent (existing feed entries are considered already seen)
 * `~/.feed2email/cache.yml` is created containing the timestamp of when each feed was last fetched
 
-If you want to receive existing entries from a specific feed, you can alter the timestamp for that feed in `cache.yml` to a value in the past. Next time you run the script, all entries published past that timestamp will be sent with email.
+If you want to receive existing entries from a specific feed, you can manually alter the timestamp for that feed in `cache.yml` to a value in the past. Next time you run the script, all entries published past that timestamp will be sent with email.
 
 Here's how to run the script:
 
