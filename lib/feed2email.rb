@@ -1,5 +1,6 @@
 require 'cgi'
 require 'feedzirra'
+require 'fileutils'
 require 'mail'
 require 'yaml'
 

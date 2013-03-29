@@ -9,7 +9,7 @@ module Feed2Email
     end
 
     def self.process_all(options)
-      Dir.mkdir(File.dirname(CACHE_FILE)) rescue nil
+      FileUtils.mkdir_p(File.dirname(CACHE_FILE)) rescue nil
 
       @@fetch_times = YAML.load(open(CACHE_FILE)) rescue {}
 
