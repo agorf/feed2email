@@ -6,7 +6,7 @@ RSS/Atom feed updates in your email
 
 I don't like having a separate application for feeds when I'm already checking my email. I also never read a thing when feeds are kept in a separate place.
 
-The script was written primarily as a replacement of the [rss2email][] program which is rather big, slow, bloated and hard to use.
+The script was written primarily as a replacement of [rss2email][] and aims to be simpler, faster, smaller and easier to use.
 
 [rss2email]: http://www.allthingsrss.com/rss2email/
 
@@ -36,7 +36,7 @@ When run for the first time, the script enters "dry run" mode and exits almost i
 
 If you want to receive existing entries from a specific feed, you can manually alter the timestamp for that feed in `cache.yml` to a value in the past. Next time you run the script, all entries published past that timestamp will be sent with email.
 
-Here's how to run the script:
+To run the script:
 
 ~~~ sh
 $ feed2email name@example.com
