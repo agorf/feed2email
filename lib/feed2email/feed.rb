@@ -55,7 +55,7 @@ module Feed2Email
     end
 
     def have_entries?
-      data.entries.any?
+      entries.any?
     end
 
     def process_entries
