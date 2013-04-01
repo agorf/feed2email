@@ -3,3 +3,9 @@ class String
     CGI.escapeHTML(self)
   end
 end
+
+class Time
+  def past?
+    self < Time.now
+  end
+end

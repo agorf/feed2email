@@ -20,7 +20,7 @@ module Feed2Email
     end
 
     def process
-      to_mail.send if new?
+      to_mail.send if to_be_sent?
     end
 
     def title
@@ -33,8 +33,14 @@ module Feed2Email
 
     private
 
-    def new?
-      @data.published > @feed.fetch_time
+    def published_at
+      @data.published
+    end
+
+    def to_be_sent?
+      published_at &&
+        published_at.past? && # respect entry future pubDate
+        published_at > @feed.fetch_time
     end
 
     def to_mail
