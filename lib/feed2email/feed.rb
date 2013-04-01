@@ -1,6 +1,6 @@
 module Feed2Email
   FEEDS_FILE = File.expand_path('~/.feed2email/feeds.yml')
-  CACHE_FILE = File.expand_path('~/.feed2email/cache.yml')
+  STATE_FILE = File.expand_path('~/.feed2email/state.yml')
   USER_AGENT = "feed2email/#{VERSION}"
 
   class Feed
@@ -9,14 +9,14 @@ module Feed2Email
     end
 
     def self.process_all(options)
-      FileUtils.mkdir_p(File.dirname(CACHE_FILE)) rescue nil
+      FileUtils.mkdir_p(File.dirname(STATE_FILE)) rescue nil
 
-      @@fetch_times = YAML.load(open(CACHE_FILE)) rescue {}
+      @@fetch_times = YAML.load(open(STATE_FILE)) rescue {}
 
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue []
       feed_uris.each {|uri| Feed.process(uri, options) }
 
-      open(CACHE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
+      open(STATE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
     end
 
     attr_reader :options
