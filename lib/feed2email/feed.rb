@@ -43,7 +43,8 @@ module Feed2Email
 
     def data
       @fetched_at ||= Time.now
-      @data ||= Feedzirra::Feed.fetch_and_parse(@uri, :user_agent => USER_AGENT)
+      fetch_opts = { :user_agent => USER_AGENT, :compress => true }
+      @data ||= Feedzirra::Feed.fetch_and_parse(@uri, fetch_opts)
     end
 
     def entries
