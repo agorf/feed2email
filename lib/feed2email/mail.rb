@@ -18,6 +18,9 @@ module Feed2Email
         <h1><a href="%{uri}">%{title}</a></h1>
         %{content}
         <p><a href="%{uri}">%{uri}</a></p>
+        <p>--<br>
+        Sent by <a href="https://github.com/agorf/feed2email">feed2email
+        #{VERSION}</a> at #{Time.now}</p>
         </body>
         </html>
       }.gsub(/^\s+/, '') % body_data
