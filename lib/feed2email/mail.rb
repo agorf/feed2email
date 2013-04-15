@@ -1,10 +1,14 @@
 module Feed2Email
-  SENDMAIL = ENV['SENDMAIL'] || '/usr/sbin/sendmail'
-
   class Mail
     def initialize(entry)
       @entry = entry
     end
+
+    def send
+      send_with_sendmail
+    end
+
+    private
 
     def body
       body_data = {
@@ -55,10 +59,14 @@ module Feed2Email
       end
     end
 
-    def send
-      open("|#{SENDMAIL} #{to}", 'w') do |f|
+    def send_with_sendmail
+      open("|#{sendmail_bin} #{to}", 'w') do |f|
         f.write(mail)
       end
+    end
+
+    def sendmail_bin
+      $config['sendmail_path'] || '/usr/sbin/sendmail'
     end
 
     def subject
@@ -66,7 +74,7 @@ module Feed2Email
     end
 
     def to
-      @entry.feed.options[:recipient]
+      $config['recipient']
     end
   end
 end

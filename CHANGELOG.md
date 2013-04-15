@@ -1,3 +1,7 @@
+### 0.2.0
+
+* Replace command-line configuration with a config file
+
 ### 0.1.0
 
 * Skip entry if pubDate is in the future
