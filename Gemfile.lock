@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    feed2email (0.0.2)
+    feed2email (0.2.0)
       feedzirra
       mail
 
