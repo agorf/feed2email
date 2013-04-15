@@ -5,7 +5,14 @@ module Feed2Email
     end
 
     def send
-      send_with_sendmail
+      if $config['smtp_host'] &&
+          $config['smtp_port'] &&
+          $config['smtp_user'] &&
+          $config['smtp_pass']
+        send_with_smtp
+      else
+        send_with_sendmail
+      end
     end
 
     private
@@ -33,14 +40,17 @@ module Feed2Email
     def from
       from_data = {
         :name  => @entry.feed.title,
-        :email => @entry.author,
+        :email => from_address,
       }
-
-      if from_data[:email].nil? || from_data[:email]['@'].nil?
-        from_data[:email] = to
-      end
-
       '"%{name}" <%{email}>' % from_data
+    end
+
+    def from_address
+      if @entry.author && @entry.author['@']
+        @entry.author
+      else
+        to
+      end
     end
 
     def html_part
@@ -56,12 +66,27 @@ module Feed2Email
         m.to        = to
         m.subject   = subject
         m.html_part = html_part
-      end
+      end.to_s
     end
 
     def send_with_sendmail
       open("|#{sendmail_bin} #{to}", 'w') do |f|
         f.write(mail)
+      end
+    end
+
+    def send_with_smtp
+      host = $config['smtp_host']
+      port = $config['smtp_port']
+      user = $config['smtp_user']
+      pass = $config['smtp_pass']
+      tls  = $config['smtp_tls'] || $config['smtp_tls'].nil? # on by default
+      auth = ($config['smtp_auth'] || 'login').to_sym # login by default
+
+      smtp = Net::SMTP.new(host, port)
+      smtp.enable_starttls if tls
+      smtp.start('localhost', user, pass, auth) do
+        smtp.send_message(mail, from_address, to)
       end
     end
 

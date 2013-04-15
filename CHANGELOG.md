@@ -1,5 +1,6 @@
 ### 0.2.0
 
+* Add support for sending mail via SMTP
 * Replace command-line configuration with a config file
 
 ### 0.1.0

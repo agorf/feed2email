@@ -2,6 +2,7 @@ require 'cgi'
 require 'feedzirra'
 require 'fileutils'
 require 'mail'
+require 'net/smtp'
 require 'yaml'
 
 require 'feed2email/version'
