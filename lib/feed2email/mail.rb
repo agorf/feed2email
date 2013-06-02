@@ -5,6 +5,8 @@ module Feed2Email
     end
 
     def send
+      sleep $config['send_delay'] || 10 # avoid Net::SMTPServerBusy errors
+
       if $config['smtp_host'] &&
           $config['smtp_port'] &&
           $config['smtp_user'] &&
