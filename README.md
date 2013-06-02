@@ -23,31 +23,23 @@ $ gem install feed2email
 
 ## Configuration
 
-Since version 0.2.0, feed2email no longer supports command-line arguments and is configured through a [YAML][] configuration file located under `~/.feed2email/config.yml`.
+Through a [YAML][] file at `~/.feed2email/config.yml`.
 
 There are two ways to send mail: SMTP and Sendmail. If `config.yml` contains options for both, feed2email will use SMTP.
 
 [YAML]: http://en.wikipedia.org/wiki/YAML
 
+### Format
+
+Each line in the configuration file contains a key-value pair. Each key-value pair is separated with a colon: `foo: bar`
+
+### Generic options
+
+* `recipient` (required) is the email address to send email to
+* `send_delay` (optional) is the number of seconds to wait between each email to avoid SMTP server throttling errors (default is `10`; use `0` to turn off)
+
 ### SMTP
 
-Since version 0.2.0, it is possible to send mail via SMTP.
-
-Here's a sample `config.yml` file:
-
-~~~ yaml
-recipient: johndoe@example.org
-smtp_host: mail.example.org
-smtp_port: 587
-smtp_user: johndoe
-smtp_pass: 12345
-smtp_tls: true
-smtp_auth: login
-~~~
-
-A short explanation of the available options:
-
-* `recipient` is the email address to send updates to
 * `smtp_host` is the SMTP service hostname to connect to
 * `smtp_port` is the SMTP service port to connect to
 * `smtp_user` is the username of your mail account
@@ -61,16 +53,6 @@ A short explanation of the available options:
 
 For this method you need to have [Sendmail][] setup and working in your system. It is also possible to use [a program with a Sendmail-compatible interface][msmtp].
 
-Assuming you have everything setup and working, here's a sample `config.yml` file:
-
-~~~ yaml
-recipient: johndoe@example.org
-sendmail_path: /usr/sbin/sendmail
-~~~
-
-A short explanation of the available options:
-
-* `recipient` is the email address to send updates to
 * `sendmail_path` (optional) is the path to the Sendmail binary (default is `/usr/sbin/sendmail`)
 
 [Sendmail]: http://en.wikipedia.org/wiki/Sendmail
