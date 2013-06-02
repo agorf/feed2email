@@ -7,10 +7,7 @@ module Feed2Email
     def send
       sleep $config['send_delay'] || 10 # avoid Net::SMTPServerBusy errors
 
-      if $config['smtp_host'] &&
-          $config['smtp_port'] &&
-          $config['smtp_user'] &&
-          $config['smtp_pass']
+      if smtp_config_present?
         send_with_smtp
       else
         send_with_sendmail
@@ -94,6 +91,13 @@ module Feed2Email
 
     def sendmail_bin
       $config['sendmail_path'] || '/usr/sbin/sendmail'
+    end
+
+    def smtp_config_present?
+      $config['smtp_host'] &&
+        $config['smtp_port'] &&
+        $config['smtp_user'] &&
+        $config['smtp_pass']
     end
 
     def subject
