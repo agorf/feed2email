@@ -1,3 +1,7 @@
+### 0.2.1
+
+* Add config option to delay mail sending
+
 ### 0.2.0
 
 * Add support for sending mail via SMTP
