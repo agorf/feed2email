@@ -27,10 +27,11 @@ $ gem install feed2email
 
 Through a [YAML][] file at `~/.feed2email/config.yml`.
 
-There are two ways to send mail: SMTP and Sendmail. If `config.yml` contains
+It is possible to send mail via SMTP or an [MTA][]. If `config.yml` contains
 options for both, feed2email will use SMTP.
 
 [YAML]: http://en.wikipedia.org/wiki/YAML
+[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
 
 ### Format
 
@@ -58,17 +59,17 @@ your system will be able to read `config.yml` and your password. To prevent
 this, feed2email will not run and complain if it detects the wrong permissions.
 You can set the correct permissions with `chmod 600 ~/.feed2email/config.yml`.
 
-### Sendmail
+### MTA
 
-For this method you need to have [Sendmail][] setup and working in your system.
-It is also possible to use
-[a program with a Sendmail-compatible interface][msmtp].
+For this method you need to have an [MTA][] with a [Sendmail][]-compatible
+interface setup and working in your system. I suggest [msmtp][] or [Postfix][].
 
 * `sendmail_path` (optional) is the path to the Sendmail binary (default is
   `/usr/sbin/sendmail`)
 
 [Sendmail]: http://en.wikipedia.org/wiki/Sendmail
 [msmtp]: http://msmtp.sourceforge.net/
+[Postfix]: http://en.wikipedia.org/wiki/Postfix_(software)
 
 ## Use
 
