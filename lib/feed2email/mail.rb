@@ -88,7 +88,7 @@ module Feed2Email
       port = config['smtp_port']
       user = config['smtp_user']
       pass = config['smtp_pass']
-      tls  = config['smtp_tls'] || config['smtp_tls'].nil? # default: true
+      tls  = config['smtp_tls'].nil? ? true : config['smtp_tls'] # default: true
       auth = (config['smtp_auth'] || 'login').to_sym # default: 'login'
 
       smtp = Net::SMTP.new(host, port)
