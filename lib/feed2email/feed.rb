@@ -3,7 +3,6 @@ module Feed2Email
   CONFIG_FILE = File.join(CONFIG_DIR, 'config.yml')
   FEEDS_FILE  = File.join(CONFIG_DIR, 'feeds.yml')
   STATE_FILE  = File.join(CONFIG_DIR, 'state.yml')
-  USER_AGENT  = "feed2email/#{VERSION}"
 
   class Feed
     def self.process(uri)
@@ -64,9 +63,15 @@ module Feed2Email
     private
 
     def data
-      @fetched_at ||= Time.now
-      fetch_opts = { :user_agent => USER_AGENT, :compress => true }
-      @data ||= Feedzirra::Feed.fetch_and_parse(@uri, fetch_opts)
+      if @data.nil?
+        @data = Feedzirra::Feed.fetch_and_parse(@uri,
+          :user_agent => "feed2email/#{VERSION}",
+          :compress   => true
+        )
+        @fetched_at = Time.now
+      end
+
+      @data
     end
 
     def entries
