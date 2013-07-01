@@ -1,33 +1,14 @@
 module Feed2Email
-  CONFIG_DIR  = File.expand_path('~/.feed2email')
-  CONFIG_FILE = File.join(CONFIG_DIR, 'config.yml')
-  FEEDS_FILE  = File.join(CONFIG_DIR, 'feeds.yml')
-  STATE_FILE  = File.join(CONFIG_DIR, 'state.yml')
-
   class Feed
+    FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
+    STATE_FILE = File.join(CONFIG_DIR, 'state.yml')
+
     def self.process(uri)
       Feed.new(uri).process
     end
 
     def self.process_all
-      FileUtils.mkdir_p(CONFIG_DIR)
-
-      $config = YAML.load(open(CONFIG_FILE)) rescue nil
-
-      if !$config.is_a? Hash
-        $stderr.puts "Error: missing or invalid config file #{CONFIG_FILE}"
-        exit 1
-      end
-
-      if '%o' % (File.stat(CONFIG_FILE).mode & 0777) != '600'
-        $stderr.puts "Error: invalid permissions for config file #{CONFIG_FILE}"
-        exit 2
-      end
-
-      if $config['recipient'].nil?
-        $stderr.puts "Error: recipient missing from config file #{CONFIG_FILE}"
-        exit 3
-      end
+      Feed2Email::Config.instance.read!
 
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue nil
 

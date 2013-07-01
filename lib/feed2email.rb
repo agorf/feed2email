@@ -5,6 +5,7 @@ require 'mail'
 require 'net/smtp'
 require 'yaml'
 
+require 'feed2email/config'
 require 'feed2email/version'
 require 'feed2email/core_ext'
 require 'feed2email/mail'

@@ -5,7 +5,7 @@ module Feed2Email
     end
 
     def send
-      sleep $config['send_delay'] || 10 # avoid Net::SMTPServerBusy errors
+      sleep config['send_delay'] || 10 # avoid Net::SMTPServerBusy errors
 
       if smtp_config_present?
         send_with_smtp
@@ -34,6 +34,10 @@ module Feed2Email
         </body>
         </html>
       }.gsub(/^\s+/, '') % body_data
+    end
+
+    def config
+      Feed2Email::Config.instance.config
     end
 
     def from
@@ -75,12 +79,12 @@ module Feed2Email
     end
 
     def send_with_smtp
-      host = $config['smtp_host']
-      port = $config['smtp_port']
-      user = $config['smtp_user']
-      pass = $config['smtp_pass']
-      tls  = $config['smtp_tls'] || $config['smtp_tls'].nil? # on by default
-      auth = ($config['smtp_auth'] || 'login').to_sym # login by default
+      host = config['smtp_host']
+      port = config['smtp_port']
+      user = config['smtp_user']
+      pass = config['smtp_pass']
+      tls  = config['smtp_tls'] || config['smtp_tls'].nil? # default: true
+      auth = (config['smtp_auth'] || 'login').to_sym # default: 'login'
 
       smtp = Net::SMTP.new(host, port)
       smtp.enable_starttls if tls
@@ -90,14 +94,14 @@ module Feed2Email
     end
 
     def sendmail_bin
-      $config['sendmail_path'] || '/usr/sbin/sendmail'
+      config['sendmail_path'] || '/usr/sbin/sendmail'
     end
 
     def smtp_config_present?
-      $config['smtp_host'] &&
-        $config['smtp_port'] &&
-        $config['smtp_user'] &&
-        $config['smtp_pass']
+      config['smtp_host'] &&
+        config['smtp_port'] &&
+        config['smtp_user'] &&
+        config['smtp_pass']
     end
 
     def subject
@@ -105,7 +109,7 @@ module Feed2Email
     end
 
     def to
-      $config['recipient']
+      config['recipient']
     end
   end
 end
