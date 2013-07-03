@@ -1,3 +1,8 @@
+### 0.2.2
+
+* Fix smtp_tls option never being false
+* Use SMTP user@host as "from" address if entry author is missing
+
 ### 0.2.1
 
 * Add config option to delay mail sending
