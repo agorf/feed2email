@@ -27,7 +27,7 @@ $ gem install feed2email
 
 Through a [YAML][] file at `~/.feed2email/config.yml`.
 
-It is possible to send mail via SMTP or an [MTA][]. If `config.yml` contains
+It is possible to send email via SMTP or an [MTA][]. If `config.yml` contains
 options for both, feed2email will use SMTP.
 
 [YAML]: http://en.wikipedia.org/wiki/YAML
@@ -48,8 +48,8 @@ pair is separated with a colon: `foo: bar`
 
 * `smtp_host` is the SMTP service hostname to connect to
 * `smtp_port` is the SMTP service port to connect to
-* `smtp_user` is the username of your mail account
-* `smtp_pass` is the password of your mail account (see the warning below)
+* `smtp_user` is the username of your email account
+* `smtp_pass` is the password of your email account (see the warning below)
 * `smtp_tls` (optional) controls TLS (default is `true`; can also be `false`)
 * `smtp_auth` (optional) controls the authentication method (default is `login`;
    can also be `plain` or `cram_md5`)
