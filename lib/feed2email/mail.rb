@@ -51,8 +51,13 @@ module Feed2Email
     def from_address
       if @entry.author && @entry.author['@']
         @entry.author
+      elsif send_with_smtp?
+        '%{user}@%{host}' % {
+          :user => config['smtp_user'],
+          :host => config['smtp_host']
+        }
       else
-        to
+        to # recipient as a last resort
       end
     end
 
