@@ -19,7 +19,13 @@ module Feed2Email
 
       @@fetch_times = YAML.load(open(STATE_FILE)) rescue {}
 
-      feed_uris.each {|uri| Feed.process(uri) }
+      feed_uris.each do |uri|
+        begin
+          Feed.process(uri)
+        rescue
+          # TODO log failure
+        end
+      end
 
       open(STATE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
     end
