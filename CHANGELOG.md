@@ -1,3 +1,7 @@
+### 0.2.3
+
+* Isolate feed processing failures
+
 ### 0.2.2
 
 * Fix smtp_tls option never being false
