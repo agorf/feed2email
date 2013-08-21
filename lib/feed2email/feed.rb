@@ -3,6 +3,14 @@ module Feed2Email
     FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
     STATE_FILE = File.join(CONFIG_DIR, 'state.yml')
 
+    def self.log(*args)
+      Feed2Email::Logger.instance.log(*args)
+    end
+
+    def self.pluralize(n, singular, plural)
+      "#{n} #{n == 1 ? singular : plural}"
+    end
+
     def self.process(uri)
       Feed.new(uri).process
     end
@@ -10,6 +18,7 @@ module Feed2Email
     def self.process_all
       Feed2Email::Config.instance.read!
 
+      log :debug, 'Loading feed subscriptions...'
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue nil
 
       if !feed_uris.is_a? Array
@@ -17,16 +26,14 @@ module Feed2Email
         exit 4
       end
 
+      log :info, "Subscribed to #{pluralize(feed_uris.size, 'feed', 'feeds')}"
+
+      log :debug, 'Loading fetch times...'
       @@fetch_times = YAML.load(open(STATE_FILE)) rescue {}
 
-      feed_uris.each do |uri|
-        begin
-          Feed.process(uri)
-        rescue
-          # TODO log failure
-        end
-      end
+      feed_uris.each {|uri| Feed.process(uri) }
 
+      log :debug, 'Writing fetch times...'
       open(STATE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
     end
 
@@ -38,9 +45,41 @@ module Feed2Email
       @@fetch_times[@uri]
     end
 
+    def pluralize(*args)
+      Feed2Email::Feed.pluralize(*args) # delegate
+    end
+
     def process
-      process_entries if seen_before? && fetched? && have_entries?
-      sync_fetch_time if !seen_before? || fetched?
+      log :info, "Processing feed #{@uri} ..."
+
+      if seen_before?
+        log :debug, 'Feed seen before'
+
+        if fetched?
+          log :debug, 'Feed is fetched'
+
+          if have_entries?
+            log :info, "Processing #{pluralize(entries.size, 'entry', 'entries')}..."
+
+            begin
+              process_entries
+            rescue => e
+              log :error, "#{e.class}: #{e.message.strip}"
+            end
+          else
+            log :warn, 'Feed does not have entries'
+          end
+        else
+          log :error, 'Feed could not be fetched'
+        end
+      else
+        log :info, 'Feed not seen before; skipping...'
+      end
+
+      if !seen_before? || fetched?
+        log :debug, 'Syncing fetch time...'
+        sync_fetch_time
+      end
     end
 
     def title
@@ -51,6 +90,7 @@ module Feed2Email
 
     def data
       if @data.nil?
+        log :debug, 'Fetching and parsing feed...'
         @data = Feedzirra::Feed.fetch_and_parse(@uri,
           :user_agent => "feed2email/#{VERSION}",
           :compress   => true
@@ -71,6 +111,10 @@ module Feed2Email
 
     def have_entries?
       entries.any?
+    end
+
+    def log(*args)
+      Feed2Email::Feed.log(*args) # delegate
     end
 
     def process_entries
