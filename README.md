@@ -42,7 +42,7 @@ pair is separated with a colon: `foo: bar`
 
 * `recipient` (required) is the email address to send email to
 * `send_delay` (optional) is the number of seconds to wait between each email to
-   avoid SMTP server throttling errors (default is `10`; use `0` to turn off)
+  avoid SMTP server throttling errors (default is `10`; use `0` to turn off)
 
 ### SMTP
 
