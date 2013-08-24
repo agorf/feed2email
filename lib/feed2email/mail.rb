@@ -50,7 +50,7 @@ module Feed2Email
 
     def from_address
       if @entry.author && @entry.author['@']
-        @entry.author
+        @entry.author[/\S+@\S+/]
       elsif send_with_smtp?
         '%{user}@%{host}' % {
           :user => config['smtp_user'],
