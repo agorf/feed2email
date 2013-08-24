@@ -1,3 +1,10 @@
+### 0.3.0
+
+* Add logging
+* Do not sync fetch time if there was an error
+* Extract email address from entry author
+* Prepend feed URI to path entry permalinks
+
 ### 0.2.3
 
 * Isolate feed processing failures
