@@ -76,9 +76,19 @@ interface setup and working in your system. I suggest [msmtp][] or [Postfix][].
 ## Use
 
 Create `~/.feed2email/feeds.yml` and add the address of each feed you want to
-subscribe to, prefixed with a dash and a space.
+subscribe to, prefixed with a dash and a space:
 
-Then run it:
+~~~ yaml
+- https://github.com/agorf/feed2email/commits.atom
+~~~
+
+To disable a feed temporarily, comment it:
+
+~~~ yaml
+#- https://github.com/agorf/feed2email/commits.atom
+~~~
+
+You are now ready to run the program:
 
 ~~~ sh
 $ feed2email
