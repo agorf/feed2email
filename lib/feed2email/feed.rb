@@ -76,7 +76,7 @@ module Feed2Email
         log :info, 'Feed not seen before; skipping...'
       end
 
-      if !seen_before? || fetched?
+      if e.nil? && (!seen_before? || fetched?)
         log :debug, 'Syncing fetch time...'
         sync_fetch_time
       end
