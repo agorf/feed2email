@@ -35,7 +35,13 @@ module Feed2Email
     end
 
     def uri
-      @data.url
+      @uri ||= begin
+        if @data.url[0] == '/'
+          @feed.uri.chomp('/') + @data.url
+        else
+          @data.url
+        end
+      end
     end
 
     private

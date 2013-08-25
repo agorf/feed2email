@@ -37,6 +37,8 @@ module Feed2Email
       open(STATE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
     end
 
+    attr_reader :uri
+
     def initialize(uri)
       @uri = uri
     end
