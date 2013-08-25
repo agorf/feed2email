@@ -24,7 +24,7 @@ module Feed2Email
       if log_path.nil? || log_path == true
         STDOUT
       else
-        log_path
+        File.expand_path(log_path)
       end
     end
 
