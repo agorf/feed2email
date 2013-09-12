@@ -90,6 +90,10 @@ module Feed2Email
 
     private
 
+    def config
+      Feed2Email::Config.instance.config
+    end
+
     def data
       if @data.nil?
         log :debug, 'Fetching and parsing feed...'
@@ -104,7 +108,7 @@ module Feed2Email
     end
 
     def entries
-      data.entries
+      data.entries[0..max_entries - 1]
     end
 
     def fetched?
@@ -117,6 +121,10 @@ module Feed2Email
 
     def log(*args)
       Feed2Email::Feed.log(*args) # delegate
+    end
+
+    def max_entries
+      (config['max_entries'] || 20).to_i
     end
 
     def process_entries

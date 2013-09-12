@@ -1,3 +1,7 @@
+### 0.3.1
+
+* Limit the number of entries to process per feed
+
 ### 0.3.0
 
 * Add logging

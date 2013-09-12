@@ -45,6 +45,8 @@ pair is separated with a colon: `foo: bar`
   avoid SMTP server throttling errors (default is `10`; use `0` to disable)
 * `log_path` (optional) is the _absolute_ path to the log file (default is
   `true` which logs to standard output; use `false` to disable)
+* `max_entries` (optional) is the maximum number of entries to process per feed
+  (default is `20`; use `0` for unlimited)
 
 ### SMTP
 
