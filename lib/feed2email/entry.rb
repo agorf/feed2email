@@ -1,14 +1,9 @@
 module Feed2Email
   class Entry
-    attr_reader :feed
-
-    def self.process(data, feed)
-      Entry.new(data, feed).process
-    end
-
-    def initialize(data, feed)
+    def initialize(data, feed_uri, feed_title)
       @data = data
-      @feed = feed
+      @feed_uri = feed_uri
+      @feed_title = feed_title
     end
 
     def author
@@ -20,14 +15,7 @@ module Feed2Email
     end
 
     def process
-      log :debug, "Processing entry #{uri} ..."
-
-      if send?
-        log :debug, 'Sending email...'
-        to_mail.send
-      else
-        log :debug, 'Entry should not be sent; skipping...'
-      end
+      Mail.new(self, @feed_title).send
     end
 
     def title
@@ -37,48 +25,11 @@ module Feed2Email
     def uri
       @uri ||= begin
         if @data.url[0] == '/' # invalid entry URL is a path
-          @feed.uri[%r{https?://[^/]+}] + @data.url # prepend feed URI
+          @feed_uri[%r{https?://[^/]+}] + @data.url # prepend feed URI
         else
           @data.url
         end
       end
-    end
-
-    private
-
-    def log(*args)
-      Feed2Email::Logger.instance.log(*args)
-    end
-
-    def published_at
-      @data.published
-    end
-
-    def send?
-      if published_at
-        log :debug, 'Entry has publication timestamp'
-
-        if published_at.past? # respect entries published in the future
-          log :debug, 'Entry published in the past'
-
-          if published_at > @feed.fetch_time
-            log :debug, 'Entry not seen before'
-            return true
-          else
-            log :debug, 'Entry seen before'
-          end
-        else
-          log :warn, "Entry #{uri} published in the future"
-        end
-      else
-        log :warn, "Entry #{uri} does not have publication timestamp"
-      end
-
-      false
-    end
-
-    def to_mail
-      Mail.new(self)
     end
   end
 end

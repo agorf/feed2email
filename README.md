@@ -101,13 +101,12 @@ immediately. During dry run mode:
 
 * No feeds are fetched and, thus, no email is sent (existing feed entries are
   considered already seen)
-* `~/.feed2email/state.yml` is created containing the timestamp of when each
-  feed was last fetched
+* `~/.feed2email/history.yml` is created containing processed (seen) entries per
+  feed
 
 If you want to receive existing entries from a specific feed, you can manually
-alter the timestamp for that feed in `state.yml` to a value in the past. Next
-time you run feed2email, all entries published past that timestamp will be sent
-with email.
+delete them from `history.yml`. Next time feed2email runs, they will be
+processed (sent as email).
 
 You can use [cron][] to run feed2email automatically e.g. once every hour.
 

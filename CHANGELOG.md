@@ -1,5 +1,6 @@
-### 0.3.1
+### 0.4.0
 
+* Major rewrite to keep history of processed (seen) entries
 * Limit the number of entries to process per feed
 * Fix prepending of feed URI to path entry permalinks
 

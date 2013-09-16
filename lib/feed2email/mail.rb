@@ -1,7 +1,8 @@
 module Feed2Email
   class Mail
-    def initialize(entry)
+    def initialize(entry, feed_title)
       @entry = entry
+      @feed_title = feed_title
     end
 
     def send
@@ -42,7 +43,7 @@ module Feed2Email
 
     def from
       from_data = {
-        :name  => @entry.feed.title,
+        :name  => @feed_title,
         :email => from_address,
       }
       '"%{name}" <%{email}>' % from_data

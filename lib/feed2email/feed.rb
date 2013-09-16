@@ -1,18 +1,10 @@
 module Feed2Email
   class Feed
     FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
-    STATE_FILE = File.join(CONFIG_DIR, 'state.yml')
+    HISTORY_FILE = File.join(CONFIG_DIR, 'history.yml')
 
     def self.log(*args)
       Feed2Email::Logger.instance.log(*args)
-    end
-
-    def self.pluralize(n, singular, plural)
-      "#{n} #{n == 1 ? singular : plural}"
-    end
-
-    def self.process(uri)
-      Feed.new(uri).process
     end
 
     def self.process_all
@@ -26,66 +18,38 @@ module Feed2Email
         exit 4
       end
 
-      log :info, "Subscribed to #{pluralize(feed_uris.size, 'feed', 'feeds')}"
+      log :info, "Subscribed to #{n = feed_uris.size} feed#{n == 1 ? '' : 's'}"
 
-      log :debug, 'Loading fetch times...'
-      @@fetch_times = YAML.load(open(STATE_FILE)) rescue {}
+      log :debug, 'Loading history...'
+      @@history = YAML.load(open(HISTORY_FILE)) rescue {}
 
-      feed_uris.each {|uri| Feed.process(uri) }
+      feed_uris.each do |uri|
+        log :info, "Found feed #{uri}"
+        Feed.new(uri).process
+      end
 
-      log :debug, 'Writing fetch times...'
-      open(STATE_FILE, 'w') {|f| f.write(@@fetch_times.to_yaml) }
+      log :debug, 'Writing history...'
+      open(HISTORY_FILE, 'w') {|f| f.write(@@history.to_yaml) }
     end
-
-    attr_reader :uri
 
     def initialize(uri)
       @uri = uri
     end
 
-    def fetch_time
-      @@fetch_times[@uri]
-    end
-
-    def pluralize(*args)
-      Feed2Email::Feed.pluralize(*args) # delegate
-    end
-
     def process
-      log :info, "Processing feed #{@uri} ..."
+      if fetched?
+        log :debug, 'Feed is fetched'
 
-      if seen_before?
-        log :debug, 'Feed seen before'
-
-        if fetched?
-          log :debug, 'Feed is fetched'
-
-          if have_entries?
-            log :info, "Processing #{pluralize(entries.size, 'entry', 'entries')}..."
-
-            begin
-              process_entries
-            rescue => e
-              log :error, "#{e.class}: #{e.message.strip}"
-            end
-          else
-            log :warn, 'Feed does not have entries'
-          end
+        if entries.any?
+          log :info,
+            "Processing #{n = entries.size} entr#{n == 1 ? 'y' : 'ies'}..."
+          process_entries
         else
-          log :error, 'Feed could not be fetched'
+          log :warn, 'Feed does not have entries'
         end
       else
-        log :info, 'Feed not seen before; skipping...'
+        log :error, 'Feed could not be fetched'
       end
-
-      if e.nil? && (!seen_before? || fetched?)
-        log :debug, 'Syncing fetch time...'
-        sync_fetch_time
-      end
-    end
-
-    def title
-      data.title
     end
 
     private
@@ -101,22 +65,19 @@ module Feed2Email
           :user_agent => "feed2email/#{VERSION}",
           :compress   => true
         )
-        @fetched_at = Time.now
       end
 
       @data
     end
 
     def entries
-      data.entries[0..max_entries - 1]
+      @entries ||= data.entries[0..max_entries - 1].map {|entry_data|
+        Entry.new(entry_data, @uri, title)
+      }
     end
 
     def fetched?
       data.respond_to?(:entries)
-    end
-
-    def have_entries?
-      entries.any?
     end
 
     def log(*args)
@@ -128,17 +89,45 @@ module Feed2Email
     end
 
     def process_entries
-      entries.each do |entry_data|
-        Entry.process(entry_data, self)
+      entries.each do |entry|
+        log :info, "Found entry #{entry.uri}"
+
+        if seen_before?
+          if seen_entries.include?(entry.uri)
+            log :debug, 'Skipping seen entry...'
+          else
+            log :debug, 'Processing new entry...'
+
+            begin
+              entry.process
+            rescue => e
+              log :error, "#{e.class}: #{e.message.strip}"
+            end
+
+            seen_entries << entry.uri if e.nil? # record in history if no errors
+            e = nil
+          end
+        else
+          log :debug, 'Skipping new entry...'
+          seen_entries << entry.uri # record in history
+        end
       end
     end
 
     def seen_before?
-      fetch_time.is_a?(Time)
+      if @seen_before.nil?
+        @seen_before = !@@history[@uri].nil?
+      end
+
+      @seen_before
     end
 
-    def sync_fetch_time
-      @@fetch_times[@uri] = @fetched_at || Time.now
+    def seen_entries
+      @@history[@uri] ||= []
+    end
+
+    def title
+      data.title
     end
   end
 end
