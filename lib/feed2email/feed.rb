@@ -61,10 +61,15 @@ module Feed2Email
     def data
       if @data.nil?
         log :debug, 'Fetching and parsing feed...'
-        @data = Feedzirra::Feed.fetch_and_parse(@uri,
-          :user_agent => "feed2email/#{VERSION}",
-          :compress   => true
-        )
+
+        begin
+          @data = Feedzirra::Feed.fetch_and_parse(@uri,
+            :user_agent => "feed2email/#{VERSION}",
+            :compress   => true
+          )
+        rescue => e
+          log :error, "#{e.class}: #{e.message.strip}"
+        end
       end
 
       @data
