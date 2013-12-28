@@ -8,7 +8,7 @@ module Feed2Email
     def send
       sleep config['send_delay'] || 10 # avoid Net::SMTPServerBusy errors
 
-      if send_with_smtp?
+      if smtp_configured?
         send_with_smtp
       else
         send_with_sendmail
@@ -52,7 +52,7 @@ module Feed2Email
     def from_address
       if @entry.author && @entry.author['@']
         @entry.author[/\S+@\S+/]
-      elsif send_with_smtp?
+      elsif smtp_configured?
         '%{user}@%{host}' % {
           :user => config['smtp_user'],
           :host => config['smtp_host']
@@ -99,7 +99,7 @@ module Feed2Email
       end
     end
 
-    def send_with_smtp?
+    def smtp_configured?
       config['smtp_host'] &&
         config['smtp_port'] &&
         config['smtp_user'] &&
