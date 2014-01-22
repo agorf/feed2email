@@ -54,7 +54,7 @@ module Feed2Email
         @entry.author[/\S+@\S+/]
       elsif smtp_configured?
         '%{user}@%{host}' % {
-          :user => config['smtp_user'],
+          :user => config['smtp_user'].gsub(/\W/, '_'),
           :host => config['smtp_host']
         }
       else
