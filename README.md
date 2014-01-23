@@ -50,6 +50,9 @@ pair is separated with a colon: `foo: bar`
 
 ### SMTP
 
+For this method you need to have access to an SMTP service. [Mailgun][] has a
+free plan.
+
 * `smtp_host` is the SMTP service hostname to connect to
 * `smtp_port` is the SMTP service port to connect to
 * `smtp_user` is the username of your email account
@@ -62,6 +65,8 @@ pair is separated with a colon: `foo: bar`
 your system will be able to read `config.yml` and your password. To prevent
 this, feed2email will not run and complain if it detects the wrong permissions.
 You can set the correct permissions with `chmod 600 ~/.feed2email/config.yml`.
+
+[Mailgun]: http://www.mailgun.com/
 
 ### MTA
 
