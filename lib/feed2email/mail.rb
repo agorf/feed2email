@@ -50,7 +50,9 @@ module Feed2Email
     end
 
     def from_address
-      if @entry.author && @entry.author['@']
+      if config['sender']
+        config['sender']
+      elsif @entry.author && @entry.author['@']
         @entry.author[/\S+@\S+/]
       elsif smtp_configured?
         '%{user}@%{host}' % {
