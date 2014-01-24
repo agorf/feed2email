@@ -69,6 +69,7 @@ module Feed2Email
           )
         rescue => e
           log :error, "#{e.class}: #{e.message.strip}"
+          e.backtrace.each {|line| log :debug, line }
         end
       end
 
@@ -107,6 +108,7 @@ module Feed2Email
               entry.process
             rescue => e
               log :error, "#{e.class}: #{e.message.strip}"
+              e.backtrace.each {|line| log :debug, line }
             end
 
             seen_entries << entry.uri if e.nil? # record in history if no errors
