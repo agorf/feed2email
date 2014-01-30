@@ -42,11 +42,7 @@ module Feed2Email
     end
 
     def from
-      from_data = {
-        :name  => @feed_title,
-        :email => from_address,
-      }
-      '"%{name}" <%{email}>' % from_data
+      %{"#{@feed_title}" <#{from_address}>}
     end
 
     def from_address
