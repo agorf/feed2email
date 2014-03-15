@@ -16,6 +16,10 @@ module Feed2Email
       log_path != false
     end
 
+    def log_level
+      config['log_level'] || 'info'
+    end
+
     def log_path
       config['log_path']
     end
@@ -30,7 +34,7 @@ module Feed2Email
 
     def logger
       @logger ||= ::Logger.new(log_to)
-      @logger.level = ::Logger::INFO
+      @logger.level = ::Logger.const_get(log_level.upcase)
       @logger
     end
   end
