@@ -1,3 +1,11 @@
+### 0.5.0
+
+* Sanitize SMTP user in from address
+* Add config option for sender email address (from)
+* Add config option for log verbosity
+* Add text/plain part in email messages
+* Strip HTML from email subject and body title
+
 ### 0.4.0
 
 * Major rewrite to keep history of processed (seen) entries
