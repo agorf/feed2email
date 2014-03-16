@@ -76,7 +76,7 @@ You can set the correct permissions with `chmod 600 ~/.feed2email/config.yml`.
 ### MTA
 
 For this method you need to have an [MTA][] with a [Sendmail][]-compatible
-interface setup and working in your system. I suggest [msmtp][] or [Postfix][].
+interface setup and working in your system like [msmtp][] or [Postfix][].
 
 * `sendmail_path` (optional) is the path to the Sendmail binary (default is
   `/usr/sbin/sendmail`)
