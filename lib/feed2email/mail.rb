@@ -57,10 +57,6 @@ module Feed2Email
       Feed2Email::Config.instance.config
     end
 
-    def from
-      %{"#{@feed_title}" <#{from_address}>}
-    end
-
     def from_address
       if config['sender']
         config['sender']
@@ -72,15 +68,15 @@ module Feed2Email
           :host => config['smtp_host']
         }
       else
-        to # recipient as a last resort
+        recipient
       end
     end
 
     def mail
       ::Mail.new.tap do |m|
-        m.from      = from
-        m.to        = to
-        m.subject   = subject
+        m.from      = %{"#{@feed_title}" <#{from_address}>}
+        m.to        = recipient
+        m.subject   = @entry.title.strip_html
         m.html_part = mail_part('text/html', body_html)
         m.text_part = mail_part('text/plain', body_text)
       end.to_s
@@ -93,8 +89,12 @@ module Feed2Email
       part
     end
 
+    def recipient
+      config['recipient']
+    end
+
     def send_with_sendmail
-      open("|#{sendmail_bin} #{to}", 'w') do |f|
+      open("|#{sendmail_bin} #{recipient}", 'w') do |f|
         f.write(mail)
       end
     end
@@ -110,7 +110,7 @@ module Feed2Email
       smtp = Net::SMTP.new(host, port)
       smtp.enable_starttls if tls
       smtp.start('localhost', user, pass, auth) do
-        smtp.send_message(mail, from_address, to)
+        smtp.send_message(mail, from_address, recipient)
       end
     end
 
@@ -123,14 +123,6 @@ module Feed2Email
 
     def sendmail_bin
       config['sendmail_path'] || '/usr/sbin/sendmail'
-    end
-
-    def subject
-      @entry.title.strip_html
-    end
-
-    def to
-      config['recipient']
     end
   end
 end
