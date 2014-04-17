@@ -17,12 +17,7 @@ module Feed2Email
 
     private
 
-    def body
-      body_data = {
-        :uri     => @entry.uri.escape_html,
-        :title   => @entry.title.escape_html,
-        :content => @entry.content,
-      }
+    def body_html
       %{
         <html>
         <body>
@@ -34,7 +29,28 @@ module Feed2Email
         #{VERSION}</a> at #{Time.now}</p>
         </body>
         </html>
-      }.gsub(/^\s+/, '') % body_data
+      }.gsub(/^\s+/, '') % {
+        :uri     => @entry.uri.escape_html,
+        :title   => @entry.title.escape_html,
+        :content => @entry.content,
+      }
+    end
+
+    def body_text
+      %{
+        %{title}
+
+        %{content}
+
+        %{uri}
+
+        --
+        Sent by feed2email #{VERSION} at #{Time.now}
+      }.gsub(/^\s+/, '') % {
+        :title   => @entry.title,
+        :content => @entry.content.strip_html,
+        :uri     => @entry.uri,
+      }
     end
 
     def config
@@ -60,20 +76,21 @@ module Feed2Email
       end
     end
 
-    def html_part
-      part = ::Mail::Part.new
-      part.content_type = 'text/html; charset=UTF-8'
-      part.body = body
-      part
-    end
-
     def mail
       ::Mail.new.tap do |m|
         m.from      = from
         m.to        = to
         m.subject   = subject
-        m.html_part = html_part
+        m.html_part = mail_part('text/html', body_html)
+        m.text_part = mail_part('text/plain', body_text)
       end.to_s
+    end
+
+    def mail_part(content_type, body)
+      part = ::Mail::Part.new
+      part.content_type = "#{content_type}; charset=UTF-8"
+      part.body = body
+      part
     end
 
     def send_with_sendmail

@@ -4,6 +4,7 @@ require 'fileutils'
 require 'logger'
 require 'mail'
 require 'net/smtp'
+require 'sanitize'
 require 'singleton'
 require 'yaml'
 

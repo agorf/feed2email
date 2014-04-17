@@ -1,45 +1,33 @@
 PATH
   remote: .
   specs:
-    feed2email (0.3.0)
+    feed2email (0.4.0)
       feedzirra
       mail
+      sanitize
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (3.1.12)
-      multi_json (~> 1.0)
-    builder (3.2.2)
-    curb (0.7.18)
-    feedzirra (0.1.3)
-      activesupport (~> 3.1.1)
-      builder (>= 2.1.2)
-      curb (~> 0.7.15)
-      i18n (>= 0.5.0)
-      loofah (~> 1.2.0)
-      nokogiri (>= 1.4.4)
-      rake (>= 0.8.7)
-      rdoc (~> 3.8)
-      sax-machine (~> 0.1.0)
-    i18n (0.6.5)
-    json (1.8.0)
+    curb (0.8.5)
+    feedzirra (0.7.0)
+      curb (~> 0.8.1)
+      loofah (~> 1.2.1)
+      sax-machine (~> 0.2.1)
     loofah (1.2.1)
       nokogiri (>= 1.4.4)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.24)
-    mini_portile (0.5.1)
-    multi_json (1.7.9)
-    nokogiri (1.6.0)
+    mime-types (1.25.1)
+    mini_portile (0.5.2)
+    nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     polyglot (0.3.3)
-    rake (10.1.0)
-    rdoc (3.12.2)
-      json (~> 1.4)
-    sax-machine (0.1.0)
-      nokogiri (> 0.0.0)
+    sanitize (2.1.0)
+      nokogiri (>= 1.4.4)
+    sax-machine (0.2.1)
+      nokogiri (~> 1.6.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
