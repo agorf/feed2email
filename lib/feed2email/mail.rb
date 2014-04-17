@@ -31,7 +31,7 @@ module Feed2Email
         </html>
       }.gsub(/^\s+/, '') % {
         :uri     => @entry.uri.escape_html,
-        :title   => @entry.title.escape_html,
+        :title   => @entry.title.strip_html,
         :content => @entry.content,
       }
     end
@@ -47,7 +47,7 @@ module Feed2Email
         --
         Sent by feed2email #{VERSION} at #{Time.now}
       }.gsub(/^\s+/, '') % {
-        :title   => @entry.title,
+        :title   => @entry.title.strip_html,
         :content => @entry.content.strip_html,
         :uri     => @entry.uri,
       }
@@ -126,7 +126,7 @@ module Feed2Email
     end
 
     def subject
-      @entry.title
+      @entry.title.strip_html
     end
 
     def to
