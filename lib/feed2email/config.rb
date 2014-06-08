@@ -9,8 +9,6 @@ module Feed2Email
     attr_reader :config
 
     def read!
-      FileUtils.mkdir_p(CONFIG_DIR)
-
       @config = YAML.load(open(CONFIG_FILE)) rescue nil
 
       if !@config.is_a? Hash

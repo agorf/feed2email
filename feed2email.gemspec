@@ -24,4 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'feedzirra'
   gem.add_dependency 'mail'
   gem.add_dependency 'sanitize'
+
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'pry'
 end
