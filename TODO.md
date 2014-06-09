@@ -7,3 +7,4 @@
 * Detect entry URI changes (maybe by comparing body hashes?)
 * Profiles (support many feed lists and recipients)
 * Filters (e.g. skip entries matching a pattern)
+* Plugin architecture
