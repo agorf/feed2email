@@ -9,7 +9,7 @@ describe Feed2Email do
 
   it 'has a CONFIG_DIR constant' do
     expect { Feed2Email::CONFIG_DIR }.not_to raise_error
-    expect(Feed2Email::CONFIG_DIR).to eql config_dir
+    expect(Feed2Email::CONFIG_DIR).to eq config_dir
   end
 
   describe 'Config' do
@@ -24,12 +24,12 @@ describe Feed2Email do
     it 'is a singleton' do
       expect { Feed2Email::Config.new }.to raise_error
       expect(Feed2Email::Config).to respond_to :instance
-      expect(subject).to eql Feed2Email::Config.instance
+      expect(subject).to eq Feed2Email::Config.instance
     end
 
     it 'has a CONFIG_FILE constant' do
       expect { Feed2Email::Config::CONFIG_FILE }.not_to raise_error
-      expect(Feed2Email::Config::CONFIG_FILE).to eql config_file
+      expect(Feed2Email::Config::CONFIG_FILE).to eq config_file
     end
 
     describe '#config' do
@@ -40,7 +40,7 @@ describe Feed2Email do
       end
 
       it 'is an attr_reader' do
-        expect(subject.config).to eql config_data
+        expect(subject.config).to eq config_data
       end
     end
 
