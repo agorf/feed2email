@@ -8,10 +8,11 @@ Gem::Specification.new do |gem|
   gem.name          = 'feed2email'
   gem.version       = Feed2Email::VERSION
 
-  gem.authors       = ['Aggelos Orfanakos']
+  gem.author        = 'Aggelos Orfanakos'
   gem.date          = Date.today
-  gem.email         = ['agorf@agorf.gr']
-  gem.homepage      = 'http://github.com/agorf/feed2email'
+  gem.email         = 'me@agorf.gr'
+  gem.homepage      = 'https://github.com/agorf/feed2email'
+  gem.license       = 'MIT'
 
   gem.description   = %q{RSS/Atom feed updates in your email}
   gem.summary       = gem.description
