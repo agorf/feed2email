@@ -2,9 +2,9 @@ PATH
   remote: .
   specs:
     feed2email (0.5.0)
-      feedzirra
-      mail
-      sanitize
+      feedzirra (~> 0.7.0)
+      mail (~> 2.5.4)
+      sanitize (~> 2.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -54,4 +54,4 @@ PLATFORMS
 DEPENDENCIES
   feed2email!
   pry
-  rspec
+  rspec (~> 2.14.1)
