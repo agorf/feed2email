@@ -1,25 +1,19 @@
-require 'date'
-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'feed2email/version'
+require File.expand_path('../lib/feed2email/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name          = 'feed2email'
   gem.version       = Feed2Email::VERSION
-
+  gem.platform      = Gem::Platform::RUBY
   gem.author        = 'Aggelos Orfanakos'
-  gem.date          = Date.today
   gem.email         = 'me@agorf.gr'
   gem.homepage      = 'https://github.com/agorf/feed2email'
+  gem.summary       = 'RSS/Atom feed updates in your email'
+  gem.description   = gem.summary
   gem.license       = 'MIT'
 
-  gem.description   = %q{RSS/Atom feed updates in your email}
-  gem.summary       = gem.description
-
-  gem.files         = `git ls-files`.split($/)
-  gem.executables   = gem.files.grep(%r{^bin/}).map {|f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.files         = Dir['lib/**/*.rb', 'bin/*', '*.md', 'LICENSE.txt']
+  gem.test_files    = Dir['spec/**/*.rb']
+  gem.executables   = ['feed2email']
   gem.require_paths = ['lib']
 
   gem.add_dependency 'feedzirra', '~> 0.7.0'
