@@ -13,7 +13,7 @@ module Feed2Email
     end
 
     def log?
-      log_path != false
+      log_path
     end
 
     def log_level
@@ -25,9 +25,9 @@ module Feed2Email
     end
 
     def log_to
-      if log_path.nil? || log_path == true
+      if log_path == true
         STDOUT
-      else
+      elsif log_path # truthy but not true (a path)
         File.expand_path(log_path)
       end
     end
