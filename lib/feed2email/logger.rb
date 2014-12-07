@@ -26,7 +26,7 @@ module Feed2Email
 
     def log_to
       if log_path == true
-        STDOUT
+        $stdout
       elsif log_path # truthy but not true (a path)
         File.expand_path(log_path)
       end
