@@ -1,24 +1,19 @@
 require 'spec_helper'
 
 describe Feed2Email do
-  let(:config_dir) { 'spec/fixtures/.feed2email' }
-
-  before do
-    stub_const('Feed2Email::CONFIG_DIR', config_dir)
-  end
-
   it 'has a CONFIG_DIR constant' do
     expect { Feed2Email::CONFIG_DIR }.not_to raise_error
-    expect(Feed2Email::CONFIG_DIR).to eq config_dir
   end
 
   describe 'Config' do
     subject { Feed2Email::Config.instance }
 
+    let(:config_dir) { File.join(*%w{spec fixtures .feed2email}) }
+
     let(:config_file) { File.join(config_dir, 'config.yml') }
 
     before do
-      stub_const('Feed2Email::Config::CONFIG_FILE', config_file)
+      stub_const('Feed2Email::CONFIG_DIR', config_dir)
     end
 
     it 'is a singleton' do
@@ -29,14 +24,13 @@ describe Feed2Email do
 
     it 'has a CONFIG_FILE constant' do
       expect { Feed2Email::Config::CONFIG_FILE }.not_to raise_error
-      expect(Feed2Email::Config::CONFIG_FILE).to eq config_file
     end
 
     describe '#config' do
       let(:config_data) { 'foobar' }
 
       before do
-        subject.instance_variable_set(:@config, config_data)
+        subject.instance_variable_set(:@config, config_data) # FIXME
       end
 
       it 'is an attr_reader' do
@@ -46,6 +40,7 @@ describe Feed2Email do
 
     describe '#read!' do
       before do
+        stub_const('Feed2Email::Config::CONFIG_FILE', config_file)
         FileUtils.mkdir_p(config_dir)
       end
 
@@ -159,7 +154,7 @@ describe Feed2Email do
               expect {
                 subject.read!
               }.to change {
-                subject.instance_variable_get(:@config)
+                subject.instance_variable_get(:@config) # FIXME
               }.from(nil).to('recipient' => recipient)
             end
 
@@ -171,7 +166,7 @@ describe Feed2Email do
       end
 
       after do
-        subject.instance_variable_set(:@config, nil)
+        subject.instance_variable_set(:@config, nil) # FIXME
         FileUtils.rm_rf(config_dir)
       end
     end
