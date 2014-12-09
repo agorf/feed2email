@@ -41,6 +41,7 @@ describe Feed2Email do
     describe '#read!' do
       before do
         stub_const('Feed2Email::Config::CONFIG_FILE', config_file)
+
         FileUtils.mkdir_p(config_dir)
       end
 
