@@ -60,7 +60,7 @@ describe Feed2Email do
           ).to match /missing .*config file/
         end
 
-        it 'exits with an error' do
+        it 'exits with an error status of 1' do
           exit_status = nil
 
           expect {
@@ -92,7 +92,7 @@ describe Feed2Email do
           ).to match /invalid .*config file/
         end
 
-        it 'exits with an error' do
+        it 'exits with an error status of 1' do
           exit_status = nil
 
           expect {
@@ -128,7 +128,7 @@ describe Feed2Email do
             ).to match /invalid permissions/
           end
 
-          it 'exits with an error' do
+          it 'exits with an error status of 2' do
             exit_status = nil
 
             expect {
@@ -164,7 +164,7 @@ describe Feed2Email do
               ).to match /recipient missing/
             end
 
-            it 'exits with an error' do
+            it 'exits with an error status of 3' do
               exit_status = nil
 
               expect {
