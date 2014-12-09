@@ -47,8 +47,17 @@ describe Feed2Email do
       context 'config file is missing' do
         before do
           FileUtils.rm_f(config_file)
+        end
 
-          STDERR.should_receive(:puts).with(/missing .*config file/)
+        it 'prints an error message' do
+          expect(
+            capture_stderr {
+              begin
+                subject.read!
+              rescue SystemExit
+              end
+            }
+          ).to match /missing .*config file/
         end
 
         it 'exits with an error' do
@@ -70,8 +79,17 @@ describe Feed2Email do
         before do
           FileUtils.rm_f(config_file)
           FileUtils.touch(config_file) # empty file
+        end
 
-          STDERR.should_receive(:puts).with(/invalid .*config file/)
+        it 'prints an error message' do
+          expect(
+            capture_stderr {
+              begin
+                subject.read!
+              rescue SystemExit
+              end
+            }
+          ).to match /invalid .*config file/
         end
 
         it 'exits with an error' do
@@ -97,8 +115,17 @@ describe Feed2Email do
         context 'has invalid permissions' do
           before do
             File.chmod(0644, config_file) # world-readable
+          end
 
-            STDERR.should_receive(:puts).with(/invalid permissions/)
+          it 'prints an error message' do
+            expect(
+              capture_stderr {
+                begin
+                  subject.read!
+                rescue SystemExit
+                end
+              }
+            ).to match /invalid permissions/
           end
 
           it 'exits with an error' do
@@ -124,8 +151,17 @@ describe Feed2Email do
           context 'has no recipient address' do
             before do
               open(config_file, 'w') {|f| f.write('{}') }
+            end
 
-              STDERR.should_receive(:puts).with(/recipient missing/)
+            it 'prints an error message' do
+              expect(
+                capture_stderr {
+                  begin
+                    subject.read!
+                  rescue SystemExit
+                  end
+                }
+              ).to match /recipient missing/
             end
 
             it 'exits with an error' do

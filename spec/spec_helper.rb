@@ -25,3 +25,16 @@ def capture_stdout(&block)
 
   fake.string
 end
+
+def capture_stderr(&block)
+  original_stderr = $stderr
+  $stderr = fake = StringIO.new
+
+  begin
+    yield
+  ensure
+    $stderr = original_stderr
+  end
+
+  fake.string
+end
