@@ -10,6 +10,7 @@
 * Detect entry URI changes (maybe by comparing body hashes?)
 * Filters (e.g. skip entries matching a pattern)
 * Support "dispatch interfaces" where email is one such interface (another could
-  be writing to plain text files)
+  be writing to the filesystem)
 * Profiles (support many feed lists and recipients)
+* Send email notifications to user (e.g. when a feed is not available anymore)
 * Plugin architecture
