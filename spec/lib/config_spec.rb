@@ -1,210 +1,100 @@
 require 'spec_helper'
 
-describe Feed2Email do
-  it 'has a CONFIG_DIR constant' do
-    expect { Feed2Email::CONFIG_DIR }.not_to raise_error
-  end
+describe Feed2Email::Config do
+  describe '.load' do
+    subject { Feed2Email::Config.load(config_file) }
 
-  describe 'Config' do
-    subject { Feed2Email::Config.instance }
-
-    let(:config_dir) { File.join(*%w{spec fixtures .feed2email}) }
-
-    let(:config_file) { File.join(config_dir, 'config.yml') }
+    let(:config_file) { Tempfile.new('config.yml').path }
 
     before do
-      stub_const('Feed2Email::CONFIG_DIR', config_dir)
+      FileUtils.cp(
+        File.join('spec', 'fixtures', 'config', "#{config_template}.yml"),
+        config_file
+      )
     end
 
-    it 'is a singleton' do
-      expect { Feed2Email::Config.new }.to raise_error
-      expect(Feed2Email::Config).to respond_to :instance
-      expect(subject).to eq Feed2Email::Config.instance
+    after do
+      FileUtils.rm_f(config_file)
     end
 
-    it 'has a CONFIG_FILE constant' do
-      expect { Feed2Email::Config::CONFIG_FILE }.not_to raise_error
-    end
-
-    describe '#config' do
-      let(:config_data) { 'foobar' }
-
-      before do
-        subject.instance_variable_set(:@config, config_data) # FIXME
-      end
-
-      it 'is an attr_reader' do
-        expect(subject.config).to eq config_data
-      end
-    end
-
-    describe '#read!' do
-      before do
-        stub_const('Feed2Email::Config::CONFIG_FILE', config_file)
-
-        FileUtils.mkdir_p(config_dir)
-      end
-
-      context 'config file is missing' do
-        before do
-          FileUtils.rm_f(config_file)
-        end
-
-        it 'prints an error message' do
-          expect(
-            capture_stderr {
-              begin
-                subject.read!
-              rescue SystemExit
-              end
-            }
-          ).to match /missing .*config file/
-        end
-
-        it 'exits with an error status of 1' do
-          exit_status = nil
-
-          expect {
+    shared_examples 'an invalid config file' do |error_re, exit_status|
+      it 'prints an error message' do
+        expect(
+          capture_stderr {
             begin
-              subject.read!
-            rescue SystemExit => e
-              exit_status = e.status
+              subject
+            rescue SystemExit
             end
-          }.to change {
-            exit_status
-          }.from(nil).to(1)
-        end
+          }
+        ).to match error_re
       end
 
-      context 'config file is invalid' do
+      it "exits with an error status of #{exit_status}" do
+        status = nil
+
+        expect {
+          begin
+            subject
+          rescue SystemExit => e
+            status = e.status
+          end
+        }.to change {
+          status
+        }.from(nil).to(exit_status)
+      end
+    end
+
+    context 'config file is missing' do
+      before do
+        File.unlink(config_file)
+      end
+
+      it_behaves_like 'an invalid config file', /missing .*config file/, 1 do
+        let(:config_template) { 'recipient_only' }
+      end
+    end
+
+    context 'config file is blank' do
+      it_behaves_like 'an invalid config file', /invalid .*config file/, 1 do
+        let(:config_template) { 'blank' }
+      end
+    end
+
+    context 'config file contains invalid YAML' do
+      it_behaves_like 'an invalid config file', /invalid .*config file/, 1 do
+        let(:config_template) { 'invalid_yaml' }
+      end
+    end
+
+    context 'config file contains valid YAML' do
+      context 'has invalid permissions' do
         before do
-          FileUtils.rm_f(config_file)
-          FileUtils.touch(config_file) # empty file
+          File.chmod(0644, config_file) # world-readable
         end
 
-        it 'prints an error message' do
-          expect(
-            capture_stderr {
-              begin
-                subject.read!
-              rescue SystemExit
-              end
-            }
-          ).to match /invalid .*config file/
-        end
-
-        it 'exits with an error status of 1' do
-          exit_status = nil
-
-          expect {
-            begin
-              subject.read!
-            rescue SystemExit => e
-              exit_status = e.status
-            end
-          }.to change {
-            exit_status
-          }.from(nil).to(1)
+        it_behaves_like 'an invalid config file', /invalid permissions/, 2 do
+          let(:config_template) { 'empty' }
         end
       end
 
-      context 'config file is valid' do
+      context 'has valid permissions' do
         before do
-          open(config_file, 'w') {|f| f.write('{}') }
+          File.chmod(0600, config_file) # private
         end
 
-        context 'has invalid permissions' do
-          before do
-            File.chmod(0644, config_file) # world-readable
-          end
-
-          it 'prints an error message' do
-            expect(
-              capture_stderr {
-                begin
-                  subject.read!
-                rescue SystemExit
-                end
-              }
-            ).to match /invalid permissions/
-          end
-
-          it 'exits with an error status of 2' do
-            exit_status = nil
-
-            expect {
-              begin
-                subject.read!
-              rescue SystemExit => e
-                exit_status = e.status
-              end
-            }.to change {
-              exit_status
-            }.from(nil).to(2)
+        context 'has no recipient address' do
+          it_behaves_like 'an invalid config file', /recipient missing/, 3 do
+            let(:config_template) { 'empty' }
           end
         end
 
-        context 'has valid permissions' do
-          before do
-            File.chmod(0600, config_file) # private
-          end
+        context 'has recipient address' do
+          let(:config_template) { 'recipient_only' }
 
-          context 'has no recipient address' do
-            before do
-              open(config_file, 'w') {|f| f.write('{}') }
-            end
-
-            it 'prints an error message' do
-              expect(
-                capture_stderr {
-                  begin
-                    subject.read!
-                  rescue SystemExit
-                  end
-                }
-              ).to match /recipient missing/
-            end
-
-            it 'exits with an error status of 3' do
-              exit_status = nil
-
-              expect {
-                begin
-                  subject.read!
-                rescue SystemExit => e
-                  exit_status = e.status
-                end
-              }.to change {
-                exit_status
-              }.from(nil).to(3)
-            end
-          end
-
-          context 'has recipient address' do
-            let(:recipient) { 'foo@bar.com' }
-
-            before do
-              open(config_file, 'w') {|f| f.write("recipient: #{recipient}") }
-            end
-
-            it 'assigns config data to instance variable' do
-              expect {
-                subject.read!
-              }.to change {
-                subject.instance_variable_get(:@config) # FIXME
-              }.from(nil).to('recipient' => recipient)
-            end
-
-            it 'does not exit with an error' do
-              expect(subject.read!).to be_nil
-            end
+          it 'returns config data' do
+            expect(subject).to eq('recipient' => 'foo@bar.com')
           end
         end
-      end
-
-      after do
-        subject.instance_variable_set(:@config, nil) # FIXME
-        FileUtils.rm_rf(config_dir)
       end
     end
   end

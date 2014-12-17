@@ -1,4 +1,11 @@
 module Feed2Email
+  CONFIG_DIR = File.expand_path('~/.feed2email')
+  CONFIG_FILE = File.join(CONFIG_DIR, 'config.yml')
+
+  def self.config
+    @config ||= Feed2Email::Config.load(CONFIG_FILE)
+  end
+
   class Feed
     FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
     HISTORY_FILE = File.join(CONFIG_DIR, 'history.yml')
@@ -8,8 +15,6 @@ module Feed2Email
     end
 
     def self.process_all
-      Feed2Email::Config.instance.read!
-
       log :debug, 'Loading feed subscriptions...'
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue nil
 
@@ -54,10 +59,6 @@ module Feed2Email
 
     private
 
-    def config
-      Feed2Email::Config.instance.config
-    end
-
     def data
       if @data.nil?
         log :debug, 'Fetching and parsing feed...'
@@ -91,7 +92,7 @@ module Feed2Email
     end
 
     def max_entries
-      (config['max_entries'] || 20).to_i
+      (Feed2Email.config['max_entries'] || 20).to_i
     end
 
     def process_entries

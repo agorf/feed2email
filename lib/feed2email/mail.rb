@@ -54,7 +54,7 @@ module Feed2Email
     end
 
     def config
-      Feed2Email::Config.instance.config
+      Feed2Email.config # delegate
     end
 
     def from_address

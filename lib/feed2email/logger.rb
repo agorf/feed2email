@@ -11,7 +11,7 @@ module Feed2Email
     private
 
     def config
-      Feed2Email::Config.instance.config
+      Feed2Email.config
     end
 
     def log_to

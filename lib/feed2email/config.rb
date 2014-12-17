@@ -1,30 +1,24 @@
 module Feed2Email
-  CONFIG_DIR = File.expand_path('~/.feed2email')
-
   class Config
-    include Singleton
+    def self.load(config_path)
+      data = YAML.load(open(config_path)) rescue nil
 
-    CONFIG_FILE = File.join(CONFIG_DIR, 'config.yml')
-
-    attr_reader :config
-
-    def read!
-      @config = YAML.load(open(CONFIG_FILE)) rescue nil
-
-      if !@config.is_a? Hash
-        $stderr.puts "Error: missing or invalid config file #{CONFIG_FILE}"
+      if !data.is_a?(Hash)
+        $stderr.puts "Error: missing or invalid config file #{config_path}"
         exit 1
       end
 
-      if '%o' % (File.stat(CONFIG_FILE).mode & 0777) != '600'
-        $stderr.puts "Error: invalid permissions for config file #{CONFIG_FILE}"
+      if '%o' % (File.stat(config_path).mode & 0777) != '600'
+        $stderr.puts "Error: invalid permissions for config file #{config_path}"
         exit 2
       end
 
-      if @config['recipient'].nil?
-        $stderr.puts "Error: recipient missing from config file #{CONFIG_FILE}"
+      if data['recipient'].nil?
+        $stderr.puts "Error: recipient missing from config file #{config_path}"
         exit 3
       end
+
+      data
     end
   end
 end
