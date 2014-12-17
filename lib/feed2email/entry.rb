@@ -24,7 +24,7 @@ module Feed2Email
 
     def uri
       @uri ||= begin
-        if @data.url[0] == '/' # invalid entry URL is a path
+        if @data.url && @data.url[0] == '/' # invalid entry URL is a path
           @feed_uri[%r{https?://[^/]+}] + @data.url # prepend feed URI
         else
           @data.url
