@@ -58,10 +58,11 @@ pair is separated with a colon: `foo: bar`
 For this method you need to have access to an SMTP service. [Mailgun][] has a
 free plan.
 
-* `smtp_host` is the SMTP service hostname to connect to
-* `smtp_port` is the SMTP service port to connect to
-* `smtp_user` is the username of your email account
-* `smtp_pass` is the password of your email account (see the warning below)
+* `smtp_host` (required) is the SMTP service hostname to connect to
+* `smtp_port` (required) is the SMTP service port to connect to
+* `smtp_user` (required) is the username of your email account
+* `smtp_pass` (required) is the password of your email account (see the warning
+   below)
 * `smtp_tls` (optional) controls TLS (default is `true`; can also be `false`)
 * `smtp_auth` (optional) controls the authentication method (default is `login`;
    can also be `plain` or `cram_md5`)
