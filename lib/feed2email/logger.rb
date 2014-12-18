@@ -1,39 +1,36 @@
 module Feed2Email
   class Logger
-    include Singleton
+    def initialize(log_path, log_level)
+      @log_path = log_path
+      @log_level = log_level
+    end
 
     def log(severity, message)
-      if config['log_path']
-        logger.add(::Logger.const_get(severity.upcase), message)
-      end
+      logger.add(::Logger.const_get(severity.upcase), message)
     end
 
     private
 
-    def config
-      Feed2Email.config
-    end
-
     def log_to
-      if config['log_path'] == true
+      if @log_path == true
         $stdout
-      elsif config['log_path'] # truthy but not true (a path)
-        File.expand_path(config['log_path'])
+      elsif @log_path # truthy but not true (a path)
+        File.expand_path(@log_path)
       end
     end
 
     def logger
-      @logger ||= begin
-        logger = ::Logger.new(log_to)
+      return @logger if @logger
 
-        if config['log_level']
-          logger.level = ::Logger.const_get(config['log_level'].upcase)
-        else
-          logger.level = ::Logger::INFO
-        end
+      @logger = ::Logger.new(log_to)
 
-        logger
+      if @log_level
+        @logger.level = ::Logger.const_get(@log_level.upcase)
+      else
+        @logger.level = ::Logger::INFO
       end
+
+      @logger
     end
   end
 end

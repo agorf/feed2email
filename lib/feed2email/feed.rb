@@ -6,12 +6,20 @@ module Feed2Email
     @config ||= Feed2Email::Config.load(CONFIG_FILE)
   end
 
+  def self.logger
+    @logger ||= Feed2Email::Logger.new(config['log_path'], config['log_level'])
+  end
+
+  def self.log(*args)
+    logger.log(*args) # delegate
+  end
+
   class Feed
     FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
     HISTORY_FILE = File.join(CONFIG_DIR, 'history.yml')
 
-    def self.log(*args)
-      Feed2Email::Logger.instance.log(*args)
+    def log(*args)
+      Feed2Email.log(*args) # delegate
     end
 
     def self.process_all
