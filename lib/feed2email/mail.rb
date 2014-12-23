@@ -94,16 +94,15 @@ module Feed2Email
     end
 
     def send_with_smtp
-      host = config['smtp_host']
-      port = config['smtp_port']
-      user = config['smtp_user']
-      pass = config['smtp_pass']
-      tls  = config['smtp_tls'].nil? ? true : config['smtp_tls'] # default: true
-      auth = (config['smtp_auth'] || 'login').to_sym # default: 'login'
+      smtp = Net::SMTP.new(config['smtp_host'], config['smtp_port'])
+      smtp.enable_starttls if config.fetch('smtp_tls', true)
 
-      smtp = Net::SMTP.new(host, port)
-      smtp.enable_starttls if tls
-      smtp.start('localhost', user, pass, auth) do
+      smtp.start(
+        'localhost',
+        config['smtp_user'],
+        config['smtp_pass'],
+        config.fetch('smtp_auth', 'login').to_sym
+      ) do
         smtp.send_message(mail, from_address, config['recipient'])
       end
     end
