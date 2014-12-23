@@ -1,4 +1,4 @@
-# feed2email [![Build Status](https://travis-ci.org/agorf/feed2email.png?branch=master)](https://travis-ci.org/agorf/feed2email)
+# feed2email
 
 RSS/Atom feed updates in your email
 
