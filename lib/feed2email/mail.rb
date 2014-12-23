@@ -28,9 +28,9 @@ module Feed2Email
         </body>
         </html>
       }.gsub(/^\s+/, '') % {
-        :uri     => @entry.uri.escape_html,
-        :title   => @entry.title.strip_html,
-        :content => @entry.content,
+        content: @entry.content,
+        title:   @entry.title.strip_html,
+        uri:     @entry.uri.escape_html,
       }
     end
 
@@ -45,9 +45,9 @@ module Feed2Email
         --
         Sent by feed2email #{VERSION} at #{Time.now}
       }.gsub(/^\s+/, '') % {
-        :title   => @entry.title.strip_html,
-        :content => @entry.content.strip_html,
-        :uri     => @entry.uri,
+        content: @entry.content.strip_html,
+        title:   @entry.title.strip_html,
+        uri:     @entry.uri,
       }
     end
 
@@ -62,8 +62,8 @@ module Feed2Email
         @entry.author[/\S+@\S+/]
       elsif smtp_configured?
         '%{user}@%{host}' % {
-          :user => config['smtp_user'].gsub(/\W/, '_'),
-          :host => config['smtp_host']
+          user: config['smtp_user'].gsub(/\W/, '_'),
+          host: config['smtp_host']
         }
       else
         config['recipient']
