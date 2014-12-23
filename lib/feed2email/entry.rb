@@ -19,7 +19,7 @@ module Feed2Email
     end
 
     def title
-      @data.title
+      @data.title.strip
     end
 
     def uri
