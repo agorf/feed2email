@@ -6,8 +6,6 @@ module Feed2Email
     end
 
     def send
-      sleep config['send_delay'] || 10 # avoid Net::SMTPServerBusy errors
-
       if smtp_configured?
         send_with_smtp
       else
