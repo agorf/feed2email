@@ -66,14 +66,14 @@ module Feed2Email
           :host => config['smtp_host']
         }
       else
-        recipient
+        config['recipient']
       end
     end
 
     def mail
       ::Mail.new.tap do |m|
         m.from      = %{"#{@feed_title}" <#{from_address}>}
-        m.to        = recipient
+        m.to        = config['recipient']
         m.subject   = @entry.title.strip_html
         m.html_part = mail_part('text/html', body_html)
         m.text_part = mail_part('text/plain', body_text)
@@ -87,12 +87,8 @@ module Feed2Email
       part
     end
 
-    def recipient
-      config['recipient']
-    end
-
     def send_with_sendmail
-      open("|#{sendmail_bin} #{recipient}", 'w') do |f|
+      open("|#{sendmail_bin} #{config['recipient']}", 'w') do |f|
         f.write(mail)
       end
     end
@@ -108,7 +104,7 @@ module Feed2Email
       smtp = Net::SMTP.new(host, port)
       smtp.enable_starttls if tls
       smtp.start('localhost', user, pass, auth) do
-        smtp.send_message(mail, from_address, recipient)
+        smtp.send_message(mail, from_address, config['recipient'])
       end
     end
 
