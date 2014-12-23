@@ -1,33 +1,37 @@
 module Feed2Email
-  CONFIG_DIR = File.expand_path('~/.feed2email')
-  CONFIG_FILE = File.join(CONFIG_DIR, 'config.yml')
-
-  def self.config
-    @config ||= Feed2Email::Config.load(CONFIG_FILE)
-  end
-
-  def self.logger
-    @logger ||= Feed2Email::Logger.new(config['log_path'], config['log_level'])
-  end
-
-  def self.log(*args)
-    logger.log(*args) # delegate
-  end
-
   class Feed
     FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
     HISTORY_FILE = File.join(CONFIG_DIR, 'history.yml')
+
+    def config
+      Feed2Email.config # delegate
+    end
 
     def log(*args)
       Feed2Email.log(*args) # delegate
     end
 
     def self.process_all
+      if !config.is_a?(Hash)
+        log :fatal, "Missing or invalid config file #{CONFIG_FILE}"
+        exit 1
+      end
+
+      if '%o' % (File.stat(CONFIG_FILE).mode & 0777) != '600'
+        log :fatal, "Invalid permissions for config file #{CONFIG_FILE}"
+        exit 2
+      end
+
+      if config['recipient'].nil?
+        log :fatal, "Recipient missing from config file #{CONFIG_FILE}"
+        exit 3
+      end
+
       log :debug, 'Loading feed subscriptions...'
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue nil
 
       if !feed_uris.is_a? Array
-        $stderr.puts "Error: missing or invalid feeds file #{FEEDS_FILE}"
+        log :fatal, "Missing or invalid feeds file #{FEEDS_FILE}"
         exit 4
       end
 
