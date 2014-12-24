@@ -68,8 +68,8 @@ module Feed2Email
       File.read(path)
     end
 
-    def [](key)
-      merged_config[key] # delegate
+    def [](option)
+      merged_config[option] # delegate
     end
 
     def merged_config
