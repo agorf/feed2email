@@ -3,11 +3,11 @@ module Feed2Email
     FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
     HISTORY_FILE = File.join(CONFIG_DIR, 'history.yml')
 
-    def config
+    def self.config
       Feed2Email.config # delegate
     end
 
-    def log(*args)
+    def self.log(*args)
       Feed2Email.log(*args) # delegate
     end
 
