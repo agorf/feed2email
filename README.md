@@ -41,9 +41,7 @@ pair is separated with a colon: `foo: bar`
 ### Generic options
 
 * `recipient` (required) is the email address to send email to
-* `sender` (optional) is the email address to send email from (default is taken
-  from the feed entry author or, if missing, it is generated from the SMTP user
-  and host or, if missing, it is the same as `recipient`)
+* `sender` (required) is the email address to send email from
 * `send_delay` (optional) is the number of seconds to wait between each email to
   avoid SMTP server throttling errors (default is `10`; use `0` to disable)
 * `log_path` (optional) is the _absolute_ path to the log file (default is

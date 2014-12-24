@@ -55,24 +55,9 @@ module Feed2Email
       Feed2Email.config # delegate
     end
 
-    def from_address
-      if config['sender']
-        config['sender']
-      elsif @entry.author && @entry.author['@']
-        @entry.author[/\S+@\S+/]
-      elsif smtp_configured?
-        '%{user}@%{host}' % {
-          user: config['smtp_user'].gsub(/\W/, '_'),
-          host: config['smtp_host']
-        }
-      else
-        config['recipient']
-      end
-    end
-
     def mail
       ::Mail.new.tap do |m|
-        m.from      = %{"#{@feed_title}" <#{from_address}>}
+        m.from      = %{"#{@feed_title}" <#{config['sender']}>}
         m.to        = config['recipient']
         m.subject   = @entry.title.strip_html
         m.html_part = mail_part('text/html', body_html)
@@ -103,7 +88,7 @@ module Feed2Email
         config['smtp_pass'],
         config.fetch('smtp_auth', 'login').to_sym
       ) do
-        smtp.send_message(mail, from_address, config['recipient'])
+        smtp.send_message(mail, config['sender'], config['recipient'])
       end
     end
 
