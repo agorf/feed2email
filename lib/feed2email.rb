@@ -10,10 +10,9 @@ require 'yaml'
 
 module Feed2Email
   CONFIG_DIR = File.expand_path('~/.feed2email')
-  CONFIG_FILE = File.join(CONFIG_DIR, 'config.yml')
 
   def self.config
-    @config ||= Config.new(CONFIG_FILE)
+    @config ||= Config.new(File.join(CONFIG_DIR, 'config.yml'))
   end
 
   def self.logger
