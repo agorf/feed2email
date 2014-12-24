@@ -1,5 +1,7 @@
 module Feed2Email
   class Logger
+    attr_reader :log_path, :log_level
+
     def initialize(log_path, log_level)
       @log_path = log_path
       @log_level = log_level
@@ -12,10 +14,10 @@ module Feed2Email
     private
 
     def log_to
-      if @log_path.nil? || @log_path == true
+      if log_path.nil? || log_path == true
         $stdout
-      elsif @log_path # truthy but not true (a path)
-        File.expand_path(@log_path)
+      elsif log_path # truthy but not true (a path)
+        File.expand_path(log_path)
       end
     end
 
@@ -24,8 +26,8 @@ module Feed2Email
 
       @logger = ::Logger.new(log_to)
 
-      if @log_level
-        @logger.level = ::Logger.const_get(@log_level.upcase)
+      if log_level
+        @logger.level = ::Logger.const_get(log_level.upcase)
       else
         @logger.level = ::Logger::INFO
       end
