@@ -1,6 +1,5 @@
 module Feed2Email
   class Feed
-    FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
     HISTORY_FILE = File.join(CONFIG_DIR, 'history.yml')
 
     def self.config
@@ -13,12 +12,7 @@ module Feed2Email
 
     def self.process_all
       log :debug, 'Loading feed subscriptions...'
-      feed_uris = YAML.load(open(FEEDS_FILE)) rescue nil
-
-      if !feed_uris.is_a? Array
-        log :fatal, "Missing or invalid feeds file #{FEEDS_FILE}"
-        exit 4
-      end
+      feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
 
       log :info, "Subscribed to #{n = feed_uris.size} feed#{n == 1 ? '' : 's'}"
 
