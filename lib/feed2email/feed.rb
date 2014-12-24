@@ -28,6 +28,8 @@ module Feed2Email
       open(HISTORY_FILE, 'w') {|f| f.write(@@history.to_yaml) }
     end
 
+    attr_reader :uri
+
     def initialize(uri)
       @uri = uri
     end
@@ -55,7 +57,7 @@ module Feed2Email
         log :debug, 'Fetching and parsing feed...'
 
         begin
-          @data = Feedzirra::Feed.fetch_and_parse(@uri,
+          @data = Feedzirra::Feed.fetch_and_parse(uri,
             :user_agent => "feed2email/#{VERSION}",
             :compress   => true
           )
@@ -70,7 +72,7 @@ module Feed2Email
 
     def entries
       @entries ||= data.entries[0..max_entries - 1].map {|entry_data|
-        Entry.new(entry_data, @uri, title)
+        Entry.new(entry_data, uri, title)
       }
     end
 
@@ -118,14 +120,14 @@ module Feed2Email
 
     def seen_before?
       if @seen_before.nil?
-        @seen_before = !@@history[@uri].nil?
+        @seen_before = !@@history[uri].nil?
       end
 
       @seen_before
     end
 
     def seen_entries
-      @@history[@uri] ||= []
+      @@history[uri] ||= []
     end
 
     def title
