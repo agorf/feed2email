@@ -89,7 +89,7 @@ module Feed2Email
     end
 
     def max_entries
-      (Feed2Email.config['max_entries'] || 20).to_i
+      Feed2Email.config['max_entries'].to_i
     end
 
     def process_entries
