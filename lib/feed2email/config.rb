@@ -15,6 +15,12 @@ module Feed2Email
       check
     end
 
+    def [](option)
+      merged_config[option] # delegate
+    end
+
+    private
+
     def check
       check_existence
       check_permissions
@@ -68,10 +74,6 @@ module Feed2Email
       File.read(path)
     end
 
-    def [](option)
-      merged_config[option] # delegate
-    end
-
     def merged_config
       @merged_config ||= defaults.merge(data)
     end
@@ -87,8 +89,6 @@ module Feed2Email
         'smtp_tls'      => true,
       }
     end
-
-    private
 
     def check_option_existence(option)
       if data[option].nil?
