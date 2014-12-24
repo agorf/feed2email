@@ -70,6 +70,10 @@ module Feed2Email
       @data
     end
 
+    def config
+      Feed2Email.config
+    end
+
     def entries
       @entries ||= data.entries[0..max_entries - 1].map {|entry_data|
         Entry.new(entry_data, uri, title)
@@ -85,7 +89,7 @@ module Feed2Email
     end
 
     def max_entries
-      Feed2Email.config['max_entries'].to_i
+      config['max_entries'].to_i
     end
 
     def process_entries
