@@ -1,7 +1,5 @@
 module Feed2Email
   class Logger
-    attr_reader :log_path, :log_level
-
     def initialize(log_path, log_level)
       @log_path = log_path
       @log_level = log_level
@@ -12,6 +10,14 @@ module Feed2Email
     end
 
     private
+
+    def log_path
+      @log_path
+    end
+
+    def log_level
+      @log_level
+    end
 
     def log_to
       if log_path == true

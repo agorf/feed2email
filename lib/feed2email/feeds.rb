@@ -4,8 +4,6 @@ module Feed2Email
     class InvalidFeedsSyntaxError < StandardError; end
     class InvalidFeedsDataTypeError < StandardError; end
 
-    attr_reader :path, :data
-
     def initialize(path)
       @path = path
       check
@@ -20,6 +18,14 @@ module Feed2Email
     end
 
     private
+
+    def path
+      @path
+    end
+
+    def data
+      @data
+    end
 
     def check
       check_existence
