@@ -73,7 +73,7 @@ module Feed2Email
     end
 
     def send_with_sendmail
-      open("|#{sendmail_bin} #{config['recipient']}", 'w') do |f|
+      open("|#{config['sendmail_path']} #{config['recipient']}", 'w') do |f|
         f.write(mail)
       end
     end
@@ -97,10 +97,6 @@ module Feed2Email
         config['smtp_port'] &&
         config['smtp_user'] &&
         config['smtp_pass']
-    end
-
-    def sendmail_bin
-      config['sendmail_path'] || '/usr/sbin/sendmail'
     end
   end
 end
