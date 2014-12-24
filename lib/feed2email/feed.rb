@@ -1,7 +1,5 @@
 module Feed2Email
   class Feed
-    HISTORY_FILE = File.join(CONFIG_DIR, 'history.yml')
-
     def self.config
       Feed2Email.config # delegate
     end
@@ -16,16 +14,10 @@ module Feed2Email
 
       log :info, "Subscribed to #{n = feed_uris.size} feed#{n == 1 ? '' : 's'}"
 
-      log :debug, 'Loading history...'
-      @@history = YAML.load(open(HISTORY_FILE)) rescue {}
-
       feed_uris.each do |uri|
         log :info, "Found feed #{uri}"
         Feed.new(uri).process
       end
-
-      log :debug, 'Writing history...'
-      open(HISTORY_FILE, 'w') {|f| f.write(@@history.to_yaml) }
     end
 
     attr_reader :uri
@@ -42,6 +34,7 @@ module Feed2Email
           log :info,
             "Processing #{n = entries.size} entr#{n == 1 ? 'y' : 'ies'}..."
           process_entries
+          history.sync
         else
           log :warn, 'Feed does not have entries'
         end
@@ -99,9 +92,9 @@ module Feed2Email
 
         log :info, "Found entry #{entry.uri}"
 
-        if seen_before?
-          if seen_entries.include?(entry.uri)
-            log :debug, 'Skipping seen entry...'
+        if history.old_feed?
+          if history.old_entry?(entry.uri)
+            log :debug, 'Skipping old entry...'
           else
             log :debug, 'Processing new entry...'
 
@@ -112,26 +105,18 @@ module Feed2Email
               e.backtrace.each {|line| log :debug, line }
             end
 
-            seen_entries << entry.uri if e.nil? # record in history if no errors
+            history << entry.uri if e.nil? # no errors
             e = nil
           end
         else
-          log :debug, 'Skipping new entry...'
-          seen_entries << entry.uri # record in history
+          log :debug, 'Skipping new feed entry...'
+          history << entry.uri
         end
       end
     end
 
-    def seen_before?
-      if @seen_before.nil?
-        @seen_before = !@@history[uri].nil?
-      end
-
-      @seen_before
-    end
-
-    def seen_entries
-      @@history[uri] ||= []
+    def history
+      @history ||= FeedHistory.new(uri)
     end
 
     def title
