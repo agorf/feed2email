@@ -12,21 +12,6 @@ module Feed2Email
     end
 
     def self.process_all
-      if !config.is_a?(Hash)
-        log :fatal, "Missing or invalid config file #{CONFIG_FILE}"
-        exit 1
-      end
-
-      if '%o' % (File.stat(CONFIG_FILE).mode & 0777) != '600'
-        log :fatal, "Invalid permissions for config file #{CONFIG_FILE}"
-        exit 2
-      end
-
-      if config['recipient'].nil?
-        log :fatal, "Recipient missing from config file #{CONFIG_FILE}"
-        exit 3
-      end
-
       log :debug, 'Loading feed subscriptions...'
       feed_uris = YAML.load(open(FEEDS_FILE)) rescue nil
 

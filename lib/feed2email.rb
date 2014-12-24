@@ -13,7 +13,7 @@ module Feed2Email
   CONFIG_FILE = File.join(CONFIG_DIR, 'config.yml')
 
   def self.config
-    @config ||= YAML.load(open(CONFIG_FILE)) rescue nil
+    @config ||= Config.new(CONFIG_FILE)
   end
 
   def self.logger
