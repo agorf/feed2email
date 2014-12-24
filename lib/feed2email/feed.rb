@@ -95,7 +95,7 @@ module Feed2Email
     def process_entries
       entries.each_with_index do |entry, i|
         # Sleep between entry processing to avoid Net::SMTPServerBusy errors
-        sleep(config.fetch('send_delay', 10)) if i > 0
+        sleep(config['send_delay']) if i > 0
 
         log :info, "Found entry #{entry.uri}"
 
