@@ -5,7 +5,7 @@ module Feed2Email
     class MissingConfigError < StandardError; end
     class InvalidConfigPermissionsError < StandardError; end
     class InvalidConfigSyntaxError < StandardError; end
-    class InvalidConfigError < StandardError; end
+    class InvalidConfigDataTypeError < StandardError; end
     class MissingConfigOptionError < StandardError; end
 
     attr_reader :path, :data
@@ -25,7 +25,7 @@ module Feed2Email
       check_existence
       check_permissions
       check_syntax
-      check_validity
+      check_data_type
       check_recipient_existence
       check_sender_existence
     end
@@ -52,9 +52,10 @@ module Feed2Email
       end
     end
 
-    def check_validity
+    def check_data_type
       if !data.is_a?(Hash)
-        raise InvalidConfigError, "Invalid config file #{path}"
+        raise InvalidConfigDataTypeError,
+          "Invalid data type (not a Hash) for config file #{path}"
       end
     end
 
