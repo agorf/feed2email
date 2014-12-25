@@ -16,7 +16,7 @@ module Feed2Email
       @data.content || @data.summary
     end
 
-    def process
+    def send_mail
       Mail.new(self, @feed_title).send
     end
 

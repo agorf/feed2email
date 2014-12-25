@@ -92,33 +92,49 @@ module Feed2Email
     end
 
     def process_entries
-      entries.each_with_index do |entry, i|
+      sent_mail = false
+
+      entries.each do |entry|
         # Sleep between entry processing to avoid Net::SMTPServerBusy errors
-        sleep(config['send_delay']) if i > 0
+        if sent_mail && config['send_delay'] > 0
+          log :debug, "Sleeping for #{'second'.pluralize(config['send_delay'])}"
+          sleep(config['send_delay'])
+        end
 
         log :info, "Found entry #{entry.uri}"
-
-        if history.old_feed?
-          if history.old_entry?(entry.uri)
-            log :debug, 'Skipping old entry...'
-          else
-            log :debug, 'Processing new entry...'
-
-            begin
-              entry.process
-            rescue => e
-              log :error, "#{e.class}: #{e.message.strip}"
-              e.backtrace.each {|line| log :debug, line }
-            end
-
-            history << entry.uri if e.nil? # no errors
-            e = nil
-          end
-        else
-          log :debug, 'Skipping new feed entry...'
-          history << entry.uri
-        end
+        sent_mail = process_entry(entry)
       end
+    end
+
+    def process_entry(entry)
+      sent_mail = false
+
+      if history.old_feed?
+        if history.old_entry?(entry.uri)
+          log :debug, 'Skipping old entry...'
+        else
+          log :debug, 'Sending new entry...'
+
+          begin
+            entry.send_mail
+          rescue => e
+            log :error, "#{e.class}: #{e.message.strip}"
+            e.backtrace.each {|line| log :debug, line }
+          end
+
+          if e.nil? # no errors
+            sent_mail = true
+            history << entry.uri
+          end
+
+          e = nil
+        end
+      else
+        log :debug, 'Skipping new feed entry...'
+        history << entry.uri
+      end
+
+      sent_mail
     end
 
     def history
