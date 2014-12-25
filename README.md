@@ -27,8 +27,8 @@ $ gem install feed2email
 
 Through a [YAML][] file at `~/.feed2email/config.yml`.
 
-It is possible to send email via SMTP or an [MTA][]. If `config.yml` contains
-options for both, feed2email will use SMTP.
+It is possible to send email via SMTP or an [MTA][] (default). If `config.yml`
+contains options for both, feed2email will use SMTP.
 
 [YAML]: http://en.wikipedia.org/wiki/YAML
 [MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
@@ -93,19 +93,19 @@ subscribe to, prefixed with a dash and a space:
 - https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-To disable a feed temporarily, comment it:
+To disable a feed, comment it:
 
 ~~~ yaml
 #- https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-You are now ready to run the program:
+You are now ready to run feed2email:
 
 ~~~ sh
 $ feed2email
 ~~~
 
-When running feed2email for the first time or after adding a new feed:
+When feed2email runs for the first time or after adding a new feed:
 
 * All feed entries are considered to be old, so no email is sent
 * `~/.feed2email/history-<digest>.yml` is created for each feed containing these
