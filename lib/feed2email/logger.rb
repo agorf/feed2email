@@ -1,3 +1,5 @@
+require 'logger'
+
 module Feed2Email
   class Logger
     def initialize(log_path, log_level)

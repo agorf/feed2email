@@ -1,3 +1,6 @@
+require 'mail'
+require 'net/smtp'
+
 module Feed2Email
   class Mail
     def initialize(entry, feed_title)

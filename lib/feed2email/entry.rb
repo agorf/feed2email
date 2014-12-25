@@ -1,3 +1,5 @@
+require 'feed2email/mail'
+
 module Feed2Email
   class Entry
     def initialize(data, feed_uri, feed_title)

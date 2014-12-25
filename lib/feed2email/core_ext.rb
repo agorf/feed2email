@@ -1,3 +1,6 @@
+require 'cgi'
+require 'sanitize'
+
 class String
   def escape_html
     CGI.escapeHTML(self)

@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Feed2Email
   class Feeds
     class MissingFeedsError < StandardError; end

@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'feed2email'
+require 'feed2email/feed'
 
 Feed2Email::Feed.process_all

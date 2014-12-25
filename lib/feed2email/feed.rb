@@ -1,3 +1,9 @@
+require 'feed2email/core_ext'
+require 'feed2email/entry'
+require 'feed2email/feed_history'
+require 'feed2email/feeds'
+require 'feedzirra'
+
 module Feed2Email
   class Feed
     def self.config
