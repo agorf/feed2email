@@ -117,9 +117,9 @@ treated as new and processed (sent as email).
 
 **Warning:** Versions prior to 0.6.0 used a single history file for all feeds.
 Before using version 0.6.0 for the first time, please make sure you run the
-provided migration script: `$ feed2email-migrate-history` If you don't,
-feed2email will think it's run for the first time and will treat all entries as
-old (thus no email will be sent and you may miss some entries).
+provided migration script: `feed2email-migrate-history` If you don't, feed2email
+will think it's run for the first time and will treat all entries as old (thus
+no email will be sent and you may miss some entries).
 
 You can use [cron][] to run feed2email automatically e.g. once every hour.
 
