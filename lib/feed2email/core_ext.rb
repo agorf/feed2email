@@ -1,10 +1,10 @@
 class String
-  def self.pluralize(count, singular, plural = singular + 's')
-    "#{count} #{count == 1 ? singular : plural}"
-  end
-
   def escape_html
     CGI.escapeHTML(self)
+  end
+
+  def pluralize(count, plural = self + 's')
+    "#{count} #{count == 1 ? self : plural}"
   end
 
   def strip_html

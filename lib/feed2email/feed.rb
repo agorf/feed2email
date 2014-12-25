@@ -12,7 +12,7 @@ module Feed2Email
       log :debug, 'Loading feed subscriptions...'
       feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
 
-      log :info, "Subscribed to #{String.pluralize(feed_uris.size, 'feed')}"
+      log :info, "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
 
       feed_uris.each do |uri|
         log :info, "Found feed #{uri}"
@@ -32,7 +32,7 @@ module Feed2Email
 
         if entries.any?
           log :info,
-            "Processing #{String.pluralize(entries.size, 'entry', 'entries')}..."
+            "Processing #{'entry'.pluralize(entries.size, 'entries')}..."
           process_entries
           history.sync
         else
