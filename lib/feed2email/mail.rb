@@ -80,13 +80,13 @@ module Feed2Email
 
     def send_with_smtp
       smtp = Net::SMTP.new(config['smtp_host'], config['smtp_port'])
-      smtp.enable_starttls if config.fetch('smtp_tls', true)
+      smtp.enable_starttls if config['smtp_tls']
 
       smtp.start(
         'localhost',
         config['smtp_user'],
         config['smtp_pass'],
-        config.fetch('smtp_auth', 'login').to_sym
+        config['smtp_auth'].to_sym
       ) do
         smtp.send_message(mail, config['sender'], config['recipient'])
       end
