@@ -22,4 +22,18 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'travis-lint'
+
+  if Feed2Email::VERSION == '0.6.0'
+    gem.post_install_message = %{\
+WARNING! feed2email now maintains a separate history file per feed!
+
+Please run the provided migration script `feed2email-migrate-history` before
+using feed2email. This will split an existing single history file to many small
+ones, one for each feed.
+
+If history is not migrated, feed2email will think it is run for the first time
+and will treat all entries as old (thus no email will be sent and you may miss
+some entries).
+}
+  end
 end
