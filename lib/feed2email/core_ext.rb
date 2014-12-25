@@ -1,4 +1,8 @@
 class String
+  def self.pluralize(count, singular, plural = singular + 's')
+    "#{count} #{count == 1 ? singular : plural}"
+  end
+
   def escape_html
     CGI.escapeHTML(self)
   end
