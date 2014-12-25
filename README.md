@@ -105,17 +105,21 @@ You are now ready to run the program:
 $ feed2email
 ~~~
 
-When run for the first time, feed2email enters "dry run" mode and exits almost
-immediately. During dry run mode:
+When running feed2email for the first time or after adding a new feed:
 
-* No feeds are fetched and, thus, no email is sent (existing feed entries are
-  considered already seen)
-* `~/.feed2email/history.yml` is created containing processed (seen) entries per
-  feed
+* All feed entries are considered to be old, so no email is sent
+* `~/.feed2email/history-<digest>.yml` is created for each feed containing these
+  (old) entries, where `<digest>` is the MD5 hex digest of the feed URL
 
-If you want to receive existing entries from a specific feed, you can manually
-delete them from `history.yml`. Next time feed2email runs, they will be
-processed (sent as email).
+**Warning:** Versions prior to 0.6.0 used a single history file for all feeds.
+Before using version 0.6.0 for the first time, please make sure you run the
+provided migration script: `$ feed2email-migrate-history` If you don't,
+feed2email will think it's run for the first time and will treat all entries as
+old (thus no email will be sent and you may miss some entries).
+
+If you want to receive existing entries from a newly added feed, you can
+manually delete them from its history. Next time feed2email runs, they will be
+treated as new and processed (sent as email).
 
 You can use [cron][] to run feed2email automatically e.g. once every hour.
 
