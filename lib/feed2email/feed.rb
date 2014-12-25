@@ -22,7 +22,7 @@ module Feed2Email
 
       feed_uris.each do |uri|
         log :info, "Found feed #{uri}"
-        Feed.new(uri).process
+        new(uri).process
       end
     end
 
