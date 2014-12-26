@@ -25,13 +25,16 @@ module Feed2Email
     end
 
     def uri
-      @uri ||= begin
-        if @data.url && @data.url[0] == '/' # invalid entry URL is a path
-          @feed_uri[%r{https?://[^/]+}] + @data.url # prepend feed URI
-        else
-          @data.url
-        end
+      return @uri if @uri
+
+      @uri = @data.url
+
+      # Make relative entry URL absolute by prepending feed URL
+      if @uri && @uri.start_with?('/')
+        @uri = @feed_uri[%r{https?://[^/]+}] + @uri
       end
+
+      @uri
     end
   end
 end
