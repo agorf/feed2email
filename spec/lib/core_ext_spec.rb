@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'feed2email/core_ext'
 
 describe String do
   describe '#escape_html' do

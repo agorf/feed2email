@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'fileutils'
+require 'feed2email/logger'
 
 describe Feed2Email::Logger do
   describe '#log' do
