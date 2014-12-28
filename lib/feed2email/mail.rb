@@ -39,7 +39,7 @@ module Feed2Email
 
     def body_text
       %{
-        %{title}
+        # [%{title}](%{uri})
 
         %{content}
 
@@ -48,7 +48,7 @@ module Feed2Email
         --
         Sent by feed2email #{VERSION} at #{Time.now}
       }.gsub(/^\s+/, '') % {
-        content: @entry.content.strip_html,
+        content: @entry.content.to_markdown,
         title:   @entry.title.strip_html,
         uri:     @entry.uri,
       }

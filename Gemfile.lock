@@ -4,6 +4,7 @@ PATH
     feed2email (0.5.0)
       feedzirra (~> 0.7.0)
       mail (~> 2.5.4)
+      reverse_markdown (~> 0.6.0)
       sanitize (~> 2.1.0)
 
 GEM
@@ -36,6 +37,8 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rake (10.4.2)
+    reverse_markdown (0.6.0)
+      nokogiri
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)

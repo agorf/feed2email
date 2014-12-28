@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'feedzirra', '~> 0.7.0'
   gem.add_dependency 'mail', '~> 2.5.4'
   gem.add_dependency 'sanitize', '~> 2.1.0'
+  gem.add_dependency 'reverse_markdown', '~> 0.6.0'
 
   gem.add_development_dependency 'rspec', '~> 2.14.1'
   gem.add_development_dependency 'fuubar'

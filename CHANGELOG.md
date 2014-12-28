@@ -1,3 +1,7 @@
+### 0.6.0
+
+* Render text/plain body as Markdown
+
 ### 0.5.0
 
 * Sanitize SMTP user in from address

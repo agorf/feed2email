@@ -1,4 +1,5 @@
 require 'cgi'
+require 'reverse_markdown'
 require 'sanitize'
 
 class String
@@ -12,6 +13,10 @@ class String
 
   def strip_html
     CGI.unescapeHTML(Sanitize.clean(self))
+  end
+
+  def to_markdown
+    ReverseMarkdown.convert(self, unknown_tags: :drop)
   end
 end
 
