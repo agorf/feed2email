@@ -74,7 +74,7 @@ module Feed2Email
     end
 
     def entries
-      @entries ||= data.entries[0..max_entries - 1].map {|entry_data|
+      @entries ||= data.entries.first(max_entries).map {|entry_data|
         Entry.new(entry_data, uri, title)
       }
     end
