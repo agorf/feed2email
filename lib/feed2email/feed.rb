@@ -1,3 +1,4 @@
+require 'open-uri'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/feed_history'
@@ -17,13 +18,9 @@ module Feed2Email
     def self.process_all
       log :debug, 'Loading feed subscriptions...'
       feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
-
       log :info, "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
 
-      feed_uris.each do |uri|
-        log :info, "Found feed #{uri}"
-        new(uri).process
-      end
+      feed_uris.each {|uri| new(uri).process }
     end
 
     attr_reader :uri
@@ -33,39 +30,60 @@ module Feed2Email
     end
 
     def process
-      if fetched?
-        log :debug, 'Feed is fetched'
+      log :info, "Processing feed #{uri} ..."
 
-        if entries.any?
-          log :info,
-            "Processing #{'entry'.pluralize(entries.size, 'entries')}..."
-          process_entries
-          history.sync
-        else
-          log :warn, 'Feed does not have entries'
-        end
+      return unless fetch_and_parse_feed
+
+      if entries.any?
+        process_entries
+        history.sync
       else
-        log :error, 'Feed could not be fetched'
+        log :warn, 'Feed does not have entries'
       end
     end
 
     private
 
-    def data
-      if @data.nil?
-        log :debug, 'Fetching and parsing feed...'
+    def fetch_feed
+      log :debug, 'Fetching feed...'
 
-        begin
-          @data = Feedzirra::Feed.fetch_and_parse(uri,
-            :user_agent => "feed2email/#{VERSION}",
-            :compress   => true
-          )
-        rescue => e
-          log :error, "#{e.class}: #{e.message.strip}"
-          e.backtrace.each {|line| log :debug, line }
-        end
+      begin
+        open(uri, fetch_feed_options) {|f| f.read }
+      rescue => e
+        log :error, 'Failed to fetch feed'
+        log_exception(e)
+        return false
+      end
+    end
+
+    def fetch_feed_options
+      {
+        'User-Agent'      => "feed2email/#{VERSION}",
+        'Accept-Encoding' => 'gzip, deflate',
+      }
+    end
+
+    def parse_feed(xml_data)
+      log :debug, 'Parsing feed...'
+
+      begin
+        Feedzirra::Feed.parse(xml_data)
+      rescue => e
+        log :error, 'Failed to parse feed'
+        log_exception(e)
+        return false
+      end
+    end
+
+    def fetch_and_parse_feed
+      if xml_data = fetch_feed
+        @data = parse_feed(xml_data)
       end
 
+      @data && @data.respond_to?(:entries)
+    end
+
+    def data
       @data
     end
 
@@ -79,10 +97,6 @@ module Feed2Email
       }
     end
 
-    def fetched?
-      data.respond_to?(:entries)
-    end
-
     def log(*args)
       Feed2Email::Feed.log(*args) # delegate
     end
@@ -92,13 +106,13 @@ module Feed2Email
     end
 
     def process_entries
-      entries.each do |entry|
-        log :info, "Found entry #{entry.uri}"
-        process_entry(entry)
-      end
+      log :info, "Processing #{'entry'.pluralize(entries.size, 'entries')}..."
+      entries.each {|entry| process_entry(entry) }
     end
 
     def process_entry(entry)
+      log :info, "Processing entry #{entry.uri} ..."
+
       if history.old_feed?
         if history.old_entry?(entry.uri)
           log :debug, 'Skipping old entry...'
@@ -115,8 +129,7 @@ module Feed2Email
           begin
             entry.send_mail
           rescue => e
-            log :error, "#{e.class}: #{e.message.strip}"
-            e.backtrace.each {|line| log :debug, line }
+            log_exception(e)
           end
 
           if e.nil? # no errors
@@ -137,6 +150,11 @@ module Feed2Email
 
     def title
       data.title
+    end
+
+    def log_exception(error)
+      log :error, "#{error.class}: #{error.message.strip}"
+      error.backtrace.each {|line| log :debug, line }
     end
   end
 end
