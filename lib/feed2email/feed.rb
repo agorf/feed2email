@@ -2,6 +2,7 @@ require 'open-uri'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/feed_history'
+require 'feed2email/feed_meta'
 require 'feed2email/feeds'
 require 'feedzirra'
 
@@ -37,6 +38,7 @@ module Feed2Email
       if entries.any?
         process_entries
         history.sync
+        feed_meta.sync
       else
         log :warn, 'Feed does not have entries'
       end
@@ -48,7 +50,24 @@ module Feed2Email
       log :debug, 'Fetching feed...'
 
       begin
-        open(uri, fetch_feed_options) {|f| f.read }
+        open(uri, fetch_feed_options) do |f|
+          if f.meta['last-modified'] || feed_meta.has_key?(:last_modified)
+            feed_meta[:last_modified] = f.meta['last-modified']
+          end
+
+          if f.meta['etag'] || feed_meta.has_key?(:etag)
+            feed_meta[:etag] = f.meta['etag']
+          end
+
+          return f.read
+        end
+      rescue OpenURI::HTTPError => e
+        if e.message == '304 Not Modified'
+          log :info, 'Feed not modified; skipping...'
+          return false
+        end
+
+        raise
       rescue => e
         log :error, 'Failed to fetch feed'
         log_exception(e)
@@ -57,10 +76,20 @@ module Feed2Email
     end
 
     def fetch_feed_options
-      {
+      options = {
         'User-Agent'      => "feed2email/#{VERSION}",
         'Accept-Encoding' => 'gzip, deflate',
       }
+
+      if feed_meta[:last_modified]
+        options['If-Modified-Since'] = feed_meta[:last_modified]
+      end
+
+      if feed_meta[:etag]
+        options['If-None-Match'] = feed_meta[:etag]
+      end
+
+      options
     end
 
     def parse_feed(xml_data)
@@ -146,6 +175,10 @@ module Feed2Email
 
     def history
       @history ||= FeedHistory.new(uri)
+    end
+
+    def feed_meta
+      @feed_meta ||= FeedMeta.new(uri)
     end
 
     def title

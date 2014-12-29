@@ -1,6 +1,7 @@
 ### 0.6.0
 
 * Render text/plain body as Markdown
+* Cache feed fetching with Last-Modified and ETag HTTP headers
 
 ### 0.5.0
 
