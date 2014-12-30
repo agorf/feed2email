@@ -9,6 +9,8 @@ require 'feed2email/feeds'
 
 module Feed2Email
   class Feed
+    extend Forwardable
+
     class << self
       extend Forwardable
 
@@ -111,14 +113,6 @@ module Feed2Email
       @data && @data.respond_to?(:entries)
     end
 
-    def data
-      @data
-    end
-
-    def config
-      Feed2Email.config
-    end
-
     def entries
       @entries ||= data.entries.first(max_entries).map {|entry_data|
         Entry.new(entry_data, uri, title)
@@ -180,13 +174,15 @@ module Feed2Email
       @feed_meta ||= FeedMeta.new(uri)
     end
 
-    def title
-      data.title
-    end
-
     def log_exception(error)
       log :error, "#{error.class}: #{error.message.strip}"
       error.backtrace.each {|line| log :debug, line }
     end
+
+    def_delegator :data, :title, :title
+
+    def_delegator :Feed2Email, :config, :config
+
+    def data; @data end
   end
 end
