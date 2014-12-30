@@ -111,15 +111,23 @@ When feed2email runs for the first time or after adding a new feed:
 * `~/.feed2email/history-<digest>.yml` is created for each feed containing these
   (old) entries, where `<digest>` is the MD5 hex digest of the feed URL
 
-If you want to receive existing entries from a newly added feed, you can
-manually delete them from its history. Next time feed2email runs, they will be
-treated as new and processed (sent as email).
-
 **Warning:** Versions prior to 0.6.0 used a single history file for all feeds.
 Before using version 0.6.0 for the first time, please make sure you run the
 provided migration script: `feed2email-migrate-history` If you don't, feed2email
 will think it's run for the first time and will treat all entries as old (thus
 no email will be sent and you may miss some entries).
+
+To receive existing entries from a new feed:
+
+1. Add it to `feeds.yml` (see above)
+1. Run feed2email once so that the feed's history file is generated
+1. Remove the entries you want to receive from the feed's history (i.e. with
+   your text editor)
+1. Remove the feed's meta file (`meta-<digest>.yml`) to bust feed fetching
+   caching
+
+Next time feed2email runs, these entries will be treated as new and will be
+processed (sent as email).
 
 You can use [cron][] to run feed2email automatically e.g. once every hour.
 
