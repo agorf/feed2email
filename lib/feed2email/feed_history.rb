@@ -6,7 +6,6 @@ module Feed2Email
     def initialize(uri)
       @uri = uri
       @dirty = false
-      @old_feed = File.exist?(path)
     end
 
     def <<(entry_uri)
@@ -15,7 +14,7 @@ module Feed2Email
     end
 
     def old_feed?
-      @old_feed
+      @old_feed ||= File.exist?(path)
     end
 
     def old_entry?(entry_uri)
@@ -28,20 +27,10 @@ module Feed2Email
 
     private
 
-    def uri
-      @uri
-    end
-
-    def dirty
-      @dirty
-    end
-
-    def data
-      return @data if @data
-
-      if old_feed?
+    def load_data
+      begin
         @data = YAML.load(open(path))
-      else
+      rescue Errno::ENOENT
         @data = []
       end
     end
@@ -57,5 +46,13 @@ module Feed2Email
     def filename_suffix
       Digest::MD5.hexdigest(uri)
     end
+
+    def data
+      @data ||= load_data
+    end
+
+    def dirty; @dirty end
+
+    def uri; @uri end
   end
 end

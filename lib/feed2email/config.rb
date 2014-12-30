@@ -74,7 +74,7 @@ module Feed2Email
     end
 
     def load_yaml
-      @data ||= YAML.load(read_file)
+      @data = YAML.load(read_file)
     end
 
     def read_file

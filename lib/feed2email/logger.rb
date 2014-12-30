@@ -13,14 +13,6 @@ module Feed2Email
 
     private
 
-    def log_path
-      @log_path
-    end
-
-    def log_level
-      @log_level
-    end
-
     def log_to
       if log_path == true
         $stdout
@@ -42,5 +34,9 @@ module Feed2Email
 
       @logger
     end
+
+    def log_path; @log_path end
+
+    def log_level; @log_level end
   end
 end

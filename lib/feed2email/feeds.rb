@@ -1,7 +1,10 @@
+require 'forwardable'
 require 'yaml'
 
 module Feed2Email
   class Feeds
+    extend Forwardable
+
     class MissingFeedsError < StandardError; end
     class InvalidFeedsSyntaxError < StandardError; end
     class InvalidFeedsDataTypeError < StandardError; end
@@ -11,23 +14,9 @@ module Feed2Email
       check
     end
 
-    def size
-      data.size # delegate
-    end
-
-    def each(&block)
-      data.each(&block) # delegate
-    end
+    def_delegators :data, :size, :each
 
     private
-
-    def path
-      @path
-    end
-
-    def data
-      @data
-    end
 
     def check
       check_existence
@@ -58,11 +47,15 @@ module Feed2Email
     end
 
     def load_yaml
-      @data ||= YAML.load(read_file)
+      @data = YAML.load(read_file)
     end
 
     def read_file
       File.read(path)
     end
+
+    def path; @path end
+
+    def data; @data end
   end
 end

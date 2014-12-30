@@ -5,17 +5,15 @@ module Feed2Email
   class FeedMeta
     def initialize(uri)
       @uri = uri
-      @data = nil
       @dirty = false
     end
 
     def [](key)
-      load_data unless data
       data[key]
     end
 
     def []=(key, value)
-      @dirty ||= (data[key] != value)
+      @dirty = true if data[key] != value
       data[key] = value
     end
 
@@ -30,9 +28,9 @@ module Feed2Email
     private
 
     def load_data
-      if File.exist?(path)
+      begin
         @data = YAML.load(open(path))
-      else
+      rescue Errno::ENOENT
         @data = {}
       end
     end
@@ -49,7 +47,9 @@ module Feed2Email
       Digest::MD5.hexdigest(uri)
     end
 
-    def data; @data end
+    def data
+      @data ||= load_data
+    end
 
     def dirty; @dirty end
 
