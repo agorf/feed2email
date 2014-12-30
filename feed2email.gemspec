@@ -35,6 +35,9 @@ ones, one for each feed.
 If history is not migrated, feed2email will think it is run for the first time
 and will treat all entries as old (thus no email will be sent and you may miss
 some entries).
+
+WARNING! "sender" is now a required config option. Please update your config
+file by setting it to an email address to send email from.
 }
   end
 end
