@@ -2,7 +2,9 @@ require 'feedzirra'
 require 'forwardable'
 require 'net/http'
 require 'open-uri'
+require 'stringio'
 require 'uri'
+require 'zlib'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/feed_history'
@@ -77,7 +79,7 @@ module Feed2Email
             handle_redirection
           end
 
-          return f.read
+          return decode_content(f.read, f.meta['content-encoding'])
         end
       rescue OpenURI::HTTPError => e
         if e.message == '304 Not Modified'
@@ -101,6 +103,21 @@ module Feed2Email
         log :warn,
           "Permanent redirection. Updated feed location to #{uri} ..."
       end
+    end
+
+    def decode_content(data, content_encoding)
+      case content_encoding
+      when 'gzip'
+        gz = Zlib::GzipReader.new(StringIO.new(data))
+        xml = gz.read
+        gz.close
+      when 'deflate'
+        xml = Zlib::Inflate.inflate(data)
+      else
+        xml = data
+      end
+
+      xml
     end
 
     def fetch_feed_options
