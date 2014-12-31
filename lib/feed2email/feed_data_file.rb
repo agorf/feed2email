@@ -8,6 +8,14 @@ module Feed2Email
       @dirty = false
     end
 
+    def uri=(new_uri)
+      if new_uri != uri
+        remove_file
+        mark_dirty
+        @uri = new_uri
+      end
+    end
+
     def sync
       open(path, 'w') {|f| f.write(data.to_yaml) } if dirty
     end
@@ -40,6 +48,13 @@ module Feed2Email
 
     def mark_dirty
       @dirty = true
+    end
+
+    def remove_file
+      begin
+        File.unlink(path)
+      rescue Errno::ENOENT
+      end
     end
 
     def dirty; @dirty end

@@ -158,6 +158,8 @@ module Feed2Email
     end
 
     def uri=(uri)
+      history.uri = uri
+      feed_meta.uri = uri
       @uri = uri
     end
 
