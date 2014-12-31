@@ -11,10 +11,20 @@ module Feed2Email
 
     def initialize(path)
       @path = path
+      @dirty = false
       check
     end
 
-    def_delegators :data, :size, :each
+    def_delegators :data, :size, :each_with_index
+
+    def []=(index, uri)
+      mark_dirty if data[index] != uri
+      data[index] = uri
+    end
+
+    def sync
+      open(path, 'w') {|f| f.write(data.to_yaml) } if dirty
+    end
 
     private
 
@@ -54,8 +64,14 @@ module Feed2Email
       File.read(path)
     end
 
+    def mark_dirty
+      @dirty = true
+    end
+
     def path; @path end
 
     def data; @data end
+
+    def dirty; @dirty end
   end
 end

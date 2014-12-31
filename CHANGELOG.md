@@ -2,6 +2,7 @@
 
 * Render text/plain body as Markdown
 * Cache feed fetching with Last-Modified and ETag HTTP headers
+* Update feed URI on permanent redirect
 * Make sender a required config option
 
 ### 0.5.0

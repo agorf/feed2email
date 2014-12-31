@@ -1,7 +1,6 @@
 # TODO
 
 * Specs
-* Update feed URI on permanent redirect
 * Do not mark entry as sent if email was not sent
 * Show entry metadata in email (e.g. pubdate, author)
 * Implement a command-line interface to manage feeds.yml

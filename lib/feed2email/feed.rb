@@ -1,6 +1,8 @@
 require 'feedzirra'
 require 'forwardable'
+require 'net/http'
 require 'open-uri'
+require 'uri'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/feed_history'
@@ -11,18 +13,33 @@ module Feed2Email
   class Feed
     extend Forwardable
 
+    MAX_REDIRECTS = 20
+
     class << self
       extend Forwardable
 
       def_delegators :Feed2Email, :config, :log
     end
 
-    def self.process_all
-      log :debug, 'Loading feed subscriptions...'
-      feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
-      log :info, "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
+    class MaximumRedirectsReachedError < StandardError; end
 
-      feed_uris.each {|uri| new(uri).process }
+    def self.process_all
+      feed_uris.each_with_index do |uri, i|
+        feed = new(uri)
+        feed.process
+        feed_uris[i] = feed.uri # persist possible permanent redirect
+      end
+
+      feed_uris.sync
+    end
+
+    def self.feed_uris
+      return @feed_uris if @feed_uris
+
+      log :debug, 'Loading feed subscriptions...'
+      @feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
+      log :info, "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
+      @feed_uris
     end
 
     attr_reader :uri
@@ -48,10 +65,13 @@ module Feed2Email
     private
 
     def fetch_feed
-      log :debug, 'Fetching feed...'
+      feed_uri = uri
+      redirects = 0
 
       begin
-        open(uri, fetch_feed_options) do |f|
+        log :debug, 'Fetching feed...'
+
+        open(feed_uri, fetch_feed_options) do |f|
           if f.meta['last-modified'] || feed_meta.has_key?(:last_modified)
             feed_meta[:last_modified] = f.meta['last-modified']
           end
@@ -68,7 +88,33 @@ module Feed2Email
           return false
         end
 
-        raise
+        raise if !e.is_a?(OpenURI::HTTPRedirect)
+
+        response = Net::HTTP.get_response(URI.parse(uri))
+
+        raise if !response.is_a?(Net::HTTPRedirection) # double check
+
+        log :warn, "Got redirect to #{response['location']} ..."
+
+        redirects += 1
+
+        if redirects > MAX_REDIRECTS
+          raise MaximumRedirectsReachedError, 'Too many redirects'
+        end
+
+        feed_uri = response['location'] # follow redirect
+
+        case response
+        when Net::HTTPMovedPermanently
+          @uri = response['location'] # persist permanent redirect
+          log :warn, 'Redirect is permanent; persisted and following...'
+        when Net::HTTPMovedTemporarily
+          log :warn, 'Redirect is temporary; following...'
+        else
+          raise # should never reach here
+        end
+
+        retry
       rescue => e
         log :error, 'Failed to fetch feed'
         log_exception(e)
@@ -78,6 +124,7 @@ module Feed2Email
 
     def fetch_feed_options
       options = {
+        :redirect         => false,
         'User-Agent'      => "feed2email/#{VERSION}",
         'Accept-Encoding' => 'gzip, deflate',
       }
