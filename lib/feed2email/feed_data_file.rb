@@ -32,7 +32,7 @@ module Feed2Email
     end
 
     def path
-      @path ||= File.join(CONFIG_DIR, filename)
+      File.join(CONFIG_DIR, filename)
     end
 
     def filename
