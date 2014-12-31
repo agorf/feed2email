@@ -54,7 +54,7 @@ module Feed2Email
       if entries.any?
         process_entries
         history.sync
-        feed_meta.sync
+        meta.sync
       else
         log :warn, 'Feed does not have entries'
       end
@@ -67,12 +67,12 @@ module Feed2Email
 
       begin
         open(uri, fetch_feed_options) do |f|
-          if f.meta['last-modified'] || feed_meta.has_key?(:last_modified)
-            feed_meta[:last_modified] = f.meta['last-modified']
+          if f.meta['last-modified'] || meta.has_key?(:last_modified)
+            meta[:last_modified] = f.meta['last-modified']
           end
 
-          if f.meta['etag'] || feed_meta.has_key?(:etag)
-            feed_meta[:etag] = f.meta['etag']
+          if f.meta['etag'] || meta.has_key?(:etag)
+            meta[:etag] = f.meta['etag']
           end
 
           if f.base_uri != uri # redirected
@@ -126,12 +126,12 @@ module Feed2Email
         'Accept-Encoding' => 'gzip, deflate',
       }
 
-      if feed_meta[:last_modified]
-        options['If-Modified-Since'] = feed_meta[:last_modified]
+      if meta[:last_modified]
+        options['If-Modified-Since'] = meta[:last_modified]
       end
 
-      if feed_meta[:etag]
-        options['If-None-Match'] = feed_meta[:etag]
+      if meta[:etag]
+        options['If-None-Match'] = meta[:etag]
       end
 
       options
@@ -159,7 +159,7 @@ module Feed2Email
 
     def uri=(uri)
       history.uri = uri
-      feed_meta.uri = uri
+      meta.uri = uri
       @uri = uri
     end
 
@@ -220,8 +220,8 @@ module Feed2Email
       @history ||= FeedHistory.new(uri)
     end
 
-    def feed_meta
-      @feed_meta ||= FeedMeta.new(uri)
+    def meta
+      @meta ||= FeedMeta.new(uri)
     end
 
     def log_exception(error)
