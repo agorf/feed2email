@@ -185,8 +185,8 @@ module Feed2Email
     def process_entry(entry)
       log :info, "Processing entry #{entry.uri} ..."
 
-      if history.old_feed?
-        if history.old_entry?(entry.uri)
+      if history.any?
+        if history.include?(entry.uri)
           log :debug, 'Skipping old entry...'
         else
           # Sleep between entry processing to avoid Net::SMTPServerBusy errors

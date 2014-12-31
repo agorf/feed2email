@@ -7,12 +7,12 @@ module Feed2Email
       data << entry_uri
     end
 
-    def old_feed?
+    def any?
       @old_feed ||= File.exist?(path)
     end
 
-    def old_entry?(entry_uri)
-      old_feed? && data.include?(entry_uri)
+    def include?(entry_uri)
+      data.include?(entry_uri) # delegate
     end
 
     private
