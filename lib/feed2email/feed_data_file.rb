@@ -9,11 +9,12 @@ module Feed2Email
     end
 
     def uri=(new_uri)
-      if new_uri != uri
-        remove_file
-        mark_dirty
-        @uri = new_uri
-      end
+      return if new_uri == uri
+
+      data # load data if not already loaded
+      remove_file
+      mark_dirty
+      @uri = new_uri
     end
 
     def sync
