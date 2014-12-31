@@ -66,6 +66,8 @@ module Feed2Email
       log :debug, 'Fetching feed...'
 
       begin
+        handle_permanent_redirection
+
         open(uri, fetch_feed_options) do |f|
           if f.meta['last-modified'] || meta.has_key?(:last_modified)
             meta[:last_modified] = f.meta['last-modified']
@@ -73,10 +75,6 @@ module Feed2Email
 
           if f.meta['etag'] || meta.has_key?(:etag)
             meta[:etag] = f.meta['etag']
-          end
-
-          if f.base_uri != uri # redirected
-            handle_redirection
           end
 
           return decode_content(f.read, f.meta['content-encoding'])
@@ -95,13 +93,15 @@ module Feed2Email
       end
     end
 
-    def handle_redirection
-      response = Net::HTTP.get_response(URI.parse(uri))
+    def handle_permanent_redirection
+      parsed_uri = URI.parse(uri)
+      http = Net::HTTP.new(parsed_uri.host, parsed_uri.port)
+      http.use_ssl = (parsed_uri.scheme == 'https')
+      response = http.head(parsed_uri.request_uri)
 
-      if response.is_a?(Net::HTTPMovedPermanently)
+      if response.code == '301' # Moved Permanently
         self.uri = response['location']
-        log :warn,
-          "Permanent redirection. Updated feed location to #{uri} ..."
+        log :warn, "Got permanently redirected! Updated feed location to #{uri}"
       end
     end
 
