@@ -13,15 +13,11 @@ module Feed2Email
   class Feed
     extend Forwardable
 
-    MAX_REDIRECTS = 20
-
     class << self
       extend Forwardable
 
       def_delegators :Feed2Email, :config, :log
     end
-
-    class MaximumRedirectsReachedError < StandardError; end
 
     def self.process_all
       feed_uris.each_with_index do |uri, i|
@@ -65,19 +61,20 @@ module Feed2Email
     private
 
     def fetch_feed
-      feed_uri = uri
-      redirects = 0
+      log :debug, 'Fetching feed...'
 
       begin
-        log :debug, 'Fetching feed...'
-
-        open(feed_uri, fetch_feed_options) do |f|
+        open(uri, fetch_feed_options) do |f|
           if f.meta['last-modified'] || feed_meta.has_key?(:last_modified)
             feed_meta[:last_modified] = f.meta['last-modified']
           end
 
           if f.meta['etag'] || feed_meta.has_key?(:etag)
             feed_meta[:etag] = f.meta['etag']
+          end
+
+          if f.base_uri != uri # redirected
+            handle_redirection
           end
 
           return f.read
@@ -88,33 +85,7 @@ module Feed2Email
           return false
         end
 
-        raise if !e.is_a?(OpenURI::HTTPRedirect)
-
-        response = Net::HTTP.get_response(URI.parse(uri))
-
-        raise if !response.is_a?(Net::HTTPRedirection) # double check
-
-        log :warn, "Got redirect to #{response['location']} ..."
-
-        redirects += 1
-
-        if redirects > MAX_REDIRECTS
-          raise MaximumRedirectsReachedError, 'Too many redirects'
-        end
-
-        feed_uri = response['location'] # follow redirect
-
-        case response
-        when Net::HTTPMovedPermanently
-          @uri = response['location'] # persist permanent redirect
-          log :warn, 'Redirect is permanent; persisted and following...'
-        when Net::HTTPMovedTemporarily
-          log :warn, 'Redirect is temporary; following...'
-        else
-          raise # should never reach here
-        end
-
-        retry
+        raise
       rescue => e
         log :error, 'Failed to fetch feed'
         log_exception(e)
@@ -122,10 +93,19 @@ module Feed2Email
       end
     end
 
+    def handle_redirection
+      response = Net::HTTP.get_response(URI.parse(uri))
+
+      if response.is_a?(Net::HTTPMovedPermanently)
+        self.uri = response['location']
+        log :warn,
+          "Permanent redirection. Updated feed location to #{uri} ..."
+      end
+    end
+
     def fetch_feed_options
       options = {
-        :redirect         => false,
-        'User-Agent'      => "feed2email/#{VERSION}",
+        'User-Agent' => "feed2email/#{VERSION}",
         'Accept-Encoding' => 'gzip, deflate',
       }
 
@@ -158,6 +138,10 @@ module Feed2Email
       end
 
       @data && @data.respond_to?(:entries)
+    end
+
+    def uri=(uri)
+      @uri = uri
     end
 
     def entries
