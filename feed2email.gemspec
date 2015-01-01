@@ -26,6 +26,7 @@ Gem::Specification.new do |gem|
 
   if Feed2Email::VERSION == '0.6.0'
     gem.post_install_message = %{\
+
 WARNING! feed2email now maintains a separate history file per feed!
 
 Please run the provided migration script `feed2email-migrate-history` before
@@ -38,6 +39,7 @@ some entries).
 
 WARNING! "sender" is now a required config option. Please update your config
 file by setting it to an email address to send email from.
+
 }
   end
 end
