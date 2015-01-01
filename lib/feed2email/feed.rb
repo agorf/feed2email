@@ -10,6 +10,7 @@ require 'feed2email/entry'
 require 'feed2email/feed_history'
 require 'feed2email/feed_meta'
 require 'feed2email/feeds'
+require 'feed2email/version'
 
 module Feed2Email
   class Feed
