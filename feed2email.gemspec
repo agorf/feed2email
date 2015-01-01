@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.license       = 'MIT'
 
   gem.files         = Dir['lib/**/*.rb', 'bin/*', '*.md', 'LICENSE.txt']
-  gem.executables   = ['feed2email']
+  gem.executables   = Dir['bin/*'].map {|f| File.basename(f) }
   gem.require_paths = ['lib']
 
   gem.add_dependency 'feedzirra', '~> 0.7.0'
