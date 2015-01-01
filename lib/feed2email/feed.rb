@@ -99,7 +99,7 @@ module Feed2Email
       http.use_ssl = (parsed_uri.scheme == 'https')
       response = http.head(parsed_uri.request_uri)
 
-      if response.code == '301' # Moved Permanently
+      if response.code == '301' && response['location'] =~ %r{\Ahttps?://}
         self.uri = response['location']
         log :warn, "Got permanently redirected! Updated feed location to #{uri}"
       end
