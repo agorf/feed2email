@@ -86,6 +86,8 @@ interface setup and working in your system like [msmtp][] or [Postfix][].
 
 ## Use
 
+### Managing feeds
+
 Create `~/.feed2email/feeds.yml` and add the address of each feed you want to
 subscribe to, prefixed with a dash and a space:
 
@@ -99,7 +101,9 @@ To disable a feed, comment it:
 #- https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-You are now ready to run feed2email:
+### Running
+
+Simply:
 
 ~~~ sh
 $ feed2email
@@ -107,7 +111,7 @@ $ feed2email
 
 When feed2email runs for the first time or after adding a new feed:
 
-* All feed entries are considered to be old, so no email is sent
+* All feed entries are skipped (no email sent)
 * `~/.feed2email/history-<digest>.yml` is created for each feed containing these
   (old) entries, where `<digest>` is the MD5 hex digest of the feed URL
 
@@ -128,6 +132,19 @@ To receive existing entries from a new feed:
 
 Next time feed2email runs, these entries will be treated as new and will be
 processed (sent as email).
+
+### Permanent redirections
+
+Before processing each feed, feed2email issues a [HEAD request][] to check
+whether it has been permanently moved by looking for a `301 Moved Permanently`
+HTTP status and its respective `Location` header. In such case, feed2email
+updates `feeds.yml` with the new location and all feed entries are skipped (no
+email sent). If you do want to have some of them sent as email, please refer to
+the _Running_ section.
+
+[HEAD request]: http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+
+### Automating
 
 You can use [cron][] to run feed2email automatically e.g. once every hour.
 
