@@ -1,5 +1,6 @@
 require 'mail'
 require 'net/smtp'
+require 'feed2email/version'
 
 module Feed2Email
   class Mail
