@@ -1,4 +1,4 @@
-# feed2email
+# feed2email [![Gem Version](https://badge.fury.io/rb/feed2email.svg)](http://badge.fury.io/rb/feed2email)
 
 RSS/Atom feed updates in your email
 
