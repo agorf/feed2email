@@ -136,8 +136,8 @@ processed (sent as email).
 ### Permanent redirections
 
 Before processing each feed, feed2email issues a [HEAD request][] to check
-whether it has been permanently moved by looking for a `301 Moved Permanently`
-HTTP status and its respective `Location` header. In such case, feed2email
+whether it has been permanently moved by looking for a _301 Moved Permanently_
+HTTP status and its respective _Location_ header. In such case, feed2email
 updates `feeds.yml` with the new location and all feed entries are skipped (no
 email sent). If you do want to have some of them sent as email, please refer to
 the _Running_ section.
