@@ -27,13 +27,7 @@ $ gem install feed2email
 
 Through a [YAML][] file at `~/.feed2email/config.yml`.
 
-It is possible to send email via SMTP or an [MTA][] (default). If `config.yml`
-contains options for both, feed2email will use SMTP.
-
 [YAML]: http://en.wikipedia.org/wiki/YAML
-[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
-
-### Format
 
 Each line in the configuration file contains a key-value pair. Each key-value
 pair is separated with a colon: `foo: bar`
@@ -50,6 +44,11 @@ pair is separated with a colon: `foo: bar`
   (least verbose), `error`, `warn`, `info` (default) and `debug` (most verbose)
 * `max_entries` (optional) is the maximum number of entries to process per feed
   (default is `20`; use `0` for unlimited)
+
+It is possible to send email via SMTP or an [MTA][] (default). If `config.yml`
+contains options for both, feed2email will use SMTP.
+
+[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
 
 ### SMTP
 
