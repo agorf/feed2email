@@ -145,7 +145,7 @@ the _Running_ section.
 
 ### Feed fetching caching
 
-feed2email caches feed fetching using the `Last-Modified` and `Etag` HTTP
+feed2email caches feed fetching using the _Last-Modified_ and _Etag_ HTTP
 headers. If you want to force a feed to be fetched, you can remove the
 `~/.feed2email/meta-<digest>.yml` file for that feed, where `<digest>` is the
 MD5 hex digest of the feed URL. Next time feed2email runs, the feed will be
