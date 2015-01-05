@@ -143,6 +143,14 @@ the _Running_ section.
 
 [HEAD request]: http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
 
+### Feed fetching caching
+
+feed2email caches feed fetching using the `Last-Modified` and `Etag` HTTP
+headers. If you want to force a feed to be fetched, you can remove the
+`~/.feed2email/meta-<digest>.yml` file for that feed, where `<digest>` is the
+MD5 hex digest of the feed URL. Next time feed2email runs, the feed will be
+fetched.
+
 ### Automating
 
 You can use [cron][] to run feed2email automatically e.g. once every hour.
