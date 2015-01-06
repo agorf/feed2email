@@ -94,7 +94,7 @@ subscribe to, prefixed with a dash and a space:
 - https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-To disable a feed, comment it:
+To disable a feed, you can comment it:
 
 ~~~ yaml
 #- https://github.com/agorf/feed2email/commits.atom
@@ -120,14 +120,14 @@ provided migration script: `feed2email-migrate-history` If you don't, feed2email
 will think it's run for the first time and will treat all entries as old (thus
 no email will be sent and you may miss some entries).
 
-To receive existing entries from a new feed:
+### Receiving specific entries from a feed
 
-1. Add it to `feeds.yml` (see above)
+1. Add the feed URL to `feeds.yml` (see _Managing feeds_)
 1. Run feed2email once so that the feed's history file is generated
 1. Remove the entries you want to receive from the feed's history (i.e. with
    your text editor)
-1. Remove the feed's meta file (`meta-<digest>.yml`) to bust feed fetching
-   caching
+1. Remove the feed's meta file (`meta-<digest>.yml`, where `<digest>` is the MD5
+   hex digest of the feed URL) to bust feed fetching caching
 
 Next time feed2email runs, these entries will be treated as new and will be
 processed (sent as email).
@@ -138,18 +138,17 @@ Before processing each feed, feed2email issues a [HEAD request][] to check
 whether it has been permanently moved by looking for a _301 Moved Permanently_
 HTTP status and its respective _Location_ header. In such case, feed2email
 updates `feeds.yml` with the new location and all feed entries are skipped (no
-email sent). If you do want to have some of them sent as email, please refer to
-the _Running_ section.
+email sent). If you do want to have some of them sent as email, see _Receiving
+specific entries from a feed_.
 
 [HEAD request]: http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
 
-### Feed fetching caching
+### Feed caching
 
-feed2email caches feed fetching using the _Last-Modified_ and _Etag_ HTTP
-headers. If you want to force a feed to be fetched, you can remove the
-`~/.feed2email/meta-<digest>.yml` file for that feed, where `<digest>` is the
-MD5 hex digest of the feed URL. Next time feed2email runs, the feed will be
-fetched.
+feed2email caches fetched feeds with the _Last-Modified_ and _Etag_ HTTP
+headers. If you want to force a feed to be fetched, you can remove the feed's
+meta file (`~/.feed2email/meta-<digest>.yml`, where `<digest>` is the MD5 hex
+digest of the feed URL). Next time feed2email runs, the feed will be fetched.
 
 ### Automating
 
