@@ -7,10 +7,11 @@ RSS/Atom feed updates in your email
 I don't like having a separate application for feeds when I'm already checking
 my email. I also never read a thing when feeds are kept in a separate place.
 
-feed2email is an RSS/Atom feed aggregator that sends feed entries via email. It
-was written primarily as a replacement of [rss2email][] and aims to be simpler,
-faster, smaller and easier to use.
+feed2email is a [headless][] RSS/Atom feed aggregator that sends feed entries
+via email. It was written primarily as a replacement of [rss2email][] and aims
+to be simple, fast and easy to use.
 
+[headless]: http://en.wikipedia.org/wiki/Headless_software
 [rss2email]: http://www.allthingsrss.com/rss2email/
 
 ## Installation
@@ -101,13 +102,7 @@ To disable a feed, comment its line by prefixing it with a hash symbol:
 #- https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-### Running
-
-Simply:
-
-~~~ sh
-$ feed2email
-~~~
+### Running for the first time
 
 When feed2email runs for the first time or after adding a new feed:
 
@@ -138,9 +133,9 @@ processed (sent as email).
 Before processing each feed, feed2email issues a [HEAD request][] to check
 whether it has been permanently moved by looking for a _301 Moved Permanently_
 HTTP status and its respective _Location_ header. In such case, feed2email
-updates `feeds.yml` with the new location and all feed entries are skipped (no
-email sent). If you do want to have some of them sent as email, see _Receiving
-specific entries from a feed_.
+updates `~/.feed2email/feeds.yml` with the new location and all feed entries are
+skipped (no email sent). If you do want to have some of them sent as email, see
+[Receiving specific entries from a feed](#receiving-specific-entries-from-a-feed).
 
 [HEAD request]: http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
 
