@@ -33,10 +33,10 @@ module Feed2Email
         </body>
         </html>
       }.gsub(/^\s+/, '') % {
-        content:   @entry.content,
+        content:   entry.content,
         published: published,
-        title:     @entry.title.strip_html,
-        uri:       @entry.uri.escape_html,
+        title:     entry.title.strip_html,
+        uri:       entry.uri.escape_html,
       }
     end
 
@@ -53,10 +53,10 @@ module Feed2Email
         --
         Sent by feed2email #{VERSION} at #{Time.now}
       }.gsub(/^\s+/, '') % {
-        content:   @entry.content.to_markdown,
+        content:   entry.content.to_markdown,
         published: published,
-        title:     @entry.title.strip_html,
-        uri:       @entry.uri,
+        title:     entry.title.strip_html,
+        uri:       entry.uri,
       }
     end
 
@@ -64,11 +64,13 @@ module Feed2Email
       Feed2Email.config # delegate
     end
 
+    def entry; @entry end
+
     def mail
       ::Mail.new.tap do |m|
         m.from      = %{"#{@feed_title}" <#{config['sender']}>}
         m.to        = config['recipient']
-        m.subject   = @entry.title.strip_html
+        m.subject   = entry.title.strip_html
         m.html_part = mail_part('text/html', body_html)
         m.text_part = mail_part('text/plain', body_text)
       end.to_s
@@ -82,10 +84,10 @@ module Feed2Email
     end
 
     def published
-      return nil unless @entry.author || @entry.published
+      return nil unless entry.author || entry.published
       text = 'Published'
-      text << " by #{@entry.author}" if @entry.author
-      text << " at #{@entry.published}" if @entry.published
+      text << " by #{entry.author}" if entry.author
+      text << " at #{entry.published}" if entry.published
       text
     end
 
