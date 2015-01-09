@@ -25,7 +25,7 @@ module Feed2Email
         <body>
         <h1><a href="%{uri}">%{title}</a></h1>
         %{content}
-        <p>Published by %{author} at %{published}</p>
+        <p>%{published}</p>
         <p><a href="%{uri}">%{uri}</a></p>
         <p>--<br>
         Sent by <a href="https://github.com/agorf/feed2email">feed2email
@@ -33,9 +33,8 @@ module Feed2Email
         </body>
         </html>
       }.gsub(/^\s+/, '') % {
-        author:    @entry.author,
         content:   @entry.content,
-        published: @entry.published,
+        published: published,
         title:     @entry.title.strip_html,
         uri:       @entry.uri.escape_html,
       }
@@ -47,16 +46,15 @@ module Feed2Email
 
         %{content}
 
-        Published by %{author} at %{published}
+        %{published}
 
         %{uri}
 
         --
         Sent by feed2email #{VERSION} at #{Time.now}
       }.gsub(/^\s+/, '') % {
-        author:    @entry.author,
         content:   @entry.content.to_markdown,
-        published: @entry.published,
+        published: published,
         title:     @entry.title.strip_html,
         uri:       @entry.uri,
       }
@@ -81,6 +79,14 @@ module Feed2Email
       part.content_type = "#{content_type}; charset=UTF-8"
       part.body = body
       part
+    end
+
+    def published
+      return nil unless @entry.author || @entry.published
+      text = 'Published'
+      text << " by #{@entry.author}" if @entry.author
+      text << " at #{@entry.published}" if @entry.published
+      text
     end
 
     def send_with_sendmail
