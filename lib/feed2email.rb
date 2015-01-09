@@ -6,7 +6,8 @@ module Feed2Email
   end
 
   def self.logger
-    @logger ||= Logger.new(config['log_path'], config['log_level'])
+    @logger ||= Logger.new(config['log_path'], config['log_level'],
+                           config['log_shift_age'], config['log_shift_size'])
   end
 
   def self.log(*args)
