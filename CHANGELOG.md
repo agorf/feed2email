@@ -1,3 +1,7 @@
+### 0.7.0
+
+* Prevent simultaneous running instances
+
 ### 0.6.0
 
 * Render text/plain body as Markdown
