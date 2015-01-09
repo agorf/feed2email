@@ -87,13 +87,15 @@ module Feed2Email
 
     def defaults
       {
-        'log_level'     => 'info',
-        'log_path'      => true,
-        'max_entries'   => 20,
-        'send_delay'    => 10,
-        'sendmail_path' => '/usr/sbin/sendmail',
-        'smtp_auth'     => 'login',
-        'smtp_tls'      => true,
+        'log_level'      => 'info',
+        'log_path'       => true,
+        'log_shift_age'  => 0,
+        'log_shift_size' => 1048576,
+        'max_entries'    => 20,
+        'send_delay'     => 10,
+        'sendmail_path'  => '/usr/sbin/sendmail',
+        'smtp_auth'      => 'login',
+        'smtp_tls'       => true,
       }
     end
 

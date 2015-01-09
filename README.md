@@ -44,6 +44,11 @@ pair is separated with a colon: `foo: bar`
   `true` which logs to standard output; use `false` to disable logging)
 * `log_level` (optional) is the logging verbosity level and can be `fatal`
   (least verbose), `error`, `warn`, `info` (default) and `debug` (most verbose)
+* `log_shift_age` (optional) is the number of _old_ log files to keep or the
+  frequency of rotation (`daily`, `weekly`, `monthly`; default is `0` so only
+  the current log file is kept)
+* `log_shift_size` (optional) is the maximum log file size in bytes and it only
+  applies when `log_shift_age` is a number (default is `1048576` for 1 megabyte)
 * `max_entries` (optional) is the maximum number of entries to process per feed
   (default is `20`; use `0` for unlimited)
 

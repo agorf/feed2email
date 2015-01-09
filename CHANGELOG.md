@@ -1,6 +1,7 @@
 ### 0.7.0
 
 * Prevent simultaneous running instances
+* Support log rotation
 
 ### 0.6.0
 
