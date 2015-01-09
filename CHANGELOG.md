@@ -2,6 +2,7 @@
 
 * Prevent simultaneous running instances
 * Support log rotation
+* Show entry author and pubdate in email
 
 ### 0.6.0
 

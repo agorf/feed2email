@@ -16,6 +16,10 @@ module Feed2Email
       @data.content || @data.summary
     end
 
+    def published
+      @data.published
+    end
+
     def send_mail
       Mail.new(self, @feed_title).send
     end

@@ -25,6 +25,7 @@ module Feed2Email
         <body>
         <h1><a href="%{uri}">%{title}</a></h1>
         %{content}
+        <p>Posted by %{author} at %{published}</p>
         <p><a href="%{uri}">%{uri}</a></p>
         <p>--<br>
         Sent by <a href="https://github.com/agorf/feed2email">feed2email
@@ -32,9 +33,11 @@ module Feed2Email
         </body>
         </html>
       }.gsub(/^\s+/, '') % {
-        content: @entry.content,
-        title:   @entry.title.strip_html,
-        uri:     @entry.uri.escape_html,
+        author:    @entry.author,
+        content:   @entry.content,
+        published: @entry.published,
+        title:     @entry.title.strip_html,
+        uri:       @entry.uri.escape_html,
       }
     end
 
@@ -44,14 +47,18 @@ module Feed2Email
 
         %{content}
 
+        Posted by %{author} at %{published}
+
         %{uri}
 
         --
         Sent by feed2email #{VERSION} at #{Time.now}
       }.gsub(/^\s+/, '') % {
-        content: @entry.content.to_markdown,
-        title:   @entry.title.strip_html,
-        uri:     @entry.uri,
+        author:    @entry.author,
+        content:   @entry.content.to_markdown,
+        published: @entry.published,
+        title:     @entry.title.strip_html,
+        uri:       @entry.uri,
       }
     end
 
