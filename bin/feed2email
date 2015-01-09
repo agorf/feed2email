@@ -5,7 +5,7 @@ require 'feed2email/feed'
 
 LOCK_FILE = '/tmp/feed2email.lock'
 
-if File.new(LOCK_FILE).flock(File::LOCK_NB | File::LOCK_EX)
+if File.new(LOCK_FILE, 'w').flock(File::LOCK_NB | File::LOCK_EX)
   Feed2Emai::Feed.process_all
 else
   $stderr.puts %{\
