@@ -3,4 +3,13 @@
 require 'feed2email'
 require 'feed2email/feed'
 
-Feed2Email::Feed.process_all
+LOCK_FILE = '/tmp/feed2email.lock'
+
+if File.new(LOCK_FILE).flock(File::LOCK_NB | File::LOCK_EX)
+  Feed2Emai::Feed.process_all
+else
+  $stderr.puts %{\
+An instance of feed2email is already running or the lock file is stale.
+To remove the lock file, issue: rm -f #{LOCK_FILE}
+}
+end
