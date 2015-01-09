@@ -6,7 +6,7 @@ require 'feed2email/feed'
 LOCK_FILE = '/tmp/feed2email.lock'
 
 if File.new(LOCK_FILE, 'w').flock(File::LOCK_NB | File::LOCK_EX)
-  Feed2Emai::Feed.process_all
+  Feed2Email::Feed.process_all
 else
   $stderr.puts %{\
 An instance of feed2email is already running or the lock file is stale.
