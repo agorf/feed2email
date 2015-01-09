@@ -25,7 +25,7 @@ module Feed2Email
         <body>
         <h1><a href="%{uri}">%{title}</a></h1>
         %{content}
-        <p>Posted by %{author} at %{published}</p>
+        <p>Published by %{author} at %{published}</p>
         <p><a href="%{uri}">%{uri}</a></p>
         <p>--<br>
         Sent by <a href="https://github.com/agorf/feed2email">feed2email
@@ -47,7 +47,7 @@ module Feed2Email
 
         %{content}
 
-        Posted by %{author} at %{published}
+        Published by %{author} at %{published}
 
         %{uri}
 
