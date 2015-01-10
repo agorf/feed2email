@@ -58,9 +58,11 @@ module Feed2Email
 
     def entry; @entry end
 
+    def feed_title; @feed_title end
+
     def mail
       ::Mail.new.tap do |m|
-        m.from      = %{"#{@feed_title}" <#{config['sender']}>}
+        m.from      = %{"#{feed_title}" <#{config['sender']}>}
         m.to        = config['recipient']
         m.subject   = entry.title.strip_html
         m.html_part = mail_part('text/html', body_html)
