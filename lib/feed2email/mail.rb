@@ -105,7 +105,7 @@ module Feed2Email
     end
 
     def smtp_connection
-      Mail.smtp_connection
+      self.class.smtp_connection
     end
   end
 end
