@@ -24,8 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'travis-lint'
 
-  if Feed2Email::VERSION == '0.6.0'
-    gem.post_install_message = %{\
+  gem.post_install_message = %{\
 
 WARNING! feed2email now maintains a separate history file per feed!
 
