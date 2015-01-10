@@ -16,11 +16,15 @@ module Feed2Email
   class Feed
     extend Forwardable
 
-    class << self
-      extend Forwardable
+    def self.feed_uris; @feed_uris end
 
-      def_delegators :Feed2Email, :config, :log
+    def self.log(*args)
+      Feed2Email.log(*args) # delegate
     end
+
+    log :debug, 'Loading feed subscriptions...'
+    @feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
+    log :info, "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
 
     def self.process_all
       begin
@@ -34,15 +38,6 @@ module Feed2Email
       ensure
         Mail.finalize
       end
-    end
-
-    def self.feed_uris
-      return @feed_uris if @feed_uris
-
-      log :debug, 'Loading feed subscriptions...'
-      @feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
-      log :info, "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
-      @feed_uris
     end
 
     attr_reader :uri

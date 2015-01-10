@@ -4,8 +4,10 @@ require 'feed2email/version'
 
 module Feed2Email
   class Mail
+    @smtp_connection = LazySMTPConnection.new
+
     def self.smtp_connection
-      @smtp_connection ||= LazySMTPConnection.new
+      @smtp_connection
     end
 
     def self.finalize
