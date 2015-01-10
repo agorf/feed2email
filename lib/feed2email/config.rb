@@ -90,7 +90,7 @@ module Feed2Email
         'log_level'      => 'info',
         'log_path'       => true,
         'log_shift_age'  => 0,
-        'log_shift_size' => 1048576,
+        'log_shift_size' => 1, # megabyte
         'max_entries'    => 20,
         'send_delay'     => 10,
         'sendmail_path'  => '/usr/sbin/sendmail',

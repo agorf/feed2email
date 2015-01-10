@@ -2,6 +2,12 @@ require 'cgi'
 require 'reverse_markdown'
 require 'sanitize'
 
+class Numeric
+  def megabytes
+    self * 1024 * 2014
+  end
+end
+
 class String
   def escape_html
     CGI.escapeHTML(self)
