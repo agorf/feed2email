@@ -48,7 +48,8 @@ pair is separated with a colon: `foo: bar`
   frequency of rotation (`daily`, `weekly`, `monthly`; default is `0` so only
   the current log file is kept)
 * `log_shift_size` (optional) is the maximum log file size in bytes and it only
-  applies when `log_shift_age` is a number (default is `1048576` for 1 megabyte)
+  applies when `log_shift_age` is a number greater than zero (default is
+  `1048576` for 1 megabyte)
 * `max_entries` (optional) is the maximum number of entries to process per feed
   (default is `20`; use `0` for unlimited)
 
