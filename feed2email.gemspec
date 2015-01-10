@@ -40,5 +40,4 @@ WARNING! "sender" is now a required config option. Please update your config
 file by setting it to an email address to send email from.
 
 }
-  end
 end
