@@ -18,13 +18,13 @@ module Feed2Email
 
     def self.feed_uris; @feed_uris end
 
-    def self.log(*args)
-      Feed2Email.log(*args) # delegate
+    def self.logger
+      Feed2Email.logger # delegate
     end
 
-    log :debug, 'Loading feed subscriptions...'
+    logger.debug 'Loading feed subscriptions...'
     @feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
-    log :info, "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
+    logger.info "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
 
     def self.process_all
       begin
@@ -47,7 +47,7 @@ module Feed2Email
     end
 
     def process
-      log :info, "Processing feed #{uri} ..."
+      logger.info "Processing feed #{uri} ..."
 
       return unless fetch_and_parse_feed
 
@@ -56,14 +56,14 @@ module Feed2Email
         history.sync
         meta.sync
       else
-        log :warn, 'Feed does not have entries'
+        logger.warn 'Feed does not have entries'
       end
     end
 
     private
 
     def fetch_feed
-      log :debug, 'Fetching feed...'
+      logger.debug 'Fetching feed...'
 
       begin
         handle_permanent_redirection
@@ -81,13 +81,13 @@ module Feed2Email
         end
       rescue OpenURI::HTTPError => e
         if e.message == '304 Not Modified'
-          log :info, 'Feed not modified; skipping...'
+          logger.info 'Feed not modified; skipping...'
           return false
         end
 
         raise
       rescue => e
-        log :error, 'Failed to fetch feed'
+        logger.error 'Failed to fetch feed'
         log_exception(e)
         return false
       end
@@ -101,7 +101,8 @@ module Feed2Email
 
       if response.code == '301' && response['location'] =~ %r{\Ahttps?://}
         self.uri = response['location']
-        log :warn, "Got permanently redirected! Updated feed location to #{uri}"
+        logger.warn(
+          "Got permanently redirected! Updated feed location to #{uri}")
       end
     end
 
@@ -138,12 +139,12 @@ module Feed2Email
     end
 
     def parse_feed(xml_data)
-      log :debug, 'Parsing feed...'
+      logger.debug 'Parsing feed...'
 
       begin
         Feedzirra::Feed.parse(xml_data)
       rescue => e
-        log :error, 'Failed to parse feed'
+        logger.error 'Failed to parse feed'
         log_exception(e)
         return false
       end
@@ -169,8 +170,8 @@ module Feed2Email
       }
     end
 
-    def log(*args)
-      Feed2Email::Feed.log(*args) # delegate
+    def logger
+      Feed2Email.logger # delegate
     end
 
     def max_entries
@@ -178,25 +179,25 @@ module Feed2Email
     end
 
     def process_entries
-      log :info, "Processing #{'entry'.pluralize(entries.size, 'entries')}..."
+      logger.info "Processing #{'entry'.pluralize(entries.size, 'entries')}..."
       entries.each {|entry| process_entry(entry) }
     end
 
     def process_entry(entry)
-      log :info, "Processing entry #{entry.uri} ..."
+      logger.info "Processing entry #{entry.uri} ..."
 
       if history.any?
         if history.include?(entry.uri)
-          log :debug, 'Skipping old entry...'
+          logger.debug 'Skipping old entry...'
         else
           # Sleep between entry processing to avoid Net::SMTPServerBusy errors
           if config['send_delay'] > 0
-            log :debug,
-              "Sleeping for #{'second'.pluralize(config['send_delay'])}"
+            logger.debug(
+              "Sleeping for #{'second'.pluralize(config['send_delay'])}")
             sleep(config['send_delay'])
           end
 
-          log :debug, 'Sending new entry...'
+          logger.debug 'Sending new entry...'
 
           begin
             entry.send_mail
@@ -211,7 +212,7 @@ module Feed2Email
           e = nil
         end
       else
-        log :debug, 'Skipping new feed entry...'
+        logger.debug 'Skipping new feed entry...'
         history << entry.uri
       end
     end
@@ -225,8 +226,8 @@ module Feed2Email
     end
 
     def log_exception(error)
-      log :error, "#{error.class}: #{error.message.strip}"
-      error.backtrace.each {|line| log :debug, line }
+      logger.error "#{error.class}: #{error.message.strip}"
+      error.backtrace.each {|line| logger.debug line }
     end
 
     def_delegator :data, :title, :title

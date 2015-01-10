@@ -6,10 +6,8 @@ module Feed2Email
 
   def self.config; @config end
 
-  def self.logger; @logger end
-
-  def self.log(*args)
-    logger.log(*args) # delegate
+  def self.logger
+    @logger.logger # delegate
   end
 
   @config = Config.new(File.join(CONFIG_DIR, 'config.yml'))
