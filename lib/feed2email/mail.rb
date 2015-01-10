@@ -41,23 +41,7 @@ module Feed2Email
     end
 
     def body_text
-      %{
-        # [%{title}](%{uri})
-
-        %{content}
-
-        %{published}
-
-        %{uri}
-
-        --
-        Sent by feed2email #{VERSION} at #{Time.now}
-      }.gsub(/^\s+/, '') % {
-        content:   entry.content.to_markdown,
-        published: published,
-        title:     entry.title.strip_html,
-        uri:       entry.uri,
-      }
+      body_html.to_markdown
     end
 
     def config
