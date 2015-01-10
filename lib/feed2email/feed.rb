@@ -22,6 +22,10 @@ module Feed2Email
       Feed2Email.logger # delegate
     end
 
+    def self.smtp_connection
+      Feed2Email.smtp_connection # delegate
+    end
+
     logger.debug 'Loading feed subscriptions...'
     @feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
     logger.info "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
@@ -34,7 +38,7 @@ module Feed2Email
           feed_uris[i] = feed.uri # persist possible permanent redirect
         end
       ensure
-        Feed2Email.smtp_connection.finalize
+        smtp_connection.finalize
       end
 
       feed_uris.sync
