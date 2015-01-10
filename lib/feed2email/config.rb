@@ -95,7 +95,7 @@ module Feed2Email
         'send_delay'     => 10,
         'sendmail_path'  => '/usr/sbin/sendmail',
         'smtp_auth'      => 'login',
-        'smtp_tls'       => true,
+        'smtp_starttls'  => true,
       }
     end
 

@@ -4,6 +4,7 @@
 * Support log rotation
 * Show entry author and pubdate in email
 * Use a single SMTP connection for all email sending
+* Rename `smtp_tls` option to `smtp_starttls`
 
 ### 0.6.0
 

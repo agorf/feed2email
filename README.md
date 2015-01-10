@@ -67,7 +67,8 @@ free plan.
 * `smtp_user` (required) is the username of your email account
 * `smtp_pass` (required) is the password of your email account (see the warning
    below)
-* `smtp_tls` (optional) controls TLS (default is `true`; can also be `false`)
+* `smtp_starttls` (optional) controls STARTTLS (default is `true`; can also be
+  `false`)
 * `smtp_auth` (optional) controls the authentication method (default is `login`;
    can also be `plain` or `cram_md5`)
 

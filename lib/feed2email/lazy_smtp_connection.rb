@@ -27,7 +27,7 @@ module Feed2Email
     def smtp
       return @smtp if @smtp
       @smtp = Net::SMTP.new(config['smtp_host'], config['smtp_port'])
-      @smtp.enable_starttls if config['smtp_tls']
+      @smtp.enable_starttls if config['smtp_starttls']
       @smtp
     end
   end
