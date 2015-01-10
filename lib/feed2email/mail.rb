@@ -1,19 +1,8 @@
 require 'mail'
-require 'feed2email/lazy_smtp_connection'
 require 'feed2email/version'
 
 module Feed2Email
   class Mail
-    @smtp_connection = LazySMTPConnection.new
-
-    def self.smtp_connection
-      @smtp_connection
-    end
-
-    def self.finalize
-      smtp_connection.finalize # delegate
-    end
-
     def initialize(entry, feed_title)
       @entry = entry
       @feed_title = feed_title
@@ -105,7 +94,7 @@ module Feed2Email
     end
 
     def smtp_connection
-      self.class.smtp_connection
+      Feed2Email.smtp_connection
     end
   end
 end

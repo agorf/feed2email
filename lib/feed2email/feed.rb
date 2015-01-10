@@ -33,11 +33,11 @@ module Feed2Email
           feed.process
           feed_uris[i] = feed.uri # persist possible permanent redirect
         end
-
-        feed_uris.sync
       ensure
-        Mail.finalize
+        Feed2Email.smtp_connection.finalize
       end
+
+      feed_uris.sync
     end
 
     attr_reader :uri
