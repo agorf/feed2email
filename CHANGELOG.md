@@ -3,6 +3,7 @@
 * Prevent simultaneous running instances
 * Support log rotation
 * Show entry author and pubdate in email
+* Use a single SMTP connection for all email sending
 
 ### 0.6.0
 

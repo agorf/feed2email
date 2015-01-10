@@ -23,13 +23,17 @@ module Feed2Email
     end
 
     def self.process_all
-      feed_uris.each_with_index do |uri, i|
-        feed = new(uri)
-        feed.process
-        feed_uris[i] = feed.uri # persist possible permanent redirect
-      end
+      begin
+        feed_uris.each_with_index do |uri, i|
+          feed = new(uri)
+          feed.process
+          feed_uris[i] = feed.uri # persist possible permanent redirect
+        end
 
-      feed_uris.sync
+        feed_uris.sync
+      ensure
+        Mail.finalize
+      end
     end
 
     def self.feed_uris

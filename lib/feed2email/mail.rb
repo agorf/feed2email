@@ -1,9 +1,17 @@
 require 'mail'
-require 'net/smtp'
+require 'feed2email/lazy_smtp_connection'
 require 'feed2email/version'
 
 module Feed2Email
   class Mail
+    def self.smtp_connection
+      @smtp_connection ||= LazySMTPConnection.new
+    end
+
+    def self.finalize
+      smtp_connection.finalize # delegate
+    end
+
     def initialize(entry, feed_title)
       @entry = entry
       @feed_title = feed_title
@@ -82,17 +90,7 @@ module Feed2Email
     end
 
     def send_with_smtp
-      smtp = Net::SMTP.new(config['smtp_host'], config['smtp_port'])
-      smtp.enable_starttls if config['smtp_tls']
-
-      smtp.start(
-        'localhost',
-        config['smtp_user'],
-        config['smtp_pass'],
-        config['smtp_auth'].to_sym
-      ) do
-        smtp.send_message(mail, config['sender'], config['recipient'])
-      end
+      smtp_connection.send_message(mail, config['sender'], config['recipient'])
     end
 
     def smtp_configured?
@@ -100,6 +98,10 @@ module Feed2Email
         config['smtp_port'] &&
         config['smtp_user'] &&
         config['smtp_pass']
+    end
+
+    def smtp_connection
+      Mail.smtp_connection
     end
   end
 end
