@@ -19,10 +19,12 @@ module Feed2Email
       smtp.finish if connected?
     end
 
-    def send_message(*args)
+    def sendmail(*args, &block)
       connect unless connected?
-      smtp.send_message(*args)
+      smtp.sendmail(*args, &block) # delegate
     end
+
+    private
 
     def smtp
       return @smtp if @smtp
