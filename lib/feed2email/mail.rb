@@ -61,6 +61,13 @@ module Feed2Email
       end
     end
 
+    def build_mail_part(content_type, body)
+      part = ::Mail::Part.new
+      part.content_type = "#{content_type}; charset=UTF-8"
+      part.body = body
+      part
+    end
+
     def config
       Feed2Email.config # delegate
     end
@@ -68,13 +75,6 @@ module Feed2Email
     def entry; @entry end
 
     def feed_title; @feed_title end
-
-    def build_mail_part(content_type, body)
-      part = ::Mail::Part.new
-      part.content_type = "#{content_type}; charset=UTF-8"
-      part.body = body
-      part
-    end
 
     def published
       return nil unless entry.author || entry.published
