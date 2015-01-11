@@ -21,7 +21,7 @@ module Feed2Email
     end
 
     def send
-      mail.deliver!
+      build_mail.deliver!
     end
 
     private
@@ -51,15 +51,7 @@ module Feed2Email
       body_html.to_markdown
     end
 
-    def config
-      Feed2Email.config # delegate
-    end
-
-    def entry; @entry end
-
-    def feed_title; @feed_title end
-
-    def mail
+    def build_mail
       ::Mail.new.tap do |m|
         m.from      = %{"#{feed_title}" <#{config['sender']}>}
         m.to        = config['recipient']
@@ -68,6 +60,14 @@ module Feed2Email
         m.text_part = build_mail_part('text/plain', body_text)
       end
     end
+
+    def config
+      Feed2Email.config # delegate
+    end
+
+    def entry; @entry end
+
+    def feed_title; @feed_title end
 
     def build_mail_part(content_type, body)
       part = ::Mail::Part.new
