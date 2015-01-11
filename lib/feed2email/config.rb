@@ -14,7 +14,12 @@ module Feed2Email
     end
 
     def [](option)
-      merged_config[option] # delegate
+      config[option] # delegate
+    end
+
+    def smtp_configured?
+      config['smtp_host'] && config['smtp_port'] && config['smtp_user'] &&
+        config['smtp_pass']
     end
 
     private
@@ -81,8 +86,8 @@ module Feed2Email
       File.read(path)
     end
 
-    def merged_config
-      @merged_config ||= defaults.merge(data)
+    def config
+      @config ||= defaults.merge(data)
     end
 
     def defaults

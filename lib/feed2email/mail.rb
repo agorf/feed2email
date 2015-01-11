@@ -3,17 +3,25 @@ require 'feed2email/version'
 
 module Feed2Email
   class Mail
+    def self.config
+      Feed2Email.config # delegate
+    end
+
+    if config.smtp_configured?
+      ::Mail::Configuration.instance.delivery_method(:smtp_connection,
+        connection: Feed2Email.smtp_connection)
+    else
+      ::Mail::Configuration.instance.delivery_method(:sendmail,
+        location: config['sendmail_path'])
+    end
+
     def initialize(entry, feed_title)
       @entry = entry
       @feed_title = feed_title
     end
 
     def send
-      if smtp_configured?
-        send_with_smtp
-      else
-        send_with_sendmail
-      end
+      mail.deliver!
     end
 
     private
@@ -58,7 +66,7 @@ module Feed2Email
         m.subject   = entry.title.strip_html
         m.html_part = mail_part('text/html', body_html)
         m.text_part = mail_part('text/plain', body_text)
-      end.to_s
+      end
     end
 
     def mail_part(content_type, body)
@@ -74,27 +82,6 @@ module Feed2Email
       text << " by #{entry.author}" if entry.author
       text << " at #{entry.published}" if entry.published
       text
-    end
-
-    def send_with_sendmail
-      open("|#{config['sendmail_path']} #{config['recipient']}", 'w') do |f|
-        f.write(mail)
-      end
-    end
-
-    def send_with_smtp
-      smtp_connection.send_message(mail, config['sender'], config['recipient'])
-    end
-
-    def smtp_configured?
-      config['smtp_host'] &&
-        config['smtp_port'] &&
-        config['smtp_user'] &&
-        config['smtp_pass']
-    end
-
-    def smtp_connection
-      Feed2Email.smtp_connection
     end
   end
 end
