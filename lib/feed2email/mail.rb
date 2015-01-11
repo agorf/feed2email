@@ -64,12 +64,12 @@ module Feed2Email
         m.from      = %{"#{feed_title}" <#{config['sender']}>}
         m.to        = config['recipient']
         m.subject   = entry.title.strip_html
-        m.html_part = mail_part('text/html', body_html)
-        m.text_part = mail_part('text/plain', body_text)
+        m.html_part = build_mail_part('text/html', body_html)
+        m.text_part = build_mail_part('text/plain', body_text)
       end
     end
 
-    def mail_part(content_type, body)
+    def build_mail_part(content_type, body)
       part = ::Mail::Part.new
       part.content_type = "#{content_type}; charset=UTF-8"
       part.body = body
