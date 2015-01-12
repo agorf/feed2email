@@ -70,9 +70,9 @@ module Feed2Email
       logger.debug 'Fetching feed...'
 
       begin
-        handle_permanent_redirection
+        cache_feed = !permanently_redirected?
 
-        open(uri, fetch_feed_options) do |f|
+        open(uri, fetch_feed_options(cache_feed)) do |f|
           if f.meta['last-modified'] || meta.has_key?(:last_modified)
             meta[:last_modified] = f.meta['last-modified']
           end
@@ -97,7 +97,7 @@ module Feed2Email
       end
     end
 
-    def handle_permanent_redirection
+    def permanently_redirected?
       parsed_uri = URI.parse(uri)
       http = Net::HTTP.new(parsed_uri.host, parsed_uri.port)
       http.use_ssl = (parsed_uri.scheme == 'https')
@@ -107,6 +107,9 @@ module Feed2Email
         self.uri = response['location']
         logger.warn(
           "Got permanently redirected! Updated feed location to #{uri}")
+        true
+      else
+        false
       end
     end
 
@@ -125,18 +128,20 @@ module Feed2Email
       xml
     end
 
-    def fetch_feed_options
+    def fetch_feed_options(cache_feed)
       options = {
         'User-Agent' => "feed2email/#{VERSION}",
         'Accept-Encoding' => 'gzip, deflate',
       }
 
-      if meta[:last_modified]
-        options['If-Modified-Since'] = meta[:last_modified]
-      end
+      if cache_feed
+        if meta[:last_modified]
+          options['If-Modified-Since'] = meta[:last_modified]
+        end
 
-      if meta[:etag]
-        options['If-None-Match'] = meta[:etag]
+        if meta[:etag]
+          options['If-None-Match'] = meta[:etag]
+        end
       end
 
       options
