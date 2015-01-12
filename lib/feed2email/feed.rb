@@ -76,7 +76,7 @@ module Feed2Email
 
       return if secs_to_sleep <= 0
 
-      logger.debug("Sleeping for #{secs_to_sleep} seconds...")
+      logger.debug "Sleeping for #{secs_to_sleep} seconds..."
       sleep(secs_to_sleep)
     end
 
