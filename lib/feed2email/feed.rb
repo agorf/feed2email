@@ -66,6 +66,20 @@ module Feed2Email
 
     private
 
+    def apply_send_delay
+      return if config['send_delay'] == 0
+
+      return if last_email_sent_at.nil?
+
+      secs_since_last_email = Time.now - last_email_sent_at
+      secs_to_sleep = config['send_delay'] - secs_since_last_email
+
+      return if secs_to_sleep == 0
+
+      logger.debug("Sleeping for #{secs_to_sleep} seconds...")
+      sleep(secs_to_sleep)
+    end
+
     def fetch_feed
       logger.debug 'Fetching feed...'
 
@@ -207,17 +221,13 @@ module Feed2Email
         return
       end
 
-      # Sleep between entry processing to avoid Net::SMTPServerBusy errors
-      if config['send_delay'] > 0
-        logger.debug(
-          "Sleeping for #{'second'.pluralize(config['send_delay'])}")
-        sleep(config['send_delay'])
-      end
+      apply_send_delay
 
       logger.debug 'Sending new entry...'
 
       begin
         entry.send_mail
+        self.last_email_sent_at = Time.now
       rescue => e
         log_exception(e)
       end
@@ -231,6 +241,14 @@ module Feed2Email
 
     def meta
       @meta ||= FeedMeta.new(uri)
+    end
+
+    def last_email_sent_at
+      @last_email_sent_at
+    end
+
+    def last_email_sent_at=(time)
+      @last_email_sent_at = time
     end
 
     def log_exception(error)
