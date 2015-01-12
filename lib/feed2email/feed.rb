@@ -196,35 +196,33 @@ module Feed2Email
     def process_entry(entry)
       logger.info "Processing entry #{entry.uri} ..."
 
-      if history.any?
-        if history.include?(entry.uri)
-          logger.debug 'Skipping old entry...'
-        else
-          # Sleep between entry processing to avoid Net::SMTPServerBusy errors
-          if config['send_delay'] > 0
-            logger.debug(
-              "Sleeping for #{'second'.pluralize(config['send_delay'])}")
-            sleep(config['send_delay'])
-          end
-
-          logger.debug 'Sending new entry...'
-
-          begin
-            entry.send_mail
-          rescue => e
-            log_exception(e)
-          end
-
-          if e.nil? # no errors
-            history << entry.uri
-          end
-
-          e = nil
-        end
-      else
+      unless history.any?
         logger.debug 'Skipping new feed entry...'
         history << entry.uri
+        return
       end
+
+      if history.include?(entry.uri)
+        logger.debug 'Skipping old entry...'
+        return
+      end
+
+      # Sleep between entry processing to avoid Net::SMTPServerBusy errors
+      if config['send_delay'] > 0
+        logger.debug(
+          "Sleeping for #{'second'.pluralize(config['send_delay'])}")
+        sleep(config['send_delay'])
+      end
+
+      logger.debug 'Sending new entry...'
+
+      begin
+        entry.send_mail
+      rescue => e
+        log_exception(e)
+      end
+
+      history << entry.uri if e.nil? # no errors
     end
 
     def history
