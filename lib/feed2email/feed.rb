@@ -74,7 +74,7 @@ module Feed2Email
       secs_since_last_email = Time.now - last_email_sent_at
       secs_to_sleep = config['send_delay'] - secs_since_last_email
 
-      return if secs_to_sleep == 0
+      return if secs_to_sleep <= 0
 
       logger.debug("Sleeping for #{secs_to_sleep} seconds...")
       sleep(secs_to_sleep)
