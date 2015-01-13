@@ -227,12 +227,14 @@ module Feed2Email
 
       begin
         entry.send_mail
-        self.last_email_sent_at = Time.now
       rescue => e
         log_exception(e)
       end
 
-      history << entry.uri if e.nil? # no errors
+      if e.nil? # no errors
+        self.last_email_sent_at = Time.now
+        history << entry.uri
+      end
     end
 
     def history
