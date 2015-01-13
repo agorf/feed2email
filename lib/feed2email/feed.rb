@@ -56,9 +56,8 @@ module Feed2Email
       return unless fetch_and_parse_feed
 
       if entries.any?
-        process_entries
+        meta.sync if process_entries
         history.sync
-        meta.sync
       else
         logger.warn 'Feed does not have entries'
       end
@@ -200,7 +199,7 @@ module Feed2Email
 
     def process_entries
       logger.info "Processing #{'entry'.pluralize(entries.size, 'entries')}..."
-      entries.each {|entry| process_entry(entry) }
+      entries.all? {|e| process_entry(e) } # false if any entry fails
     end
 
     def process_entry(entry)
@@ -209,12 +208,12 @@ module Feed2Email
       unless history.any?
         logger.debug 'Skipping new feed entry...'
         history << entry.uri
-        return
+        return true
       end
 
       if history.include?(entry.uri)
         logger.debug 'Skipping old entry...'
-        return
+        return true
       end
 
       apply_send_delay
@@ -225,12 +224,15 @@ module Feed2Email
         mail_sent = entry.send_mail
       rescue => e
         log_exception(e)
+        return false
       end
 
       if e.nil? && mail_sent # no errors and email sent
         self.last_email_sent_at = Time.now
         history << entry.uri
       end
+
+      mail_sent
     end
 
     def history
