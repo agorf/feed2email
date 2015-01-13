@@ -1,26 +1,26 @@
 require 'feedzirra'
-require 'forwardable'
 require 'net/http'
 require 'open-uri'
 require 'stringio'
 require 'uri'
 require 'zlib'
+require 'feed2email/configurable'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/feed_history'
 require 'feed2email/feed_meta'
 require 'feed2email/feeds'
+require 'feed2email/loggable'
 require 'feed2email/version'
 
 module Feed2Email
   class Feed
-    extend Forwardable
+    extend Loggable
+
+    include Configurable
+    include Loggable
 
     def self.feed_uris; @feed_uris end
-
-    def self.logger
-      Feed2Email.logger # delegate
-    end
 
     def self.smtp_connection
       Feed2Email.smtp_connection # delegate
@@ -194,10 +194,6 @@ module Feed2Email
       }
     end
 
-    def logger
-      Feed2Email.logger # delegate
-    end
-
     def max_entries
       config['max_entries'].to_i
     end
@@ -258,9 +254,9 @@ module Feed2Email
       error.backtrace.each {|line| logger.debug line }
     end
 
-    def_delegator :data, :title, :title
-
-    def_delegator :Feed2Email, :config, :config
+    def title
+      data.title # delegate
+    end
 
     def data; @data end
   end

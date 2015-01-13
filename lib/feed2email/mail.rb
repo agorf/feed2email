@@ -1,11 +1,12 @@
 require 'mail'
+require 'feed2email/configurable'
 require 'feed2email/version'
 
 module Feed2Email
   class Mail
-    def self.config
-      Feed2Email.config # delegate
-    end
+    extend Configurable
+
+    include Configurable
 
     if config.smtp_configured?
       ::Mail::Configuration.instance.delivery_method(:smtp_connection,
@@ -66,10 +67,6 @@ module Feed2Email
       part.content_type = "#{content_type}; charset=UTF-8"
       part.body = body
       part
-    end
-
-    def config
-      Feed2Email.config # delegate
     end
 
     def entry; @entry end
