@@ -222,12 +222,12 @@ module Feed2Email
       logger.debug 'Sending new entry...'
 
       begin
-        entry.send_mail
+        mail_sent = entry.send_mail
       rescue => e
         log_exception(e)
       end
 
-      if e.nil? # no errors
+      if e.nil? && mail_sent # no errors and email sent
         self.last_email_sent_at = Time.now
         history << entry.uri
       end
