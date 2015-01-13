@@ -227,7 +227,7 @@ module Feed2Email
         return false
       end
 
-      if e.nil? && mail_sent # no errors and email sent
+      if mail_sent
         self.last_email_sent_at = Time.now
         history << entry.uri
       end
