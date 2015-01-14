@@ -69,16 +69,14 @@ module Feed2Email
 
           return decode_content(f.read, f.meta['content-encoding'])
         end
-      rescue OpenURI::HTTPError => e
-        if e.message == '304 Not Modified'
+      rescue => e
+        if e.is_a?(OpenURI::HTTPError) && e.message == '304 Not Modified'
           logger.info 'Feed not modified; skipping...'
-          return false
+        else
+          logger.error 'Failed to fetch feed'
+          log_exception(e)
         end
 
-        raise
-      rescue => e
-        logger.error 'Failed to fetch feed'
-        log_exception(e)
         return false
       end
     end
