@@ -1,4 +1,5 @@
 require 'feed2email/config'
+require 'feed2email/feeds'
 require 'feed2email/lazy_smtp_connection'
 require 'feed2email/logger'
 
@@ -7,6 +8,10 @@ module Feed2Email
 
   def self.config
     @config ||= Config.new(File.join(CONFIG_DIR, 'config.yml'))
+  end
+
+  def self.feeds
+    @feeds ||= Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
   end
 
   def self.logger

@@ -9,26 +9,19 @@ require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/feed_history'
 require 'feed2email/feed_meta'
-require 'feed2email/feeds'
 require 'feed2email/loggable'
 require 'feed2email/version'
 
 module Feed2Email
   class Feed
-    extend Loggable
-
     include Configurable
     include Loggable
 
-    def self.feed_uris; @feed_uris end
+    def self.feed_uris; Feed2Email.feeds end
 
     def self.smtp_connection
       Feed2Email.smtp_connection # delegate
     end
-
-    logger.debug 'Loading feed subscriptions...'
-    @feed_uris = Feeds.new(File.join(CONFIG_DIR, 'feeds.yml'))
-    logger.info "Subscribed to #{'feed'.pluralize(feed_uris.size)}"
 
     def self.process_all
       begin
