@@ -14,9 +14,6 @@ require 'feed2email/version'
 
 module Feed2Email
   class Feed
-    include Configurable
-    include Loggable
-
     def self.feed_uris; Feed2Email.feeds end
 
     def self.smtp_connection
@@ -36,6 +33,9 @@ module Feed2Email
 
       feed_uris.sync
     end
+
+    include Configurable
+    include Loggable
 
     attr_reader :uri
 

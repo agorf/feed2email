@@ -6,8 +6,6 @@ module Feed2Email
   class Mail
     extend Configurable
 
-    include Configurable
-
     if config.smtp_configured?
       ::Mail::Configuration.instance.delivery_method(:smtp_connection,
         connection: Feed2Email.smtp_connection)
@@ -15,6 +13,8 @@ module Feed2Email
       ::Mail::Configuration.instance.delivery_method(:sendmail,
         location: config['sendmail_path'])
     end
+
+    include Configurable
 
     def initialize(entry, feed_title)
       @entry = entry

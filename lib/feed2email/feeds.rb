@@ -3,11 +3,11 @@ require 'yaml'
 
 module Feed2Email
   class Feeds
-    extend Forwardable
-
     class MissingFeedsError < StandardError; end
     class InvalidFeedsSyntaxError < StandardError; end
     class InvalidFeedsDataTypeError < StandardError; end
+
+    extend Forwardable
 
     def initialize(path)
       @path = path
