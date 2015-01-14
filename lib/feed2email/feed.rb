@@ -14,26 +14,6 @@ require 'feed2email/version'
 
 module Feed2Email
   class Feed
-    def self.feed_uris; Feed2Email.feeds end
-
-    def self.smtp_connection
-      Feed2Email.smtp_connection # delegate
-    end
-
-    def self.process_all
-      begin
-        feed_uris.each_with_index do |uri, i|
-          feed = new(uri)
-          feed.process
-          feed_uris[i] = feed.uri # persist possible permanent redirect
-        end
-      ensure
-        smtp_connection.finalize
-      end
-
-      feed_uris.sync
-    end
-
     include Configurable
     include Loggable
 

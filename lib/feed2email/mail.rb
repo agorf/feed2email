@@ -4,16 +4,6 @@ require 'feed2email/version'
 
 module Feed2Email
   class Mail
-    extend Configurable
-
-    if config.smtp_configured?
-      ::Mail::Configuration.instance.delivery_method(:smtp_connection,
-        connection: Feed2Email.smtp_connection)
-    else
-      ::Mail::Configuration.instance.delivery_method(:sendmail,
-        location: config['sendmail_path'])
-    end
-
     include Configurable
 
     def initialize(entry, feed_title)
@@ -59,6 +49,8 @@ module Feed2Email
         m.subject   = entry.title.strip_html
         m.html_part = build_mail_part('text/html', body_html)
         m.text_part = build_mail_part('text/plain', body_text)
+
+        m.delivery_method(*delivery_method_params)
       end
     end
 
@@ -67,6 +59,14 @@ module Feed2Email
       part.content_type = "#{content_type}; charset=UTF-8"
       part.body = body
       part
+    end
+
+    def delivery_method_params
+      if config.smtp_configured?
+        [:smtp_connection, connection: Feed2Email.smtp_connection]
+      else
+        [:sendmail, location: config['sendmail_path']]
+      end
     end
 
     def entry; @entry end

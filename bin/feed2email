@@ -1,11 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'feed2email'
-require 'feed2email/feed'
-
-if File.new('/tmp/feed2email.lock', 'w').flock(File::LOCK_NB | File::LOCK_EX)
-  Feed2Email::Feed.process_all
-else
+unless File.new('/tmp/feed2email.lock', 'w').flock(File::LOCK_NB | File::LOCK_EX)
   $stderr.puts 'An instance of feed2email is already running. Exiting...'
   exit 1
 end
+
+require 'feed2email/cli'
+
+Feed2Email::Cli.start(ARGV)
