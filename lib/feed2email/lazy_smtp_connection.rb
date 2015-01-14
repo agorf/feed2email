@@ -1,10 +1,9 @@
 require 'net/smtp'
+require 'feed2email/configurable'
 
 module Feed2Email
   class LazySMTPConnection
-    def config
-      Feed2Email.config # delegate
-    end
+    include Configurable
 
     def connect
       smtp.start('localhost', config['smtp_user'], config['smtp_pass'],
