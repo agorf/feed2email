@@ -38,24 +38,8 @@ module Feed2Email
           next unless meta[:enabled]
 
           feed = Feed.new(meta)
-
-          if feed.process # all entries processed (no errors)
-            if feed.meta[:last_modified]
-              mark_dirty
-              meta[:last_modified] = feed.meta[:last_modified]
-            end
-
-            if feed.meta[:etag]
-              mark_dirty
-              meta[:etag] = feed.meta[:etag]
-            end
-          end
-
-          # Check for permanent redirection and persist
-          if meta[:uri] != feed.meta[:uri]
-            mark_dirty
-            meta[:uri] = feed.meta[:uri]
-          end
+          processed = feed.process
+          sync_feed_meta(feed.meta, meta, processed)
         end
       ensure
         smtp_connection.finalize
@@ -121,6 +105,26 @@ module Feed2Email
 
     def smtp_connection
       Feed2Email.smtp_connection # delegate
+    end
+
+    def sync_feed_meta(src, dest, processed)
+      if processed
+        if src[:last_modified]
+          mark_dirty
+          dest[:last_modified] = src[:last_modified]
+        end
+
+        if src[:etag]
+          mark_dirty
+          dest[:etag] = src[:etag]
+        end
+      end
+
+      # Check for permanent redirection and persist
+      if dest[:uri] != src[:uri]
+        mark_dirty
+        dest[:uri] = src[:uri]
+      end
     end
 
     def to_yaml
