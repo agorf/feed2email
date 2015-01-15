@@ -34,15 +34,27 @@ module Feed2Email
       require 'feed2email/feed'
 
       begin
-        each do |feed_data|
-          next unless feed_data[:enabled]
-          feed = Feed.new(feed_data[:uri])
-          feed.process
+        each do |meta|
+          next unless meta[:enabled]
+
+          feed = Feed.new(meta)
+
+          if feed.process # all entries processed (no errors)
+            if feed.meta[:last_modified]
+              mark_dirty
+              meta[:last_modified] = feed.meta[:last_modified]
+            end
+
+            if feed.meta[:etag]
+              mark_dirty
+              meta[:etag] = feed.meta[:etag]
+            end
+          end
 
           # Check for permanent redirection and persist
-          if feed_data[:uri] != feed.uri
+          if meta[:uri] != feed.meta[:uri]
             mark_dirty
-            feed_data[:uri] = feed.uri
+            meta[:uri] = feed.meta[:uri]
           end
         end
       ensure

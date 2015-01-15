@@ -8,7 +8,6 @@ require 'feed2email/configurable'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/feed_history'
-require 'feed2email/feed_meta'
 require 'feed2email/loggable'
 require 'feed2email/version'
 
@@ -17,10 +16,10 @@ module Feed2Email
     include Configurable
     include Loggable
 
-    attr_reader :uri
+    attr_reader :meta
 
-    def initialize(uri)
-      @uri = uri
+    def initialize(meta)
+      @meta = meta
     end
 
     def process
@@ -29,11 +28,14 @@ module Feed2Email
       return unless fetch_and_parse_feed
 
       if entries.any?
-        meta.sync if process_entries
+        processed = process_entries
         history.sync
       else
+        processed = true
         logger.warn 'Feed does not have entries'
       end
+
+      processed
     end
 
     private
@@ -152,10 +154,13 @@ module Feed2Email
       @data && @data.respond_to?(:entries)
     end
 
+    def uri
+      meta[:uri]
+    end
+
     def uri=(uri)
       history.uri = uri
-      meta.uri = uri
-      @uri = uri
+      meta[:uri] = uri
     end
 
     def entries
@@ -208,10 +213,6 @@ module Feed2Email
 
     def history
       @history ||= FeedHistory.new(uri)
-    end
-
-    def meta
-      @meta ||= FeedMeta.new(uri)
     end
 
     def last_email_sent_at
