@@ -4,7 +4,7 @@ require 'feed2email/lazy_smtp_connection'
 require 'feed2email/logger'
 
 module Feed2Email
-  CONFIG_DIR = File.expand_path('~/.feed2email')
+  CONFIG_DIR = File.join(ENV['HOME'], '.feed2email')
 
   def self.config
     @config ||= Config.new(File.join(CONFIG_DIR, 'config.yml'))
