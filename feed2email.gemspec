@@ -46,8 +46,8 @@ Important changes since version 0.8.0:
   files: rm ~/.feed2email/meta-*.yml
 
 * A command-line interface is available. Running feed2email without any options
-  will display some help text. To run it so that it processes your feed
-  subscriptions (sending email etc.), issue: feed2email process
+  will display some help text. To run it so that it processes your feed list
+  (sending email etc.), issue: feed2email process
 
 }
 end
