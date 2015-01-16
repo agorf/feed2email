@@ -8,14 +8,15 @@ module Feed2Email
       @uri = uri
     end
 
+    def content_type; @content_type end
+
     def feeds
+      return @feeds if @feeds
       fetch
-      discoverable? ? discover : []
+      @feeds = discoverable? ? discover : []
     end
 
     private
-
-    def content_type; @content_type end
 
     def data; @data end
 

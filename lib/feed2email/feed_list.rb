@@ -18,7 +18,7 @@ module Feed2Email
 
     def <<(uri)
       if index = find_feed_by_uri(uri)
-        raise DuplicateFeedError, "Feed already exists at index #{index}"
+        raise DuplicateFeedError, "Feed #{uri} already exists at index #{index}"
       end
 
       mark_dirty

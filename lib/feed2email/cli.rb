@@ -88,15 +88,22 @@ module Feed2Email
       end
 
       def perform_feed_autodiscovery(uri)
-        discovered_feeds = FeedAutodiscoverer.new(uri).feeds
+        discoverer = FeedAutodiscoverer.new(uri)
 
-        return uri unless discovered_feeds.any?
+        if discoverer.feeds.empty?
+          if discoverer.content_type == 'text/html'
+            puts 'Could not find any feeds'
+            exit
+          end
 
-        return discovered_feeds.first[:uri] if discovered_feeds.size == 1
+          return uri
+        end
 
-        justify = discovered_feeds.size.to_s.size
+        return discoverer.feeds.first[:uri] if discoverer.feeds.size == 1
 
-        discovered_feeds.each_with_index do |feed, i|
+        justify = discoverer.feeds.size.to_s.size
+
+        discoverer.feeds.each_with_index do |feed, i|
           puts '%{index}: %{uri} (%{content_type})' % {
             index:        i.to_s.rjust(justify),
             uri:          feed[:uri],
@@ -107,7 +114,7 @@ module Feed2Email
         begin
           response = ask('Please enter a feed to subscribe to:')
 
-          unless (0...discovered_feeds.size).map(&:to_s).include?(response)
+          unless (0...discoverer.feeds.size).map(&:to_s).include?(response)
             raise Interrupt
           end
         rescue Interrupt # ^C
@@ -115,7 +122,7 @@ module Feed2Email
           exit
         end
 
-        discovered_feeds[response.to_i][:uri]
+        discoverer.feeds[response.to_i][:uri]
       end
     end
   end
