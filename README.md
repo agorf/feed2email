@@ -1,14 +1,7 @@
 # feed2email [![Gem Version](https://badge.fury.io/rb/feed2email.svg)](http://badge.fury.io/rb/feed2email)
 
-RSS/Atom feed updates in your email
-
-## Why
-
-I don't like having a separate application for feeds when I'm already checking
-my email. I also never read a thing when feeds are kept in a separate place.
-
 feed2email is a [headless][] RSS/Atom feed aggregator that sends feed entries
-via email. It was written primarily as a replacement of [rss2email][] and aims
+via email. It was initially written as a replacement of [rss2email][] and aims
 to be simple, fast and easy to use.
 
 [headless]: http://en.wikipedia.org/wiki/Headless_software
@@ -16,7 +9,7 @@ to be simple, fast and easy to use.
 
 ## Installation
 
-Install as a [gem][] from [RubyGems][]:
+As a [gem][] from [RubyGems][]:
 
 ~~~ sh
 $ gem install feed2email
@@ -27,12 +20,12 @@ $ gem install feed2email
 
 ## Configuration
 
-Through a [YAML][] file at `~/.feed2email/config.yml`.
+Through a [YAML][] file that you create at `~/.feed2email/config.yml`.
 
 [YAML]: http://en.wikipedia.org/wiki/YAML
 
 Each line in the configuration file contains a key-value pair. Each key-value
-pair is separated with a colon: `foo: bar`
+pair is separated with a colon, e.g.: `foo: bar`
 
 ### Generic options
 
@@ -40,6 +33,11 @@ pair is separated with a colon: `foo: bar`
 * `sender` (required) is the email address to send email from (can be any)
 * `send_delay` (optional) is the number of seconds to wait between each email to
   avoid SMTP server throttling errors (default is `10`; use `0` to disable)
+* `max_entries` (optional) is the maximum number of entries to process per feed
+  (default is `20`; use `0` for unlimited)
+
+#### Logging options
+
 * `log_path` (optional) is the _absolute_ path to the log file (default is
   `true` which logs to standard output; use `false` to disable logging)
 * `log_level` (optional) is the logging verbosity level and can be `fatal`
@@ -50,8 +48,6 @@ pair is separated with a colon: `foo: bar`
 * `log_shift_size` (optional) is the maximum log file size in _megabytes_ and it
   only applies when `log_shift_age` is a number greater than zero (default is
   `1`)
-* `max_entries` (optional) is the maximum number of entries to process per feed
-  (default is `20`; use `0` for unlimited)
 
 It is possible to send email via SMTP or an [MTA][] (default). If `config.yml`
 contains options for both, feed2email will use SMTP.
@@ -96,62 +92,122 @@ interface set up and working in your system like [msmtp][] or [Postfix][].
 
 ### Managing feeds
 
-Create or edit `~/.feed2email/feeds.yml` and add the URL of the feed you want to
-subscribe to, prefixed with a dash and a space:
+First, add some feeds:
 
-~~~ yaml
-- https://github.com/agorf/feed2email/commits.atom
+~~~ sh
+$ feed2email add https://github.com/agorf.atom
+Added feed https://github.com/agorf.atom at index 0
+$ feed2email add https://github.com/agorf/feed2email/commits.atom
+Added feed https://github.com/agorf/feed2email/commits.atom at index 1
 ~~~
 
-To disable a feed, comment its line by prefixing it with a hash symbol:
+**Tip:** You only have to type a feed2email command until it's unambiguous e.g.
+instead of `feed2email list`, you can simply issue `feed2email l` since there is
+no other command beginning with an `l`.
 
-~~~ yaml
-#- https://github.com/agorf/feed2email/commits.atom
+It is also possible to pass a website URL and let feed2email autodiscover any
+feeds:
+
+~~~ sh
+$ feed2email add http://www.rubyinside.com/
+Added feed http://www.rubyinside.com/feed/ at index 2
+$ feed2email add http://thechangelog.com/137/
+0: http://thechangelog.com/137/feed/ (application/rss+xml)
+1: http://thechangelog.com/feed/ (application/rss+xml)
+Please enter a feed to subscribe to: 1
+Added feed http://thechangelog.com/feed/ at index 3
 ~~~
 
-### Running for the first time
+Note that in the first example, feed2email autodiscovers and adds the only feed
+listed at [Ruby Inside](http://www.rubyinside.com/). In the second example, the
+[The Changelog](http://thechangelog.com/) page has two feeds listed, so
+feed2email prompts you to choose one and subsequently adds it.
 
-When feed2email runs for the first time or after adding a new feed:
+The feed list so far:
 
-* All feed entries are skipped (no email sent)
-* `~/.feed2email/history-<digest>.yml` is created for each feed containing these
-  (old) entries, where `<digest>` is the MD5 hex digest of the feed URL
+~~~ sh
+$ feed2email list
+0: https://github.com/agorf.atom
+1: https://github.com/agorf/feed2email/commits.atom
+2: http://www.rubyinside.com/feed/
+3: http://thechangelog.com/feed/
+~~~
 
-**Warning:** Versions prior to 0.6.0 used a single history file for all feeds.
-Before using version 0.6.0 for the first time, please make sure you run the
-provided migration script: `feed2email-migrate-history` If you don't, feed2email
-will think it's run for the first time and will treat all entries as old (thus
-no email will be sent and you may miss some entries).
+Hmm. The second feed is a bit redundant since there's already a subscription to
+my GitHub profile activity (first feed). Let's disable it for now:
 
-### Receiving specific entries from a feed
+~~~ sh
+$ feed2email toggle 1
+Disabled feed at index 1
+$ feed2email list
+0: https://github.com/agorf.atom
+1: DISABLED https://github.com/agorf/feed2email/commits.atom
+2: http://www.rubyinside.com/feed/
+3: http://thechangelog.com/feed/
+~~~
 
-1. Add the feed URL to `~/.feed2email/feeds.yml`
-1. Run feed2email once so that the feed's history file is generated
-1. Remove the entries you want to receive from the feed's history (i.e. with
-   your text editor)
-1. Remove the feed's meta file (`meta-<digest>.yml`, where `<digest>` is the MD5
-   hex digest of the feed URL) to bust feed fetching caching
+It's disabled. It's also possible to remove it from the list:
 
-Next time feed2email runs, these entries will be treated as new and will be
-processed (sent as email).
+~~~ sh
+$ feed2email remove 1
+Removed feed at index 1
 
-### Permanent redirections
+Warning: Feed list indices have changed!
+~~~
+
+It's been removed, but what's that weird warning? Since the feed that got
+removed was at index 1, every feed below it got reindexed. So feed2email warns
+you that the feed indices have changed: the feed at index 2 is now at index 1
+and the feed at index 3 is now at index 2.
+
+Indeed:
+
+~~~ sh
+$ feed2email list
+0: https://github.com/agorf.atom
+1: http://www.rubyinside.com/feed/
+2: http://thechangelog.com/feed/
+~~~
+
+**Tip:** feed2email installs `f2e` as a shortcut to the feed2email binary, so
+you can use that to avoid typing the whole name every time, e.g.: `f2e list`
+
+### Processing feeds
+
+To have feed2email process your feed list and send email if necessary, issue:
+
+~~~ sh
+$ feed2email process
+~~~
+
+When a new feed is detected (which is the case when feed2email runs for the
+first time on your feed list), all of its entries are skipped and no email is
+sent. This is so that you don't get spammed when you add a feed for the first
+time.
+
+If you want to receive a specific entry from a newly added feed, remove it (i.e.
+with your text editor) from the feed's history file
+`~/.feed2email/history-<digest>.yml`, where `<digest>` is the MD5 hex digest of
+the feed URL. Then edit `~/.feed2email/feeds.yml` and remove its `last_modified`
+and `etag` keys to force the feed to be fetched (this busts caching).
+
+Next time you issue `feed2email process`, these entries will be treated as new
+and will be processed (sent as email).
+
+#### Permanent redirections
 
 Before processing each feed, feed2email issues a [HEAD request][] to check
 whether it has been permanently moved by looking for a _301 Moved Permanently_
 HTTP status and its respective _Location_ header. In such case, feed2email
 updates `~/.feed2email/feeds.yml` with the new location and all feed entries are
-skipped (no email sent). If you do want to have some of them sent as email, see
-[Receiving specific entries from a feed](#receiving-specific-entries-from-a-feed).
+skipped (no email sent).
 
 [HEAD request]: http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
 
-### Feed caching
+### Getting help
 
-feed2email caches fetched feeds with the _Last-Modified_ and _Etag_ HTTP
-headers. If you want to force a feed to be fetched, remove the feed's meta file
-(`~/.feed2email/meta-<digest>.yml`, where `<digest>` is the MD5 hex digest of
-the feed URL). Next time feed2email runs, the feed will be fetched.
+Issue `feed2email` or `feed2email help` at any point to get a helpful text on
+how to use feed2email.
 
 ### Automating
 
