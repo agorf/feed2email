@@ -79,10 +79,10 @@ module Feed2Email
       puts "feed2email #{Feed2Email::VERSION}"
     end
 
-    private
-
-    def feed_list
-      Feed2Email.feed_list # delegate
+    no_commands do
+      def feed_list
+        Feed2Email.feed_list # delegate
+      end
     end
   end
 end
