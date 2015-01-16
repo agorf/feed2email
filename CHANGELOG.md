@@ -22,7 +22,7 @@
 * Render text/plain body as Markdown
 * Cache feed fetching with Last-Modified and ETag HTTP headers
 * Update feed URI on permanent redirect
-* Make sender a required config option
+* Make `sender` a required config option
 * Maintain a separate history file per feed
 
 ### 0.5.0
