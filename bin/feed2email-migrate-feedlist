@@ -28,7 +28,7 @@ begin
     )
   end
 
-  puts "Converted feed list file #{FEEDS_FILE}"
+  puts "Migrated feed list file #{FEEDS_FILE}"
   puts "Renamed #{FEEDS_FILE} to #{FEEDS_FILE}.bak"
 rescue
   File.rename("#{FEEDS_FILE}.bak", FEEDS_FILE)
