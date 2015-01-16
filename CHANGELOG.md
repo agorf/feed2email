@@ -1,13 +1,13 @@
 ### 0.8.0
 
-* Command-line interface for managing feeds (c20bf0c8820eef9cb2efae1ba1d99041d8a2aa3f, e5c6dec983f7a61e3825b2dabe93d5eba8836ec5)
-* Store feed metadata in feed list, so no more feed files (cfbd72572dff131410697f509dd40f1a63fc4586)
-* Improve send delay between entry processing (2118aef38233d60329d2789c9044e1d0d79f54e7)
-* Fix feed fetching exception handling (8eb68cfd2075c9f8e76ade0e572f79ab7b062b53)
-* Sync feed metadata only if all entries are processed (73f0947bca9d2ac44cf6292feb4eb891a7abf451)
-* Record entry to history only if email was sent (db59e770e4764388f99ff6ea6a632b7c431f4733)
-* Always fetch feed when permanently redirected (4fb147f422c0b62f4072b904147f8489f530ca0e)
-* Ignore redirections to the same location (26513d1e4bb23826f9edc02cf3a746e0a4eb7baa)
+* Command-line interface for managing feeds (c20bf0c, e5c6dec)
+* Store feed metadata in feed list, so no more feed files (cfbd725)
+* Improve send delay between entry processing (2118aef)
+* Fix feed fetching exception handling (8eb68cf)
+* Sync feed metadata only if all entries are processed (73f0947)
+* Record entry to history only if email was sent (db59e77)
+* Always fetch feed when permanently redirected (4fb147f)
+* Ignore redirections to the same location (26513d1e)
 
 ### 0.7.0
 
