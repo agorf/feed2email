@@ -1,4 +1,5 @@
 require 'forwardable'
+require 'thor'
 require 'yaml'
 
 module Feed2Email
@@ -13,7 +14,7 @@ module Feed2Email
       @dirty = false
     end
 
-    def_delegators :data, :size, :each, :each_with_index, :empty?
+    def_delegators :data, :size, :each, :each_with_index, :empty?, :[]
 
     def <<(uri)
       if index = find_feed_by_uri(uri)
@@ -49,15 +50,21 @@ module Feed2Email
     end
 
     def sync
-      open(path, 'w') {|f| f.write(to_yaml) } if dirty?
+      if dirty?
+        open(path, 'w') {|f| f.write(to_yaml) } > 0
+      end
     end
 
     def to_s
+      return 'Empty feed list' if empty?
+
       justify = size.to_s.size
+      disabled = Thor::Shell::Color.new.set_color('DISABLED ', :red)
+
       each_with_index.map do |feed, i|
         '%{index}: %{disabled}%{uri}' % {
           index:    i.to_s.rjust(justify),
-          disabled: feed[:enabled] ? '' : 'DISABLED ',
+          disabled: feed[:enabled] ? '' : disabled,
           uri:      feed[:uri]
         }
       end.join("\n")
