@@ -12,7 +12,7 @@ end
 
 feeds_data = YAML.load(open(FEEDS_FILE))
 
-if !feeds_data.is_a?(Array)
+unless feeds_data.is_a?(Array) && feeds_data.all? {|data| data.is_a?(String) }
   $stderr.puts "Invalid data type for feed list file #{FEEDS_FILE}"
   exit 2
 end
