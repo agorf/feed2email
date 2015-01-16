@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+
+CONFIG_DIR = File.expand_path('~/.feed2email')
+FEEDS_FILE = File.join(CONFIG_DIR, 'feeds.yml')
+
+if !File.exist?(FEEDS_FILE)
+  $stderr.puts "Missing feed list file #{FEEDS_FILE}"
+  exit 1
+end
+
+feeds_data = YAML.load(open(FEEDS_FILE))
+
+if !feeds_data.is_a?(Array)
+  $stderr.puts "Invalid data type for feed list file #{FEEDS_FILE}"
+  exit 2
+end
+
+File.rename(FEEDS_FILE, "#{FEEDS_FILE}.bak")
+puts "Renamed #{FEEDS_FILE} to #{FEEDS_FILE}.bak"
+
+begin
+  open(FEEDS_FILE, 'w') do |f|
+    f.write(
+      feeds_data.map {|uri|
+        { uri: uri, enabled: true }
+      }.to_yaml
+    )
+  end
+
+  puts "Converted feed list file #{FEEDS_FILE}"
+rescue
+  File.rename("#{FEEDS_FILE}.bak", FEEDS_FILE)
+  puts "Renamed #{FEEDS_FILE}.bak back to #{FEEDS_FILE}"
+  raise
+end
