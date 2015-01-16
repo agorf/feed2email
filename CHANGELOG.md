@@ -1,6 +1,7 @@
 ### 0.8.0
 
 * Command-line interface for managing feeds (c20bf0c, e5c6dec)
+* Perform feed autodiscovery in `add` command (46523ee)
 * Store feed metadata in feed list, so no more feed files (cfbd725)
 * Improve send delay between entry processing (2118aef)
 * Fix feed fetching exception handling (8eb68cf)
