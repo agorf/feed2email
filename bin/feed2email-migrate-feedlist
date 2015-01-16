@@ -18,7 +18,6 @@ if !feeds_data.is_a?(Array)
 end
 
 File.rename(FEEDS_FILE, "#{FEEDS_FILE}.bak")
-puts "Renamed #{FEEDS_FILE} to #{FEEDS_FILE}.bak"
 
 begin
   open(FEEDS_FILE, 'w') do |f|
@@ -30,8 +29,8 @@ begin
   end
 
   puts "Converted feed list file #{FEEDS_FILE}"
+  puts "Renamed #{FEEDS_FILE} to #{FEEDS_FILE}.bak"
 rescue
   File.rename("#{FEEDS_FILE}.bak", FEEDS_FILE)
-  puts "Renamed #{FEEDS_FILE}.bak back to #{FEEDS_FILE}"
   raise
 end
