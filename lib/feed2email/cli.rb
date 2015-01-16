@@ -1,10 +1,13 @@
 require 'thor'
 require 'feed2email'
+require 'feed2email/feed_autodiscoverer'
 
 module Feed2Email
   class Cli < Thor
     desc 'add URL', 'subscribe to feed at URL'
     def add(uri)
+      uri = perform_feed_autodiscovery(uri)
+
       begin
         feed_list << uri
       rescue FeedList::DuplicateFeedError => e
@@ -13,7 +16,7 @@ module Feed2Email
       end
 
       if feed_list.sync
-        puts "Added feed at index #{feed_list.size - 1}"
+        puts "Added feed #{uri} at index #{feed_list.size - 1}"
       else
         $stderr.puts 'Failed to add feed'
         exit 3
@@ -82,6 +85,37 @@ module Feed2Email
     no_commands do
       def feed_list
         Feed2Email.feed_list # delegate
+      end
+
+      def perform_feed_autodiscovery(uri)
+        discovered_feeds = FeedAutodiscoverer.new(uri).feeds
+
+        return uri unless discovered_feeds.any?
+
+        return discovered_feeds.first[:uri] if discovered_feeds.size == 1
+
+        justify = discovered_feeds.size.to_s.size
+
+        discovered_feeds.each_with_index do |feed, i|
+          puts '%{index}: %{uri} (%{content_type})' % {
+            index:        i.to_s.rjust(justify),
+            uri:          feed[:uri],
+            content_type: feed[:content_type]
+          }
+        end
+
+        begin
+          response = ask('Please enter a feed to subscribe to:')
+
+          unless (0...discovered_feeds.size).map(&:to_s).include?(response)
+            raise Interrupt
+          end
+        rescue Interrupt # ^C
+          puts "\nInvalid response. Aborting..."
+          exit
+        end
+
+        discovered_feeds[response.to_i][:uri]
       end
     end
   end
