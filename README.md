@@ -146,7 +146,9 @@ $ feed2email list
 3: http://thechangelog.com/feed/
 ~~~
 
-It's disabled. It's also possible to remove it from the list:
+It's disabled, so next time `feed2email process` is run, it will be skipped.
+
+It's also possible to remove it from the list:
 
 ~~~ sh
 $ feed2email remove 1
@@ -155,10 +157,11 @@ Removed feed at index 1
 Warning: Feed list indices have changed!
 ~~~
 
-It's been removed, but what's that weird warning? Since the feed that got
-removed was at index 1, every feed below it got reindexed. So feed2email warns
-you that the feed indices have changed: the feed at index 2 is now at index 1
-and the feed at index 3 is now at index 2.
+It's been removed, but what's that weird warning?
+
+Since the feed that got removed was at index 1, every feed below it got
+reindexed. So feed2email warns you that the feed indices have changed: the feed
+at index 2 is now at index 1 and the feed at index 3 is now at index 2.
 
 Indeed:
 
