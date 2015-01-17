@@ -45,9 +45,8 @@ module Feed2Email
         exit 6
       end
 
-      require 'feed2email/feed_history'
-
       index = check_feed_index(index, in: (0...feed_list.size))
+      require 'feed2email/feed_history'
       history_path = FeedHistory.new(feed_list[index][:uri]).path
       exec(ENV['EDITOR'], history_path)
     end
