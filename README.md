@@ -111,9 +111,9 @@ $ feed2email add https://github.com/agorf/feed2email/commits.atom
 Added feed https://github.com/agorf/feed2email/commits.atom at index 1
 ~~~
 
-**Tip:** You only have to type a feed2email command until it's unambiguous e.g.
-instead of `feed2email list`, you can simply issue `feed2email l` since there is
-no other command beginning with an `l`.
+**Tip:** You only have to type a feed2email command until it is unambiguous e.g.
+instead of `feed2email list`, you can simply issue `feed2email l` as long as
+there is no other command beginning with an `l`.
 
 It is also possible to pass a website URL and let feed2email autodiscover any
 feeds:
@@ -130,8 +130,8 @@ Added feed http://thechangelog.com/feed/ at index 3
 
 Note that in the first example, feed2email autodiscovers and adds the only feed
 listed at [Ruby Inside](http://www.rubyinside.com/). In the second example, the
-[The Changelog](http://thechangelog.com/) page has two feeds listed, so
-feed2email prompts you to choose one and subsequently adds it.
+[The Changelog](http://thechangelog.com/) podcast episode page has two feeds
+listed, so feed2email prompts you to choose one and subsequently adds it.
 
 The feed list so far:
 
@@ -143,8 +143,7 @@ $ feed2email list
 3: http://thechangelog.com/feed/
 ~~~
 
-Hmm. The second feed is a bit redundant since there's already a subscription to
-my GitHub profile activity (first feed). Let's disable it for now:
+To disable a feed so that it is not processed with `feed2email process`, issue:
 
 ~~~ sh
 $ feed2email toggle 1
@@ -156,9 +155,7 @@ $ feed2email list
 3: http://thechangelog.com/feed/
 ~~~
 
-It's disabled, so next time `feed2email process` is run, it will be skipped.
-
-It's also possible to remove it from the list:
+It is also possible to remove it from the list:
 
 ~~~ sh
 $ feed2email remove 1
@@ -166,7 +163,7 @@ Removed feed at index 1
 Warning: Feed list indices have changed!
 ~~~
 
-It's been removed, but what's that weird warning?
+It has been removed, but what is that weird warning?
 
 Since the feed that got removed was at index 1, every feed below it got
 reindexed. So feed2email warns you that the feed indices have changed: the feed
@@ -181,9 +178,9 @@ $ feed2email list
 2: http://thechangelog.com/feed/
 ~~~
 
-**Tip:** feed2email installs `f2e` as a shortcut to the feed2email binary, so
-you can use that to avoid typing the whole name every time, e.g.: `f2e list` or
-even `f2e l`
+**Tip:** feed2email installs `f2e` as a symbolic link to the feed2email binary,
+so you can use that to avoid typing the whole name every time, e.g.: `f2e list`
+or even `f2e l`.
 
 ### Processing feeds
 
