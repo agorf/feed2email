@@ -31,6 +31,10 @@ module Feed2Email
       data.delete_at(index)
     end
 
+    def include?(uri)
+      !find_feed_by_uri(uri).nil?
+    end
+
     def process
       require 'feed2email/feed'
 
