@@ -9,12 +9,13 @@ to be simple, fast and easy to use.
 
 ## Features
 
-* Easy feed management (add, remove, enable/disable)
+* Easy command-line feed management (add, remove, enable/disable)
 * Feed fetching caching
 * Feed autodiscovery
+* Support for sending email with SMTP or a local MTA (e.g. sendmail)
 * _text/html_ and _text/plain_ (Markdown) multipart emails
 * Support for feed permanent redirections
-* Support for sending email with SMTP or a local MTA (e.g. sendmail)
+* Auto-fixing relative feed entry permalinks
 
 ## Installation
 
