@@ -59,12 +59,12 @@ module Feed2Email
       return 'Empty feed list' if empty?
 
       justify = size.to_s.size
-      disabled = Thor::Shell::Color.new.set_color('DISABLED ', :red)
+      disabled = Thor::Shell::Color.new.set_color('DISABLED', :red)
 
       each_with_index.map do |feed, i|
         '%{index}: %{disabled}%{uri}' % {
           index:    i.to_s.rjust(justify),
-          disabled: feed[:enabled] ? '' : disabled,
+          disabled: feed[:enabled] ? '' : "#{disabled} ",
           uri:      feed[:uri]
         }
       end.join("\n")
