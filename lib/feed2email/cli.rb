@@ -116,8 +116,6 @@ module Feed2Email
           return uri
         end
 
-        return discovered_feeds.first[:uri] if discovered_feeds.size == 1
-
         justify = discovered_feeds.size.to_s.size
 
         discovered_feeds.each_with_index do |feed, i|
