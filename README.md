@@ -37,7 +37,7 @@ Through a [YAML][] file that you create at `~/.feed2email/config.yml`.
 Each line in the configuration file contains a key-value pair. Each key-value
 pair is separated with a colon, e.g.: `foo: bar`
 
-### Generic options
+### General options
 
 * `recipient` (required) is the email address to send email to
 * `sender` (required) is the email address to send email from (can be any)
@@ -46,7 +46,7 @@ pair is separated with a colon, e.g.: `foo: bar`
 * `max_entries` (optional) is the maximum number of entries to process per feed
   (default is `20`; use `0` for unlimited)
 
-#### Logging options
+### Logging options
 
 * `log_path` (optional) is the _absolute_ path to the log file (default is
   `true` which logs to standard output; use `false` to disable logging)
@@ -59,12 +59,14 @@ pair is separated with a colon, e.g.: `foo: bar`
   only applies when `log_shift_age` is a number greater than zero (default is
   `1`)
 
+### Delivery options
+
 It is possible to send email via SMTP or an [MTA][] (default). If `config.yml`
 contains options for both, feed2email will use SMTP.
 
 [MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
 
-### SMTP options
+#### SMTP
 
 For this method you need to have access to an SMTP service. [Mailgun][] has a
 free plan.
@@ -86,7 +88,7 @@ To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`.
 
 [Mailgun]: http://www.mailgun.com/
 
-### MTA options
+#### MTA
 
 For this method you need to have an [MTA][] with a [Sendmail][]-compatible
 interface set up and working in your system like [msmtp][] or [Postfix][].
