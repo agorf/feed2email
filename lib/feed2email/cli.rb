@@ -28,8 +28,10 @@ module Feed2Email
 
     desc 'remove FEED', 'unsubscribe from feed at index FEED'
     def remove(index)
+      index = check_feed_index(index)
+
       begin
-        feed_list.delete_at(index.to_i)
+        feed_list.delete_at(index)
       rescue FeedList::MissingFeedError => e
         $stderr.puts e.message
         exit 4
@@ -38,7 +40,7 @@ module Feed2Email
       if feed_list.sync
         puts "Removed feed at index #{index}"
 
-        if feed_list.size != index.to_i # feed was not the last
+        if feed_list.size != index # feed was not the last
           puts 'Warning: Feed list indices have changed!'
         end
       else
@@ -49,14 +51,16 @@ module Feed2Email
 
     desc 'toggle FEED', 'enable/disable feed at index FEED'
     def toggle(index)
+      index = check_feed_index(index)
+
       begin
-        feed_list.toggle(index.to_i)
+        feed_list.toggle(index)
       rescue FeedList::MissingFeedError => e
         $stderr.puts e.message
         exit 6
       end
 
-      enabled = feed_list[index.to_i][:enabled]
+      enabled = feed_list[index][:enabled]
 
       if feed_list.sync
         puts "#{enabled ? 'En' : 'Dis'}abled feed at index #{index}"
@@ -85,6 +89,16 @@ module Feed2Email
     end
 
     no_commands do
+      def check_feed_index(index, options = {})
+        if index.to_i.to_s != index ||
+            (options[:in] && !options[:in].include?(index.to_i))
+          $stderr.puts 'Invalid index'
+          exit 8
+        end
+
+        index.to_i
+      end
+
       def feed_list
         Feed2Email.feed_list # delegate
       end
@@ -129,16 +143,14 @@ module Feed2Email
 
         begin
           response = ask('Please enter a feed to subscribe to:')
-
-          unless (0...discovered_feeds.size).map(&:to_s).include?(response)
-            raise Interrupt
-          end
-        rescue Interrupt # ^C
-          puts "\nInvalid response. Aborting..."
+          index = check_feed_index(response,
+                                   in: (0...discovered_feeds.size).to_a)
+        rescue Interrupt # Ctrl-C
+          puts "\nAborting..."
           exit
         end
 
-        discovered_feeds[response.to_i][:uri]
+        discovered_feeds[index][:uri]
       end
     end
   end

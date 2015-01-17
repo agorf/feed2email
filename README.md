@@ -136,8 +136,7 @@ Added feed http://thechangelog.com/137/feed/ at index 4
 
 Note that on the last command, feed2email autodiscovers the same two feeds as in
 the second command, but only lists the ones that haven't been already added. To
-cancel autodiscovery and not add any feed, simply press `Ctrl-C` or `Ctrl-D` or
-provide an invalid index number.
+cancel autodiscovery and not add any feed, simply press `Ctrl-C`.
 
 The feed list so far:
 
