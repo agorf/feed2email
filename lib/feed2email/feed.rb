@@ -1,14 +1,13 @@
 require 'feedzirra'
-require 'net/http'
 require 'open-uri'
 require 'stringio'
-require 'uri'
 require 'zlib'
 require 'feed2email/configurable'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/feed_history'
 require 'feed2email/loggable'
+require 'feed2email/redirection_checker'
 require 'feed2email/version'
 
 module Feed2Email
@@ -84,20 +83,15 @@ module Feed2Email
     end
 
     def permanently_redirected?
-      parsed_uri = URI.parse(uri)
-      http = Net::HTTP.new(parsed_uri.host, parsed_uri.port)
-      http.use_ssl = (parsed_uri.scheme == 'https')
-      response = http.head(parsed_uri.request_uri)
+      checker = RedirectionChecker.new(uri)
 
-      if response.code == '301' && response['location'] != uri &&
-          response['location'] =~ %r{\Ahttps?://}
-        self.uri = response['location']
-        logger.warn(
-          "Got permanently redirected! Updated feed location to #{uri}")
-        true
-      else
-        false
-      end
+      return false unless checker.permanently_redirected?
+
+      self.uri = checker.location
+      logger.warn 'Got permanently redirected!'
+      logger.warn "Updated feed location to #{checker.location}"
+
+      true
     end
 
     def decode_content(data, content_encoding)
