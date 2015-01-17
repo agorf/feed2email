@@ -111,9 +111,10 @@ module Feed2Email
         justify = discoverer.feeds.size.to_s.size
 
         discoverer.feeds.each_with_index do |feed, i|
-          puts '%{index}: %{uri} (%{content_type})' % {
+          puts '%{index}: %{uri} %{title}(%{content_type})' % {
             index:        i.to_s.rjust(justify),
             uri:          feed[:uri],
+            title:        feed[:title] ? "\"#{feed[:title]}\" " : '',
             content_type: feed[:content_type]
           }
         end

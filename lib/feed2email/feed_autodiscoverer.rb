@@ -38,7 +38,7 @@ module Feed2Email
           uri = URI.join(base_uri, link['href']).to_s # relative
         end
 
-        { uri: uri, content_type: link['type'] }
+        { uri: uri, content_type: link['type'], title: link['title'] }
       end
     end
 
