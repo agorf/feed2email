@@ -25,6 +25,19 @@ module Feed2Email
       end
     end
 
+    desc 'fetch FEED', 'clear fetch cache for feed at index FEED'
+    def fetch(index)
+      index = check_feed_index(index, in: (0...feed_list.size))
+      feed_list.clear_fetch_cache(index)
+
+      if feed_list.sync
+        puts "Cleared fetch cache for feed at index #{index}"
+      else
+        $stderr.puts "Failed to clear fetch cache for feed at index #{index}"
+        exit 7
+      end
+    end
+
     desc 'history FEED', 'edit history file of feed at index FEED with $EDITOR'
     def history(index)
       if ENV['EDITOR'].nil?

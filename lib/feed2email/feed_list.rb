@@ -24,6 +24,12 @@ module Feed2Email
       data << { uri: uri, enabled: true }
     end
 
+    def clear_fetch_cache(index)
+      mark_dirty
+      data[index].delete(:last_modified)
+      data[index].delete(:etag)
+    end
+
     def delete_at(index)
       if deleted = data.delete_at(index)
         mark_dirty
