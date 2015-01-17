@@ -63,7 +63,7 @@ contains options for both, feed2email will use SMTP.
 
 [MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
 
-### SMTP
+### SMTP options
 
 For this method you need to have access to an SMTP service. [Mailgun][] has a
 free plan.
@@ -85,7 +85,7 @@ To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`
 
 [Mailgun]: http://www.mailgun.com/
 
-### MTA
+### MTA options
 
 For this method you need to have an [MTA][] with a [Sendmail][]-compatible
 interface set up and working in your system like [msmtp][] or [Postfix][].
@@ -216,6 +216,11 @@ how to use feed2email.
 You can use [cron][] to run feed2email automatically e.g. once every hour.
 
 [cron]: http://en.wikipedia.org/wiki/Cron
+
+## Contributing
+
+Using feed2email and want to help? Just [contact me](http://agorf.gr/) and
+describe how you use it and if you have any ideas on how it can be improved.
 
 ## License
 
