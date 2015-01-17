@@ -3,6 +3,7 @@
 * Command-line interface for managing feeds (c20bf0c, e5c6dec)
 * Perform feed autodiscovery in `add` command (46523ee)
 * Store feed metadata in feed list, so no more feed files (cfbd725)
+* Add `f2e` symlink to `feed2email` binary for running convenience (6add6b9)
 * Improve send delay between entry processing (2118aef)
 * Fix feed fetching exception handling (8eb68cf)
 * Sync feed metadata only if all entries are processed (73f0947)
