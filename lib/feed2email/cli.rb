@@ -130,12 +130,12 @@ module Feed2Email
 
         begin
           response = ask('Please enter a feed to subscribe to:')
-          index = check_feed_index(response, in: (0...discovered_feeds.size))
         rescue Interrupt # Ctrl-C
           puts
           exit
         end
 
+        index = check_feed_index(response, in: (0...discovered_feeds.size))
         discovered_feeds[index][:uri]
       end
     end
