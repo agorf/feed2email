@@ -1,11 +1,19 @@
 require 'thor'
 require 'feed2email'
 require 'feed2email/feed_autodiscoverer'
+require 'feed2email/redirection_checker'
 
 module Feed2Email
   class Cli < Thor
     desc 'add URL', 'subscribe to feed at URL'
     def add(uri)
+      checker = RedirectionChecker.new(uri)
+
+      if checker.permanently_redirected?
+        uri = checker.location
+        puts "Got permanently redirected to #{checker.location}"
+      end
+
       uri = perform_feed_autodiscovery(uri)
 
       begin
