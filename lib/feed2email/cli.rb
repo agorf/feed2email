@@ -36,7 +36,6 @@ module Feed2Email
         puts "Removed feed at index #{index}"
 
         if feed_list.size != index.to_i # feed was not the last
-          puts
           puts 'Warning: Feed list indices have changed!'
         end
       else

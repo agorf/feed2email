@@ -13,7 +13,7 @@ to be simple, fast and easy to use.
 * Feed fetching caching
 * Feed autodiscovery
 * _text/html_ and _text/plain_ (Markdown) multipart emails
-* Support for permanent redirections
+* Support for feed permanent redirections
 * Support for sending email with SMTP or a local MTA (e.g. sendmail)
 
 ## Installation
@@ -162,7 +162,6 @@ It's also possible to remove it from the list:
 ~~~ sh
 $ feed2email remove 1
 Removed feed at index 1
-
 Warning: Feed list indices have changed!
 ~~~
 
@@ -182,7 +181,8 @@ $ feed2email list
 ~~~
 
 **Tip:** feed2email installs `f2e` as a shortcut to the feed2email binary, so
-you can use that to avoid typing the whole name every time, e.g.: `f2e list`
+you can use that to avoid typing the whole name every time, e.g.: `f2e list` or
+even `f2e l`
 
 ### Processing feeds
 
@@ -203,18 +203,8 @@ with your text editor) from the feed's history file
 the feed URL. Then edit `~/.feed2email/feeds.yml` and remove its `last_modified`
 and `etag` keys to force the feed to be fetched (this busts caching).
 
-Next time you issue `feed2email process`, these entries will be treated as new
-and will be processed (sent as email).
-
-#### Permanent redirections
-
-Before processing each feed, feed2email issues a [HEAD request][] to check
-whether it has been permanently moved by looking for a _301 Moved Permanently_
-HTTP status and its respective _Location_ header. In such case, feed2email
-updates `~/.feed2email/feeds.yml` with the new location and all feed entries are
-skipped (no email sent).
-
-[HEAD request]: http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods
+Next time you issue `feed2email process`, the entry will be treated as new and
+will be processed (sent as email).
 
 ### Getting help
 
