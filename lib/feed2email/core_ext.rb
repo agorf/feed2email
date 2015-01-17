@@ -9,6 +9,10 @@ class Numeric
 end
 
 class String
+  def blank?
+    nil? || empty?
+  end
+
   def escape_html
     CGI.escapeHTML(self)
   end

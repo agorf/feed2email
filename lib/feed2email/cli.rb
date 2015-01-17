@@ -40,7 +40,7 @@ module Feed2Email
 
     desc 'history FEED', 'edit history file of feed at index FEED with $EDITOR'
     def history(index)
-      if ENV['EDITOR'].nil?
+      if ENV['EDITOR'].blank?
         $stderr.puts '$EDITOR not set'
         exit 6
       end
