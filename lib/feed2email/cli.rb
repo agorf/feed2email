@@ -8,7 +8,6 @@ module Feed2Email
     desc 'add URL', 'subscribe to feed at URL'
     def add(uri)
       uri = handle_permanent_redirection(uri)
-
       uri = perform_feed_autodiscovery(uri)
 
       begin
