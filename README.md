@@ -82,7 +82,7 @@ free plan.
 **Warning:** Unless it has correct restricted permissions, anyone with access in
 your system will be able to read `config.yml` and your password. To prevent
 this, feed2email will not run and complain if it detects the wrong permissions.
-To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`
+To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`.
 
 [Mailgun]: http://www.mailgun.com/
 
@@ -147,7 +147,8 @@ $ feed2email list
 3: http://thechangelog.com/feed/
 ~~~
 
-To disable a feed so that it is not processed with `feed2email process`, issue:
+To disable a feed so that it is not processed with `feed2email process`, toggle
+it:
 
 ~~~ sh
 $ feed2email toggle 1
@@ -188,11 +189,8 @@ or even `f2e l`.
 
 ### Processing feeds
 
-To have feed2email process your feed list and send email if necessary, issue:
-
-~~~ sh
-$ feed2email process
-~~~
+To have feed2email process your feed list and send email if necessary, issue
+`feed2email process`.
 
 **Tip:** You can use [cron][] to run feed2email automatically e.g. once every
 hour.
@@ -206,9 +204,9 @@ time.
 
 If you want to receive a specific entry from a newly added feed, edit the feed's
 history file with `feed2email history` and remove the entry. Then issue
-`feed2email fetch` on the feed to clear its fetch cache. Next time
-`feed2email process` is run, the entry will be treated as new and will be
-processed (sent as email).
+`feed2email fetch` to clear the feed's fetch cache. Next time
+`feed2email process` runs, the entry will be treated as new and will be
+processed.
 
 ### Getting help
 
