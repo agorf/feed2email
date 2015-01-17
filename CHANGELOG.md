@@ -10,6 +10,7 @@
 * Record entry to history only if email was sent (db59e77)
 * Always fetch feed when permanently redirected (4fb147f)
 * Ignore redirections to the same location (26513d1e)
+* Major rewrite of README file with new instructions
 
 ### 0.7.0
 
