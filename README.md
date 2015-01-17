@@ -130,13 +130,12 @@ Please enter a feed to subscribe to: 1
 Added feed http://thechangelog.com/feed/ at index 3
 $ feed2email add http://thechangelog.com/137/
 0: http://thechangelog.com/137/feed/ "The Changelog » #137: Better GitHub Issues with HuBoard and Ryan Rauh Comments Feed" (application/rss+xml)
-Please enter a feed to subscribe to: 0
-Added feed http://thechangelog.com/137/feed/ at index 4
+Please enter a feed to subscribe to: ^C
 ~~~
 
 Note that on the last command, feed2email autodiscovers the same two feeds as in
-the second command, but only lists the ones that haven't been already added. To
-cancel autodiscovery and not add any feed, simply press `Ctrl-C`.
+the second command, but only lists the ones that haven't been already added.
+Autodiscovery is then cancelled by pressing `Ctrl-C`.
 
 The feed list so far:
 
@@ -146,7 +145,6 @@ $ feed2email list
 1: https://github.com/agorf/feed2email/commits.atom
 2: http://www.rubyinside.com/feed/
 3: http://thechangelog.com/feed/
-4: http://thechangelog.com/137/feed/
 ~~~
 
 To disable a feed so that it is not processed with `feed2email process`, issue:
@@ -159,7 +157,6 @@ $ feed2email list
 1: DISABLED https://github.com/agorf/feed2email/commits.atom
 2: http://www.rubyinside.com/feed/
 3: http://thechangelog.com/feed/
-4: http://thechangelog.com/137/feed/
 ~~~
 
 It is also possible to remove it from the list:
@@ -174,8 +171,7 @@ It has been removed, but what is that weird warning?
 
 Since the feed that got removed was at index 1, every feed below it got
 reindexed. So feed2email warns you that the feed indices have changed: the feed
-at index 2 is now at index 1, the feed at index 3 is now at index 2 and the feed
-at index 4 is now at index 3.
+at index 2 is now at index 1 and the feed at index 3 is now at index 2.
 
 Indeed:
 
@@ -184,7 +180,6 @@ $ feed2email list
 0: https://github.com/agorf.atom
 1: http://www.rubyinside.com/feed/
 2: http://thechangelog.com/feed/
-3: http://thechangelog.com/137/feed/
 ~~~
 
 **Tip:** feed2email installs `f2e` as a symbolic link to the feed2email binary,
