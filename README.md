@@ -134,12 +134,8 @@ Please enter a feed to subscribe to: 0
 Added feed http://thechangelog.com/137/feed/ at index 4
 ~~~
 
-Note that on the first command, feed2email autodiscovers and adds the only feed
-listed at [Ruby Inside](http://www.rubyinside.com/). On the second command, the
-[The Changelog](http://thechangelog.com/) podcast episode page has two feeds
-listed, so feed2email prompts you to choose one and subsequently adds it.
-Finally, on the third command, feed2email autodiscovers the same two feeds but
-only list the ones you haven't added already.
+Note that on the last command, feed2email autodiscovers the same two feeds as in
+the second command, but only lists the ones that haven't been added already.
 
 The feed list so far:
 
