@@ -43,12 +43,15 @@ Important changes since version 0.8.0:
 
 * Feed metadata is stored in the feed list (~/.feed2email/feeds.yml). Please run
   the provided migration script before using feed2email:
-  `feed2email-migrate-feedlist` It is safe to remove any leftover feed meta
-  files: rm ~/.feed2email/meta-*.yml
+  `feed2email-migrate-feedlist`
+
+  It is safe to remove any feed meta files: rm ~/.feed2email/meta-*.yml
 
 * A command-line interface is available. Running feed2email without any options
-  will display some help text. To run it so that it processes your feed list
-  (sending email etc.), issue: feed2email process
+  will display some help text. To run it so that it processes your feed list,
+  issue: `feed2email process`
+
+  Don't forget to update any cron jobs too!
 
 }
 end
