@@ -78,6 +78,7 @@ module Feed2Email
       def check_feed_index(index, options = {})
         if index.to_i.to_s != index ||
             (options[:in] && !options[:in].include?(index.to_i))
+          puts if index.nil? # Ctrl-D
           $stderr.puts 'Invalid index'
           exit 8
         end
