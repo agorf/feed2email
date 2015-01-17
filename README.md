@@ -189,15 +189,19 @@ $ feed2email list
 so you can use that to avoid typing the whole name every time, e.g.: `f2e list`
 or even `f2e l`.
 
-### Processing feeds
+### Running
 
-To have feed2email process your feed list and send email if necessary, issue
-`feed2email process`.
+~~~ sh
+$ feed2email process
+~~~
 
-**Tip:** You can use [cron][] to run feed2email automatically e.g. once every
-hour.
+When run, feed2email will go through your feed list, fetch each feed (if
+necessary) and send an email for each new entry. Any output is logged to the
+standard output, unless configured otherwise.
 
-[cron]: http://en.wikipedia.org/wiki/Cron
+**Warning:** Prior to version 0.8.0 where a command-line interface was
+introduced, the way to run feed2email was simply `feed2email`. Now this will
+just print helpful text on how to use it.
 
 When a new feed is detected (which is the case when feed2email runs for the
 first time on your feed list), all of its entries are skipped and no email is
@@ -212,8 +216,8 @@ processed.
 
 ### Getting help
 
-Issue `feed2email` or `feed2email help` at any point to get a helpful text on
-how to use feed2email.
+Issue `feed2email` or `feed2email help` at any point to get helpful text on how
+to use feed2email.
 
 ## Contributing
 
