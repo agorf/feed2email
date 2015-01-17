@@ -25,6 +25,20 @@ module Feed2Email
       end
     end
 
+    desc 'history FEED', 'edit history file of feed at index FEED with $EDITOR'
+    def history(index)
+      if ENV['EDITOR'].nil?
+        $stderr.puts '$EDITOR not set'
+        exit 6
+      end
+
+      require 'feed2email/feed_history'
+
+      index = check_feed_index(index, in: (0...feed_list.size))
+      history_path = FeedHistory.new(feed_list[index][:uri]).path
+      exec(ENV['EDITOR'], history_path)
+    end
+
     desc 'remove FEED', 'unsubscribe from feed at index FEED'
     def remove(index)
       index = check_feed_index(index, in: (0...feed_list.size))

@@ -12,6 +12,10 @@ module Feed2Email
       @old_feed ||= File.exist?(path)
     end
 
+    def path
+      File.join(CONFIG_DIR, filename)
+    end
+
     def include?(entry_uri)
       data.include?(entry_uri) # delegate
     end
@@ -60,10 +64,6 @@ module Feed2Email
 
     def mark_dirty
       @dirty = true
-    end
-
-    def path
-      File.join(CONFIG_DIR, filename)
     end
 
     def remove_file

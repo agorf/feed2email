@@ -204,11 +204,10 @@ first time on your feed list), all of its entries are skipped and no email is
 sent. This is so that you don't get spammed when you add a feed for the first
 time.
 
-If you want to receive a specific entry from a newly added feed, remove it (i.e.
-with your text editor) from the feed's history file
-`~/.feed2email/history-<digest>.yml`, where `<digest>` is the MD5 hex digest of
-the feed URL. Then edit `~/.feed2email/feeds.yml` and remove its `last_modified`
-and `etag` keys to force the feed to be fetched (this busts caching).
+If you want to receive a specific entry from a newly added feed, edit the feed's
+history file with `feed2email history` and remove the entry. Then edit
+`~/.feed2email/feeds.yml` and remove the feed's `last_modified` and `etag` keys
+to force the feed to be fetched (this busts caching).
 
 Next time you issue `feed2email process`, the entry will be treated as new and
 will be processed (sent as email).
