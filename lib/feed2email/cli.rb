@@ -142,8 +142,7 @@ module Feed2Email
 
         begin
           response = ask('Please enter a feed to subscribe to:')
-          index = check_feed_index(response,
-                                   in: (0...discovered_feeds.size).to_a)
+          index = check_feed_index(response, in: (0...discovered_feeds.size))
         rescue Interrupt # Ctrl-C
           puts "\nAborting..."
           exit
