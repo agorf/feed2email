@@ -13,15 +13,13 @@ module Feed2Email
       begin
         feed_list << uri
       rescue FeedList::DuplicateFeedError => e
-        $stderr.puts e.message
-        exit 2
+        abort e.message
       end
 
       if feed_list.sync
         puts "Added feed #{uri} at index #{feed_list.size - 1}"
       else
-        $stderr.puts 'Failed to add feed'
-        exit 3
+        abort 'Failed to add feed'
       end
     end
 
@@ -33,17 +31,13 @@ module Feed2Email
       if feed_list.sync
         puts "Cleared fetch cache for feed at index #{index}"
       else
-        $stderr.puts "Failed to clear fetch cache for feed at index #{index}"
-        exit 7
+        abort "Failed to clear fetch cache for feed at index #{index}"
       end
     end
 
     desc 'history FEED', 'edit history file of feed at index FEED with $EDITOR'
     def history(index)
-      if ENV['EDITOR'].nil?
-        $stderr.puts '$EDITOR not set'
-        exit 6
-      end
+      abort '$EDITOR not set' unless ENV['EDITOR']
 
       index = check_feed_index(index, in: (0...feed_list.size))
       require 'feed2email/feed_history'
@@ -63,8 +57,7 @@ module Feed2Email
           puts 'Warning: Feed list indices have changed!'
         end
       else
-        $stderr.puts "Failed to remove feed at index #{index}"
-        exit 4
+        abort "Failed to remove feed at index #{index}"
       end
     end
 
@@ -77,10 +70,7 @@ module Feed2Email
       if toggled && feed_list.sync
         puts "#{enabled ? 'En' : 'Dis'}abled feed at index #{index}"
       else
-        $stderr.puts(
-          "Failed to #{enabled ? 'en' : 'dis'}able feed at index #{index}"
-        )
-        exit 5
+        abort "Failed to #{enabled ? 'en' : 'dis'}able feed at index #{index}"
       end
     end
 
@@ -105,8 +95,7 @@ module Feed2Email
         if index.to_i.to_s != index ||
             (options[:in] && !options[:in].include?(index.to_i))
           puts if index.nil? # Ctrl-D
-          $stderr.puts 'Invalid index'
-          exit 8
+          abort 'Invalid index'
         end
 
         index.to_i
