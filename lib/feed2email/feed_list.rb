@@ -5,7 +5,6 @@ require 'yaml'
 module Feed2Email
   class FeedList
     class DuplicateFeedError < StandardError; end
-    class MissingFeedError < StandardError; end
 
     extend Forwardable
 
@@ -26,9 +25,10 @@ module Feed2Email
     end
 
     def delete_at(index)
-      check_missing_feed(index)
-      mark_dirty
-      data.delete_at(index)
+      if deleted = data.delete_at(index)
+        mark_dirty
+        deleted
+      end
     end
 
     def include?(uri)
@@ -75,18 +75,14 @@ module Feed2Email
     end
 
     def toggle(index)
-      check_missing_feed(index)
-      mark_dirty
-      data[index][:enabled] = !data[index][:enabled]
+      if data[index]
+        mark_dirty
+        data[index][:enabled] = !data[index][:enabled]
+        true
+      end
     end
 
     private
-
-    def check_missing_feed(index)
-      if data[index].nil?
-        raise MissingFeedError, "Feed at index #{index} does not exist"
-      end
-    end
 
     def data
       return @data if @data

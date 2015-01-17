@@ -27,16 +27,10 @@ module Feed2Email
 
     desc 'remove FEED', 'unsubscribe from feed at index FEED'
     def remove(index)
-      index = check_feed_index(index)
+      index = check_feed_index(index, in: (0...feed_list.size))
+      deleted = feed_list.delete_at(index)
 
-      begin
-        feed_list.delete_at(index)
-      rescue FeedList::MissingFeedError => e
-        $stderr.puts e.message
-        exit 4
-      end
-
-      if feed_list.sync
+      if deleted && feed_list.sync
         puts "Removed feed at index #{index}"
 
         if feed_list.size != index # feed was not the last
@@ -44,30 +38,23 @@ module Feed2Email
         end
       else
         $stderr.puts "Failed to remove feed at index #{index}"
-        exit 5
+        exit 4
       end
     end
 
     desc 'toggle FEED', 'enable/disable feed at index FEED'
     def toggle(index)
-      index = check_feed_index(index)
-
-      begin
-        feed_list.toggle(index)
-      rescue FeedList::MissingFeedError => e
-        $stderr.puts e.message
-        exit 6
-      end
-
+      index   = check_feed_index(index, in: (0...feed_list.size))
+      toggled = feed_list.toggle(index)
       enabled = feed_list[index][:enabled]
 
-      if feed_list.sync
+      if toggled && feed_list.sync
         puts "#{enabled ? 'En' : 'Dis'}abled feed at index #{index}"
       else
         $stderr.puts(
           "Failed to #{enabled ? 'en' : 'dis'}able feed at index #{index}"
         )
-        exit 7
+        exit 5
       end
     end
 
