@@ -194,6 +194,11 @@ To have feed2email process your feed list and send email if necessary, issue:
 $ feed2email process
 ~~~
 
+**Tip:** You can use [cron][] to run feed2email automatically e.g. once every
+hour.
+
+[cron]: http://en.wikipedia.org/wiki/Cron
+
 When a new feed is detected (which is the case when feed2email runs for the
 first time on your feed list), all of its entries are skipped and no email is
 sent. This is so that you don't get spammed when you add a feed for the first
@@ -212,12 +217,6 @@ will be processed (sent as email).
 
 Issue `feed2email` or `feed2email help` at any point to get a helpful text on
 how to use feed2email.
-
-### Automating
-
-You can use [cron][] to run feed2email automatically e.g. once every hour.
-
-[cron]: http://en.wikipedia.org/wiki/Cron
 
 ## Contributing
 
