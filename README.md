@@ -10,11 +10,11 @@ to be simple, fast and easy to use.
 ## Features
 
 * Easy command-line feed management (add, remove, enable/disable)
-* Feed fetching caching
+* Feed fetching caching (_Last-Modified_ and _ETag_ HTTP headers)
 * Feed autodiscovery
-* Support for sending email with SMTP or a local MTA (e.g. sendmail)
+* Email sending with SMTP or a local MTA (e.g. sendmail)
 * _text/html_ and _text/plain_ (Markdown) multipart emails
-* Support for feed permanent redirections
+* Permanent redirection support for feed URLs
 * Auto-fixing relative feed entry permalinks
 
 ## Installation
@@ -59,10 +59,10 @@ pair is separated with a colon, e.g.: `foo: bar`
   only applies when `log_shift_age` is a number greater than zero (default is
   `1`)
 
-### Delivery options
+### Email sending options
 
 It is possible to send email via SMTP or an [MTA][] (default). If `config.yml`
-contains options for both, feed2email will use SMTP.
+contains options for both, feed2email will prefer SMTP.
 
 [MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
 
@@ -104,7 +104,7 @@ interface set up and working in your system like [msmtp][] or [Postfix][].
 
 ### Managing feeds
 
-First, add some feeds:
+Add some feeds:
 
 ~~~ sh
 $ feed2email add https://github.com/agorf.atom
@@ -117,7 +117,7 @@ Added feed https://github.com/agorf/feed2email/commits.atom at index 1
 instead of `feed2email list`, you can simply issue `feed2email l` as long as
 there is no other command beginning with an `l`.
 
-It is also possible to pass a website URL and let feed2email autodiscover any
+Passing a website URL to the `add` command will have feed2email autodiscover any
 feeds:
 
 ~~~ sh
@@ -136,7 +136,7 @@ Please enter a feed to subscribe to: ^C
 ~~~
 
 Note that on the last command, feed2email autodiscovers the same two feeds as in
-the second command, but only lists the ones that haven't been already added.
+the second command, but only lists the one that hasn't been already added.
 Autodiscovery is then cancelled by pressing `Ctrl-C`.
 
 The feed list so far:
@@ -149,8 +149,8 @@ $ feed2email list
 3: http://thechangelog.com/feed/
 ~~~
 
-To disable a feed so that it is not processed with `feed2email process`, toggle
-it:
+A feed can be disabled so that it is not processed when `feed2email process`
+runs with the `toggle` command:
 
 ~~~ sh
 $ feed2email toggle 1
@@ -162,7 +162,7 @@ $ feed2email list
 3: http://thechangelog.com/feed/
 ~~~
 
-It is also possible to remove it from the list:
+It can also be removed from the list altogether:
 
 ~~~ sh
 $ feed2email remove 1
@@ -196,7 +196,7 @@ $ feed2email process
 ~~~
 
 When run, feed2email will go through your feed list, fetch each feed (if
-necessary) and send an email for each new entry. Any output is logged to the
+necessary) and send an email for each new entry. Output is logged to the
 standard output, unless configured otherwise.
 
 **Warning:** Prior to version 0.8.0 where a command-line interface was
