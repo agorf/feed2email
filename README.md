@@ -7,6 +7,15 @@ to be simple, fast and easy to use.
 [headless]: http://en.wikipedia.org/wiki/Headless_software
 [rss2email]: http://www.allthingsrss.com/rss2email/
 
+## Features
+
+* Easy feed management (add, remove, enable/disable)
+* Feed fetching caching
+* Feed autodiscovery
+* _text/html_ and _text/plain_ (Markdown) multipart emails
+* Support for permanent redirections
+* Support for sending email with SMTP or a local MTA (e.g. sendmail)
+
 ## Installation
 
 As a [gem][] from [RubyGems][]:
