@@ -7,12 +7,7 @@ module Feed2Email
   class Cli < Thor
     desc 'add URL', 'subscribe to feed at URL'
     def add(uri)
-      checker = RedirectionChecker.new(uri)
-
-      if checker.permanently_redirected?
-        uri = checker.location
-        puts "Got permanently redirected to #{checker.location}"
-      end
+      uri = handle_permanent_redirection(uri)
 
       uri = perform_feed_autodiscovery(uri)
 
@@ -92,6 +87,17 @@ module Feed2Email
     no_commands do
       def feed_list
         Feed2Email.feed_list # delegate
+      end
+
+      def handle_permanent_redirection(uri)
+        checker = RedirectionChecker.new(uri)
+
+        if checker.permanently_redirected?
+          puts "Got permanently redirected to #{checker.location}"
+          checker.location
+        else
+          uri
+        end
       end
 
       def perform_feed_autodiscovery(uri)
