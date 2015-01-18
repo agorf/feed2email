@@ -147,7 +147,7 @@ module Feed2Email
     def uri
       return @uri if @uri
 
-      @uri = @data.url
+      @uri = data.url
 
       # Make relative entry URL absolute by prepending feed URL
       if @uri && @uri.start_with?('/')
