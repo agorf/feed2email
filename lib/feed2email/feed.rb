@@ -24,7 +24,7 @@ module Feed2Email
     include Loggable
 
     def process
-      logger.info "Processing feed #{url} ..."
+      logger.info "Processing feed #{uri} ..."
 
       return false unless fetch_and_parse
 
@@ -47,7 +47,7 @@ module Feed2Email
     def to_s
       parts = [id.to_s.rjust(3)] # align right 1-999
       parts << "\e[31mDISABLED\e[0m" unless enabled
-      parts << url
+      parts << uri
       parts.join(' ')
     end
 
@@ -86,7 +86,7 @@ module Feed2Email
       begin
         handle_permanent_redirection
 
-        open(url, fetch_options) do |f|
+        open(uri, fetch_options) do |f|
           self.last_modified = f.meta['last-modified']
           self.etag = f.meta['etag']
 
@@ -131,11 +131,11 @@ module Feed2Email
     end
 
     def handle_permanent_redirection
-      checker = RedirectionChecker.new(url)
+      checker = RedirectionChecker.new(uri)
 
       if checker.permanently_redirected?
         logger.warn 'Got permanently redirected!'
-        self.url = checker.location
+        self.uri = checker.location
         logger.warn "Updated feed location to #{checker.location}"
       end
     end
@@ -164,7 +164,7 @@ module Feed2Email
     def parsed_feed; @parsed_feed end
 
     def permanently_redirected?
-      column_changed?(:url)
+      column_changed?(:uri)
     end
 
     def process_entries
@@ -180,10 +180,10 @@ module Feed2Email
     end
 
     def process_entry(parsed_entry)
-      entry = Entry.new(feed_id: id, url: parsed_entry.url)
+      entry = Entry.new(feed_id: id, uri: parsed_entry.url)
       entry.data      = parsed_entry
       entry.feed_data = parsed_feed
-      entry.feed_uri  = url
+      entry.feed_uri  = uri
 
       return entry.process
     end

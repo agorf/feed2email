@@ -13,11 +13,11 @@ module Feed2Email
       uri = perform_feed_autodiscovery(uri)
 
       begin
-        feed = Feed.create(url: uri)
+        feed = Feed.create(uri: uri)
         puts "Added feed: #{feed}"
       rescue Sequel::UniqueConstraintViolation => e
-        if e.message =~ /unique .* feeds.url/i
-          feed = Feed[url: uri]
+        if e.message =~ /unique .* feeds.uri/i
+          feed = Feed[uri: uri]
           abort "Feed already exists: #{feed}"
         else
           raise
@@ -98,7 +98,7 @@ module Feed2Email
         discoverer = FeedAutodiscoverer.new(uri)
 
         # Exclude already subscribed feeds from results
-        subscribed_feed_uris = Feed.select_map(:url)
+        subscribed_feed_uris = Feed.select_map(:uri)
         discovered_feeds = discoverer.feeds.reject {|feed|
           subscribed_feed_uris.include?(feed[:uri])
         }

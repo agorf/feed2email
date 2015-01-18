@@ -34,7 +34,7 @@ module Feed2Email
     def setup_schema
       create_table :feeds do
         primary_key :id
-        String :url, null: false, unique: true
+        String :uri, null: false, unique: true
         TrueClass :enabled, null: false, default: true
         String :etag
         String :last_modified
@@ -45,7 +45,7 @@ module Feed2Email
         primary_key :id
         foreign_key :feed_id, :feeds, null: false, index: true,
                                       on_delete: :cascade
-        String :url, null: false, unique: true
+        String :uri, null: false, unique: true
       end
     end
   end

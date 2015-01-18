@@ -28,7 +28,7 @@ module Feed2Email
         return true
       end
 
-      if feed.entries_dataset.where(url: url).any? # old entry
+      if feed.entries_dataset.where(uri: uri).any? # old entry
         logger.debug 'Skipping old entry...'
         return true
       end
