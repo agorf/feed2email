@@ -1,17 +1,12 @@
+require 'pathname'
 require 'feed2email/config'
-require 'feed2email/feed_list'
+require 'feed2email/database'
 require 'feed2email/lazy_smtp_connection'
 require 'feed2email/logger'
 
 module Feed2Email
-  CONFIG_DIR = File.join(ENV['HOME'], '.feed2email')
-
   def self.config
-    @config ||= Config.new(File.join(CONFIG_DIR, 'config.yml'))
-  end
-
-  def self.feed_list
-    @feed_list ||= FeedList.new(File.join(CONFIG_DIR, 'feeds.yml'))
+    @config ||= Config.new(root.join('config.yml').to_s)
   end
 
   def self.logger
@@ -21,7 +16,17 @@ module Feed2Email
     ).logger
   end
 
+  def self.root
+    @root ||= Pathname.new(ENV['HOME']).join('.feed2email')
+  end
+
   def self.smtp_connection
     @smtp_connection ||= LazySMTPConnection.new
   end
+
+  Database.new(
+    adapter:  'sqlite',
+    database: root.join('feed2email.db').to_s,
+    loggers:  [logger]
+  )
 end

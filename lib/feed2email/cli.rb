@@ -1,110 +1,88 @@
 require 'thor'
 require 'feed2email'
-require 'feed2email/feed_autodiscoverer'
-require 'feed2email/redirection_checker'
+require 'feed2email/feed'
 
 module Feed2Email
   class Cli < Thor
-    desc 'add URL', 'subscribe to feed at URL'
+    desc 'add URL', 'Subscribe to feed at URL'
     def add(uri)
+      require 'feed2email/feed_autodiscoverer'
+      require 'feed2email/redirection_checker'
+
       uri = handle_permanent_redirection(uri)
       uri = perform_feed_autodiscovery(uri)
 
       begin
-        feed_list << uri
-      rescue FeedList::DuplicateFeedError => e
-        abort e.message
-      end
-
-      if feed_list.sync
-        puts "Added feed #{uri} at index #{feed_list.size - 1}"
-      else
-        abort 'Failed to add feed'
-      end
-    end
-
-    desc 'fetch FEED', 'clear fetch cache for feed at index FEED'
-    def fetch(index)
-      index = check_feed_index(index, in: (0...feed_list.size))
-      feed_list.clear_fetch_cache(index)
-
-      if feed_list.sync
-        puts "Cleared fetch cache for feed at index #{index}"
-      else
-        abort "Failed to clear fetch cache for feed at index #{index}"
-      end
-    end
-
-    desc 'history FEED', 'edit history file of feed at index FEED with $EDITOR'
-    def history(index)
-      abort '$EDITOR not set' unless ENV['EDITOR']
-
-      index = check_feed_index(index, in: (0...feed_list.size))
-      require 'feed2email/feed_history'
-      history_path = FeedHistory.new(feed_list[index][:uri]).path
-      exec(ENV['EDITOR'], history_path)
-    end
-
-    desc 'remove FEED', 'unsubscribe from feed at index FEED'
-    def remove(index)
-      index = check_feed_index(index, in: (0...feed_list.size))
-      deleted = feed_list.delete_at(index)
-
-      if deleted && feed_list.sync
-        puts "Removed feed at index #{index}"
-
-        if feed_list.size != index # feed was not the last
-          puts 'Warning: Feed list indices have changed!'
+        feed = Feed.create(url: uri)
+        puts "Added feed: #{feed}"
+      rescue Sequel::UniqueConstraintViolation => e
+        if e.message =~ /unique .* feeds.url/i
+          feed = Feed[url: uri]
+          abort "Feed already exists: #{feed}"
+        else
+          raise
         end
-      else
-        abort "Failed to remove feed at index #{index}"
       end
     end
 
-    desc 'toggle FEED', 'enable/disable feed at index FEED'
-    def toggle(index)
-      index   = check_feed_index(index, in: (0...feed_list.size))
-      toggled = feed_list.toggle(index)
-      enabled = feed_list[index][:enabled]
-
-      if toggled && feed_list.sync
-        puts "#{enabled ? 'En' : 'Dis'}abled feed at index #{index}"
-      else
-        abort "Failed to #{enabled ? 'en' : 'dis'}able feed at index #{index}"
-      end
-    end
-
-    desc 'list', 'list feed subscriptions'
+    desc 'list', 'List feed subscriptions'
     def list
-      puts feed_list
+      if Feed.empty?
+        puts 'No feeds'
+      else
+        puts Feed.by_smallest_id.to_a
+      end
     end
 
-    desc 'process', 'process feed subscriptions'
+    desc 'process', 'Process feed subscriptions'
     def process
-      feed_list.process
+      begin
+        Feed.enabled.by_smallest_id.each(&:process)
+      ensure
+        Feed2Email.smtp_connection.finalize
+      end
     end
 
-    desc 'version', 'show feed2email version'
+    desc 'remove ID', 'Unsubscribe from feed with id ID'
+    def remove(id)
+      feed = Feed[id]
+
+      if feed && feed.delete
+        puts "Removed feed: #{feed}"
+      else
+        abort "Failed to remove feed. Is #{id} a valid id?"
+      end
+    end
+
+    desc 'toggle ID', 'Enable/disable feed with id ID'
+    def toggle(id)
+      feed = Feed[id]
+
+      if feed && feed.toggle
+        puts "Toggled feed: #{feed}"
+      else
+        abort "Failed to toggle feed. Is #{id} a valid id?"
+      end
+    end
+
+    desc 'uncache ID', 'Clear fetch cache for feed with id ID'
+    def uncache(id)
+      feed = Feed[id]
+
+      if feed && feed.uncache
+        puts "Uncached feed: #{feed}"
+      else
+        abort "Failed to uncache feed. Is #{id} a valid id?"
+      end
+    end
+
+    desc 'version', 'Show feed2email version'
     def version
       require 'feed2email/version'
       puts "feed2email #{Feed2Email::VERSION}"
     end
 
     no_commands do
-      def check_feed_index(index, options = {})
-        if index.to_i.to_s != index ||
-            (options[:in] && !options[:in].include?(index.to_i))
-          puts if index.nil? # Ctrl-D
-          abort 'Invalid index'
-        end
-
-        index.to_i
-      end
-
-      def feed_list
-        Feed2Email.feed_list # delegate
-      end
-
       def handle_permanent_redirection(uri)
         checker = RedirectionChecker.new(uri)
 
@@ -119,8 +97,10 @@ module Feed2Email
       def perform_feed_autodiscovery(uri)
         discoverer = FeedAutodiscoverer.new(uri)
 
+        # Exclude already subscribed feeds from results
+        subscribed_feed_uris = Feed.select_map(:url)
         discovered_feeds = discoverer.feeds.reject {|feed|
-          feed_list.include?(feed[:uri])
+          subscribed_feed_uris.include?(feed[:uri])
         }
 
         if discovered_feeds.empty?
@@ -150,8 +130,13 @@ module Feed2Email
           exit
         end
 
-        index = check_feed_index(response, in: (0...discovered_feeds.size))
-        discovered_feeds[index][:uri]
+        abort 'Invalid index' unless response.to_i.to_s == response
+
+        feed = discovered_feeds[response.to_i]
+
+        abort 'Invalid index' unless feed && feed[:uri]
+
+        feed[:uri]
       end
     end
   end

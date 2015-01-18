@@ -19,6 +19,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'reverse_markdown', '~> 0.6.0'
   gem.add_dependency 'thor', '~> 0.19.1'
   gem.add_dependency 'nokogiri', '~> 1.6.5'
+  gem.add_dependency 'sequel', '~> 4.18.0'
+  gem.add_dependency 'sqlite3', '~> 1.3.10'
 
   gem.add_development_dependency 'rspec', '~> 2.14.1'
   gem.add_development_dependency 'fuubar'

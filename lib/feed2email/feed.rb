@@ -1,97 +1,68 @@
 require 'feedzirra'
 require 'open-uri'
+require 'sequel'
 require 'stringio'
 require 'zlib'
 require 'feed2email/configurable'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
-require 'feed2email/feed_history'
 require 'feed2email/loggable'
 require 'feed2email/redirection_checker'
 require 'feed2email/version'
 
 module Feed2Email
-  class Feed
+  class Feed < Sequel::Model(:feeds)
+    plugin :dirty
+
+    one_to_many :entries
+
+    subset(:enabled, enabled: true)
+
+    def_dataset_method(:by_smallest_id) { order(:id) }
+
     include Configurable
     include Loggable
 
-    attr_reader :meta
-
-    def initialize(meta)
-      @meta = meta
-    end
-
     def process
-      logger.info "Processing feed #{uri} ..."
+      logger.info "Processing feed #{url} ..."
 
-      return unless fetch_and_parse_feed
+      return false unless fetch_and_parse
 
-      if entries.any?
-        processed = process_entries
-        history.sync
+      if processable?
+        # Reset feed caching parameters unless all entries were processed. This
+        # makes sure the feed will be fetched on next processing.
+        unless process_entries
+          self.last_modified_at = initial_value(:last_modified_at)
+          self.etag = initial_value(:etag)
+        end
+
+        self.last_processed_at = Time.now
+
+        save
       else
-        processed = true
         logger.warn 'Feed does not have entries'
       end
+    end
 
-      processed
+    def to_s
+      parts = [id.to_s.rjust(3)] # align right 1-999
+      parts << "\e[31mDISABLED\e[0m" unless enabled
+      parts << url
+      parts.join(' ')
+    end
+
+    def toggle
+      update(enabled: !enabled)
+    end
+
+    def uncache
+      !cached? || update(last_modified: nil, etag: nil)
     end
 
     private
 
-    def apply_send_delay
-      return if config['send_delay'] == 0
-
-      return if last_email_sent_at.nil?
-
-      secs_since_last_email = Time.now - last_email_sent_at
-      secs_to_sleep = config['send_delay'] - secs_since_last_email
-
-      return if secs_to_sleep <= 0
-
-      logger.debug "Sleeping for #{secs_to_sleep} seconds..."
-      sleep(secs_to_sleep)
-    end
-
-    def fetch_feed
-      logger.debug 'Fetching feed...'
-
-      begin
-        cache_feed = !permanently_redirected?
-
-        open(uri, fetch_feed_options(cache_feed)) do |f|
-          if f.meta['last-modified'] || meta.has_key?(:last_modified)
-            meta[:last_modified] = f.meta['last-modified']
-          end
-
-          if f.meta['etag'] || meta.has_key?(:etag)
-            meta[:etag] = f.meta['etag']
-          end
-
-          return decode_content(f.read, f.meta['content-encoding'])
-        end
-      rescue => e
-        if e.is_a?(OpenURI::HTTPError) && e.message == '304 Not Modified'
-          logger.info 'Feed not modified; skipping...'
-        else
-          logger.error 'Failed to fetch feed'
-          log_exception(e)
-        end
-
-        return false
-      end
-    end
-
-    def permanently_redirected?
-      checker = RedirectionChecker.new(uri)
-
-      return false unless checker.permanently_redirected?
-
-      self.uri = checker.location
-      logger.warn 'Got permanently redirected!'
-      logger.warn "Updated feed location to #{checker.location}"
-
-      true
+    def cached?
+      last_modified || etag
     end
 
     def decode_content(data, content_encoding)
@@ -109,26 +80,72 @@ module Feed2Email
       xml
     end
 
-    def fetch_feed_options(cache_feed)
+    def fetch
+      logger.debug 'Fetching feed...'
+
+      begin
+        handle_permanent_redirection
+
+        open(url, fetch_options) do |f|
+          self.last_modified = f.meta['last-modified']
+          self.etag = f.meta['etag']
+
+          return decode_content(f.read, f.meta['content-encoding'])
+        end
+      rescue => e
+        if e.is_a?(OpenURI::HTTPError) && e.message == '304 Not Modified'
+          logger.info 'Feed not modified; skipping...'
+        else
+          logger.error 'Failed to fetch feed'
+          log_exception(e)
+        end
+
+        return false
+      end
+    end
+
+    def fetch_and_parse
+      if xml_data = fetch
+        @parsed_feed = parse(xml_data)
+        @parsed_feed && @parsed_feed.respond_to?(:entries)
+      end
+    end
+
+    def fetch_options
       options = {
         'User-Agent' => "feed2email/#{VERSION}",
         'Accept-Encoding' => 'gzip, deflate',
       }
 
-      if cache_feed
-        if meta[:last_modified]
-          options['If-Modified-Since'] = meta[:last_modified]
+      unless permanently_redirected?
+        if last_modified
+          options['If-Modified-Since'] = last_modified
         end
 
-        if meta[:etag]
-          options['If-None-Match'] = meta[:etag]
+        if etag
+          options['If-None-Match'] = etag
         end
       end
 
       options
     end
 
-    def parse_feed(xml_data)
+    def handle_permanent_redirection
+      checker = RedirectionChecker.new(url)
+
+      if checker.permanently_redirected?
+        logger.warn 'Got permanently redirected!'
+        self.url = checker.location
+        logger.warn "Updated feed location to #{checker.location}"
+      end
+    end
+
+    def log_exception(error)
+      logger.error "#{error.class}: #{error.message.strip}"
+      error.backtrace.each {|line| logger.debug line }
+    end
+
+    def parse(xml_data)
       logger.debug 'Parsing feed...'
 
       begin
@@ -140,92 +157,43 @@ module Feed2Email
       end
     end
 
-    def fetch_and_parse_feed
-      if xml_data = fetch_feed
-        @data = parse_feed(xml_data)
-      end
-
-      @data && @data.respond_to?(:entries)
+    def parsed_entries
+      parsed_feed.entries
     end
 
-    def uri
-      meta[:uri]
-    end
+    def parsed_feed; @parsed_feed end
 
-    def uri=(uri)
-      history.uri = uri
-      meta[:uri] = uri
-    end
-
-    def entries
-      @entries ||= data.entries.first(max_entries).map {|entry_data|
-        Entry.new(entry_data, uri, title)
-      }
-    end
-
-    def max_entries
-      config['max_entries'].to_i
+    def permanently_redirected?
+      column_changed?(:url)
     end
 
     def process_entries
-      logger.info "Processing #{'entry'.pluralize(entries.size, 'entries')}..."
-      entries.all? {|e| process_entry(e) } # false if any entry fails
-    end
+      total = processable_entries.size
+      processed = true
 
-    def process_entry(entry)
-      logger.info "Processing entry #{entry.uri} ..."
-
-      unless history.any?
-        logger.debug 'Skipping new feed entry...'
-        history << entry.uri
-        return true
+      processable_entries.each_with_index do |parsed_entry, i|
+        logger.info "Processing entry #{i + 1}/#{total} #{parsed_entry.url} ..."
+        processed &&= process_entry(parsed_entry)
       end
 
-      if history.include?(entry.uri)
-        logger.debug 'Skipping old entry...'
-        return true
-      end
-
-      apply_send_delay
-
-      logger.debug 'Sending new entry...'
-
-      begin
-        mail_sent = entry.send_mail
-      rescue => e
-        log_exception(e)
-        return false
-      end
-
-      if mail_sent
-        self.last_email_sent_at = Time.now
-        history << entry.uri
-      end
-
-      mail_sent
+      processed
     end
 
-    def history
-      @history ||= FeedHistory.new(uri)
+    def process_entry(parsed_entry)
+      entry = Entry.new(feed_id: id, url: parsed_entry.url)
+      entry.data      = parsed_entry
+      entry.feed_data = parsed_feed
+      entry.feed_uri  = url
+
+      return entry.process
     end
 
-    def last_email_sent_at
-      @last_email_sent_at
+    def processable?
+      processable_entries.size > 0
     end
 
-    def last_email_sent_at=(time)
-      @last_email_sent_at = time
+    def processable_entries
+      parsed_entries.first(config['max_entries'])
     end
-
-    def log_exception(error)
-      logger.error "#{error.class}: #{error.message.strip}"
-      error.backtrace.each {|line| logger.debug line }
-    end
-
-    def title
-      data.title # delegate
-    end
-
-    def data; @data end
   end
 end

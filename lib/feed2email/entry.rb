@@ -1,31 +1,147 @@
-require 'feed2email/mail'
+require 'mail'
+require 'sequel'
+require 'uri'
+require 'feed2email/configurable'
+require 'feed2email/core_ext'
+require 'feed2email/loggable'
+require 'feed2email/version'
 
 module Feed2Email
-  class Entry
-    def initialize(data, feed_uri, feed_title)
-      @data = data
-      @feed_uri = feed_uri
-      @feed_title = feed_title
+  class Entry < Sequel::Model(:entries)
+    many_to_one :feed
+
+    class << self
+      attr_accessor :last_email_sent_at
     end
 
-    def author
-      @data.author
+    include Configurable
+    include Loggable
+
+    attr_accessor :data
+    attr_accessor :feed_data
+    attr_accessor :feed_uri
+
+    def process
+      if feed.last_processed_at.nil? # new feed
+        logger.debug 'Skipping new feed entry...'
+        save # record as seen
+        return true
+      end
+
+      if feed.entries_dataset.where(url: url).any? # old entry
+        logger.debug 'Skipping old entry...'
+        return true
+      end
+
+      return send_mail
+    end
+
+    private
+
+    def apply_send_delay
+      return if config['send_delay'] == 0
+
+      return if last_email_sent_at.nil?
+
+      secs_since_last_email = Time.now - last_email_sent_at
+      secs_to_sleep = config['send_delay'] - secs_since_last_email
+
+      return if secs_to_sleep <= 0
+
+      logger.debug "Sleeping for #{secs_to_sleep} seconds..."
+      sleep(secs_to_sleep)
+    end
+
+    def author; data.author end
+
+    def body_html
+      %{
+        <html>
+        <body>
+        <h1><a href="%{uri}">%{title}</a></h1>
+        %{content}
+        <p>%{published}</p>
+        <p><a href="%{uri}">%{uri}</a></p>
+        <p>--<br>
+        Sent by <a href="https://github.com/agorf/feed2email">feed2email
+        #{VERSION}</a> at #{Time.now}</p>
+        </body>
+        </html>
+      }.gsub(/^\s+/, '') % {
+        content:   content,
+        published: published_line,
+        title:     title.strip_html,
+        uri:       uri.escape_html,
+      }
+    end
+
+    def body_text
+      body_html.to_markdown
+    end
+
+    def build_mail
+      Mail.new.tap do |m|
+        m.from      = %{"#{feed_title}" <#{config['sender']}>}
+        m.to        = config['recipient']
+        m.subject   = title.strip_html
+        m.html_part = build_mail_part('text/html', body_html)
+        m.text_part = build_mail_part('text/plain', body_text)
+
+        m.delivery_method(*delivery_method_params)
+      end
+    end
+
+    def build_mail_part(content_type, body)
+      part = Mail::Part.new
+      part.content_type = "#{content_type}; charset=UTF-8"
+      part.body = body
+      part
     end
 
     def content
-      @data.content || @data.summary
+      data.content || data.summary
     end
 
-    def published
-      @data.published
+    def delivery_method_params
+      if config.smtp_configured?
+        [:smtp_connection, connection: Feed2Email.smtp_connection]
+      else
+        [:sendmail, location: config['sendmail_path']]
+      end
+    end
+
+    def feed_title; feed_data.title end
+
+    def last_email_sent_at; Entry.last_email_sent_at end
+
+    def last_email_sent_at=(time)
+      Entry.last_email_sent_at = time
+    end
+
+    def published; data.published end
+
+    def published_line
+      return nil unless author || published
+      text = 'Published'
+      text << " by #{author}" if author
+      text << " at #{published}" if published
+      text
     end
 
     def send_mail
-      Mail.new(self, @feed_title).send
+      apply_send_delay
+
+      logger.debug 'Sending new entry...'
+
+      if build_mail.deliver!
+        self.last_email_sent_at = Time.now
+        save # record as seen
+        return true
+      end
     end
 
     def title
-      @data.title.strip
+      data.title.strip
     end
 
     def uri
@@ -35,7 +151,7 @@ module Feed2Email
 
       # Make relative entry URL absolute by prepending feed URL
       if @uri && @uri.start_with?('/')
-        @uri = @feed_uri[%r{https?://[^/]+}] + @uri
+        @uri = URI.join(feed_uri[%r{https?://[^/]+}], @uri)
       end
 
       @uri
