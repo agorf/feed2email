@@ -8,6 +8,8 @@ module Feed2Email
     class InvalidConfigDataTypeError < StandardError; end
     class MissingConfigOptionError < StandardError; end
 
+    attr_reader :path
+
     def initialize(path)
       @path = File.expand_path(path)
       check
@@ -16,8 +18,6 @@ module Feed2Email
     def [](option)
       config[option] # delegate
     end
-
-    def path; @path end
 
     def smtp_configured?
       config['smtp_host'] && config['smtp_port'] && config['smtp_user'] &&
