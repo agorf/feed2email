@@ -25,6 +25,11 @@ module Feed2Email
       end
     end
 
+    desc 'backend', 'Open an SQLite console to the database'
+    def backend
+      exec('sqlite3', Sequel::Model.db.opts[:database])
+    end
+
     desc 'list', 'List feed subscriptions'
     def list
       if Feed.empty?
