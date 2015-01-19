@@ -9,6 +9,15 @@ module Feed2Email
     @config ||= Config.new(root.join('config.yml').to_s)
   end
 
+  def self.database
+    @database ||= Database.new(
+      adapter:       'sqlite',
+      database:      root.join('feed2email.db').to_s,
+      loggers:       [logger],
+      sql_log_level: :debug
+    )
+  end
+
   def self.logger
     @logger ||= Logger.new(
       config['log_path'], config['log_level'], config['log_shift_age'],
@@ -24,10 +33,5 @@ module Feed2Email
     @smtp_connection ||= LazySMTPConnection.new
   end
 
-  Database.new(
-    adapter:       'sqlite',
-    database:      root.join('feed2email.db').to_s,
-    loggers:       [logger],
-    sql_log_level: :debug
-  )
+  database # setup
 end

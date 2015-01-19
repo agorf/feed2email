@@ -2,7 +2,10 @@ require 'sequel'
 
 module Feed2Email
   class Database
+    attr_reader :path
+
     def initialize(connect_options)
+      @path = connect_options[:database]
       Sequel::Model.db = Sequel.connect(connect_options)
       setup_schema
     end

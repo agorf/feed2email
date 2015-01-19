@@ -27,7 +27,7 @@ module Feed2Email
 
     desc 'backend', 'Open an SQLite console to the database'
     def backend
-      exec('sqlite3', Sequel::Model.db.opts[:database])
+      exec('sqlite3', Feed2Email.database.path)
     end
 
     desc 'config', 'Open configuration file with $EDITOR'
