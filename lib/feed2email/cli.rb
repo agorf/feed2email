@@ -30,6 +30,15 @@ module Feed2Email
       exec('sqlite3', Sequel::Model.db.opts[:database])
     end
 
+    desc 'config', 'Open configuration file with $EDITOR'
+    def config
+      if ENV['EDITOR']
+        exec(ENV['EDITOR'], Feed2Email.config.path)
+      else
+        abort 'EDITOR not set'
+      end
+    end
+
     desc 'list', 'List feed subscriptions'
     def list
       if Feed.empty?

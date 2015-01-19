@@ -17,16 +17,14 @@ module Feed2Email
       config[option] # delegate
     end
 
+    def path; @path end
+
     def smtp_configured?
       config['smtp_host'] && config['smtp_port'] && config['smtp_user'] &&
         config['smtp_pass']
     end
 
     private
-
-    def path
-      @path
-    end
 
     def data
       @data
