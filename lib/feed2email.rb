@@ -25,8 +25,9 @@ module Feed2Email
   end
 
   Database.new(
-    adapter:  'sqlite',
-    database: root.join('feed2email.db').to_s,
-    loggers:  [logger]
+    adapter:       'sqlite',
+    database:      root.join('feed2email.db').to_s,
+    loggers:       [logger],
+    sql_log_level: :debug
   )
 end
