@@ -150,7 +150,7 @@ module Feed2Email
 
         abort 'Invalid index' unless feed && feed[:uri]
 
-        feed[:uri]
+        handle_permanent_redirection(feed[:uri])
       end
     end
   end
