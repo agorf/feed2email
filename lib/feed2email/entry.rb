@@ -8,6 +8,8 @@ require 'feed2email/version'
 
 module Feed2Email
   class Entry < Sequel::Model(:entries)
+    plugin :timestamps
+
     many_to_one :feed
 
     class << self

@@ -13,6 +13,7 @@ require 'feed2email/version'
 module Feed2Email
   class Feed < Sequel::Model(:feeds)
     plugin :dirty
+    plugin :timestamps
 
     one_to_many :entries
 

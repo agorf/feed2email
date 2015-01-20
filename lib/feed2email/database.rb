@@ -22,6 +22,8 @@ module Feed2Email
         String :etag
         String :last_modified
         Time :last_processed_at
+        Time :created_at
+        Time :updated_at
       end
 
       connection.create_table? :entries do
@@ -29,6 +31,8 @@ module Feed2Email
         foreign_key :feed_id, :feeds, null: false, index: true,
                                       on_delete: :cascade
         String :uri, null: false, unique: true
+        Time :created_at
+        Time :updated_at
       end
     end
   end
