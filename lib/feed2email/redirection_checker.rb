@@ -3,12 +3,12 @@ require 'uri'
 
 module Feed2Email
   class RedirectionChecker
+    attr_reader :location
+
     def initialize(uri)
       @uri = uri
       check
     end
-
-    def location; @location end
 
     def permanently_redirected?
       redirected? && code == 301
