@@ -5,15 +5,6 @@ module Feed2Email
   class LazySMTPConnection
     include Configurable
 
-    def connect
-      smtp.start('localhost', config['smtp_user'], config['smtp_pass'],
-                 config['smtp_auth'].to_sym)
-    end
-
-    def connected?
-      smtp.started?
-    end
-
     def finalize
       smtp.finish if connected?
     end
@@ -24,6 +15,15 @@ module Feed2Email
     end
 
     private
+
+    def connect
+      smtp.start('localhost', config['smtp_user'], config['smtp_pass'],
+                 config['smtp_auth'].to_sym)
+    end
+
+    def connected?
+      smtp.started?
+    end
 
     def smtp
       return @smtp if @smtp
