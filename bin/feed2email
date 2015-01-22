@@ -1,9 +1,11 @@
 #!/usr/bin/env ruby
 
-if File.new('/tmp/feed2email.lock', 'w').flock(File::LOCK_NB | File::LOCK_EX)
-  require 'feed2email/cli'
-  Feed2Email::Cli.start(ARGV)
-else
+LOCK_FILE = '/tmp/feed2email.lock'
+
+unless File.new(LOCK_FILE, 'w').flock(File::LOCK_NB | File::LOCK_EX)
   abort 'An instance of feed2email is already running. Exiting...'
 end
 
+require 'feed2email/cli'
+
+Feed2Email::Cli.start(ARGV)
