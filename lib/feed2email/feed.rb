@@ -3,6 +3,7 @@ require 'open-uri'
 require 'sequel'
 require 'stringio'
 require 'zlib'
+require 'feed2email'
 require 'feed2email/configurable'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
@@ -11,6 +12,8 @@ require 'feed2email/redirection_checker'
 require 'feed2email/version'
 
 module Feed2Email
+  database.setup
+
   class Feed < Sequel::Model(:feeds)
     plugin :dirty
     plugin :timestamps

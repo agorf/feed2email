@@ -32,6 +32,4 @@ module Feed2Email
   def self.smtp_connection
     @smtp_connection ||= LazySMTPConnection.new
   end
-
-  database # setup
 end

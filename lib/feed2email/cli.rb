@@ -1,11 +1,11 @@
 require 'thor'
 require 'feed2email'
-require 'feed2email/feed'
 
 module Feed2Email
   class Cli < Thor
     desc 'add URL', 'Subscribe to feed at URL'
     def add(uri)
+      require 'feed2email/feed'
       require 'feed2email/feed_autodiscoverer'
       require 'feed2email/redirection_checker'
 
@@ -41,6 +41,8 @@ module Feed2Email
 
     desc 'list', 'List feed subscriptions'
     def list
+      require 'feed2email/feed'
+
       if Feed.empty?
         puts 'No feeds'
       else
@@ -50,6 +52,8 @@ module Feed2Email
 
     desc 'process', 'Process feed subscriptions'
     def process
+      require 'feed2email/feed'
+
       begin
         Feed.enabled.by_smallest_id.each(&:process)
       ensure
@@ -59,6 +63,8 @@ module Feed2Email
 
     desc 'remove ID', 'Unsubscribe from feed with id ID'
     def remove(id)
+      require 'feed2email/feed'
+
       feed = Feed[id]
 
       if feed && feed.delete
@@ -70,6 +76,8 @@ module Feed2Email
 
     desc 'toggle ID', 'Enable/disable feed with id ID'
     def toggle(id)
+      require 'feed2email/feed'
+
       feed = Feed[id]
 
       if feed && feed.toggle
@@ -81,6 +89,8 @@ module Feed2Email
 
     desc 'uncache ID', 'Clear fetch cache for feed with id ID'
     def uncache(id)
+      require 'feed2email/feed'
+
       feed = Feed[id]
 
       if feed && feed.uncache
