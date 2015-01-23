@@ -30,30 +30,19 @@ Gem::Specification.new do |gem|
 
   gem.post_install_message = %{\
 
-Important changes since version 0.6.0:
+* Since version 0.9.0, SQLite (instead of YAML) is used to store the feed list
+  and the entry history. Please issue `feed2email-migrate` to migrate your data
+  before running feed2email.
 
-* Each feed has its own history file. Please run the provided migration script
-  to migrate your history before using feed2email: feed2email-migrate-history
-  If you don't, feed2email will think it is run for the first time and will
-  treat all entries as old (thus no email will be sent and you may miss some
-  entries).
-
-* `sender` is a required config option. Please update your config file
-  (~/.feed2email/config.yml) to set it to an email address to send email from.
-
-Important changes since version 0.8.0:
-
-* Feed metadata is stored in the feed list (~/.feed2email/feeds.yml). Please run
-  the provided migration script before using feed2email:
-  `feed2email-migrate-feedlist`
-
-  It is safe to remove any feed meta files: rm ~/.feed2email/meta-*.yml
-
-* A command-line interface is available. Running feed2email without any options
-  will display some help text. To run it so that it processes your feed list,
-  issue: `feed2email process`
+* Since version 0.8.0, a command-line interface is available. Running feed2email
+  without any arguments will display some help text. To have feed2email process
+  your feed list, issue `feed2email process`
 
   Don't forget to update any cron jobs too!
+
+* Since version 0.6.0, `sender` is a required config option. Please update your
+  config file (feed2email config) to set it to an email address to send email
+  from.
 
 }
 end

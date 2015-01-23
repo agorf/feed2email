@@ -6,6 +6,8 @@ module Feed2Email
       @connect_options = connect_options
     end
 
+    def connection; @connection end
+
     def path; connect_options[:database] end
 
     def setup
@@ -18,8 +20,6 @@ module Feed2Email
     private
 
     def connect_options; @connect_options end
-
-    def connection; @connection end
 
     def setup_connection
       @connection = Sequel::Model.db = Sequel.connect(connect_options)
