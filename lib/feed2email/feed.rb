@@ -189,7 +189,12 @@ module Feed2Email
       entry.feed_data = parsed_feed
       entry.feed_uri  = uri
 
-      return entry.process
+      begin
+        return entry.process
+      rescue => e
+        log_exception(e)
+        return false
+      end
     end
 
     def processable?
