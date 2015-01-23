@@ -28,7 +28,7 @@ module Feed2Email
         Feed.each do |feed|
           if feed_history_path(feed.uri).exist?
             feed_history_data(feed.uri).each do |entry_uri|
-              Entry.create(feed_id: feed.id, uri: entry_uri)
+              Entry.find_or_create(feed_id: feed.id, uri: entry_uri)
             end
           end
         end
