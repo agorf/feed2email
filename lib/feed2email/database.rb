@@ -9,19 +9,20 @@ module Feed2Email
     def path; connect_options[:database] end
 
     def setup
-      setup_schema # delegate
+      unless connection
+        setup_connection
+        setup_schema
+      end
     end
 
     private
 
     def connect_options; @connect_options end
 
-    def connection
-      @connection ||= setup_connection
-    end
+    def connection; @connection end
 
     def setup_connection
-      Sequel::Model.db = Sequel.connect(connect_options)
+      @connection = Sequel::Model.db = Sequel.connect(connect_options)
     end
 
     def setup_schema
