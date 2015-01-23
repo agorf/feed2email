@@ -27,13 +27,13 @@ module Feed2Email
     attr_accessor :feed_uri
 
     def process
-      if feed.last_processed_at.nil? # new feed
+      if feed.new?
         logger.debug 'Skipping new feed entry...'
         save # record as seen
         return true
       end
 
-      if feed.entries_dataset.where(uri: uri).any? # old entry
+      if old?
         logger.debug 'Skipping old entry...'
         return true
       end
@@ -121,6 +121,10 @@ module Feed2Email
 
     def last_email_sent_at=(time)
       Entry.last_email_sent_at = time
+    end
+
+    def old?
+      feed.entries_dataset.where(uri: uri).any?
     end
 
     def published; data.published end
