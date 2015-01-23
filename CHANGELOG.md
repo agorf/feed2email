@@ -1,15 +1,15 @@
 ### 0.8.0
 
-* Command-line interface for managing feeds (c20bf0c, e5c6dec)
-* Perform feed autodiscovery in `add` command (46523ee)
-* Store feed metadata in feed list, so no more feed files (cfbd725)
-* Add `f2e` symlink to `feed2email` binary for running convenience (6add6b9)
-* Improve send delay between entry processing (2118aef)
-* Fix feed fetching exception handling (8eb68cf)
-* Sync feed metadata only if all entries are processed (73f0947)
-* Record entry to history only if email was sent (db59e77)
-* Always fetch feed when permanently redirected (4fb147f)
-* Ignore redirections to the same location (26513d1e)
+* Command-line interface for managing feeds
+* Perform feed autodiscovery in `add` command
+* Store feed metadata in feed list, so no more feed files
+* Add `f2e` symlink to `feed2email` binary for running convenience
+* Improve send delay between entry processing
+* Fix feed fetching exception handling
+* Sync feed metadata only if all entries are processed
+* Record entry to history only if email was sent
+* Always fetch feed when permanently redirected
+* Ignore redirections to the same location
 * Major rewrite of README file with new instructions
 
 ### 0.7.0
