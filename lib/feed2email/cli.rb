@@ -10,6 +10,7 @@ module Feed2Email
 
       uri = handle_permanent_redirection(uri)
       uri = perform_feed_autodiscovery(uri)
+      uri = handle_permanent_redirection(uri)
 
       begin
         feed = Feed.create(uri: uri)
@@ -162,7 +163,7 @@ module Feed2Email
 
         abort 'Invalid index' unless feed && feed[:uri]
 
-        handle_permanent_redirection(feed[:uri])
+        feed[:uri]
       end
     end
   end
