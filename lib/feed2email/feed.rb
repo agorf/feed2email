@@ -36,7 +36,7 @@ module Feed2Email
         # Reset feed caching parameters unless all entries were processed. This
         # makes sure the feed will be fetched on next processing.
         unless process_entries
-          self.last_modified_at = initial_value(:last_modified_at)
+          self.last_modified = initial_value(:last_modified)
           self.etag = initial_value(:etag)
         end
 
