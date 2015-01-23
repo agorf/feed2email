@@ -1,3 +1,12 @@
+### 0.9.0
+
+* Change data backend from YAML to SQLite3
+* Add `backend` command to open an SQLite3 db shell
+* Add `config` command to open config with `$EDITOR`
+* Remove `history` command
+* Handle permanent redirection for discovered feed
+* Provide a single script for migrating (`feed2email-migrate`)
+
 ### 0.8.0
 
 * Command-line interface for managing feeds
