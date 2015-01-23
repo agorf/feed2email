@@ -21,10 +21,11 @@ module Feed2Email
       def migrate
         data.each do |feed|
           Feed.create(
-            uri:           feed[:uri],
-            enabled:       feed[:enabled],
-            etag:          feed[:etag],
-            last_modified: feed[:last_modified],
+            uri:               feed[:uri],
+            enabled:           feed[:enabled],
+            etag:              feed[:etag],
+            last_modified:     feed[:last_modified],
+            last_processed_at: Time.now
           )
         end
       end
