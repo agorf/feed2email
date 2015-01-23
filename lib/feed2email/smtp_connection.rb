@@ -2,7 +2,7 @@ require 'net/smtp'
 require 'feed2email/configurable'
 
 module Feed2Email
-  class LazySMTPConnection
+  class SMTPConnection
     include Configurable
 
     def finalize

@@ -1,8 +1,8 @@
 require 'pathname'
 require 'feed2email/config'
 require 'feed2email/database'
-require 'feed2email/lazy_smtp_connection'
 require 'feed2email/logger'
+require 'feed2email/smtp_connection'
 
 module Feed2Email
   def self.config
@@ -30,6 +30,6 @@ module Feed2Email
   end
 
   def self.smtp_connection
-    @smtp_connection ||= LazySMTPConnection.new
+    @smtp_connection ||= SMTPConnection.new
   end
 end
