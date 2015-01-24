@@ -157,7 +157,7 @@ module Feed2Email
           exit
         end
 
-        unless response.to_i.to_s == response &&
+        unless response.numeric? &&
             (0...discovered_feeds.size).include?(response.to_i)
           abort 'Invalid index'
         end

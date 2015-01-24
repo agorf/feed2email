@@ -13,6 +13,10 @@ class String
     CGI.escapeHTML(self)
   end
 
+  def numeric?
+    to_i.to_s == self
+  end
+
   def pluralize(count, plural = self + 's')
     "#{count} #{count == 1 ? self : plural}"
   end
