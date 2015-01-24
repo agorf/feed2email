@@ -38,6 +38,22 @@ module Feed2Email
       end
     end
 
+    desc 'export PATH', 'Export feed subscriptions as OPML to PATH'
+    def export(path)
+      unless File.exist?(path)
+        require 'feed2email/opml_exporter'
+        puts 'This may take a bit. Please wait...'
+
+        if OPMLExporter.export(path)
+          puts 'Exported feed subscriptions'
+        else
+          puts 'Failed to export feed subscriptions'
+        end
+      else
+        abort 'File already exists'
+      end
+    end
+
     desc 'list', 'List feed subscriptions'
     def list
       require 'feed2email/feed'

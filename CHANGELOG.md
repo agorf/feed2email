@@ -3,6 +3,7 @@
 * Change data backend from YAML to SQLite3
 * Add `backend` command to open an SQLite3 db shell
 * Add `config` command to open config with `$EDITOR`
+* Add `export` command to export feed subscriptions as OPML
 * Remove `history` command
 * Handle permanent redirection for discovered feed
 * Provide a single script for migrating (`feed2email-migrate`)
