@@ -27,7 +27,7 @@ module Feed2Email
     attr_accessor :feed_uri
 
     def process
-      if feed.new?
+      unless feed.old?
         logger.debug 'Skipping new feed entry...'
         save # record as seen
         return true
