@@ -76,10 +76,10 @@ module Feed2Email
     def list
       require 'feed2email/feed'
 
-      if Feed.empty?
-        puts 'No feeds'
-      else
+      if Feed.any?
         puts Feed.by_smallest_id.to_a
+      else
+        puts 'No feeds'
       end
     end
 
