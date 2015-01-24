@@ -42,12 +42,13 @@ module Feed2Email
     def export(path)
       unless File.exist?(path)
         require 'feed2email/opml_exporter'
+
         puts 'This may take a bit. Please wait...'
 
-        if OPMLExporter.export(path)
-          puts 'Exported feed subscriptions'
+        if n = OPMLExporter.export(path)
+          puts "Exported #{'feed subscription'.pluralize(n)} to #{path}"
         else
-          puts 'Failed to export feed subscriptions'
+          abort 'Failed to export feed subscriptions'
         end
       else
         abort 'File already exists'

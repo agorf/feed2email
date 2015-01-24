@@ -8,15 +8,22 @@ module Feed2Email
 
     def self.export(path)
       require 'feed2email/feed'
-      new(Feed.select_map(:uri)).save(path)
+
+      open(path, 'w') do |f|
+        uris = Feed.select_map(:uri)
+
+        if new(uris).export(f) > 0
+          uris.size
+        end
+      end
     end
 
     def initialize(uris)
       @uris = uris
     end
 
-    def save(path)
-      open(path, 'w') {|f| f.write(xml) } > 0
+    def export(io)
+      io.write(xml)
     end
 
     private
