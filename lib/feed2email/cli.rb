@@ -7,7 +7,7 @@ module Feed2Email
       require 'feed2email/feed'
       require 'feed2email/feed_autodiscoverer'
 
-      uri = perform_feed_autodiscovery(uri)
+      uri = autodiscover_feeds(uri)
 
       begin
         feed = Feed.create(uri: uri)
@@ -123,7 +123,7 @@ module Feed2Email
     end
 
     no_commands do
-      def perform_feed_autodiscovery(uri)
+      def autodiscover_feeds(uri)
         discoverer = FeedAutodiscoverer.new(uri)
 
         # Exclude already subscribed feeds from results
