@@ -22,8 +22,8 @@ module Feed2Email
       @io = io
     end
 
-    def import
-      uris.each {|uri| yield uri }
+    def import(&blk)
+      uris.each(&blk)
     end
 
     private
