@@ -28,14 +28,14 @@ module Feed2Email
     desc 'backend', 'Open an SQLite console to the database'
     def backend
       require 'feed2email'
-      exec('sqlite3', Feed2Email.database.path)
+      exec('sqlite3', Feed2Email.database_path)
     end
 
     desc 'config', 'Open configuration file with $EDITOR'
     def config
       if ENV['EDITOR']
         require 'feed2email'
-        exec(ENV['EDITOR'], Feed2Email.config.path)
+        exec(ENV['EDITOR'], Feed2Email.config_path)
       else
         abort 'EDITOR not set'
       end

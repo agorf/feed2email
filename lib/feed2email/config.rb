@@ -8,8 +8,6 @@ module Feed2Email
     class InvalidConfigDataTypeError < StandardError; end
     class MissingConfigOptionError < StandardError; end
 
-    attr_reader :path
-
     def initialize(path)
       @path = path
       check
@@ -79,6 +77,8 @@ module Feed2Email
     def load_yaml
       @data = YAML.load(read_file)
     end
+
+    def path; @path end
 
     def read_file
       File.read(path)
