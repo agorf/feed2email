@@ -91,7 +91,7 @@ module Feed2Email
 
       begin
         open(uri, fetch_options) do |f|
-          handle_redirection if uri != f.base_uri
+          handle_redirection if uri != f.base_uri.to_s
 
           self.last_modified = f.meta['last-modified']
           self.etag = f.meta['etag']
