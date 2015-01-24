@@ -1,6 +1,7 @@
 ### 0.9.0
 
 * Change data backend from YAML to SQLite3
+* Add `file` send method for writing emails to a file
 * Add `backend` command to open an SQLite3 db shell
 * Add `config` command to open config with `$EDITOR`
 * Add `export` command to export feed subscriptions as OPML

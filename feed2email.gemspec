@@ -30,6 +30,10 @@ Gem::Specification.new do |gem|
 
   gem.post_install_message = %{\
 
+* Since version 0.9.0, the default send method is `file` which writes emails to
+  a file under `~/Mail/`. To change it, edit your config file (`feed2email
+  config`) and set `send_method` to `sendmail` or `smtp`.
+
 * Since version 0.9.0, SQLite (instead of YAML) is used to store the feed list
   and the entry history. Please issue `feed2email-migrate` to migrate your data
   before running feed2email.

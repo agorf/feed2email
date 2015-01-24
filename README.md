@@ -12,7 +12,7 @@ to be simple, fast and easy to use.
 * Easy command-line feed management (add, remove, enable/disable)
 * Feed fetching caching (_Last-Modified_ and _ETag_ HTTP headers)
 * Feed autodiscovery
-* Email sending with SMTP or a local MTA (e.g. sendmail)
+* Email sending with SMTP, Sendmail (or compatible MTA) or by writing to a file
 * _text/html_ and _text/plain_ (Markdown) multipart emails
 * Permanent redirection support for feed URLs
 * Auto-fixing relative feed entry permalinks
@@ -41,6 +41,8 @@ pair is separated with a colon, e.g.: `foo: bar`
 
 * `recipient` (required) is the email address to send email to
 * `sender` (required) is the email address to send email from (can be any)
+* `send_method` (optional) is the method to send email with and can be `file`
+  (default), `sendmail` or `smtp`
 * `send_delay` (optional) is the number of seconds to wait between each email to
   avoid SMTP server throttling errors (default is `10`; use `0` to disable)
 * `max_entries` (optional) is the maximum number of entries to process per feed
@@ -51,7 +53,7 @@ pair is separated with a colon, e.g.: `foo: bar`
 * `log_path` (optional) is the _absolute_ path to the log file (default is
   `true` which logs to standard output; use `false` to disable logging)
 * `log_level` (optional) is the logging verbosity level and can be `fatal`
-  (least verbose), `error`, `warn`, `info` (default) and `debug` (most verbose)
+  (least verbose), `error`, `warn`, `info` (default) or `debug` (most verbose)
 * `log_shift_age` (optional) is the number of _old_ log files to keep or the
   frequency of rotation (`daily`, `weekly`, `monthly`; default is `0` so only
   the current log file is kept)
@@ -61,10 +63,11 @@ pair is separated with a colon, e.g.: `foo: bar`
 
 ### Email sending options
 
-It is possible to send email via SMTP or an [MTA][] (default). If `config.yml`
-contains options for both, feed2email will prefer SMTP.
+#### File
 
-[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
+This method simply writes emails to a file in a path that you specify.
+
+* `mail_path` (optional) is the path to write emails in (default is `~/Mail`)
 
 #### SMTP
 
@@ -88,14 +91,16 @@ To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`.
 
 [Mailgun]: http://www.mailgun.com/
 
-#### MTA
+#### Sendmail
 
-For this method you need to have an [MTA][] with a [Sendmail][]-compatible
-interface set up and working in your system like [msmtp][] or [Postfix][].
+For this method you need to have [Sendmail][] or an [MTA][] with a
+Sendmail-compatible interface (e.g. [msmtp][], [Postfix][]) set up and working
+in your system.
 
 * `sendmail_path` (optional) is the path to the Sendmail binary (default is
   `/usr/sbin/sendmail`)
 
+[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
 [Sendmail]: http://en.wikipedia.org/wiki/Sendmail
 [msmtp]: http://msmtp.sourceforge.net/
 [Postfix]: http://en.wikipedia.org/wiki/Postfix_(software)

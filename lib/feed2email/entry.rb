@@ -44,7 +44,7 @@ module Feed2Email
     private
 
     def apply_send_delay
-      return if config['send_delay'] == 0
+      return if config['send_delay'] == 0 || config['send_method'] == 'file'
 
       return if last_email_sent_at.nil?
 
@@ -108,9 +108,12 @@ module Feed2Email
     end
 
     def delivery_method_params
-      if config.smtp_configured?
+      case config['send_method']
+      when 'file'
+        [:file, location: config['mail_path']]
+      when 'smtp'
         [:smtp_connection, connection: Feed2Email.smtp_connection]
-      else
+      when 'sendmail'
         [:sendmail, location: config['sendmail_path']]
       end
     end
