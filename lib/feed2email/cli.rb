@@ -9,16 +9,16 @@ module Feed2Email
 
       uri = autodiscover_feeds(uri)
 
-      begin
-        feed = Feed.create(uri: uri)
+      if feed = Feed[uri: uri]
+        abort "Feed already exists: #{feed}"
+      end
+
+      feed = Feed.new(uri: uri)
+
+      if feed.save(raise_on_failure: false)
         puts "Added feed: #{feed}"
-      rescue Sequel::UniqueConstraintViolation => e
-        if e.message =~ /unique .* feeds.uri/i
-          feed = Feed[uri: uri]
-          abort "Feed already exists: #{feed}"
-        else
-          raise
-        end
+      else
+        abort 'Failed to add feed'
       end
     end
 
