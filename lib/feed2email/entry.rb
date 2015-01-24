@@ -111,10 +111,10 @@ module Feed2Email
       case config['send_method']
       when 'file'
         [:file, location: config['mail_path']]
-      when 'smtp'
-        [:smtp_connection, connection: Feed2Email.smtp_connection]
       when 'sendmail'
         [:sendmail, location: config['sendmail_path']]
+      when 'smtp'
+        [:smtp_connection, connection: Feed2Email.smtp_connection]
       end
     end
 

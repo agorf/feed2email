@@ -69,6 +69,20 @@ This method simply writes emails to a file in a path that you specify.
 
 * `mail_path` (optional) is the path to write emails in (default is `~/Mail`)
 
+#### Sendmail
+
+For this method you need to have [Sendmail][] or an [MTA][] with a
+Sendmail-compatible interface (e.g. [msmtp][], [Postfix][]) set up and working
+in your system.
+
+* `sendmail_path` (optional) is the path to the Sendmail binary (default is
+  `/usr/sbin/sendmail`)
+
+[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
+[Sendmail]: http://en.wikipedia.org/wiki/Sendmail
+[msmtp]: http://msmtp.sourceforge.net/
+[Postfix]: http://en.wikipedia.org/wiki/Postfix_(software)
+
 #### SMTP
 
 For this method you need to have access to an SMTP service. [Mailgun][] has a
@@ -90,20 +104,6 @@ this, feed2email will not run and complain if it detects the wrong permissions.
 To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`.
 
 [Mailgun]: http://www.mailgun.com/
-
-#### Sendmail
-
-For this method you need to have [Sendmail][] or an [MTA][] with a
-Sendmail-compatible interface (e.g. [msmtp][], [Postfix][]) set up and working
-in your system.
-
-* `sendmail_path` (optional) is the path to the Sendmail binary (default is
-  `/usr/sbin/sendmail`)
-
-[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
-[Sendmail]: http://en.wikipedia.org/wiki/Sendmail
-[msmtp]: http://msmtp.sourceforge.net/
-[Postfix]: http://en.wikipedia.org/wiki/Postfix_(software)
 
 ## Use
 
