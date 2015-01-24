@@ -4,7 +4,7 @@
 * Add `file` send method for writing emails to a file
 * Add `backend` command to open an SQLite3 db shell
 * Add `config` command to open config with `$EDITOR`
-* Add `export` command to export feed subscriptions as OPML
+* Add `import`/`export` command to import/export feed subscriptions as OPML
 * Remove `history` command
 * Provide a single script for migrating (`feed2email-migrate`)
 

@@ -55,6 +55,23 @@ module Feed2Email
       end
     end
 
+    desc 'import PATH', 'Import feed subscriptions as OPML from PATH'
+    def import(path)
+      if File.exist?(path)
+        require 'feed2email/opml_importer'
+
+        puts 'Importing...'
+
+        if n = OPMLImporter.import(path)
+          puts "Imported #{'feed subscription'.pluralize(n)} from #{path}"
+        else
+          abort 'Failed to import feed subscriptions'
+        end
+      else
+        abort 'File does not exist'
+      end
+    end
+
     desc 'list', 'List feed subscriptions'
     def list
       require 'feed2email/feed'

@@ -12,6 +12,7 @@ to be simple, fast and easy to use.
 * Easy command-line feed management (add, remove, enable/disable)
 * Feed fetching caching (_Last-Modified_ and _ETag_ HTTP headers)
 * Feed autodiscovery
+* [OPML](http://en.wikipedia.org/wiki/OPML) import/export of feed subscriptions
 * Email sending with SMTP, Sendmail (or compatible MTA) or by writing to a file
 * _text/html_ and _text/plain_ (Markdown) multipart emails
 * Permanent redirection support for feed URLs
