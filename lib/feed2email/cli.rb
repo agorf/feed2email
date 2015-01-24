@@ -63,7 +63,9 @@ module Feed2Email
         puts 'Importing...'
 
         if n = OPMLImporter.import(path)
-          puts "Imported #{'feed subscription'.pluralize(n)} from #{path}"
+          if n > 0
+            puts "Imported #{'feed subscription'.pluralize(n)} from #{path}"
+          end
         else
           abort 'Failed to import feed subscriptions'
         end

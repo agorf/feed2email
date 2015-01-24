@@ -9,9 +9,18 @@ module Feed2Email
 
       open(path) do |f|
         new(f).import do |uri|
-          feed = Feed.create(uri: uri)
-          puts "Imported feed: #{feed}"
-          n += 1
+          if feed = Feed[uri: uri]
+            warn "Feed already exists: #{feed}"
+          else
+            feed = Feed.new(uri: uri)
+
+            if feed.save(raise_on_failure: false)
+              puts "Imported feed: #{feed}"
+              n += 1
+            else
+              warn "Failed to import feed: #{feed}"
+            end
+          end
         end
       end
 
