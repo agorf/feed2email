@@ -6,7 +6,6 @@
 * Add `config` command to open config with `$EDITOR`
 * Add `export` command to export feed subscriptions as OPML
 * Remove `history` command
-* Handle permanent redirection for discovered feed
 * Provide a single script for migrating (`feed2email-migrate`)
 
 ### 0.8.0
