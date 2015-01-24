@@ -2,12 +2,13 @@ require 'yaml'
 
 module Feed2Email
   class Config
-    class MissingConfigError < StandardError; end
-    class InvalidConfigPermissionsError < StandardError; end
-    class InvalidConfigSyntaxError < StandardError; end
-    class InvalidConfigDataTypeError < StandardError; end
-    class MissingConfigOptionError < StandardError; end
-    class InvalidConfigOptionError < StandardError; end
+    class ConfigError < StandardError; end
+    class MissingConfigError < ConfigError; end
+    class InvalidConfigPermissionsError < ConfigError; end
+    class InvalidConfigSyntaxError < ConfigError; end
+    class InvalidConfigDataTypeError < ConfigError; end
+    class MissingConfigOptionError < ConfigError; end
+    class InvalidConfigOptionError < ConfigError; end
 
     SEND_METHODS = %w{file sendmail smtp}
 
@@ -95,9 +96,15 @@ module Feed2Email
 
     def config
       return @config if @config
-      check_file
-      @config = defaults.merge(data)
-      check_options
+
+      begin
+        check_file
+        @config = defaults.merge(data)
+        check_options
+      rescue ConfigError => e
+        abort e.message
+      end
+
       @config
     end
 
