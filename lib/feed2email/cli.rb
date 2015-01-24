@@ -6,11 +6,8 @@ module Feed2Email
     def add(uri)
       require 'feed2email/feed'
       require 'feed2email/feed_autodiscoverer'
-      require 'feed2email/redirection_checker'
 
-      uri = handle_permanent_redirection(uri)
       uri = perform_feed_autodiscovery(uri)
-      uri = handle_permanent_redirection(uri)
 
       begin
         feed = Feed.create(uri: uri)
@@ -110,17 +107,6 @@ module Feed2Email
     end
 
     no_commands do
-      def handle_permanent_redirection(uri)
-        checker = RedirectionChecker.new(uri)
-
-        if checker.permanently_redirected?
-          puts "Got permanently redirected to #{checker.location}"
-          checker.location
-        else
-          uri
-        end
-      end
-
       def perform_feed_autodiscovery(uri)
         discoverer = FeedAutodiscoverer.new(uri)
 

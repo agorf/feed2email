@@ -1,6 +1,6 @@
 require 'nokogiri'
-require 'open-uri'
 require 'uri'
+require 'feed2email/open-uri'
 
 module Feed2Email
   class FeedAutodiscoverer
@@ -8,17 +8,15 @@ module Feed2Email
       @uri = uri
     end
 
-    def content_type; @content_type end
+    def content_type; handle.content_type end
 
     def feeds
-      return @feeds if @feeds
-      fetch
-      @feeds = discoverable? ? discover : []
+      @feeds ||= discoverable? ? discover : []
     end
 
     private
 
-    def data; @data end
+    def data; handle.read end
 
     def discover
       head = Nokogiri::HTML(data).at_css('head')
@@ -26,7 +24,7 @@ module Feed2Email
       if base = head.at_css('base[href]')
         base_uri = base['href']
       else
-        base_uri = uri
+        base_uri = handle.base_uri.to_s
       end
 
       head.css('link[rel=alternate]').select {|link|
@@ -43,11 +41,11 @@ module Feed2Email
     end
 
     def discoverable?
-      content_type == 'text/html'
+      handle.content_type == 'text/html'
     end
 
-    def fetch
-      @data, @content_type = open(uri) {|f| [f.read, f.content_type] }
+    def handle
+      @handle ||= open(uri)
     end
 
     def uri; @uri end
