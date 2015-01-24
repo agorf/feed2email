@@ -11,7 +11,7 @@ module Feed2Email
     attr_reader :path
 
     def initialize(path)
-      @path = File.expand_path(path)
+      @path = path
       check
     end
 
