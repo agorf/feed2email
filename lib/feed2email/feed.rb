@@ -1,5 +1,4 @@
 require 'feedzirra'
-require 'open-uri'
 require 'sequel'
 require 'stringio'
 require 'zlib'
@@ -8,6 +7,7 @@ require 'feed2email/configurable'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
 require 'feed2email/loggable'
+require 'feed2email/open-uri'
 require 'feed2email/redirection_checker'
 require 'feed2email/version'
 
@@ -90,9 +90,9 @@ module Feed2Email
       logger.debug 'Fetching feed...'
 
       begin
-        handle_permanent_redirection
-
         open(uri, fetch_options) do |f|
+          handle_redirection if uri != f.base_uri
+
           self.last_modified = f.meta['last-modified']
           self.etag = f.meta['etag']
 
@@ -136,7 +136,7 @@ module Feed2Email
       options
     end
 
-    def handle_permanent_redirection
+    def handle_redirection
       checker = RedirectionChecker.new(uri)
 
       if checker.permanently_redirected?
