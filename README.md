@@ -9,14 +9,19 @@ to be simple, fast and easy to use.
 
 ## Features
 
-* Easy command-line feed management (add, remove, enable/disable)
+* Command-line feed management (add, remove, enable/disable)
 * Feed fetching caching (_Last-Modified_ and _ETag_ HTTP headers)
-* Feed autodiscovery
-* [OPML](http://en.wikipedia.org/wiki/OPML) import/export of feed subscriptions
-* Email sending with SMTP, Sendmail (or compatible MTA) or by writing to a file
+* [Feed autodiscovery](http://www.rssboard.org/rss-autodiscovery)
+* [OPML][] import/export of feed subscriptions
+* Email sending with SMTP, [Sendmail][] (or compatible [MTA][]) or by writing to
+  a file
 * _text/html_ and _text/plain_ (Markdown) multipart emails
 * Permanent redirection support for feed URLs
 * Auto-fixing relative feed entry permalinks
+
+[OPML]: http://en.wikipedia.org/wiki/OPML
+[Sendmail]: http://en.wikipedia.org/wiki/Sendmail
+[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
 
 ## Installation
 
@@ -26,17 +31,34 @@ As a [gem][] from [RubyGems][]:
 $ gem install feed2email
 ~~~
 
+If the above command fails due to missing headers, make sure the following
+packages for curb and sqlite3 gems are installed:
+
+~~~ sh
+$ sudo apt-get install libcurl4-openssl-dev libsqlite3-dev
+~~~
+
 [gem]: http://rubygems.org/gems/feed2email
 [RubyGems]: http://rubygems.org/
 
 ## Configuration
 
-Through a [YAML][] file that you create at `~/.feed2email/config.yml`.
+Through a [YAML][] file at `~/.feed2email/config.yml`.
 
-[YAML]: http://en.wikipedia.org/wiki/YAML
+Edit it with the `config` command:
+
+~~~ sh
+$ # same as "f2e c"
+$ feed2email config
+~~~
+
+**Note:** The command will fail if the `EDITOR` environmental variable is not
+set.
 
 Each line in the configuration file contains a key-value pair. Each key-value
 pair is separated with a colon, e.g.: `foo: bar`
+
+[YAML]: http://en.wikipedia.org/wiki/YAML
 
 ### General options
 
@@ -62,7 +84,7 @@ pair is separated with a colon, e.g.: `foo: bar`
   only applies when `log_shift_age` is a number greater than zero (default is
   `1`)
 
-### Email sending options
+### Sending options
 
 #### File
 
@@ -79,8 +101,6 @@ in your system.
 * `sendmail_path` (optional) is the path to the Sendmail binary (default is
   `/usr/sbin/sendmail`)
 
-[MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
-[Sendmail]: http://en.wikipedia.org/wiki/Sendmail
 [msmtp]: http://msmtp.sourceforge.net/
 [Postfix]: http://en.wikipedia.org/wiki/Postfix_(software)
 
@@ -113,91 +133,120 @@ To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`.
 Add some feeds:
 
 ~~~ sh
-$ feed2email add https://github.com/agorf.atom
-Added feed https://github.com/agorf.atom at index 0
 $ feed2email add https://github.com/agorf/feed2email/commits.atom
-Added feed https://github.com/agorf/feed2email/commits.atom at index 1
+Added feed:   1 https://github.com/agorf/feed2email/commits.atom
+$ # same as "feed2email add https://github.com/agorf.atom"
+$ f2e a https://github.com/agorf.atom
+Added feed:   2 https://github.com/agorf.atom
 ~~~
 
-**Tip:** You only have to type a feed2email command until it is unambiguous e.g.
-instead of `feed2email list`, you can simply issue `feed2email l` as long as
-there is no other command beginning with an `l`.
-
 Passing a website URL to the `add` command will have feed2email autodiscover any
-feeds:
+feeds in that page:
 
 ~~~ sh
-$ feed2email add http://www.rubyinside.com/
+$ f2e add http://www.rubyinside.com/
 0: http://www.rubyinside.com/feed/ "Ruby Inside" (application/rss+xml)
 Please enter a feed to subscribe to: 0
-Added feed http://www.rubyinside.com/feed/ at index 2
-$ feed2email add http://thechangelog.com/137/
+Added feed:   3 http://www.rubyinside.com/feed/
+$ f2e add http://thechangelog.com/137/
 0: http://thechangelog.com/137/feed/ "The Changelog » #137: Better GitHub Issues with HuBoard and Ryan Rauh Comments Feed" (application/rss+xml)
 1: http://thechangelog.com/feed/ "RSS 2.0 Feed" (application/rss+xml)
 Please enter a feed to subscribe to: 1
-Added feed http://thechangelog.com/feed/ at index 3
-$ feed2email add http://thechangelog.com/137/
+Added feed:   4 http://thechangelog.com/feed/
+$ # cancel autodiscovery by pressing Ctrl-C
+$ f2e add http://thechangelog.com/137/
 0: http://thechangelog.com/137/feed/ "The Changelog » #137: Better GitHub Issues with HuBoard and Ryan Rauh Comments Feed" (application/rss+xml)
 Please enter a feed to subscribe to: ^C
 ~~~
 
-Note that on the last command, feed2email autodiscovers the same two feeds as in
-the second command, but only lists the one that hasn't been already added.
-Autodiscovery is then cancelled by pressing `Ctrl-C`.
+When autodiscovering feeds, feed2email lists only those that don't already exist
+in your feed subscriptions.
 
 The feed list so far:
 
 ~~~ sh
+$ # same as "f2e l"
 $ feed2email list
-0: https://github.com/agorf.atom
-1: https://github.com/agorf/feed2email/commits.atom
-2: http://www.rubyinside.com/feed/
-3: http://thechangelog.com/feed/
+  1 https://github.com/agorf/feed2email/commits.atom
+  2 https://github.com/agorf.atom
+  3 http://www.rubyinside.com/feed/
+  4 http://thechangelog.com/feed/
 ~~~
 
 A feed can be disabled so that it is not processed when `feed2email process`
 runs with the `toggle` command:
 
 ~~~ sh
+$ # same as "f2e t 1"
 $ feed2email toggle 1
-Disabled feed at index 1
-$ feed2email list
-0: https://github.com/agorf.atom
-1: DISABLED https://github.com/agorf/feed2email/commits.atom
-2: http://www.rubyinside.com/feed/
-3: http://thechangelog.com/feed/
+Toggled feed:   1 DISABLED https://github.com/agorf/feed2email/commits.atom
+~~~
+
+It can be enabled with the `toggle` command again:
+
+~~~ sh
+$ # same as "feed2email toggle 1"
+$ f2e t 1
+Toggled feed:   1 https://github.com/agorf/feed2email/commits.atom
 ~~~
 
 It can also be removed from the list altogether:
 
 ~~~ sh
-$ feed2email remove 1
-Removed feed at index 1
-Warning: Feed list indices have changed!
+$ # same as "f2e r 1"
+$ f2e remove 1
+Removed feed:   1 https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-It has been removed, but what is that weird warning?
+### Migrating to/from feed2email
 
-Since the feed that got removed was at index 1, every feed below it got
-reindexed. So feed2email warns you that the feed indices have changed: the feed
-at index 2 is now at index 1 and the feed at index 3 is now at index 2.
+feed2email supports importing and exporting feed subscriptions as [OPML][]. This
+makes it easy to migrate to and away from feed2email anytime you want.
 
-Indeed:
+Export feed subscriptions to `feeds.xml`:
 
 ~~~ sh
-$ feed2email list
-0: https://github.com/agorf.atom
-1: http://www.rubyinside.com/feed/
-2: http://thechangelog.com/feed/
+$ # same as "f2e e feeds.xml"
+$ feed2email export feeds.xml
+This may take a bit. Please wait...
+Exported 3 feed subscriptions to feeds.xml
 ~~~
 
-**Tip:** feed2email installs `f2e` as a symbolic link to the feed2email binary,
-so you can use that to avoid typing the whole name every time, e.g.: `f2e list`
-or even `f2e l`.
+Import feed subscriptions from `feeds.xml`:
+
+~~~ sh
+$ # same as "f2e i feeds.xml"
+$ feed2email import feeds.xml
+Importing...
+Feed already exists:   4 http://thechangelog.com/feed/
+Feed already exists:   3 http://www.rubyinside.com/feed/
+Feed already exists:   2 https://github.com/agorf.atom
+~~~
+
+Nothing was imported since all feeds already exist. Let's remove them first and
+then try again:
+
+~~~ sh
+$ f2e r 2
+Removed feed:   2 https://github.com/agorf.atom
+$ f2e r 3
+Removed feed:   3 http://www.rubyinside.com/feed/
+$ f2e r 4
+Removed feed:   4 http://thechangelog.com/feed/
+$ f2e l
+No feeds
+$ feed2email import feeds.xml
+Importing...
+Imported feed:   1 http://thechangelog.com/feed/
+Imported feed:   2 http://www.rubyinside.com/feed/
+Imported feed:   3 https://github.com/agorf.atom
+Imported 3 feed subscriptions from feeds.xml
+~~~
 
 ### Running
 
 ~~~ sh
+$ # same as "f2e p"
 $ feed2email process
 ~~~
 
@@ -205,30 +254,20 @@ When run, feed2email will go through your feed list, fetch each feed (if
 necessary) and send an email for each new entry. Output is logged to the
 standard output, unless configured otherwise.
 
-**Warning:** Prior to version 0.8.0 where a command-line interface was
-introduced, the way to run feed2email was simply `feed2email`. Now this will
-just print helpful text on how to use it.
-
 When a new feed is detected (which is the case when feed2email runs for the
 first time on your feed list), all of its entries are skipped and no email is
 sent. This is so that you don't get spammed when you add a feed for the first
 time.
 
-If you want to receive a specific entry from a newly added feed, edit the feed's
-history file with `feed2email history` and remove the entry. Then issue
-`feed2email fetch` to clear the feed's fetch cache. Next time
-`feed2email process` runs, the entry will be treated as new and will be
-processed.
-
 ### Getting help
 
-Issue `feed2email` or `feed2email help` at any point to get helpful text on how
-to use feed2email.
+Issue `feed2email help` (`f2e h`) or just `feed2email` (`f2e`) at any point to
+get helpful text on how to use feed2email.
 
 ## Contributing
 
-Using feed2email and want to help? Just [contact me](http://agorf.gr/) and
-describe how you use it and if you have any ideas on how it can be improved.
+Using feed2email and want to help? [Let me know](http://agorf.gr/) how you use
+it and if you have any ideas on how it can be improved.
 
 ## License
 
