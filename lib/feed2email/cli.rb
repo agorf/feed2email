@@ -93,14 +93,8 @@ module Feed2Email
 
     desc 'process', 'Process feed subscriptions'
     def process
-      require 'feed2email'
       require 'feed2email/feed'
-
-      begin
-        Feed.enabled.by_smallest_id.each(&:process)
-      ensure
-        Feed2Email.smtp_connection.finalize
-      end
+      Feed.enabled.by_smallest_id.each(&:process)
     end
 
     desc 'remove ID', 'Unsubscribe from feed with id ID'

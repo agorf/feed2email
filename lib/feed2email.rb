@@ -2,7 +2,6 @@ require 'pathname'
 require 'feed2email/config'
 require 'feed2email/database'
 require 'feed2email/logger'
-require 'feed2email/smtp_connection'
 
 module Feed2Email
   def self.config
@@ -35,11 +34,5 @@ module Feed2Email
 
   def self.root
     @root ||= Pathname.new(ENV['HOME']).join('.feed2email')
-  end
-
-  def self.smtp_connection
-    @smtp_connection ||= SMTPConnection.new(
-      config.slice(*config.keys.grep(/\Asmtp_/))
-    )
   end
 end
