@@ -1,9 +1,10 @@
 require 'net/smtp'
-require 'feed2email/configurable'
 
 module Feed2Email
   class SMTPConnection
-    include Configurable
+    def initialize(options)
+      @options = options
+    end
 
     def finalize
       smtp.finish if connected?
@@ -17,18 +18,20 @@ module Feed2Email
     private
 
     def connect
-      smtp.start('localhost', config['smtp_user'], config['smtp_pass'],
-                 config['smtp_auth'].to_sym)
+      smtp.start('localhost', options['smtp_user'], options['smtp_pass'],
+                 options['smtp_auth'].to_sym)
     end
 
     def connected?
       smtp.started?
     end
 
+    def options; @options end
+
     def smtp
       return @smtp if @smtp
-      @smtp = Net::SMTP.new(config['smtp_host'], config['smtp_port'])
-      @smtp.enable_starttls if config['smtp_starttls']
+      @smtp = Net::SMTP.new(options['smtp_host'], options['smtp_port'])
+      @smtp.enable_starttls if options['smtp_starttls']
       @smtp
     end
   end

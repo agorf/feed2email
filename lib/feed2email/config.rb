@@ -1,3 +1,4 @@
+require 'forwardable'
 require 'yaml'
 
 module Feed2Email
@@ -12,12 +13,12 @@ module Feed2Email
 
     SEND_METHODS = %w{file sendmail smtp}
 
+    extend Forwardable
+
+    delegate [:[], :keys, :slice] => :config
+
     def initialize(path)
       @path = path
-    end
-
-    def [](option)
-      config[option] # delegate
     end
 
     private

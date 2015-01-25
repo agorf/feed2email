@@ -2,6 +2,12 @@ require 'cgi'
 require 'reverse_markdown'
 require 'sanitize'
 
+class Hash
+  def slice(*keys)
+    Hash[values_at(*keys).each_with_index.map {|v, i| [keys[i], v] }]
+  end
+end
+
 class Numeric
   def megabytes
     self * 1024 * 2014

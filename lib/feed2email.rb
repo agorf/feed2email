@@ -38,6 +38,8 @@ module Feed2Email
   end
 
   def self.smtp_connection
-    @smtp_connection ||= SMTPConnection.new
+    @smtp_connection ||= SMTPConnection.new(
+      config.slice(*config.keys.grep(/\Asmtp_/))
+    )
   end
 end
