@@ -9,8 +9,6 @@ require 'feed2email/loggable'
 require 'feed2email/version'
 
 module Feed2Email
-  Database.setup
-
   if config['send_method'] == 'smtp'
     require 'feed2email/smtp_connection'
     SMTPConnection.setup

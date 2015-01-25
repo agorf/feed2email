@@ -2,40 +2,20 @@ require 'sequel'
 require 'feed2email'
 
 module Feed2Email
-  def self.database
-    @database
-  end
-
-  def self.database=(database)
-    @database = database
-  end
-
-  def self.database_path
-    root.join('feed2email.db').to_s
-  end
-
   class Database
     def self.setup
-      return if Feed2Email.database
-
-      Feed2Email.database = new(
-        adapter:       'sqlite',
-        database:      Feed2Email.database_path,
-        loggers:       [Feed2Email.logger],
+      new(
+        adapter: 'sqlite',
+        database: Feed2Email.database_path,
+        loggers: [Feed2Email.logger],
         sql_log_level: :debug
       )
-      Feed2Email.database.setup
     end
 
     def initialize(connect_options)
       @connect_options = connect_options
-    end
-
-    def setup
-      unless connection
-        setup_connection
-        setup_schema
-      end
+      setup_connection
+      setup_schema
     end
 
     private
@@ -43,8 +23,6 @@ module Feed2Email
     def connect_options; @connect_options end
 
     def connection; @connection end
-
-    def path; connect_options[:database] end
 
     def setup_connection
       @connection = Sequel::Model.db = Sequel.connect(connect_options)
@@ -71,5 +49,7 @@ module Feed2Email
         Time :updated_at
       end
     end
+
+    setup
   end
 end

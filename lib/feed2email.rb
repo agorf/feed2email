@@ -11,6 +11,10 @@ module Feed2Email
     root.join('config.yml').to_s
   end
 
+  def self.database_path
+    root.join('feed2email.db').to_s
+  end
+
   def self.logger
     @logger ||= Logger.new(
       config['log_path'], config['log_level'], config['log_shift_age'],

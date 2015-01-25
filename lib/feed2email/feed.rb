@@ -14,8 +14,6 @@ require 'feed2email/redirection_checker'
 require 'feed2email/version'
 
 module Feed2Email
-  Database.setup
-
   class Feed < Sequel::Model(:feeds)
     plugin :dirty
     plugin :timestamps
