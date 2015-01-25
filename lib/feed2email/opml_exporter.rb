@@ -56,11 +56,11 @@ module Feed2Email
 
       loop do
         uri = URI.parse(url)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = (uri.scheme == 'https')
 
         begin
-          response = Net::HTTP.start(uri.host, uri.port) {|http|
-            http.head(uri.request_uri)
-          }
+          response = http.head(uri.request_uri)
         rescue
           break
         end
