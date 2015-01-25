@@ -1,6 +1,5 @@
 require 'pathname'
 require 'feed2email/config'
-require 'feed2email/database'
 require 'feed2email/logger'
 
 module Feed2Email
@@ -10,19 +9,6 @@ module Feed2Email
 
   def self.config_path
     root.join('config.yml').to_s
-  end
-
-  def self.database
-    @database ||= Database.new(
-      adapter:       'sqlite',
-      database:      database_path,
-      loggers:       [logger],
-      sql_log_level: :debug
-    )
-  end
-
-  def self.database_path
-    root.join('feed2email.db').to_s
   end
 
   def self.logger

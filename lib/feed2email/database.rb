@@ -1,7 +1,32 @@
 require 'sequel'
+require 'feed2email'
 
 module Feed2Email
+  def self.database
+    @database
+  end
+
+  def self.database=(database)
+    @database = database
+  end
+
+  def self.database_path
+    root.join('feed2email.db').to_s
+  end
+
   class Database
+    def self.setup
+      return if Feed2Email.database
+
+      Feed2Email.database = new(
+        adapter:       'sqlite',
+        database:      Feed2Email.database_path,
+        loggers:       [Feed2Email.logger],
+        sql_log_level: :debug
+      )
+      Feed2Email.database.setup
+    end
+
     def initialize(connect_options)
       @connect_options = connect_options
     end

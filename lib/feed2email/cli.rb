@@ -24,7 +24,7 @@ module Feed2Email
 
     desc 'backend', 'Open an SQLite console to the database'
     def backend
-      require 'feed2email'
+      require 'feed2email/database'
       exec('sqlite3', Feed2Email.database_path)
     end
 

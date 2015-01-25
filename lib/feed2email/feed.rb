@@ -6,6 +6,7 @@ require 'feed2email'
 require 'feed2email/config'
 require 'feed2email/configurable'
 require 'feed2email/core_ext'
+require 'feed2email/database'
 require 'feed2email/entry'
 require 'feed2email/loggable'
 require 'feed2email/open-uri'
@@ -13,7 +14,7 @@ require 'feed2email/redirection_checker'
 require 'feed2email/version'
 
 module Feed2Email
-  database.setup
+  Database.setup
 
   class Feed < Sequel::Model(:feeds)
     plugin :dirty
