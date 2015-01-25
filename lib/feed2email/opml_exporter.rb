@@ -10,7 +10,7 @@ module Feed2Email
       require 'feed2email/feed'
 
       open(path, 'w') do |f|
-        uris = Feed.select_map(:uri)
+        uris = Feed.by_smallest_id.select_map(:uri)
 
         if new(uris).export(f) > 0
           uris.size
