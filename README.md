@@ -17,7 +17,6 @@ to be simple, fast and easy to use.
   a file
 * _text/html_ and _text/plain_ (Markdown) multipart emails
 * Permanent redirection support for feed URLs
-* Auto-fixing relative feed entry permalinks
 
 [OPML]: http://en.wikipedia.org/wiki/OPML
 [Sendmail]: http://en.wikipedia.org/wiki/Sendmail
@@ -193,7 +192,7 @@ $ f2e t 1
 Toggled feed:   1 https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-It can also be removed from feed subscriptions altogether:
+It can also be removed from feed subscriptions permanently:
 
 ~~~ sh
 $ # same as "f2e r 1"
@@ -270,11 +269,13 @@ get helpful text on how to use feed2email.
 ## Contributing
 
 Using feed2email and want to help? [Let me know](http://agorf.gr/) how you use
-it and if you have any ideas on how it can be improved.
+it and if you have any ideas on how to improve it.
 
 ## License
 
-Licensed under the MIT license (see `LICENSE.txt`).
+Licensed under the MIT license (see [LICENSE.txt][license]).
+
+[license]: https://github.com/agorf/feed2email/blob/master/LICENSE.txt
 
 ## Author
 
