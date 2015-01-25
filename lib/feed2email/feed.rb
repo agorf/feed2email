@@ -46,7 +46,7 @@ module Feed2Email
 
         self.last_processed_at = Time.now
 
-        save
+        save(changed: true)
       else
         logger.warn 'Feed does not have entries'
       end
