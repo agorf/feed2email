@@ -32,7 +32,7 @@ $ gem install feed2email
 ~~~
 
 If the above command fails due to missing headers, make sure the following
-packages for curb and sqlite3 gems are installed:
+packages for [curb][] and [sqlite3][] gems are installed:
 
 ~~~ sh
 $ sudo apt-get install libcurl4-openssl-dev libsqlite3-dev
@@ -40,6 +40,8 @@ $ sudo apt-get install libcurl4-openssl-dev libsqlite3-dev
 
 [gem]: http://rubygems.org/gems/feed2email
 [RubyGems]: http://rubygems.org/
+[curb]: https://rubygems.org/gems/curb
+[sqlite3]: https://rubygems.org/gems/sqlite3
 
 ## Configuration
 
@@ -88,9 +90,10 @@ pair is separated with a colon, e.g.: `foo: bar`
 
 #### File
 
-This method simply writes emails to a file in a path that you specify.
+This method simply writes emails to a file (named after the `recipient` config
+option) in a path that you specify.
 
-* `mail_path` (optional) is the path to write emails in (default is `~/Mail`)
+* `mail_path` (optional) is the path to write emails in (default is `~/Mail/`)
 
 #### Sendmail
 
@@ -159,8 +162,8 @@ $ f2e add http://thechangelog.com/137/
 Please enter a feed to subscribe to: ^C
 ~~~
 
-When autodiscovering feeds, feed2email lists only those that don't already exist
-in your feed subscriptions.
+**Note:** When autodiscovering feeds, feed2email lists only those that don't
+already exist in your feed subscriptions.
 
 The feed list so far:
 
@@ -190,11 +193,11 @@ $ f2e t 1
 Toggled feed:   1 https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-It can also be removed from the list altogether:
+It can also be removed from feed subscriptions altogether:
 
 ~~~ sh
 $ # same as "f2e r 1"
-$ f2e remove 1
+$ feed2email remove 1
 Removed feed:   1 https://github.com/agorf/feed2email/commits.atom
 ~~~
 
@@ -218,9 +221,9 @@ Import feed subscriptions from `feeds.xml`:
 $ # same as "f2e i feeds.xml"
 $ feed2email import feeds.xml
 Importing...
-Feed already exists:   4 http://thechangelog.com/feed/
-Feed already exists:   3 http://www.rubyinside.com/feed/
 Feed already exists:   2 https://github.com/agorf.atom
+Feed already exists:   3 http://www.rubyinside.com/feed/
+Feed already exists:   4 http://thechangelog.com/feed/
 ~~~
 
 Nothing was imported since all feeds already exist. Let's remove them first and
@@ -237,9 +240,9 @@ $ f2e l
 No feeds
 $ feed2email import feeds.xml
 Importing...
-Imported feed:   1 http://thechangelog.com/feed/
+Imported feed:   1 https://github.com/agorf.atom
 Imported feed:   2 http://www.rubyinside.com/feed/
-Imported feed:   3 https://github.com/agorf.atom
+Imported feed:   3 http://thechangelog.com/feed/
 Imported 3 feed subscriptions from feeds.xml
 ~~~
 
