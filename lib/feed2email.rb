@@ -16,10 +16,7 @@ module Feed2Email
   end
 
   def self.logger
-    @logger ||= Logger.new(
-      config['log_path'], config['log_level'], config['log_shift_age'],
-      config['log_shift_size']
-    ).logger
+    @logger ||= Logger.new(config.slice(*config.keys.grep(/\Alog_/))).logger
   end
 
   def self.root
