@@ -1,3 +1,7 @@
+### 0.9.1
+
+* Fix feed type detection for secure feed URLs in OPML export
+
 ### 0.9.0
 
 * Change data backend from YAML to SQLite3
