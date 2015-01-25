@@ -37,8 +37,8 @@ packages for [curb][] and [sqlite3][] gems are installed:
 $ sudo apt-get install libcurl4-openssl-dev libsqlite3-dev
 ~~~
 
-**Warning:** Before using feed2email, you will almost certainly want to run
-`feed2email-migrate` first to migrate its data.
+**Warning:** If you are updating from an earlier version of feed2email, make
+sure you run `feed2email-migrate` to migrate its data before using it.
 
 [gem]: http://rubygems.org/gems/feed2email
 [RubyGems]: http://rubygems.org/
