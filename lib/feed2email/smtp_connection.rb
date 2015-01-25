@@ -55,5 +55,7 @@ module Feed2Email
     def started?
       smtp.started? # delegate
     end
+
+    setup
   end
 end

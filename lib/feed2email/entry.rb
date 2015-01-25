@@ -11,7 +11,6 @@ require 'feed2email/version'
 module Feed2Email
   if config['send_method'] == 'smtp'
     require 'feed2email/smtp_connection'
-    SMTPConnection.setup
   end
 
   class Entry < Sequel::Model(:entries)
