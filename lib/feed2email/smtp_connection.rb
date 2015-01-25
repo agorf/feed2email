@@ -14,7 +14,7 @@ module Feed2Email
     extend Configurable
 
     def self.setup
-      Feed2Email.smtp_connection = SMTPConnection.new(
+      Feed2Email.smtp_connection = new(
         config.slice(*config.keys.grep(/\Asmtp_/))
       )
       at_exit { Feed2Email.smtp_connection.finish }
