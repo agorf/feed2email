@@ -181,7 +181,7 @@ module Feed2Email
 
       processable_entries.each_with_index do |parsed_entry, i|
         logger.info "Processing entry #{i + 1}/#{total} #{parsed_entry.url} ..."
-        processed &&= process_entry(parsed_entry)
+        processed = false unless process_entry(parsed_entry)
       end
 
       processed
