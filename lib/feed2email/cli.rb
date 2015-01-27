@@ -1,12 +1,15 @@
 require 'thor'
+require 'feed2email'
+require 'feed2email/feed'
+require 'feed2email/feed_autodiscoverer'
+require 'feed2email/opml_exporter'
+require 'feed2email/opml_importer'
+require 'feed2email/version'
 
 module Feed2Email
   class Cli < Thor
     desc 'add URL', 'Subscribe to feed at URL'
     def add(uri)
-      require 'feed2email/feed'
-      require 'feed2email/feed_autodiscoverer'
-
       uri = autodiscover_feeds(uri)
 
       if feed = Feed[uri: uri]
@@ -24,14 +27,12 @@ module Feed2Email
 
     desc 'backend', 'Open an SQLite console to the database'
     def backend
-      require 'feed2email'
       exec('sqlite3', Feed2Email.database_path)
     end
 
     desc 'config', 'Open configuration file with $EDITOR'
     def config
       if ENV['EDITOR']
-        require 'feed2email'
         exec(ENV['EDITOR'], Feed2Email.config_path)
       else
         abort 'EDITOR not set'
@@ -40,15 +41,11 @@ module Feed2Email
 
     desc 'export PATH', 'Export feed subscriptions as OPML to PATH'
     def export(path)
-      require 'feed2email/feed'
-
       if Feed.empty?
         abort 'No feeds to export'
       end
 
       unless File.exist?(path)
-        require 'feed2email/opml_exporter'
-
         puts 'This may take a bit. Please wait...'
 
         if n = OPMLExporter.export(path)
@@ -64,8 +61,6 @@ module Feed2Email
     desc 'import PATH', 'Import feed subscriptions as OPML from PATH'
     def import(path)
       if File.exist?(path)
-        require 'feed2email/opml_importer'
-
         puts 'Importing...'
 
         if n = OPMLImporter.import(path)
@@ -82,8 +77,6 @@ module Feed2Email
 
     desc 'list', 'List feed subscriptions'
     def list
-      require 'feed2email/feed'
-
       if Feed.any?
         puts Feed.by_smallest_id.to_a
       else
@@ -93,14 +86,11 @@ module Feed2Email
 
     desc 'process', 'Process feed subscriptions'
     def process
-      require 'feed2email/feed'
       Feed.enabled.by_smallest_id.each(&:process)
     end
 
     desc 'remove ID', 'Unsubscribe from feed with id ID'
     def remove(id)
-      require 'feed2email/feed'
-
       feed = Feed[id]
 
       if feed && feed.delete
@@ -112,8 +102,6 @@ module Feed2Email
 
     desc 'toggle ID', 'Enable/disable feed with id ID'
     def toggle(id)
-      require 'feed2email/feed'
-
       feed = Feed[id]
 
       if feed && feed.toggle
@@ -125,8 +113,6 @@ module Feed2Email
 
     desc 'uncache ID', 'Clear fetch cache for feed with id ID'
     def uncache(id)
-      require 'feed2email/feed'
-
       feed = Feed[id]
 
       if feed && feed.uncache
@@ -138,7 +124,6 @@ module Feed2Email
 
     desc 'version', 'Show feed2email version'
     def version
-      require 'feed2email/version'
       puts "feed2email #{Feed2Email::VERSION}"
     end
 
