@@ -1,6 +1,6 @@
+require 'logger'
 require 'pathname'
 require 'feed2email/config'
-require 'feed2email/logger'
 
 module Feed2Email
   def self.config
@@ -16,7 +16,18 @@ module Feed2Email
   end
 
   def self.logger
-    @logger ||= Logger.new(config.slice(*config.keys.grep(/\Alog_/))).logger
+    return @logger if @logger
+
+    if config['log_path'] == true
+      logdev = $stdout
+    elsif config['log_path'] # truthy but not true (a path)
+      logdev = File.expand_path(config['log_path'])
+    end
+
+    @logger = Logger.new(logdev, config['log_shift_age'],
+                         config['log_shift_size'].megabytes)
+    @logger.level = Logger.const_get(config['log_level'].upcase)
+    @logger
   end
 
   def self.root
