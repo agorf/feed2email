@@ -27,6 +27,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'travis-lint'
+  gem.add_development_dependency 'aruba', '~> 0.6.2'
 
   gem.post_install_message = %{\
 
