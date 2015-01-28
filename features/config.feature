@@ -62,7 +62,7 @@ Feature: Configuration file validation
   Scenario: Config file does not have sender option
     Given a config file with mode "0600" and with:
       """
-      recipient: recipient@freed2email.org
+      recipient: recipient@feed2email.org
       """
     When I run `feed2email list`
     Then it should fail with:
@@ -73,7 +73,7 @@ Feature: Configuration file validation
   Scenario: Config file does not have send_method option
     Given a config file with mode "0600" and with:
       """
-      recipient: recipient@freed2email.org
+      recipient: recipient@feed2email.org
       sender: sender@feed2email.org
       """
     When I run `feed2email list`
@@ -85,7 +85,7 @@ Feature: Configuration file validation
   Scenario: Config file has invalid send_method option
     Given a config file with mode "0600" and with:
       """
-      recipient: recipient@freed2email.org
+      recipient: recipient@feed2email.org
       sender: sender@feed2email.org
       send_method: invalid
       """
@@ -98,7 +98,7 @@ Feature: Configuration file validation
   Scenario: Config file does not have smtp_host option
     Given a config file with mode "0600" and with:
       """
-      recipient: recipient@freed2email.org
+      recipient: recipient@feed2email.org
       sender: sender@feed2email.org
       send_method: smtp
       """
@@ -111,7 +111,7 @@ Feature: Configuration file validation
   Scenario: Config file does not have smtp_port option
     Given a config file with mode "0600" and with:
       """
-      recipient: recipient@freed2email.org
+      recipient: recipient@feed2email.org
       sender: sender@feed2email.org
       send_method: smtp
       smtp_host: smtp.mailgun.org
@@ -125,7 +125,7 @@ Feature: Configuration file validation
   Scenario: Config file does not have smtp_user option
     Given a config file with mode "0600" and with:
       """
-      recipient: recipient@freed2email.org
+      recipient: recipient@feed2email.org
       sender: sender@feed2email.org
       send_method: smtp
       smtp_host: smtp.mailgun.org
@@ -140,7 +140,7 @@ Feature: Configuration file validation
   Scenario: Config file does not have smtp_pass option
     Given a config file with mode "0600" and with:
       """
-      recipient: recipient@freed2email.org
+      recipient: recipient@feed2email.org
       sender: sender@feed2email.org
       send_method: smtp
       smtp_host: smtp.mailgun.org
@@ -156,7 +156,7 @@ Feature: Configuration file validation
   Scenario: Config file has smtp_pass option
     Given a config file with mode "0600" and with:
       """
-      recipient: recipient@freed2email.org
+      recipient: recipient@feed2email.org
       sender: sender@feed2email.org
       send_method: smtp
       smtp_host: smtp.mailgun.org
