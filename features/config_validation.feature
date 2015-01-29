@@ -1,4 +1,4 @@
-Feature: Configuration file validation
+Feature: Config validation
   In order to configure feed2email
   As a feed2email user
   I want to know whether I have configured it correctly
