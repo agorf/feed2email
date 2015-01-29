@@ -1,4 +1,4 @@
-# feed2email [![Gem Version](https://badge.fury.io/rb/feed2email.svg)](http://badge.fury.io/rb/feed2email)
+# feed2email [![Gem Version](https://badge.fury.io/rb/feed2email.svg)](http://badge.fury.io/rb/feed2email) [![Build Status](https://travis-ci.org/agorf/feed2email.png?branch=master)](https://travis-ci.org/agorf/feed2email)
 
 feed2email is a [headless][] RSS/Atom feed aggregator that sends feed entries
 via email. It was initially written as a replacement of [rss2email][] and aims
