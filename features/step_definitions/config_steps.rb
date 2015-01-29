@@ -1,3 +1,7 @@
+Given 'a missing config file' do
+  FileUtils.rm_f(Feed2Email.config_path)
+end
+
 Given /^an empty config file with mode "([^"]*)"$/ do |file_mode|
   step "an empty file named \"#{Feed2Email.config_path}\" with mode \"#{file_mode}\""
 end

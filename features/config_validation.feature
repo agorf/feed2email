@@ -4,6 +4,7 @@ Feature: Config validation
   I want to know whether I have configured it correctly
 
   Scenario: Config file does not exist
+    Given a missing config file
     When I run `feed2email list`
     Then it should fail with:
       """
