@@ -13,19 +13,16 @@ module Feed2Email
     end
 
     def initialize(connect_options)
-      @connect_options = connect_options
-      setup_connection
+      setup_connection(connect_options)
       setup_schema
     end
 
     private
 
-    def connect_options; @connect_options end
-
     def connection; @connection end
 
-    def setup_connection
-      @connection = Sequel::Model.db = Sequel.connect(connect_options)
+    def setup_connection(options)
+      @connection = Sequel::Model.db = Sequel.connect(options)
     end
 
     def setup_schema
