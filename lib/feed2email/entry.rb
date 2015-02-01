@@ -4,11 +4,12 @@ require 'uri'
 require 'feed2email'
 require 'feed2email/configurable'
 require 'feed2email/core_ext'
-require 'feed2email/database'
 require 'feed2email/loggable'
 require 'feed2email/version'
 
 module Feed2Email
+  setup_database
+
   class Entry < Sequel::Model(:entries)
     plugin :timestamps
 

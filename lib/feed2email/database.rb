@@ -1,17 +1,7 @@
 require 'sequel'
-require 'feed2email'
 
 module Feed2Email
   class Database
-    def self.setup
-      new(
-        adapter: 'sqlite',
-        database: Feed2Email.database_path,
-        loggers: [Feed2Email.logger],
-        sql_log_level: :debug
-      )
-    end
-
     def initialize(connect_options)
       setup_connection(connect_options)
       setup_schema
@@ -46,7 +36,5 @@ module Feed2Email
         Time :updated_at
       end
     end
-
-    setup
   end
 end

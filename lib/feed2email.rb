@@ -2,6 +2,7 @@ require 'logger'
 require 'net/smtp'
 require 'pathname'
 require 'feed2email/config'
+require 'feed2email/database'
 
 module Feed2Email
   def self.config
@@ -29,6 +30,15 @@ module Feed2Email
                          config['log_shift_size'].megabytes)
     @logger.level = Logger.const_get(config['log_level'].upcase)
     @logger
+  end
+
+  def self.setup_database
+    @db ||= Database.new(
+      adapter:       'sqlite',
+      database:      database_path,
+      loggers:       [logger],
+      sql_log_level: :debug
+    )
   end
 
   def self.smtp_connection
