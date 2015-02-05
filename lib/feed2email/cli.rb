@@ -79,6 +79,7 @@ module Feed2Email
     def list
       if Feed.any?
         puts Feed.by_smallest_id.to_a
+        puts "\nSubscribed to #{'feed'.pluralize(Feed.count)}"
       else
         puts 'No feeds'
       end
