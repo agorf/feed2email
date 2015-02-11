@@ -94,10 +94,20 @@ module Feed2Email
     def remove(id)
       feed = Feed[id]
 
-      if feed && feed.delete
-        puts "Removed feed: #{feed}"
+      if feed
+        puts "Remove feed: #{feed}"
+
+        if ask('Are you sure? (yes/no)') == 'yes'
+          if feed.delete
+            puts 'Removed'
+          else
+            abort 'Failed to remove feed'
+          end
+        else
+          puts 'Not removed'
+        end
       else
-        abort "Failed to remove feed. Is #{id} a valid id?"
+        abort "Feed not found. Is #{id} a valid id?"
       end
     end
 
