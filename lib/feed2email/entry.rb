@@ -163,7 +163,7 @@ module Feed2Email
 
       # Make relative entry URL absolute by prepending feed URL
       if @uri && @uri.start_with?('/')
-        @uri = URI.join(feed_uri[%r{https?://[^/]+}], @uri)
+        @uri = URI.join(feed_uri[%r{https?://[^/]+}], @uri).to_s
       end
 
       @uri
