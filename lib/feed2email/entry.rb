@@ -162,7 +162,9 @@ module Feed2Email
     end
 
     def title
-      data.title.strip
+      if data.title
+        data.title.strip
+      end
     end
 
     def uri
