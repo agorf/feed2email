@@ -27,6 +27,11 @@ module Feed2Email
     attr_accessor :feed_uri
 
     def process
+      if missing_data?
+        logger.warn 'Skipping entry with missing data...'
+        return false
+      end
+
       unless feed.old?
         logger.debug 'Skipping new feed entry...'
         save # record as seen
@@ -124,6 +129,10 @@ module Feed2Email
 
     def last_email_sent_at=(time)
       Entry.last_email_sent_at = time
+    end
+
+    def missing_data?
+      [content, feed_title, title, uri].include?(nil)
     end
 
     def old?
