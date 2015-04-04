@@ -1,3 +1,13 @@
+### 0.10.0
+
+* Do not strip `nil` entry title to prevent exceptions
+* Skip entries with missing data
+* Fix relative URI fix mistaking a protocol-relative URI as relative
+* Fix relative URI fix by converting it to String
+* Confirm feed removal
+* Show number of subscribed feeds in list command
+* Print command to fix config file permissions
+
 ### 0.9.1
 
 * Fix feed type detection for secure feed URLs in OPML export
