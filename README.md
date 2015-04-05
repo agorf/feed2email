@@ -176,6 +176,8 @@ $ feed2email list
   2 https://github.com/agorf.atom
   3 http://www.rubyinside.com/feed/
   4 http://thechangelog.com/feed/
+
+Subscribed to 4 feeds
 ~~~
 
 A feed can be disabled so that it is not processed when `feed2email process`
