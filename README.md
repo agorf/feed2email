@@ -200,7 +200,9 @@ It can also be removed from feed subscriptions permanently:
 ~~~ sh
 $ # same as "f2e r 1"
 $ feed2email remove 1
-Removed feed:   1 https://github.com/agorf/feed2email/commits.atom
+Remove feed:   1 https://github.com/agorf/feed2email/commits.atom
+Are you sure? (yes/no) yes
+Removed
 ~~~
 
 ### Migrating to/from feed2email
@@ -233,11 +235,17 @@ then try again:
 
 ~~~ sh
 $ f2e r 2
-Removed feed:   2 https://github.com/agorf.atom
+Remove feed:   2 https://github.com/agorf.atom
+Are you sure? (yes/no) yes
+Removed
 $ f2e r 3
-Removed feed:   3 http://www.rubyinside.com/feed/
+Remove feed:   3 http://www.rubyinside.com/feed/
+Are you sure? (yes/no) yes
+Removed
 $ f2e r 4
-Removed feed:   4 http://thechangelog.com/feed/
+Remove feed:   4 http://thechangelog.com/feed/
+Are you sure? (yes/no) yes
+Removed
 $ f2e l
 No feeds
 $ feed2email import feeds.xml
