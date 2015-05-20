@@ -151,17 +151,17 @@ feeds in that page:
 ~~~ sh
 $ f2e add http://www.rubyinside.com/
 0: http://www.rubyinside.com/feed/ "Ruby Inside" (application/rss+xml)
-Please enter a feed to subscribe to: 0
+Please enter a feed to subscribe to (or Ctrl-C to abort): [0] 0
 Added feed:   3 http://www.rubyinside.com/feed/
 $ f2e add http://thechangelog.com/137/
 0: http://thechangelog.com/137/feed/ "The Changelog » #137: Better GitHub Issues with HuBoard and Ryan Rauh Comments Feed" (application/rss+xml)
 1: http://thechangelog.com/feed/ "RSS 2.0 Feed" (application/rss+xml)
-Please enter a feed to subscribe to: 1
+Please enter a feed to subscribe to (or Ctrl-C to abort): [0, 1] 1
 Added feed:   4 http://thechangelog.com/feed/
 $ # cancel autodiscovery by pressing Ctrl-C
 $ f2e add http://thechangelog.com/137/
 0: http://thechangelog.com/137/feed/ "The Changelog » #137: Better GitHub Issues with HuBoard and Ryan Rauh Comments Feed" (application/rss+xml)
-Please enter a feed to subscribe to: ^C
+Please enter a feed to subscribe to (or Ctrl-C to abort): [0] ^C
 ~~~
 
 **Note:** When autodiscovering feeds, feed2email lists only those that don't
@@ -203,7 +203,7 @@ It can also be removed from feed subscriptions permanently:
 $ # same as "f2e r 1"
 $ feed2email remove 1
 Remove feed:   1 https://github.com/agorf/feed2email/commits.atom
-Are you sure? (yes/no) yes
+Are you sure? [y, n] y
 Removed
 ~~~
 
@@ -238,15 +238,15 @@ then try again:
 ~~~ sh
 $ f2e r 2
 Remove feed:   2 https://github.com/agorf.atom
-Are you sure? (yes/no) yes
+Are you sure? [y/n] y
 Removed
 $ f2e r 3
 Remove feed:   3 http://www.rubyinside.com/feed/
-Are you sure? (yes/no) yes
+Are you sure? [y/n] y
 Removed
 $ f2e r 4
 Remove feed:   4 http://thechangelog.com/feed/
-Are you sure? (yes/no) yes
+Are you sure? [y/n] y
 Removed
 $ f2e l
 No feeds

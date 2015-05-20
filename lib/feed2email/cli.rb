@@ -97,7 +97,7 @@ module Feed2Email
       if feed
         puts "Remove feed: #{feed}"
 
-        if ask('Are you sure? (yes/no)') == 'yes'
+        if ask('Are you sure?', limited_to: %w{y n}) == 'y'
           if feed.delete
             puts 'Removed'
           else
@@ -169,7 +169,10 @@ module Feed2Email
         end
 
         begin
-          response = ask('Please enter a feed to subscribe to:')
+          response = ask(
+            'Please enter a feed to subscribe to (or Ctrl-C to abort):',
+            limited_to: (0...discovered_feeds.size).to_a.map(&:to_s)
+          )
         rescue Interrupt # Ctrl-C
           puts
           exit
