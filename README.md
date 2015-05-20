@@ -217,7 +217,7 @@ Export feed subscriptions to `feeds.xml`:
 ~~~ sh
 $ # same as "f2e e feeds.xml"
 $ feed2email export feeds.xml
-This may take a bit. Please wait...
+This may take a while. Please wait...
 Exported 3 feed subscriptions to feeds.xml
 ~~~
 

@@ -35,7 +35,7 @@ module Feed2Email
       if ENV['EDITOR']
         exec(ENV['EDITOR'], Feed2Email.config_path)
       else
-        abort 'EDITOR not set'
+        abort 'EDITOR environmental variable not set'
       end
     end
 
@@ -46,7 +46,7 @@ module Feed2Email
       end
 
       unless File.exist?(path)
-        puts 'This may take a bit. Please wait...'
+        puts 'This may take a while. Please wait...'
 
         if n = OPMLExporter.export(path)
           puts "Exported #{'feed subscription'.pluralize(n)} to #{path}"
