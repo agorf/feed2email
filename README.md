@@ -258,6 +258,28 @@ Imported feed:   3 http://thechangelog.com/feed/
 Imported 3 feed subscriptions from feeds.xml
 ~~~
 
+Passing the `--remove` option to `import` will remove any feeds not contained in
+the imported list, essentially synchronizing the feed subscriptions with it:
+
+~~~ sh
+$ # subscribe to a feed that is not in feeds.xml
+$ f2e a https://github.com/agorf/feed2email/commits.atom
+Added feed:   4 https://github.com/agorf/feed2email/commits.atom
+$ f2e l
+  1 https://github.com/agorf.atom
+  2 http://www.rubyinside.com/feed/
+  3 http://thechangelog.com/feed/
+  4 https://github.com/agorf/feed2email/commits.atom
+
+Subscribed to 4 feeds
+$ f2e import --remove feeds.xml
+Importing...
+Feed already exists:   1 https://github.com/agorf.atom
+Feed already exists:   2 http://www.rubyinside.com/feed/
+Feed already exists:   3 http://thechangelog.com/feed/
+Removed feed:   4 https://github.com/agorf/feed2email/commits.atom
+~~~
+
 ### Running
 
 ~~~ sh

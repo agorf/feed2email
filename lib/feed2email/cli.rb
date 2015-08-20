@@ -59,11 +59,13 @@ module Feed2Email
     end
 
     desc 'import PATH', 'Import feed subscriptions as OPML from PATH'
+    option :remove, type: :boolean, default: false,
+      desc: "Unsubscribe from feeds not in imported list"
     def import(path)
       if File.exist?(path)
         puts 'Importing...'
 
-        if n = OPMLImporter.import(path)
+        if n = OPMLImporter.import(path, options[:remove])
           if n > 0
             puts "Imported #{'feed subscription'.pluralize(n)} from #{path}"
           end

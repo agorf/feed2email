@@ -2,12 +2,14 @@ require 'nokogiri'
 
 module Feed2Email
   class OPMLImporter
-    def self.import(path)
+    def self.import(path, remove = false)
       require 'feed2email/feed'
 
       n = 0
 
       open(path) do |f|
+        uris = []
+
         new(f).import do |uri|
           if feed = Feed[uri: uri]
             warn "Feed already exists: #{feed}"
@@ -19,6 +21,18 @@ module Feed2Email
               n += 1
             else
               warn "Failed to import feed: #{feed}"
+            end
+          end
+
+          uris << uri
+        end
+
+        if remove
+          Feed.exclude(uri: uris).each do |feed|
+            if feed.delete
+              puts "Removed feed: #{feed}"
+            else
+              warn "Failed to remove feed: #{feed}"
             end
           end
         end
