@@ -314,4 +314,4 @@ Licensed under the MIT license (see [LICENSE.txt][license]).
 
 ## Author
 
-Aggelos Orfanakos, <http://agorf.gr/>
+Angelos Orfanakos, <http://agorf.gr/>

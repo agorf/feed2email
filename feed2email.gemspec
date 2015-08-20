@@ -3,7 +3,7 @@ require File.expand_path('../lib/feed2email/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.name          = 'feed2email'
   gem.version       = Feed2Email::VERSION
-  gem.author        = 'Aggelos Orfanakos'
+  gem.author        = 'Angelos Orfanakos'
   gem.email         = 'me@agorf.gr'
   gem.homepage      = 'https://github.com/agorf/feed2email'
   gem.summary       = 'RSS/Atom feed updates in your email'
