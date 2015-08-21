@@ -25,7 +25,7 @@ module Feed2Email
       end
 
       if remove
-        Feed.exclude(uri: uris).each do |feed|
+        Feed.exclude(uri: feeds).each do |feed|
           if feed.delete
             puts "Removed feed: #{feed}"
           else
