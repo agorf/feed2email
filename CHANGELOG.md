@@ -1,7 +1,8 @@
 ### 0.11.0
 
 * Add `--remove` option to `import` command for feed list synchronization
-* Change and limit cli confirmation responses from yes/no to y/n
+* Change and limit command-line confirmation responses from `yes`/`no` to
+  `y`/`n`
 * Show number of enabled feeds in list command
 
 ### 0.10.0
