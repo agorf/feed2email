@@ -1,4 +1,9 @@
-### 0.11.0
+### 0.11.1
+
+* New release to ship a properly-built gem file. Release 0.11.0 was missing the
+  binaries.
+
+### 0.11.0 (yanked)
 
 * Add `--remove` option to `import` command for feed list synchronization
 * Change and limit command-line confirmation responses from `yes`/`no` to
