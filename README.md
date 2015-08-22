@@ -207,7 +207,7 @@ Are you sure? [y, n] y
 Removed
 ~~~
 
-### Migrating to/from feed2email
+### Importing/exporting feeds
 
 feed2email supports importing and exporting feed subscriptions as [OPML][]. This
 makes it easy to migrate to and away from feed2email anytime you want.
