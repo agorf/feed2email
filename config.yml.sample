@@ -1,0 +1,8 @@
+recipient: subscriptions@domain.invalid
+sender: feed2email@domain.invalid
+log_path: /home/user/.feed2email/activity.log
+send_method: smtp
+smtp_host: smtp.mailgun.org
+smtp_port: 587
+smtp_user: postmaster@domain.invalid
+smtp_pass: password
