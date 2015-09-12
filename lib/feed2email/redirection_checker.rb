@@ -1,5 +1,5 @@
-require 'net/http'
-require 'uri'
+require "net/http"
+require "uri"
 
 module Feed2Email
   class RedirectionChecker
@@ -7,7 +7,6 @@ module Feed2Email
 
     def initialize(uri)
       @uri = uri
-      check
     end
 
     def permanently_redirected?
@@ -16,23 +15,23 @@ module Feed2Email
 
     private
 
+    attr_reader :code, :uri
+
     def check
       parsed_uri   = URI.parse(uri)
       http         = Net::HTTP.new(parsed_uri.host, parsed_uri.port)
-      http.use_ssl = (parsed_uri.scheme == 'https')
+      http.use_ssl = (parsed_uri.scheme == "https")
       response     = http.head(parsed_uri.request_uri)
       @code        = response.code.to_i
-      @location    = response['location']
+      @location    = response["location"]
     end
-
-    def code; @code end
 
     def redirected?
+      check unless code
+
       [301, 302].include?(code) &&
         location != uri && # prevent redirection to the same location
-        location =~ %r{\Ahttps?://} # sanitize location
+        location =~ %r{\Ahttps?://} # ignore invalid locations
     end
-
-    def uri; @uri end
   end
 end
