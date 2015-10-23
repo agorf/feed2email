@@ -1,7 +1,13 @@
-require 'open-uri'
+require "open-uri"
 
-# Monkey patch to allow redirection from "http" scheme to "https"
-def OpenURI.redirectable?(uri1, uri2)
-  uri1.scheme.downcase == uri2.scheme.downcase ||
-    (uri1.scheme =~ /\A(?:http|ftp)\z/i && uri2.scheme =~ /\A(?:https?|ftp)\z/i)
+module OpenURI
+  class << self
+    alias_method :old_redirectable?, :redirectable?
+  end
+
+  # Monkey-patch to allow redirection from "http" to "https" scheme
+  def self.redirectable?(uri1, uri2)
+    (uri1.scheme.downcase == "http" && uri2.scheme.downcase == "https") ||
+      old_redirectable?(uri1, uri2)
+  end
 end
