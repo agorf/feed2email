@@ -2,8 +2,8 @@ require 'thor'
 require 'feed2email'
 require 'feed2email/feed'
 require 'feed2email/feed_autodiscoverer'
-require 'feed2email/opml_exporter'
-require 'feed2email/opml_importer'
+require 'feed2email/opml_reader'
+require 'feed2email/opml_writer'
 require 'feed2email/version'
 
 module Feed2Email
@@ -41,20 +41,24 @@ module Feed2Email
 
     desc 'export PATH', 'Export feed subscriptions as OPML to PATH'
     def export(path)
-      if Feed.empty?
-        abort 'No feeds to export'
+      abort "File already exists" if File.exist?(path)
+
+      abort "No feeds to export" if Feed.empty?
+
+      puts "Exporting... (this may take a while)"
+
+      exported = open(path, "w") do |f|
+        uris = Feed.by_smallest_id.select_map(:uri)
+
+        if OPMLWriter.new(uris).export(f) > 0
+          uris.size
+        end
       end
 
-      unless File.exist?(path)
-        puts 'This may take a while. Please wait...'
-
-        if n = OPMLExporter.export(path)
-          puts "Exported #{'feed subscription'.pluralize(n)} to #{path}"
-        else
-          abort 'Failed to export feed subscriptions'
-        end
+      if exported > 0
+        puts "Exported #{'feed subscription'.pluralize(exported)} to #{path}"
       else
-        abort 'File already exists'
+        puts "No feed subscriptions exported"
       end
     end
 
@@ -62,18 +66,43 @@ module Feed2Email
     option :remove, type: :boolean, default: false,
       desc: "Unsubscribe from feeds not in imported list"
     def import(path)
-      if File.exist?(path)
-        puts 'Importing...'
+      abort "File does not exist" unless File.exist?(path)
 
-        if n = OPMLImporter.import(path, options[:remove])
-          if n > 0
-            puts "Imported #{'feed subscription'.pluralize(n)} from #{path}"
-          end
+      puts "Importing..."
+
+      feeds = open(path) {|f| OPMLReader.new(f).feeds }
+
+      imported = 0
+
+      feeds.each do |uri|
+        if feed = Feed[uri: uri]
+          warn "Feed already exists: #{feed}"
         else
-          abort 'Failed to import feed subscriptions'
+          feed = Feed.new(uri: uri)
+
+          if feed.save(raise_on_failure: false)
+            puts "Imported feed: #{feed}"
+            imported += 1
+          else
+            warn "Failed to import feed: #{feed}"
+          end
         end
+      end
+
+      if options[:remove]
+        Feed.exclude(uri: feeds).each do |feed|
+          if feed.delete
+            puts "Removed feed: #{feed}"
+          else
+            warn "Failed to remove feed: #{feed}"
+          end
+        end
+      end
+
+      if imported > 0
+        puts "Imported #{'feed subscription'.pluralize(imported)} from #{path}"
       else
-        abort 'File does not exist'
+        puts "No feed subscriptions exported"
       end
     end
 

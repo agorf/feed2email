@@ -3,20 +3,8 @@ require 'nokogiri'
 require 'uri'
 
 module Feed2Email
-  class OPMLExporter
+  class OPMLWriter
     MAX_REDIRECTS = 10
-
-    def self.export(path)
-      require 'feed2email/feed'
-
-      open(path, 'w') do |f|
-        uris = Feed.by_smallest_id.select_map(:uri)
-
-        if new(uris).export(f) > 0
-          uris.size
-        end
-      end
-    end
 
     def initialize(uris)
       @uris = uris
