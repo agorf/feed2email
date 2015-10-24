@@ -142,7 +142,7 @@ module Feed2Email
     def published; data.published end
 
     def published_line
-      return nil unless author || published
+      return unless author || published
       text = 'Published'
       text << " by #{author}" if author
       text << " at #{published}" if published
