@@ -102,7 +102,7 @@ module Feed2Email
       if imported > 0
         puts "Imported #{'feed subscription'.pluralize(imported)} from #{path}"
       else
-        puts "No feed subscriptions exported"
+        puts "No feed subscriptions imported"
       end
     end
 
