@@ -129,22 +129,20 @@ module Feed2Email
 
     desc 'remove ID', 'Unsubscribe from feed with id ID'
     def remove(id)
-      feed = Feed[id]
+      unless feed = Feed[id]
+        abort "Feed not found. Is #{id} a valid id?"
+      end
 
-      if feed
-        puts "Remove feed: #{feed}"
+      puts "Remove feed: #{feed}"
 
-        if ask('Are you sure?', limited_to: %w{y n}) == 'y'
-          if feed.delete
-            puts 'Removed'
-          else
-            abort 'Failed to remove feed'
-          end
+      if ask('Are you sure?', limited_to: %w{y n}) == 'y'
+        if feed.delete
+          puts 'Removed'
         else
-          puts 'Not removed'
+          abort 'Failed to remove feed'
         end
       else
-        abort "Feed not found. Is #{id} a valid id?"
+        puts 'Not removed'
       end
     end
 
