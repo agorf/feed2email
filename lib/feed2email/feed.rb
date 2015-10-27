@@ -168,7 +168,7 @@ module Feed2Email
       parsed_feed.entries
     end
 
-    def parsed_feed; @parsed_feed end
+    attr_reader :parsed_feed
 
     def permanently_redirected?
       column_changed?(:uri)

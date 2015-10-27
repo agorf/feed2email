@@ -88,7 +88,7 @@ module Feed2Email
       end
     end
 
-    def uris; @uris end
+    attr_reader :uris
 
     def xml
       builder.to_xml

@@ -18,6 +18,6 @@ module Feed2Email
       io.read
     end
 
-    def io; @io end
+    attr_reader :io
   end
 end

@@ -9,7 +9,7 @@ module Feed2Email
 
     private
 
-    def connection; @connection end
+    attr_reader :connection
 
     def setup_connection(options)
       @connection = Sequel::Model.db = Sequel.connect(options)

@@ -130,6 +130,6 @@ module Feed2Email
       }
     end
 
-    def path; @path end
+    attr_reader :path
   end
 end

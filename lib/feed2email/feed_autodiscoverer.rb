@@ -48,6 +48,6 @@ module Feed2Email
       @handle ||= open(uri)
     end
 
-    def uri; @uri end
+    attr_reader :uri
   end
 end
