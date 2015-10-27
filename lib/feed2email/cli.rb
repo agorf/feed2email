@@ -50,7 +50,7 @@ module Feed2Email
       exported = open(path, "w") do |f|
         uris = Feed.by_smallest_id.select_map(:uri)
 
-        if OPMLWriter.new(uris).export(f) > 0
+        if OPMLWriter.new(uris).write(f) > 0
           uris.size
         end
       end

@@ -10,7 +10,7 @@ module Feed2Email
       @uris = uris
     end
 
-    def export(io)
+    def write(io)
       io.write(xml)
     end
 
