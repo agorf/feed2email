@@ -184,7 +184,7 @@ module Feed2Email
         }
 
         if discovered_feeds.empty?
-          if discoverer.content_type == 'text/html'
+          if discoverer.discoverable?
             puts 'Could not find any new feeds'
             exit
           end
