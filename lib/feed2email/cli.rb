@@ -238,21 +238,11 @@ module Feed2Email
       end
 
       # TODO make lazy with a wrapper
-      def with_smtp_connection
+      def with_smtp_connection(&block)
         smtp = Net::SMTP.new(config_data["smtp_host"], config_data["smtp_port"])
         smtp.enable_starttls if config_data["smtp_starttls"]
-
-        begin
-          smtp.start("localhost",
-            config_data["smtp_user"],
-            config_data["smtp_pass"],
-            config_data["smtp_auth"].to_sym
-          )
-
-          yield(smtp)
-        ensure
-          smtp.finish
-        end
+        smtp.start("localhost", config_data["smtp_user"], config_data["smtp_pass"],
+                   config_data["smtp_auth"].to_sym, &block)
       end
     end
   end
