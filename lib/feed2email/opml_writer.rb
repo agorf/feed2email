@@ -18,21 +18,22 @@ module Feed2Email
 
     def builder
       Nokogiri::XML::Builder.new do |xml|
-        xml.root {
-          xml.opml(version: '2.0') {
-            xml.head {
+        xml.root do
+          xml.opml(version: '2.0') do
+            xml.head do
               xml.title 'feed2email subscriptions'
               xml.dateCreated Time.now
               xml.ownerName ENV['USER']
               xml.docs 'http://dev.opml.org/spec2.html'
-            }
-            xml.body {
+            end
+
+            xml.body do
               uris.each do |uri|
                 xml.outline(text: uri, type: feed_type(uri), xmlUrl: uri)
               end
-            }
-          }
-        }
+            end
+          end
+        end
       end
     end
 
