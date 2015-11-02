@@ -23,7 +23,7 @@ module Feed2Email
 
     subset(:enabled, enabled: true)
 
-    def_dataset_method(:by_smallest_id) { order(:id) }
+    def_dataset_method(:oldest_first) { order(:id) }
 
     include Configurable
     include Loggable

@@ -48,7 +48,7 @@ module Feed2Email
       puts "Exporting... (this may take a while)"
 
       exported = open(path, "w") do |f|
-        uris = Feed.by_smallest_id.select_map(:uri)
+        uris = Feed.oldest_first.select_map(:uri)
 
         if OPMLWriter.new(uris).write(f) > 0
           uris.size
@@ -109,7 +109,7 @@ module Feed2Email
     desc 'list', 'List feed subscriptions'
     def list
       if Feed.any?
-        puts Feed.by_smallest_id.to_a
+        puts Feed.oldest_first.to_a
         print "\nSubscribed to #{'feed'.pluralize(Feed.count)}"
 
         if Feed.where(enabled: false).count > 0
@@ -124,7 +124,7 @@ module Feed2Email
 
     desc 'process', 'Process feed subscriptions'
     def process
-      Feed.enabled.by_smallest_id.each(&:process)
+      Feed.enabled.oldest_first.each(&:process)
     end
 
     desc 'remove ID', 'Unsubscribe from feed with id ID'
