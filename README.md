@@ -31,10 +31,18 @@ $ gem install feed2email
 ~~~
 
 If the above command fails due to missing headers, make sure the following
-packages for [curb][] and [sqlite3][] gems are installed. For Debian, issue:
+packages for [curb][] and [sqlite3][] gems are installed. For Debian, issue (as
+root):
 
 ~~~ sh
-$ sudo apt-get install libcurl4-openssl-dev libsqlite3-dev
+# apt-get install libcurl4-openssl-dev libsqlite3-dev
+~~~
+
+For the `backend` command to work, you need to have SQLite3 installed. For
+Debian, issue (as root):
+
+~~~ sh
+# apt-get install sqlite3
 ~~~
 
 **Warning:** If you are updating from an earlier version of feed2email, make
