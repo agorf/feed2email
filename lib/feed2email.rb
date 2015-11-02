@@ -10,11 +10,11 @@ module Feed2Email
   end
 
   def self.config_path
-    root.join('config.yml').to_s
+    root_path.join('config.yml').to_s
   end
 
   def self.database_path
-    root.join('feed2email.db').to_s
+    root_path.join('feed2email.db').to_s
   end
 
   def self.logger
@@ -56,7 +56,7 @@ module Feed2Email
     @smtp
   end
 
-  def self.root
-    @root ||= Pathname.new(ENV['HOME']).join('.feed2email')
+  def self.root_path
+    @root_path ||= Pathname.new(ENV['HOME']).join('.feed2email')
   end
 end

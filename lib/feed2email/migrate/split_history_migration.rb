@@ -11,7 +11,7 @@ module Feed2Email
       end
 
       def feed_history_path(feed_uri)
-        root.join("history-#{Digest::MD5.hexdigest(feed_uri)}.yml")
+        root_path.join("history-#{Digest::MD5.hexdigest(feed_uri)}.yml")
       end
 
       def filename
@@ -25,7 +25,7 @@ module Feed2Email
       end
 
       def pending?
-        Dir[root.join('history-*.yml')].empty?
+        Dir[root_path.join('history-*.yml')].empty?
       end
     end
   end

@@ -33,10 +33,10 @@ module Feed2Email
       end
 
       def path
-        root.join(filename)
+        root_path.join(filename)
       end
 
-      def root; Feed2Email.root end
+      def root_path; Feed2Email.root_path end
     end
   end
 end
