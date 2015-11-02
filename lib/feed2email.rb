@@ -5,6 +5,10 @@ require 'feed2email/config'
 require 'feed2email/database'
 
 module Feed2Email
+  class << self
+    attr_accessor :smtp_connection
+  end
+
   def self.config
     @config ||= Config.new(config_path)
   end
@@ -39,21 +43,6 @@ module Feed2Email
       loggers:       [logger],
       sql_log_level: :debug
     )
-  end
-
-  def self.smtp_connection
-    return @smtp if @smtp
-
-    @smtp = Net::SMTP.new(config['smtp_host'], config['smtp_port'])
-    @smtp.enable_starttls if config['smtp_starttls']
-    @smtp.start('localhost',
-      config['smtp_user'],
-      config['smtp_pass'],
-      config['smtp_auth'].to_sym
-    )
-    at_exit { @smtp.finish }
-
-    @smtp
   end
 
   def self.root_path

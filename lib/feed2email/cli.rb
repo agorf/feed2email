@@ -124,7 +124,15 @@ module Feed2Email
 
     desc 'process', 'Process feed subscriptions'
     def process
-      Feed.enabled.oldest_first.each(&:process)
+      if config_data["send_method"] == "smtp"
+        with_smtp_connection do |smtp|
+          Feed2Email.smtp_connection = smtp
+          Feed.enabled.oldest_first.each(&:process)
+          Feed2Email.smtp_connection = nil
+        end
+      else
+        Feed.enabled.oldest_first.each(&:process)
+      end
     end
 
     desc 'remove ID', 'Unsubscribe from feed with id ID'
@@ -223,6 +231,28 @@ module Feed2Email
         abort 'Invalid index' unless feed && feed[:uri]
 
         feed[:uri]
+      end
+
+      def config_data
+        Feed2Email.config
+      end
+
+      # TODO make lazy with a wrapper
+      def with_smtp_connection
+        smtp = Net::SMTP.new(config_data["smtp_host"], config_data["smtp_port"])
+        smtp.enable_starttls if config_data["smtp_starttls"]
+
+        begin
+          smtp.start("localhost",
+            config_data["smtp_user"],
+            config_data["smtp_pass"],
+            config_data["smtp_auth"].to_sym
+          )
+
+          yield(smtp)
+        ensure
+          smtp.finish
+        end
       end
     end
   end
