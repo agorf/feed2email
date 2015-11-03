@@ -1,6 +1,7 @@
 require 'logger'
 require 'pathname'
 require 'feed2email/config'
+require 'feed2email/core_ext'
 require 'feed2email/database'
 
 module Feed2Email
@@ -36,12 +37,12 @@ module Feed2Email
   end
 
   def self.setup_database
-    @db ||= Database.new(
+    Sequel::Model.db = Database.new(
       adapter:       'sqlite',
       database:      database_path,
       loggers:       [logger],
       sql_log_level: :debug
-    )
+    ).connection
   end
 
   def self.root_path

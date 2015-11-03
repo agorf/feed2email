@@ -1,6 +1,9 @@
+require 'feed2email'
+
+Feed2Email.setup_database
+
 require 'net/smtp'
 require 'thor'
-require 'feed2email'
 require 'feed2email/feed'
 require 'feed2email/feed_autodiscoverer'
 require 'feed2email/opml_reader'
