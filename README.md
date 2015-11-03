@@ -55,7 +55,7 @@ sure you run `feed2email-migrate` to migrate its data before using it.
 
 ## Configuration
 
-Through a [YAML][] file at `~/.feed2email/config.yml`.
+Through a [YAML][] file at `~/.config/feed2email/config.yml`.
 
 Edit it with the `config` command:
 
@@ -135,7 +135,8 @@ free plan.
 **Warning:** Unless it has correct restricted permissions, anyone with access in
 your system will be able to read `config.yml` and your password. To prevent
 this, feed2email will not run and complain if it detects the wrong permissions.
-To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`.
+To set the correct permissions, issue `chmod 600
+~/.config/feed2email/config.yml`.
 
 [Mailgun]: http://www.mailgun.com/
 

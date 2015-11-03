@@ -30,6 +30,10 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'aruba', '~> 0.6.2'
 
   gem.post_install_message = %{\
+* Since version 0.12.0, the config directory of feed2email is
+  `~/.config/feed2email/` so you need to move it before running feed2email:
+
+  `mkdir ~/.config/ && mv ~/.feed2email/ ~/.config/feed2email/`
 
 * Since version 0.9.0, the default send method is `file` which writes emails to
   a file under `~/Mail/`. To change it, edit your config file (`feed2email

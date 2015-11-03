@@ -46,6 +46,6 @@ module Feed2Email
   end
 
   def self.root_path
-    @root_path ||= Pathname.new(ENV['HOME']).join('.feed2email')
+    @root_path ||= Pathname.new(ENV["HOME"]).join(".config", "feed2email")
   end
 end
