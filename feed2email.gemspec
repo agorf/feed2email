@@ -45,9 +45,5 @@ Gem::Specification.new do |gem|
 
   Don't forget to update any cron jobs too!
 
-* Since version 0.6.0, `sender` is a required config option. Please update your
-  config file (`feed2email config`) to set it to an email address to send email
-  from.
-
 }
 end
