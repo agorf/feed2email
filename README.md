@@ -59,7 +59,7 @@ Through a [YAML][] file at `~/.feed2email/config.yml`.
 
 Edit it with the `config` command:
 
-~~~ sh
+~~~
 $ # same as "f2e c"
 $ feed2email config
 ~~~
@@ -145,7 +145,7 @@ To set the correct permissions, issue `chmod 600 ~/.feed2email/config.yml`.
 
 Add some feeds:
 
-~~~ sh
+~~~
 $ feed2email add https://github.com/agorf/feed2email/commits.atom
 Added feed:   1 https://github.com/agorf/feed2email/commits.atom
 $ # same as "feed2email add https://github.com/agorf.atom"
@@ -156,7 +156,7 @@ Added feed:   2 https://github.com/agorf.atom
 Passing a website URL to the `add` command will have feed2email autodiscover any
 feeds in that page:
 
-~~~ sh
+~~~
 $ f2e add http://www.rubyinside.com/
 0: http://www.rubyinside.com/feed/ "Ruby Inside" (application/rss+xml)
 Please enter a feed to subscribe to (or Ctrl-C to abort): [0] 0
@@ -177,7 +177,7 @@ already exist in your feed subscriptions.
 
 The feed list so far:
 
-~~~ sh
+~~~
 $ # same as "f2e l"
 $ feed2email list
   1 https://github.com/agorf/feed2email/commits.atom
@@ -191,7 +191,7 @@ Subscribed to 4 feeds
 A feed can be disabled so that it is not processed when `feed2email process`
 runs with the `toggle` command:
 
-~~~ sh
+~~~
 $ # same as "f2e t 1"
 $ feed2email toggle 1
 Toggled feed:   1 DISABLED https://github.com/agorf/feed2email/commits.atom
@@ -199,7 +199,7 @@ Toggled feed:   1 DISABLED https://github.com/agorf/feed2email/commits.atom
 
 It can be enabled with the `toggle` command again:
 
-~~~ sh
+~~~
 $ # same as "feed2email toggle 1"
 $ f2e t 1
 Toggled feed:   1 https://github.com/agorf/feed2email/commits.atom
@@ -207,7 +207,7 @@ Toggled feed:   1 https://github.com/agorf/feed2email/commits.atom
 
 It can also be removed from feed subscriptions permanently:
 
-~~~ sh
+~~~
 $ # same as "f2e r 1"
 $ feed2email remove 1
 Remove feed:   1 https://github.com/agorf/feed2email/commits.atom
@@ -222,7 +222,7 @@ makes it easy to migrate to and away from feed2email anytime you want.
 
 Export feed subscriptions to `feeds.xml`:
 
-~~~ sh
+~~~
 $ # same as "f2e e feeds.xml"
 $ feed2email export feeds.xml
 This may take a while. Please wait...
@@ -231,7 +231,7 @@ Exported 3 feed subscriptions to feeds.xml
 
 Import feed subscriptions from `feeds.xml`:
 
-~~~ sh
+~~~
 $ # same as "f2e i feeds.xml"
 $ feed2email import feeds.xml
 Importing...
@@ -243,7 +243,7 @@ Feed already exists:   4 http://thechangelog.com/feed/
 Nothing was imported since all feeds already exist. Let's remove them first and
 then try again:
 
-~~~ sh
+~~~
 $ f2e r 2
 Remove feed:   2 https://github.com/agorf.atom
 Are you sure? [y/n] y
@@ -269,7 +269,7 @@ Imported 3 feed subscriptions from feeds.xml
 Passing the `--remove` option to `import` will remove any feeds not contained in
 the imported list, essentially synchronizing the feed subscriptions with it:
 
-~~~ sh
+~~~
 $ # subscribe to a feed that is not in feeds.xml
 $ f2e a https://github.com/agorf/feed2email/commits.atom
 Added feed:   4 https://github.com/agorf/feed2email/commits.atom
@@ -290,7 +290,7 @@ Removed feed:   4 https://github.com/agorf/feed2email/commits.atom
 
 ### Running
 
-~~~ sh
+~~~
 $ # same as "f2e p"
 $ feed2email process
 ~~~
