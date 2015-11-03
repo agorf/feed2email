@@ -1,5 +1,4 @@
 require 'logger'
-require 'net/smtp'
 require 'pathname'
 require 'feed2email/config'
 require 'feed2email/database'

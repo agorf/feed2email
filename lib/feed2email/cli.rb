@@ -1,3 +1,4 @@
+require 'net/smtp'
 require 'thor'
 require 'feed2email'
 require 'feed2email/feed'
