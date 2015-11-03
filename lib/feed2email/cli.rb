@@ -55,7 +55,7 @@ module Feed2Email
         end
       end
 
-      if exported > 0
+      if exported && exported > 0
         puts "Exported #{'feed subscription'.pluralize(exported)} to #{path}"
       else
         puts "No feed subscriptions exported"
