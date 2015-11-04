@@ -39,10 +39,6 @@ Gem::Specification.new do |gem|
   a file under `~/Mail/`. To change it, edit your config file (`feed2email
   config`) and set `send_method` to `sendmail` or `smtp`.
 
-* Since version 0.9.0, SQLite (instead of YAML) is used to store the feed list
-  and the entry history. Please issue `feed2email-migrate` to migrate your data
-  before running feed2email.
-
 * Since version 0.8.0, a command-line interface is available. Running feed2email
   without any arguments will display some help text. To have feed2email process
   your feed list, issue `feed2email process`

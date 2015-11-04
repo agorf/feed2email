@@ -1,6 +1,7 @@
 ### 0.12.0 (planning)
 
 * Change configuration directory to `~/.config/feed2email/`
+* Remove migration script and supporting code
 
 ### 0.11.1
 

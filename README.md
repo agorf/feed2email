@@ -45,9 +45,6 @@ Debian, issue (as root):
 apt-get install sqlite3
 ~~~
 
-**Warning:** If you are updating from an earlier version of feed2email, make
-sure you run `feed2email-migrate` to migrate its data before using it.
-
 [gem]: http://rubygems.org/gems/feed2email
 [RubyGems]: http://rubygems.org/
 [curb]: https://rubygems.org/gems/curb
