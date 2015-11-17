@@ -76,10 +76,9 @@ module Feed2Email
     end
 
     def check_smtp_options
-      check_option('smtp_host')
-      check_option('smtp_port')
-      check_option('smtp_user')
-      check_option('smtp_pass')
+      %w{host port user pass}.each do |option|
+        check_option("smtp_#{option}")
+      end
     end
 
     def check_syntax
