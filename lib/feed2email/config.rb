@@ -1,10 +1,10 @@
+require 'fileutils'
 require 'forwardable'
 require 'yaml'
 
 module Feed2Email
   class Config
     class ConfigError < StandardError; end
-    class MissingConfigError < ConfigError; end
     class InvalidConfigPermissionsError < ConfigError; end
     class InvalidConfigSyntaxError < ConfigError; end
     class InvalidConfigDataTypeError < ConfigError; end
@@ -19,6 +19,8 @@ module Feed2Email
 
     def initialize(path)
       @path = path
+
+      create_defaults if config_missing?
     end
 
     private
@@ -30,14 +32,7 @@ module Feed2Email
       end
     end
 
-    def check_existence
-      if !File.exist?(path)
-        raise MissingConfigError, "Missing config file #{path}"
-      end
-    end
-
     def check_file
-      check_existence
       check_permissions
       check_syntax
       check_data_type
@@ -108,6 +103,17 @@ module Feed2Email
       end
 
       @config
+    end
+
+    def config_missing?
+      !File.exist?(path)
+    end
+
+    def create_defaults
+      FileUtils.mkdir_p(File.dirname(path))
+      FileUtils.touch(path)
+      File.chmod(0600, path)
+      File.open(path, "w") {|f| f << defaults.to_yaml }
     end
 
     def data
