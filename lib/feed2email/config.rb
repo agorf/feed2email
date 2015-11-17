@@ -20,7 +20,7 @@ module Feed2Email
     def initialize(path)
       @path = path
 
-      create_defaults if config_missing?
+      create_default_config if config_missing?
     end
 
     private
@@ -108,7 +108,7 @@ module Feed2Email
       !File.exist?(path)
     end
 
-    def create_defaults
+    def create_default_config
       FileUtils.mkdir_p(File.dirname(path))
       FileUtils.touch(path)
       File.chmod(0600, path)
