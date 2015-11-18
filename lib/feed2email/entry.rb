@@ -20,9 +20,7 @@ module Feed2Email
     include Configurable
     include Loggable
 
-    attr_accessor :data
-    attr_accessor :feed_data
-    attr_accessor :feed_uri
+    attr_accessor :data, :feed_data, :feed_uri
 
     def process
       if missing_data?
