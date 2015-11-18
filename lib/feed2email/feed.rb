@@ -122,14 +122,12 @@ module Feed2Email
         'Accept-Encoding' => 'gzip, deflate',
       }
 
-      unless permanently_redirected?
-        if last_modified
-          options['If-Modified-Since'] = last_modified
-        end
+      if last_modified
+        options['If-Modified-Since'] = last_modified
+      end
 
-        if etag
-          options['If-None-Match'] = etag
-        end
+      if etag
+        options['If-None-Match'] = etag
       end
 
       options
@@ -167,10 +165,6 @@ module Feed2Email
     end
 
     attr_reader :parsed_feed
-
-    def permanently_redirected?
-      column_changed?(:uri)
-    end
 
     def process_entries
       total = processable_entries.size
