@@ -33,20 +33,21 @@ module Feed2Email
 
       return false unless fetch_and_parse
 
-      if processable?
-        # Reset feed caching parameters unless all entries were processed. This
-        # makes sure the feed will be fetched on next processing.
-        unless process_entries
-          self.last_modified = initial_value(:last_modified)
-          self.etag = initial_value(:etag)
-        end
-
-        self.last_processed_at = Time.now
-
-        save(changed: true)
-      else
+      unless processable?
         logger.warn 'Feed does not have entries'
+        return
       end
+
+      # Reset feed caching parameters unless all entries were processed. This
+      # makes sure the feed will be fetched on next processing.
+      unless process_entries
+        self.last_modified = initial_value(:last_modified)
+        self.etag = initial_value(:etag)
+      end
+
+      self.last_processed_at = Time.now
+
+      save(changed: true)
     end
 
     def to_s
