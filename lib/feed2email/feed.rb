@@ -14,7 +14,6 @@ require 'feed2email/version'
 
 module Feed2Email
   class Feed < Sequel::Model(:feeds)
-    plugin :dirty
     plugin :timestamps
 
     one_to_many :entries
@@ -38,11 +37,13 @@ module Feed2Email
         return
       end
 
+      old_last_modified, old_etag = last_modified, etag
+
       # Reset feed caching parameters unless all entries were processed. This
       # makes sure the feed will be fetched on next processing.
       unless process_entries
-        self.last_modified = initial_value(:last_modified)
-        self.etag = initial_value(:etag)
+        self.last_modified = old_last_modified
+        self.etag = old_etag
       end
 
       self.last_processed_at = Time.now
