@@ -30,14 +30,14 @@ module Feed2Email
     def process
       logger.info "Processing feed #{uri} ..."
 
+      old_last_modified, old_etag = last_modified, etag
+
       return false unless fetch_and_parse
 
       unless processable?
         logger.warn 'Feed does not have entries'
         return
       end
-
-      old_last_modified, old_etag = last_modified, etag
 
       # Reset feed caching parameters unless all entries were processed. This
       # makes sure the feed will be fetched on next processing.
