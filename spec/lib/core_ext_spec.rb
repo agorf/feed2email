@@ -28,6 +28,52 @@ describe String do
     end
   end
 
+  describe '#numeric?' do
+    subject { str.numeric? }
+
+    context 'string contains only a decimal number' do
+      let(:str) { '1337' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'string contains only an octal number' do
+      let(:str) { '01' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'string does not contain only a number' do
+      let(:str) { '1337!' }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#pluralize' do
+    subject { singular.pluralize(count) }
+
+    let(:singular) { 'apple' }
+
+    context 'count is 1' do
+      let(:count) { 1 }
+
+      it { is_expected.to eq '1 apple' }
+    end
+
+    context 'count is greater than 1' do
+      let(:count) { 2 }
+
+      it { is_expected.to eq '2 apples' }
+
+      context 'plural is present' do
+        subject { singular.pluralize(count, 'apples!') }
+
+        it { is_expected.to eq '2 apples!' }
+      end
+    end
+  end
+
   describe '#strip_html' do
     it 'strips HTML' do
       expect((
@@ -36,16 +82,31 @@ describe String do
       ).strip_html).to eq 'You can find feed2email here.'
     end
   end
+
+  describe '#to_markdown' do
+    subject { html.to_markdown }
+
+    let(:html) { File.read(File.join(%w{spec fixtures to_markdown.html})) }
+    let(:markdown) { File.read(File.join(%w{spec fixtures to_markdown.markdown})) }
+
+    it { is_expected.to eq markdown }
+  end
 end
 
 describe Time do
   describe '#past?' do
-    it 'returns true if time is in the past' do
-      expect((Time.now - 60).past?).to be_true
+    subject { (Time.now + time_diff).past? }
+
+    context 'time is in the past' do
+      let(:time_diff) { -60 }
+
+      it { is_expected.to be true }
     end
 
-    it 'returns false if time is not in the past' do
-      expect((Time.now + 60).past?).to be_false
+    context 'time is in the future' do
+      let(:time_diff) { 60 }
+
+      it { is_expected.to be false }
     end
   end
 end
