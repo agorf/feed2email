@@ -17,7 +17,7 @@ describe Feed2Email::OPMLWriter do
     }
 
     before do
-      expect(Time).to receive(:now).and_return(Time.parse('2015-11-28 17:32:00 +0200'))
+      expect(Time).to receive(:now).and_return('2015-11-28 17:32:00 +0200')
       expect(ENV).to receive(:[]).with('USER').and_return('agorf')
       expect(opml_writer).to receive(:feed_type).with(uris[0]).and_return('atom')
       expect(opml_writer).to receive(:feed_type).with(uris[1]).and_return('atom')
