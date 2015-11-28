@@ -1,8 +1,10 @@
 require 'spec_helper'
+require 'feed2email/version'
 
 describe Feed2Email do
-  it 'has a VERSION constant' do
-    expect { Feed2Email::VERSION }.not_to raise_error
-    expect(Feed2Email::VERSION).to match /\A\d+\.\d+\.\d+\z/
+  subject { Feed2Email::VERSION }
+
+  it 'has a VERSION constant with a major.minor.patch format' do
+    expect(subject).to match /\A\d+\.\d+\.\d+\z/
   end
 end
