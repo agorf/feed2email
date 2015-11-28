@@ -22,8 +22,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'sequel', '~> 4.18.0'
   gem.add_dependency 'sqlite3', '~> 1.3.10'
 
-  gem.add_development_dependency 'rspec', '~> 2.14.1'
-  gem.add_development_dependency 'fuubar'
+  gem.add_development_dependency 'rspec', '~> 3.4.0'
   gem.add_development_dependency 'pry'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'travis-lint'
