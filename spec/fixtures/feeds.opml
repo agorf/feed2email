@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<root>
+  <opml version="2.0">
+    <head>
+      <title>feed2email subscriptions</title>
+      <dateCreated>2015-11-28 17:32:00 +0200</dateCreated>
+      <ownerName>agorf</ownerName>
+      <docs>http://dev.opml.org/spec2.html</docs>
+    </head>
+    <body>
+      <outline text="https://github.com/agorf.atom" type="atom" xmlUrl="https://github.com/agorf.atom"/>
+      <outline text="https://github.com/agorf/feed2email/commits/master.atom" type="atom" xmlUrl="https://github.com/agorf/feed2email/commits/master.atom"/>
+    </body>
+  </opml>
+</root>
