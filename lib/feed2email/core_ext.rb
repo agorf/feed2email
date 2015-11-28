@@ -10,7 +10,7 @@ end
 
 class Numeric
   def megabytes
-    self * 1024 * 2014
+    self * 1024 * 1024
   end
 end
 
