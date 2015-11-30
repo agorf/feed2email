@@ -10,7 +10,7 @@ module Feed2Email
     end
 
     def permanently_redirected?
-      redirected? && code == 301
+      redirected? && code == '301'
     end
 
     private
@@ -22,16 +22,16 @@ module Feed2Email
       http         = Net::HTTP.new(parsed_uri.host, parsed_uri.port)
       http.use_ssl = (parsed_uri.scheme == "https")
       response     = http.head(parsed_uri.request_uri)
-      @code        = response.code.to_i
+      @code        = response.code
       @location    = response["location"]
     end
 
     def redirected?
       check unless code
 
-      [301, 302].include?(code) &&
+      !(code =~ /\A3\d\d\z/).nil? &&
         location != uri && # prevent redirection to the same location
-        location =~ %r{\Ahttps?://} # ignore invalid locations
+        !(location =~ %r{\Ahttps?://}).nil? # ignore invalid locations
     end
   end
 end
