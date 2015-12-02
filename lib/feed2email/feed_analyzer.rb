@@ -11,11 +11,11 @@ module Feed2Email
     end
 
     def title
-      if response
-        begin
-          Feedzirra::Feed.parse(response.body).title
-        rescue
-        end
+      return unless response
+
+      begin
+        Feedzirra::Feed.parse(response.body).title
+      rescue
       end
     end
 
