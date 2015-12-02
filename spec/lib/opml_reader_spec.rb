@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'feed2email/opml_reader'
 
 describe Feed2Email::OPMLReader do
-  let(:io) { File.open(File.join(%w{spec fixtures feeds.opml})) }
+  let(:io) { File.open(fixture_path('feeds.opml')) }
 
   subject(:opml_reader) { Feed2Email::OPMLReader.new(io) }
 

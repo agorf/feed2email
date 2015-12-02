@@ -8,7 +8,7 @@ describe Feed2Email::OPMLWriter do
     subject { opml_writer.write(io) }
 
     let(:io) { StringIO.new }
-    let(:opml) { File.read(File.join(%w{spec fixtures feeds.opml})) }
+    let(:opml) { File.read(fixture_path('feeds.opml')) }
     let(:uris) {
       [
         'https://github.com/agorf.atom',

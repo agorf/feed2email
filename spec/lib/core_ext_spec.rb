@@ -86,8 +86,8 @@ describe String do
   describe '#to_markdown' do
     subject { html.to_markdown }
 
-    let(:html) { File.read(File.join(%w{spec fixtures to_markdown.html})) }
-    let(:markdown) { File.read(File.join(%w{spec fixtures to_markdown.markdown})) }
+    let(:html) { File.read(fixture_path('to_markdown.html')) }
+    let(:markdown) { File.read(fixture_path('to_markdown.markdown')) }
 
     it { is_expected.to eq markdown }
   end
