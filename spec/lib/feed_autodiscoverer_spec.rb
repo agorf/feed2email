@@ -52,6 +52,8 @@ describe Feed2Email::FeedAutodiscoverer do
     context 'called before' do
       before { subject }
 
+      it { is_expected.to eq feeds }
+
       it 'caches discovered feeds' do
         expect(Nokogiri).not_to receive(:HTML)
         subject
