@@ -11,12 +11,7 @@ module Feed2Email
     end
 
     def title
-      return unless response
-
-      begin
-        Feedzirra::Feed.parse(response.body).title
-      rescue
-      end
+      Feedzirra::Feed.parse(response.body).title rescue nil
     end
 
     # Based from
