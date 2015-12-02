@@ -12,7 +12,10 @@ module Feed2Email
 
     def title
       if response
-        Feedzirra::Feed.parse(response.body).title
+        begin
+          Feedzirra::Feed.parse(response.body).title
+        rescue
+        end
       end
     end
 
