@@ -37,3 +37,7 @@ def capture_stderr(&block)
 
   fake.string
 end
+
+def fixture_path(filename)
+  File.join('spec', 'fixtures', filename)
+end

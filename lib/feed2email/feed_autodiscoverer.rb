@@ -9,21 +9,13 @@ module Feed2Email
     end
 
     def discoverable?
-      handle.content_type == "text/html" && html_head
+      handle.content_type == "text/html" && !html_head.nil?
     end
 
     def feeds
-      @feeds ||= discoverable? ? discover : []
-    end
+      return @feeds if @feeds
 
-    private
-
-    def discover
-      if base = html_head.at_css('base[href]')
-        base_uri = base['href']
-      else
-        base_uri = handle.base_uri.to_s
-      end
+      return @feeds = [] unless discoverable?
 
       html_head.css('link[rel=alternate]').select {|link|
         link['href'] && link['type'] =~ /\Aapplication\/(rss|atom)\+xml\z/
@@ -38,12 +30,22 @@ module Feed2Email
       end
     end
 
+    private
+
+    def base_uri
+      if base = html_head.at_css('base[href]')
+        base['href']
+      else
+        handle.base_uri.to_s
+      end
+    end
+
     def handle
       @handle ||= open(uri)
     end
 
     def html_head
-      @html_head ||= Nokogiri::HTML(handle.read).at_css("head")
+      @html_head ||= Nokogiri.HTML(handle.read).at_css("head")
     end
 
     attr_reader :uri
