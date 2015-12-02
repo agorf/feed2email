@@ -1,0 +1,1208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xml:lang="en-US">
+  <id>tag:github.com,2008:/agorf</id>
+  <link type="text/html" rel="alternate" href="https://github.com/agorf"/>
+  <link type="application/atom+xml" rel="self" href="https://github.com/agorf.atom"/>
+  <title>agorf’s Activity</title>
+  <updated>2015-12-02T20:29:40Z</updated>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3401684025</id>
+    <published>2015-12-02T20:29:40Z</published>
+    <updated>2015-12-02T20:29:40Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/884551fa85...8a4581aa9e"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-12-02T20:29:40Z&quot; is=&quot;relative-time&quot;&gt;Dec 2, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/8a4581aa9e51b5adbaeb22374e5dc8aca0acdefd&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;8a4581a&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Test cached feeds are actually returned
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3401668443</id>
+    <published>2015-12-02T20:25:54Z</published>
+    <updated>2015-12-02T20:25:54Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/c6d6766b5e...884551fa85"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-12-02T20:25:54Z&quot; is=&quot;relative-time&quot;&gt;Dec 2, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/884551fa85001d68712fa4e5de09c4baecd1ba0c&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;884551f&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Use fixture_path helper in all specs
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/5d39bb147ce2e3542c3557922cdd857cc1f9eb44&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;5d39bb1&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Refactor and spec Feed2Email::FeedAutodiscoverer
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;more&quot;&gt;&lt;a href=&quot;/agorf/feed2email/compare/c6d6766b5e...884551fa85&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:comparison&quot;&gt;View comparison for these 2 commits &amp;raquo;&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3399274204</id>
+    <published>2015-12-02T10:05:27Z</published>
+    <updated>2015-12-02T10:05:27Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/FelikZ/ctrlp-py-matcher"/>
+    <title type="html">agorf starred FelikZ/ctrlp-py-matcher</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot; aria-label=&quot;Watch&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/FelikZ/ctrlp-py-matcher&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;FelikZ/ctrlp-py-matcher&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-12-02T10:05:27Z&quot; is=&quot;relative-time&quot;&gt;Dec 2, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3393162112</id>
+    <published>2015-11-30T22:48:03Z</published>
+    <updated>2015-11-30T22:48:03Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/b8a9aef7df...c6d6766b5e"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-30T22:48:03Z&quot; is=&quot;relative-time&quot;&gt;Nov 30, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/c6d6766b5e35f20ca0ed8002f69dcaf428748fa8&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;c6d6766&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Spec Feed2Email::RedirectionChecker
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3387937943</id>
+    <published>2015-11-28T21:15:06Z</published>
+    <updated>2015-11-28T21:15:06Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/db4ee15a7d...b8a9aef7df"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-28T21:15:06Z&quot; is=&quot;relative-time&quot;&gt;Nov 28, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/b8a9aef7df739fe3fc445141a414c7f979dd3870&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;b8a9aef&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Specify exact Ruby versions in Travis CI config
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3387925181</id>
+    <published>2015-11-28T21:00:23Z</published>
+    <updated>2015-11-28T21:00:23Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/54e0492a28...db4ee15a7d"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-28T21:00:23Z&quot; is=&quot;relative-time&quot;&gt;Nov 28, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/db4ee15a7de3dda8633f0dd19c5deab85aad6653&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;db4ee15&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Stub Time.now to return time as string
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3387915152</id>
+    <published>2015-11-28T20:49:04Z</published>
+    <updated>2015-11-28T20:49:04Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/104fcb6dd7...54e0492a28"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-28T20:49:04Z&quot; is=&quot;relative-time&quot;&gt;Nov 28, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/54e0492a28072a0db75c8d0135d0ddfa87e386d5&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;54e0492&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Update Travis CI config file
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3387912856</id>
+    <published>2015-11-28T20:46:22Z</published>
+    <updated>2015-11-28T20:46:22Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/postmodern/ruby-versions"/>
+    <title type="html">agorf starred postmodern/ruby-versions</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/postmodern/ruby-versions&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;postmodern/ruby-versions&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-28T20:46:22Z&quot; is=&quot;relative-time&quot;&gt;Nov 28, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3387903812</id>
+    <published>2015-11-28T20:36:01Z</published>
+    <updated>2015-11-28T20:36:01Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/08d7661fab...104fcb6dd7"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-28T20:36:01Z&quot; is=&quot;relative-time&quot;&gt;Nov 28, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/104fcb6dd769bb2927cc99c23a71eee237fa2aff&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;104fcb6&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Spec Feed2Email::OPMLWriter
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3387700348</id>
+    <published>2015-11-28T16:49:57Z</published>
+    <updated>2015-11-28T16:49:57Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/79e343bf9f...08d7661fab"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-28T16:49:57Z&quot; is=&quot;relative-time&quot;&gt;Nov 28, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/08d7661fabd19386107487d16c889df2a8137f7b&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;08d7661&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Complete and update spec of core extensions
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/0002fa9552e2b370d951466e9b310fc404bb20f1&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;0002fa9&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Remove unused Hash#slice
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;more&quot;&gt;&lt;a href=&quot;/agorf/feed2email/compare/79e343bf9f...08d7661fab&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:comparison&quot;&gt;2 more commits &amp;raquo;&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3387637892</id>
+    <published>2015-11-28T15:44:02Z</published>
+    <updated>2015-11-28T15:44:02Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/257dc1caab...79e343bf9f"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-28T15:44:02Z&quot; is=&quot;relative-time&quot;&gt;Nov 28, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/79e343bf9f4e5d33c13141bf26f6bfcb1be9c095&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;79e343b&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Update Feed2Email::VERSION spec
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3387631062</id>
+    <published>2015-11-28T15:37:17Z</published>
+    <updated>2015-11-28T15:37:17Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/a6418380f5...257dc1caab"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-28T15:37:17Z&quot; is=&quot;relative-time&quot;&gt;Nov 28, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/257dc1caab0a25d43195a03d5e96369be2be58f5&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;257dc1c&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Spec Feed2Email::OPMLReader
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3382035858</id>
+    <published>2015-11-26T08:46:30Z</published>
+    <updated>2015-11-26T08:46:30Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/kr/beanstalkd"/>
+    <title type="html">agorf starred kr/beanstalkd</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/kr/beanstalkd&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;kr/beanstalkd&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-26T08:46:30Z&quot; is=&quot;relative-time&quot;&gt;Nov 26, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3378344996</id>
+    <published>2015-11-25T10:20:58Z</published>
+    <updated>2015-11-25T10:20:58Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/iagox86/hash_extender"/>
+    <title type="html">agorf starred iagox86/hash_extender</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/iagox86/hash_extender&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;iagox86/hash_extender&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-25T10:20:58Z&quot; is=&quot;relative-time&quot;&gt;Nov 25, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3359729246</id>
+    <published>2015-11-19T15:36:00Z</published>
+    <updated>2015-11-19T15:36:00Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/JuanitoFatas/fast-ruby"/>
+    <title type="html">agorf starred JuanitoFatas/fast-ruby</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot; aria-label=&quot;Watch&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/JuanitoFatas/fast-ruby&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;JuanitoFatas/fast-ruby&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-19T15:36:00Z&quot; is=&quot;relative-time&quot;&gt;Nov 19, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3359509024</id>
+    <published>2015-11-19T14:47:26Z</published>
+    <updated>2015-11-19T14:47:26Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/bbatsov/rubocop"/>
+    <title type="html">agorf starred bbatsov/rubocop</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot; aria-label=&quot;Watch&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/bbatsov/rubocop&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;bbatsov/rubocop&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-19T14:47:26Z&quot; is=&quot;relative-time&quot;&gt;Nov 19, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3359415992</id>
+    <published>2015-11-19T14:25:26Z</published>
+    <updated>2015-11-19T14:25:26Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/ggreer/the_silver_searcher"/>
+    <title type="html">agorf starred ggreer/the_silver_searcher</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot; aria-label=&quot;Watch&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/ggreer/the_silver_searcher&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;ggreer/the_silver_searcher&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-19T14:25:26Z&quot; is=&quot;relative-time&quot;&gt;Nov 19, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3359186932</id>
+    <published>2015-11-19T13:26:01Z</published>
+    <updated>2015-11-19T13:26:01Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/0f3dac5305...a6418380f5"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-19T13:26:01Z&quot; is=&quot;relative-time&quot;&gt;Nov 19, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/a6418380f5d2a0fe1962825c712a6a73fd8143ce&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;a641838&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Remove unused Sequel relations
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3358286967</id>
+    <published>2015-11-19T08:38:32Z</published>
+    <updated>2015-11-19T08:38:32Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/87f84b1234...0f3dac5305"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-19T08:38:32Z&quot; is=&quot;relative-time&quot;&gt;Nov 19, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/0f3dac5305127976e2fc38ee71b344d01cad8fc0&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;0f3dac5&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Store old last_modified/etag before feed fetching
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3358285345</id>
+    <published>2015-11-19T08:37:55Z</published>
+    <updated>2015-11-19T08:37:55Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/c2ed0011b0...87f84b1234"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-19T08:37:55Z&quot; is=&quot;relative-time&quot;&gt;Nov 19, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits &quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;Angelos Orfanakos&quot;&gt;
+            &lt;img alt=&quot;&quot; height=&quot;16&quot; src=&quot;https://2.gravatar.com/avatar/5c11af5f27bb7085211e74b39e562ad3?d=https%3A%2F%2Fassets-cdn.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;amp;r=x&amp;amp;s=140&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/87f84b12347d4e8637a6f534f09c66cc6c3383bb&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;87f84b1&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Store old last_modified/etag before feed fetching
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3357087278</id>
+    <published>2015-11-18T23:20:33Z</published>
+    <updated>2015-11-18T23:20:33Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/e721c821cf...c2ed0011b0"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-18T23:20:33Z&quot; is=&quot;relative-time&quot;&gt;Nov 18, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/c2ed0011b0c12276648eff3d5630e44fd358fbdb&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;c2ed001&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Revert &quot;Add sample config file&quot;
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3357073579</id>
+    <published>2015-11-18T23:16:24Z</published>
+    <updated>2015-11-18T23:16:24Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/82208f79c9...e721c821cf"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-18T23:16:24Z&quot; is=&quot;relative-time&quot;&gt;Nov 18, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/e721c821cfa9f7c15756fb7ee06b8be5aa970cbf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;e721c82&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Combine attr_accessor calls
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3357053619</id>
+    <published>2015-11-18T23:10:19Z</published>
+    <updated>2015-11-18T23:10:19Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/c7ce38359c...82208f79c9"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-18T23:10:19Z&quot; is=&quot;relative-time&quot;&gt;Nov 18, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/82208f79c93faeba585b51a2fe326e2292635630&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;82208f7&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Use instance variables to restore last_modified/etag
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/20dbd11538b550d82b33d94cf60880c040b53c70&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;20dbd11&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Return early from Feed#process
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;more&quot;&gt;&lt;a href=&quot;/agorf/feed2email/compare/c7ce38359c...82208f79c9&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:comparison&quot;&gt;View comparison for these 2 commits &amp;raquo;&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3357029926</id>
+    <published>2015-11-18T23:03:26Z</published>
+    <updated>2015-11-18T23:03:26Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/80d2dca57d...c7ce38359c"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-18T23:03:26Z&quot; is=&quot;relative-time&quot;&gt;Nov 18, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits &quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;Aggelos Orfanakos&quot;&gt;
+            &lt;img alt=&quot;&quot; height=&quot;16&quot; src=&quot;https://1.gravatar.com/avatar/70cd8168f01df3651b00a22223675fd6?d=https%3A%2F%2Fassets-cdn.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png&amp;amp;r=x&amp;amp;s=140&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/c7ce38359c7495589b4452d495eee2acd50e06a1&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;c7ce383&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Return early from Feed#process
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3356363945</id>
+    <published>2015-11-18T20:11:02Z</published>
+    <updated>2015-11-18T20:11:02Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/174115395f...80d2dca57d"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-18T20:11:02Z&quot; is=&quot;relative-time&quot;&gt;Nov 18, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/80d2dca57da73c6ec3eada9b954aeac2cd86aa84&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;80d2dca&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Remove unnecessary permanent redirection check
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/3a3a8a239c935674ad011b8cf849bc769d7a2af0&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;3a3a8a2&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Update Gem dependencies
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;more&quot;&gt;&lt;a href=&quot;/agorf/feed2email/compare/174115395f...80d2dca57d&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:comparison&quot;&gt;View comparison for these 2 commits &amp;raquo;&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3352130162</id>
+    <published>2015-11-17T21:26:20Z</published>
+    <updated>2015-11-17T21:26:20Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/ab23b86183...174115395f"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-17T21:26:20Z&quot; is=&quot;relative-time&quot;&gt;Nov 17, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/174115395ff96f98a68e2a6e767a2061e9cdb1ca&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;1741153&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Fix typo
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/3352119701</id>
+    <published>2015-11-17T21:23:46Z</published>
+    <updated>2015-11-17T21:23:46Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/compare/410d16c539...ab23b86183"/>
+    <title type="html">agorf pushed to master at agorf/feed2email</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- push --&gt;
+&lt;span class=&quot;mega-octicon octicon-git-commit&quot; aria-label=&quot;Push&quot;&gt;&lt;/span&gt;
+
+&lt;div class=&quot;time&quot;&gt;
+  &lt;time datetime=&quot;2015-11-17T21:23:46Z&quot; is=&quot;relative-time&quot;&gt;Nov 17, 2015&lt;/time&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;title&quot;&gt;
+  &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:actor&quot;&gt;agorf&lt;/a&gt; pushed to &lt;a href=&quot;/agorf/feed2email/tree/master&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:branch&quot;&gt;master&lt;/a&gt; at &lt;a href=&quot;/agorf/feed2email&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:repo&quot;&gt;agorf/feed2email&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;details&quot;&gt;
+  &lt;a href=&quot;/agorf&quot;&gt;&lt;img alt=&quot;@agorf&quot; class=&quot;gravatar&quot; height=&quot;30&quot; src=&quot;https://avatars0.githubusercontent.com/u/87479?v=3&amp;amp;s=60&quot; width=&quot;30&quot; /&gt;&lt;/a&gt;
+
+    &lt;div class=&quot;commits pusher-is-only-committer&quot;&gt;
+      &lt;ul&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/ab23b86183a8ecc7accf4b4d89da909c39a444ba&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;ab23b86&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Check SMTP options with a loop
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;span title=&quot;agorf&quot;&gt;
+            &lt;img alt=&quot;@agorf&quot; height=&quot;16&quot; src=&quot;https://avatars1.githubusercontent.com/u/87479?v=3&amp;amp;s=32&quot; width=&quot;16&quot; /&gt;
+          &lt;/span&gt;
+          &lt;code&gt;&lt;a href=&quot;/agorf/feed2email/commit/180d6025e170eeedbc79d221464449f186f2747a&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:sha&quot;&gt;180d602&lt;/a&gt;&lt;/code&gt;
+          &lt;div class=&quot;message&quot;&gt;
+            &lt;blockquote&gt;
+              Create default config if missing
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+        &lt;li class=&quot;more&quot;&gt;&lt;a href=&quot;/agorf/feed2email/compare/410d16c539...ab23b86183&quot; data-ga-click=&quot;News feed, event click, Event click type:PushEvent target:comparison&quot;&gt;View comparison for these 2 commits &amp;raquo;&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3345654776</id>
+    <published>2015-11-16T13:10:16Z</published>
+    <updated>2015-11-16T13:10:16Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/rails-api/active_model_serializers"/>
+    <title type="html">agorf starred rails-api/active_model_serializers</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot; aria-label=&quot;Watch&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/rails-api/active_model_serializers&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;rails-api/active_model_serializers&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-16T13:10:16Z&quot; is=&quot;relative-time&quot;&gt;Nov 16, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3342722048</id>
+    <published>2015-11-14T21:59:06Z</published>
+    <updated>2015-11-14T21:59:06Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/thoughtbot/administrate"/>
+    <title type="html">agorf starred thoughtbot/administrate</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot; aria-label=&quot;Watch&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/thoughtbot/administrate&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;thoughtbot/administrate&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-14T21:59:06Z&quot; is=&quot;relative-time&quot;&gt;Nov 14, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:WatchEvent/3342024489</id>
+    <published>2015-11-14T08:24:25Z</published>
+    <updated>2015-11-14T08:24:25Z</updated>
+    <link type="text/html" rel="alternate" href="https://github.com/JuanPotato/Legofy"/>
+    <title type="html">agorf starred JuanPotato/Legofy</title>
+    <author>
+      <name>agorf</name>
+      <email></email>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <content type="html">&lt;!-- watch --&gt;
+&lt;div class=&quot;simple&quot;&gt;
+  &lt;span class=&quot;octicon octicon-star&quot; aria-label=&quot;Watch&quot;&gt;&lt;/span&gt;
+
+  &lt;div class=&quot;title&quot;&gt;
+    &lt;a href=&quot;/agorf&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:actor&quot;&gt;agorf&lt;/a&gt; starred &lt;a href=&quot;/JuanPotato/Legofy&quot; data-ga-click=&quot;News feed, event click, Event click type:WatchEvent target:repo&quot;&gt;JuanPotato/Legofy&lt;/a&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;time&quot;&gt;
+    &lt;time datetime=&quot;2015-11-14T08:24:25Z&quot; is=&quot;relative-time&quot;&gt;Nov 14, 2015&lt;/time&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+  </entry>
+</feed>

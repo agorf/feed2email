@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xml:lang="en-US">
+  <id>tag:github.com,2008:/agorf/feed2email/commits/master</id>
+  <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commits/master"/>
+  <link type="application/atom+xml" rel="self" href="https://github.com/agorf/feed2email/commits/master.atom"/>
+  <title>Recent Commits to feed2email:master</title>
+  <updated>2015-12-02T22:29:22+02:00</updated>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/8a4581aa9e51b5adbaeb22374e5dc8aca0acdefd</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/8a4581aa9e51b5adbaeb22374e5dc8aca0acdefd"/>
+    <title>
+        Test cached feeds are actually returned
+    </title>
+    <updated>2015-12-02T22:29:22+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Test cached feeds are actually returned&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/884551fa85001d68712fa4e5de09c4baecd1ba0c</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/884551fa85001d68712fa4e5de09c4baecd1ba0c"/>
+    <title>
+        Use fixture_path helper in all specs
+    </title>
+    <updated>2015-12-02T22:24:01+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Use fixture_path helper in all specs&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/5d39bb147ce2e3542c3557922cdd857cc1f9eb44</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/5d39bb147ce2e3542c3557922cdd857cc1f9eb44"/>
+    <title>
+        Refactor and spec Feed2Email::FeedAutodiscoverer
+    </title>
+    <updated>2015-12-02T22:23:48+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Refactor and spec Feed2Email::FeedAutodiscoverer&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/c6d6766b5e35f20ca0ed8002f69dcaf428748fa8</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/c6d6766b5e35f20ca0ed8002f69dcaf428748fa8"/>
+    <title>
+        Spec Feed2Email::RedirectionChecker
+    </title>
+    <updated>2015-12-01T00:47:34+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Spec Feed2Email::RedirectionChecker&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/b8a9aef7df739fe3fc445141a414c7f979dd3870</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/b8a9aef7df739fe3fc445141a414c7f979dd3870"/>
+    <title>
+        Specify exact Ruby versions in Travis CI config
+    </title>
+    <updated>2015-11-28T23:14:45+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Specify exact Ruby versions in Travis CI config&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/db4ee15a7de3dda8633f0dd19c5deab85aad6653</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/db4ee15a7de3dda8633f0dd19c5deab85aad6653"/>
+    <title>
+        Stub Time.now to return time as string
+    </title>
+    <updated>2015-11-28T22:59:21+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Stub Time.now to return time as string
+
+Trying to fix failing specs possibly due to timezone mismatch in OPML.&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/54e0492a28072a0db75c8d0135d0ddfa87e386d5</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/54e0492a28072a0db75c8d0135d0ddfa87e386d5"/>
+    <title>
+        Update Travis CI config file
+    </title>
+    <updated>2015-11-28T22:48:25+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Update Travis CI config file
+
+With latest Ruby versions and to run RSpec specs&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/104fcb6dd769bb2927cc99c23a71eee237fa2aff</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/104fcb6dd769bb2927cc99c23a71eee237fa2aff"/>
+    <title>
+        Spec Feed2Email::OPMLWriter
+    </title>
+    <updated>2015-11-28T22:35:50+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Spec Feed2Email::OPMLWriter&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/08d7661fabd19386107487d16c889df2a8137f7b</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/08d7661fabd19386107487d16c889df2a8137f7b"/>
+    <title>
+        Complete and update spec of core extensions
+    </title>
+    <updated>2015-11-28T18:49:18+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Complete and update spec of core extensions&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/0002fa9552e2b370d951466e9b310fc404bb20f1</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/0002fa9552e2b370d951466e9b310fc404bb20f1"/>
+    <title>
+        Remove unused Hash#slice
+    </title>
+    <updated>2015-11-28T18:38:55+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Remove unused Hash#slice&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/d00f2a6a135cf3ed66ef8e728a5463d248e71508</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/d00f2a6a135cf3ed66ef8e728a5463d248e71508"/>
+    <title>
+        Fix Numeric#megabytes conversion typo
+    </title>
+    <updated>2015-11-28T18:30:14+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Fix Numeric#megabytes conversion typo
+
+Lesson learned: Even the simplest tests matter.&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/828f7c202fd78b3e9bf6eac42776d842e026f512</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/828f7c202fd78b3e9bf6eac42776d842e026f512"/>
+    <title>
+        Update rspec to get &quot;is_expected&quot;
+    </title>
+    <updated>2015-11-28T17:57:05+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Update rspec to get &quot;is_expected&quot;
+
+Uninstall fuubar since I don&#39;t really use it, plus it&#39;s not compatible
+with rspec &gt;= 3.1.0&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/79e343bf9f4e5d33c13141bf26f6bfcb1be9c095</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/79e343bf9f4e5d33c13141bf26f6bfcb1be9c095"/>
+    <title>
+        Update Feed2Email::VERSION spec
+    </title>
+    <updated>2015-11-28T17:43:52+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Update Feed2Email::VERSION spec&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/257dc1caab0a25d43195a03d5e96369be2be58f5</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/257dc1caab0a25d43195a03d5e96369be2be58f5"/>
+    <title>
+        Spec Feed2Email::OPMLReader
+    </title>
+    <updated>2015-11-28T17:36:48+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Spec Feed2Email::OPMLReader&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/a6418380f5d2a0fe1962825c712a6a73fd8143ce</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/a6418380f5d2a0fe1962825c712a6a73fd8143ce"/>
+    <title>
+        Remove unused Sequel relations
+    </title>
+    <updated>2015-11-19T15:25:45+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Remove unused Sequel relations&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/0f3dac5305127976e2fc38ee71b344d01cad8fc0</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/0f3dac5305127976e2fc38ee71b344d01cad8fc0"/>
+    <title>
+        Store old last_modified/etag before feed fetching
+    </title>
+    <updated>2015-11-19T10:38:25+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Store old last_modified/etag before feed fetching
+
+Where it&#39;s modified. Broken with 82208f7.&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/c2ed0011b0c12276648eff3d5630e44fd358fbdb</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/c2ed0011b0c12276648eff3d5630e44fd358fbdb"/>
+    <title>
+        Revert &quot;Add sample config file&quot;
+    </title>
+    <updated>2015-11-19T01:20:26+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Revert &quot;Add sample config file&quot;
+
+This reverts commit 71218f0b84a235a1cabc6cf93a6d273f5f9fa8af.&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/e721c821cfa9f7c15756fb7ee06b8be5aa970cbf</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/e721c821cfa9f7c15756fb7ee06b8be5aa970cbf"/>
+    <title>
+        Combine attr_accessor calls
+    </title>
+    <updated>2015-11-19T01:16:10+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Combine attr_accessor calls&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/82208f79c93faeba585b51a2fe326e2292635630</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/82208f79c93faeba585b51a2fe326e2292635630"/>
+    <title>
+        Use instance variables to restore last_modified/etag
+    </title>
+    <updated>2015-11-19T01:10:03+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Use instance variables to restore last_modified/etag
+
+Thus removing the dependency of the &quot;dirty&quot; Sequel plugin.&lt;/pre>
+    </content>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:Grit::Commit/20dbd11538b550d82b33d94cf60880c040b53c70</id>
+    <link type="text/html" rel="alternate" href="https://github.com/agorf/feed2email/commit/20dbd11538b550d82b33d94cf60880c040b53c70"/>
+    <title>
+        Return early from Feed#process
+    </title>
+    <updated>2015-11-19T01:09:58+02:00</updated>
+    <media:thumbnail height="30" width="30" url="https://avatars1.githubusercontent.com/u/87479?v=3&amp;s=30"/>
+    <author>
+      <name>agorf</name>
+      <uri>https://github.com/agorf</uri>
+    </author>
+    <content type="html">
+      &lt;pre style='white-space:pre-wrap;width:81ex'>Return early from Feed#process&lt;/pre>
+    </content>
+  </entry>
+</feed>

@@ -3,13 +3,13 @@
   <opml version="2.0">
     <head>
       <title>feed2email subscriptions</title>
-      <dateCreated>2015-11-28 17:32:00 +0200</dateCreated>
+      <dateCreated>2015-12-03 00:20:14 +0200</dateCreated>
       <ownerName>agorf</ownerName>
       <docs>http://dev.opml.org/spec2.html</docs>
     </head>
     <body>
-      <outline text="https://github.com/agorf.atom" type="atom" xmlUrl="https://github.com/agorf.atom"/>
-      <outline text="https://github.com/agorf/feed2email/commits/master.atom" type="atom" xmlUrl="https://github.com/agorf/feed2email/commits/master.atom"/>
+      <outline text="agorf&#x2019;s Activity" xmlUrl="https://github.com/agorf.atom" type="atom"/>
+      <outline text="Recent Commits to feed2email:master" xmlUrl="https://github.com/agorf/feed2email/commits/master.atom" type="atom"/>
     </body>
   </opml>
 </root>

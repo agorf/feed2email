@@ -17,10 +17,17 @@ describe Feed2Email::OPMLWriter do
     }
 
     before do
-      expect(Time).to receive(:now).and_return('2015-11-28 17:32:00 +0200')
+      expect(Time).to receive(:now).and_return('2015-12-03 00:20:14 +0200')
       expect(ENV).to receive(:[]).with('USER').and_return('agorf')
-      expect(opml_writer).to receive(:feed_type).with(uris[0]).and_return('atom')
-      expect(opml_writer).to receive(:feed_type).with(uris[1]).and_return('atom')
+
+      stub_request(:get, uris[0]).to_return(
+        body: File.read(fixture_path('github_agorf.atom')),
+        headers: { content_type: 'application/atom+xml' }
+      )
+      stub_request(:get, uris[1]).to_return(
+        body: File.read(fixture_path('github_feed2email.atom')),
+        headers: { content_type: 'application/atom+xml' }
+      )
     end
 
     it 'returns the number of written bytes' do

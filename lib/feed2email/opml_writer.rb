@@ -1,17 +1,14 @@
-require 'net/http'
 require 'nokogiri'
-require 'uri'
+require 'feed2email/feed_analyzer'
 
 module Feed2Email
   class OPMLWriter
-    MAX_REDIRECTS = 10
-
-    def initialize(uris)
-      @uris = uris
+    def initialize(urls)
+      @urls = urls
     end
 
     def write(io)
-      io.write(xml)
+      io.write(to_xml)
     end
 
     private
@@ -28,8 +25,19 @@ module Feed2Email
             end
 
             xml.body do
-              uris.each do |uri|
-                xml.outline(text: uri, type: feed_type(uri), xmlUrl: uri)
+              urls.each do |url|
+                feed = FeedAnalyzer.new(url)
+
+                outline_attrs = { text: url }
+
+                if feed.title
+                  outline_attrs[:text] = feed.title
+                  outline_attrs[:xmlUrl] = url
+                end
+
+                outline_attrs[:type] = feed.type if feed.type
+
+                xml.outline(outline_attrs)
               end
             end
           end
@@ -37,61 +45,9 @@ module Feed2Email
       end
     end
 
-    # Adjusted from
-    # https://github.com/yugui/rubycommitters/blob/master/opml-generator.rb
-    def feed_type(url)
-      uri = nil
-      redirects = 0
+    attr_reader :urls
 
-      loop do
-        uri = URI.parse(url)
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = (uri.scheme == 'https')
-
-        begin
-          response = http.head(uri.request_uri)
-        rescue
-          break
-        end
-
-        if response.code =~ /\A3\d\d\z/
-          redirects += 1
-          return unless response['location'] && redirects <= MAX_REDIRECTS
-          url = response['location']
-          next
-        end
-
-        case response['content-type'][/[^;]+/]
-        when 'text/rss', 'text/rss+xml', 'application/rss+xml',
-             'application/rdf+xml', 'application/xml', 'text/xml'
-          return 'rss'
-        when 'text/atom', 'text/atom+xml', 'application/atom+xml'
-          return 'atom'
-        else
-          break
-        end
-      end
-
-      case File.extname(uri.path)
-      when '.rdf', '.rss'
-        return 'rss'
-      when '.atom'
-        return 'atom'
-      end
-
-      case File.basename(uri.path)
-      when 'rss.xml', 'rdf.xml'
-        return 'rss'
-      when 'atom.xml'
-        return 'atom'
-      else
-        return
-      end
-    end
-
-    attr_reader :uris
-
-    def xml
+    def to_xml
       builder.to_xml
     end
   end
