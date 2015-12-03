@@ -5,8 +5,8 @@ module Feed2Email
   class RedirectionChecker
     attr_reader :location
 
-    def initialize(uri)
-      @uri = uri
+    def initialize(url)
+      @url = url
     end
 
     def permanently_redirected?
@@ -15,13 +15,13 @@ module Feed2Email
 
     private
 
-    attr_reader :code, :uri
+    attr_reader :code, :url
 
     def check
-      parsed_uri   = URI.parse(uri)
-      http         = Net::HTTP.new(parsed_uri.host, parsed_uri.port)
-      http.use_ssl = (parsed_uri.scheme == "https")
-      response     = http.head(parsed_uri.request_uri)
+      uri          = URI(url)
+      http         = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = (uri.scheme == "https")
+      response     = http.head(uri.request_uri)
       @code        = response.code
       @location    = response["location"]
     end
@@ -30,7 +30,7 @@ module Feed2Email
       check unless code
 
       !(code =~ /\A3\d\d\z/).nil? &&
-        location != uri && # prevent redirection to the same location
+        location != url && # prevent redirection to the same location
         !(location =~ %r{\Ahttps?://}).nil? # ignore invalid locations
     end
   end
