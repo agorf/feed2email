@@ -1,7 +1,5 @@
 require 'feedzirra'
 require 'sequel'
-require 'stringio'
-require 'zlib'
 require 'feed2email'
 require 'feed2email/config'
 require 'feed2email/configurable'
@@ -70,21 +68,6 @@ module Feed2Email
       last_modified || etag
     end
 
-    def decode_content(data, content_encoding)
-      case content_encoding
-      when 'gzip'
-        gz = Zlib::GzipReader.new(StringIO.new(data))
-        xml = gz.read
-        gz.close
-      when 'deflate'
-        xml = Zlib::Inflate.inflate(data)
-      else
-        xml = data
-      end
-
-      xml
-    end
-
     def fetch
       logger.debug 'Fetching feed...'
 
@@ -95,7 +78,7 @@ module Feed2Email
           self.last_modified = f.meta['last-modified']
           self.etag = f.meta['etag']
 
-          return decode_content(f.read, f.meta['content-encoding'])
+          return f.read
         end
       rescue => e
         if e.is_a?(OpenURI::HTTPError) && e.message == '304 Not Modified'
@@ -117,10 +100,7 @@ module Feed2Email
     end
 
     def fetch_options
-      options = {
-        'User-Agent' => "feed2email/#{VERSION}",
-        'Accept-Encoding' => 'gzip, deflate',
-      }
+      options = { 'User-Agent' => "feed2email/#{VERSION}" }
 
       if last_modified
         options['If-Modified-Since'] = last_modified
