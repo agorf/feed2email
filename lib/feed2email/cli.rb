@@ -51,7 +51,7 @@ module Feed2Email
 
       puts "Exporting... (this may take a while)"
 
-      exported = open(path, "w") do |f|
+      exported = File.open(path, "w") do |f|
         uris = Feed.oldest_first.select_map(:uri)
 
         if OPMLWriter.new(uris).write(f) > 0
@@ -74,7 +74,7 @@ module Feed2Email
 
       puts "Importing..."
 
-      feeds = open(path) {|f| OPMLReader.new(f).feeds }
+      feeds = File.open(path) {|f| OPMLReader.new(f).feeds }
 
       imported = 0
 
