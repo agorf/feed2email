@@ -33,7 +33,7 @@ module Feed2Email
     private
 
     def base_uri
-      if base = html_head.at_css('base[href]')
+      @base_uri ||= if base = html_head.at_css('base[href]')
         base['href']
       else
         handle.base_uri.to_s
