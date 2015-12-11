@@ -1,16 +1,15 @@
 require 'feedzirra'
-require 'net/http'
-require 'uri'
+require 'feed2email/http_fetcher'
 
 module Feed2Email
   class FeedAnalyzer
-    MAX_REDIRECTS = 5
-
     def initialize(url)
       @url = url
     end
 
     def title
+      return unless response
+
       Feedzirra::Feed.parse(response.body).title rescue nil
     end
 
@@ -27,14 +26,14 @@ module Feed2Email
         return 'atom'
       end
 
-      case File.extname(uri.path)
+      case File.extname(path)
       when '.rdf', '.rss'
         return 'rss'
       when '.atom'
         return 'atom'
       end
 
-      case File.basename(uri.path)
+      case File.basename(path)
       when 'rss.xml', 'rdf.xml'
         return 'rss'
       when 'atom.xml'
@@ -44,39 +43,18 @@ module Feed2Email
 
     private
 
-    attr_reader :response, :uri, :url
+    def fetcher
+      @fetcher ||= Feed2Email::HTTPFetcher.new(url)
+    end
 
     def response
-      return @response unless @response.nil?
-
-      checked_url = url
-      redirects = 0
-
-      loop do
-        @uri = URI.parse(checked_url)
-        http = Net::HTTP.new(@uri.host, @uri.port)
-        http.use_ssl = (@uri.scheme == 'https')
-
-        begin
-          @response = http.request(Net::HTTP::Get.new(@uri.request_uri))
-        rescue
-          @response = false
-          break
-        end
-
-        break unless @response.code =~ /\A3\d\d\z/ # redirection
-
-        redirects += 1
-
-        if @response['location'].nil? || redirects > MAX_REDIRECTS
-          @response = false
-          break
-        end
-
-        checked_url = @response['location']
-      end
-
-      @response
+      @response ||= fetcher.fetch
     end
+
+    def path
+      @path ||= URI.parse(fetcher.url).path
+    end
+
+    attr_reader :url
   end
 end
