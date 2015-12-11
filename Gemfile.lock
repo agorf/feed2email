@@ -20,6 +20,7 @@ GEM
       cucumber (>= 1.1.1)
       rspec-expectations (>= 2.7.0)
     builder (3.2.2)
+    byebug (8.2.1)
     childprocess (0.5.8)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
@@ -61,6 +62,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.3.0)
+      byebug (~> 8.0)
+      pry (~> 0.10)
     rake (10.4.2)
     reverse_markdown (0.6.1)
       nokogiri
@@ -103,6 +107,7 @@ DEPENDENCIES
   aruba (~> 0.6.2)
   feed2email!
   pry
+  pry-byebug (~> 3.3.0)
   rake
   rspec (~> 3.4.0)
   travis-lint
