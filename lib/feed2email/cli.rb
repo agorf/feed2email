@@ -74,7 +74,7 @@ module Feed2Email
 
       puts "Importing..."
 
-      feeds = File.open(path) {|f| OPMLReader.new(f).feeds }
+      feeds = File.open(path) {|f| OPMLReader.new(f).urls }
 
       imported = 0
 

@@ -6,7 +6,7 @@ module Feed2Email
       @io = io
     end
 
-    def feeds
+    def urls
       Nokogiri::XML(data).css('opml body outline').map {|outline|
         outline['xmlUrl']
       }.compact

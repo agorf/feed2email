@@ -6,8 +6,8 @@ describe Feed2Email::OPMLReader do
 
   subject { Feed2Email::OPMLReader.new(io) }
 
-  describe '#feeds' do
-    subject { super().feeds }
+  describe '#urls' do
+    subject { super().urls }
 
     it 'returns a list of feed URIs' do
       expect(subject).to eq [
