@@ -39,9 +39,7 @@ module Feed2Email
 
         raise TooManyRedirects if locations.size > max_redirects
 
-        locations << resp['location']
-
-        self.url = resp['location']
+        add_location(resp['location'])
       end
 
       resp
@@ -55,6 +53,11 @@ module Feed2Email
 
     private
 
+    def add_location(url)
+      @uri = nil # invalidate cache to cause url re-parsing
+      locations << url
+    end
+
     def build_http
       Net::HTTP.new(uri.host, uri.port).tap do |http|
         http.use_ssl = (uri.scheme == 'https')
@@ -65,11 +68,6 @@ module Feed2Email
 
     def uri
       @uri ||= URI.parse(url)
-    end
-
-    def url=(url)
-      @uri = nil # invalidate cache to cause url re-parsing
-      @url = url
     end
 
     def visited_location?(location)
