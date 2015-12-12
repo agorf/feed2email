@@ -13,23 +13,28 @@ module Feed2Email
     MAX_REDIRECTS  = 3
     REDIRECT_CODES = [301, 302, 303, 307]
 
-    def initialize(url, max_redirects: MAX_REDIRECTS, headers_only: false)
-      @locations     = [url]
-      @max_redirects = max_redirects
-      @headers_only  = headers_only
+    def initialize(url, request_headers: {}, max_redirects: MAX_REDIRECTS, headers_only: false)
+      @locations       = [url]
+      @request_headers = request_headers
+      @max_redirects   = max_redirects
+      @headers_only    = headers_only
     end
 
-    attr_reader :headers_only, :locations
+    attr_accessor :headers_only
+
+    attr_reader :locations
+
+    attr_accessor :max_redirects, :request_headers
 
     def response
       http = resp = nil
 
       loop do
         http = build_http
-        resp = http.head(uri.request_uri)
+        resp = http.request(build_head_request)
 
         unless REDIRECT_CODES.include?(resp.code.to_i)
-          resp = http.get(uri.request_uri) unless headers_only
+          resp = http.request(build_get_request) unless headers_only
           break
         end
 
@@ -58,13 +63,29 @@ module Feed2Email
       locations << url
     end
 
+    def build_request(method)
+      request = request_class(method).new(uri.request_uri)
+      request.initialize_http_header(request_headers)
+      request
+    end
+
+    def build_get_request
+      build_request(:get)
+    end
+
+    def build_head_request
+      build_request(:head)
+    end
+
     def build_http
       Net::HTTP.new(uri.host, uri.port).tap do |http|
         http.use_ssl = (uri.scheme == 'https')
       end
     end
 
-    attr_reader :max_redirects
+    def request_class(method)
+      Net::HTTP.const_get(method.capitalize)
+    end
 
     def uri
       @uri ||= URI.parse(url)
