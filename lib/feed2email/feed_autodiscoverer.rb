@@ -1,6 +1,6 @@
+require 'feed2email/http_fetcher'
 require 'nokogiri'
 require 'uri'
-require 'feed2email/open-uri'
 
 module Feed2Email
   class FeedAutodiscoverer
@@ -9,7 +9,7 @@ module Feed2Email
     end
 
     def discoverable?
-      handle.content_type == "text/html" && !html_head.nil?
+      fetcher.content_type == "text/html" && !html_head.nil?
     end
 
     def feeds
@@ -38,16 +38,16 @@ module Feed2Email
       @base_uri ||= if base = html_head.at_css('base[href]')
         base['href']
       else
-        handle.base_uri.to_s
+        fetcher.uri.to_s
       end
     end
 
-    def handle
-      @handle ||= open(url)
+    def fetcher
+      @fetcher ||= Feed2Email::HTTPFetcher.new(url)
     end
 
     def html_head
-      @html_head ||= Nokogiri.HTML(handle.read).at_css("head")
+      @html_head ||= Nokogiri.HTML(fetcher.data).at_css("head")
     end
 
     attr_reader :url

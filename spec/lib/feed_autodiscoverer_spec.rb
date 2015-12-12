@@ -9,7 +9,7 @@ describe Feed2Email::FeedAutodiscoverer do
   let(:content_type) { 'text/html' }
 
   before do
-    stub_request(:get, uri).to_return(
+    stub_request(:any, uri).to_return(
       body: body,
       headers: { content_type: content_type }
     )

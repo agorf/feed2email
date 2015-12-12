@@ -29,6 +29,14 @@ module Feed2Email
       yield(self) if block_given?
     end
 
+    def content_type
+      response.content_type
+    end
+
+    def data
+      response.body
+    end
+
     attr_reader :followed_locations
 
     attr_accessor :headers_only
@@ -59,6 +67,10 @@ module Feed2Email
       end
 
       @response
+    end
+
+    def uri
+      @uri ||= URI.parse(url)
     end
 
     def url
@@ -98,10 +110,6 @@ module Feed2Email
 
     def request_class(method)
       Net::HTTP.const_get(method.capitalize)
-    end
-
-    def uri
-      @uri ||= URI.parse(url)
     end
   end
 end
