@@ -18,7 +18,7 @@ module Feed2Email
     def type
       return unless response
 
-      case response['content-type'][/[^;]+/]
+      case fetcher.content_type[/[^;]+/]
       when 'text/rss', 'text/rss+xml', 'application/rss+xml',
            'application/rdf+xml', 'application/xml', 'text/xml'
         return 'rss'

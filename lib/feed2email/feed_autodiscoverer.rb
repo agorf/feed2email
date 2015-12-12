@@ -38,7 +38,7 @@ module Feed2Email
       @base_uri ||= if base = html_head.at_css('base[href]')
         base['href']
       else
-        fetcher.uri.to_s
+        fetcher.url
       end
     end
 

@@ -74,7 +74,7 @@ module Feed2Email
     end
 
     def url
-      followed_locations.last
+      uri.to_s
     end
 
     private
