@@ -1,37 +1,34 @@
-require "net/http"
-require "uri"
+require 'feed2email/http_fetcher'
 
 module Feed2Email
   class RedirectionChecker
-    attr_reader :location
-
     def initialize(url)
       @url = url
     end
 
+    attr_reader :location
+
     def permanently_redirected?
-      redirected? && code == '301'
+      check
+      !location.nil? && code == '301'
     end
 
     private
 
-    attr_reader :code, :url
-
     def check
-      uri          = URI(url)
-      http         = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = (uri.scheme == "https")
-      response     = http.head(uri.request_uri)
-      @code        = response.code
-      @location    = response["location"]
+      fetcher = Feed2Email::HTTPFetcher.new(url, max_redirects: 0, headers_only: true)
+
+      begin
+        fetcher.response
+      rescue Feed2Email::HTTPFetcher::TooManyRedirects => e
+        @location = e.response['location']
+      rescue Feed2Email::HTTPFetcher::HTTPFetcherError # order is significant
+        # @location remains nil
+      end
+
+      @code = fetcher.response.code
     end
 
-    def redirected?
-      check unless code
-
-      !(code =~ /\A3\d\d\z/).nil? &&
-        location != url && # prevent redirection to the same location
-        !(location =~ %r{\Ahttps?://}).nil? # ignore invalid locations
-    end
+    attr_reader :code, :url
   end
 end

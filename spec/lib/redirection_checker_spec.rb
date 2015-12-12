@@ -25,24 +25,34 @@ describe Feed2Email::RedirectionChecker do
   describe '#permanently_redirected?' do
     subject { super().permanently_redirected? }
 
-    it { is_expected.to be true }
-
     context 'not redirected' do
       let(:status) { 200 }
 
       it { is_expected.to be false }
     end
 
-    context 'location matches checked URI' do
-      let(:location) { checked_uri }
+    context 'redirected' do
+      context 'location is present, valid and different from checked URI' do
+        it { is_expected.to be true }
+      end
 
-      it { is_expected.to be false }
-    end
+      context 'location is missing' do
+        let(:location) { nil }
 
-    context 'location is invalid' do
-      let(:location) { 'ftp://ftp.ntua.gr/' }
+        it { is_expected.to be false }
+      end
 
-      it { is_expected.to be false }
+      context 'location is invalid' do
+        let(:location) { 'ftp://ftp.ntua.gr/' }
+
+        it { is_expected.to be false }
+      end
+
+      context 'location matches checked URI' do
+        let(:location) { checked_uri }
+
+        it { is_expected.to be false }
+      end
     end
   end
 end
