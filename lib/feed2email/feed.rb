@@ -14,6 +14,8 @@ module Feed2Email
   class Feed < Sequel::Model(:feeds)
     plugin :timestamps
 
+    one_to_many :entries
+
     subset(:enabled, enabled: true)
 
     def_dataset_method(:oldest_first) { order(:id) }

@@ -11,6 +11,8 @@ module Feed2Email
   class Entry < Sequel::Model(:entries)
     plugin :timestamps
 
+    many_to_one :feed
+
     class << self
       attr_accessor :last_email_sent_at
     end
