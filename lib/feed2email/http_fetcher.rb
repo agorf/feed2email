@@ -78,9 +78,9 @@ module Feed2Email
     end
 
     def build_request(method)
-      request = request_class(method).new(uri.request_uri)
-      request.initialize_http_header(request_headers)
-      request
+      request_class(method).new(uri.request_uri).tap do |req|
+        req.initialize_http_header(request_headers)
+      end
     end
 
     def followed_location?(location)
