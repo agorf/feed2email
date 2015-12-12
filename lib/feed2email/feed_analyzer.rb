@@ -48,7 +48,7 @@ module Feed2Email
     end
 
     def response
-      @response ||= fetcher.fetch
+      @response ||= fetcher.response
     end
 
     def path

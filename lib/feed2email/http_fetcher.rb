@@ -19,7 +19,9 @@ module Feed2Email
       @headers_only  = headers_only
     end
 
-    def fetch
+    attr_reader :headers_only, :locations
+
+    def response
       http = resp = nil
 
       loop do
@@ -44,8 +46,6 @@ module Feed2Email
 
       resp
     end
-
-    attr_reader :headers_only, :locations
 
     def url
       locations.last
