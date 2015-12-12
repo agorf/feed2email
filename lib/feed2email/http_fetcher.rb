@@ -3,7 +3,14 @@ require 'uri'
 
 module Feed2Email
   class HTTPFetcher
-    class HTTPFetcherError < StandardError; end
+    class HTTPFetcherError < StandardError
+      def initialize(response)
+        @response = response
+      end
+
+      attr_reader :response
+    end
+
     class MissingLocation  < HTTPFetcherError;  end
     class InvalidLocation  < HTTPFetcherError;  end
     class CircularRedirect < HTTPFetcherError;  end
@@ -40,13 +47,13 @@ module Feed2Email
           break
         end
 
-        raise MissingLocation if @response['location'].nil?
+        raise MissingLocation.new(@response) if @response['location'].nil?
 
-        raise InvalidLocation if @response['location'] !~ LOCATION_REGEX
+        raise InvalidLocation.new(@response) if @response['location'] !~ LOCATION_REGEX
 
-        raise CircularRedirect if followed_location?(@response['location'])
+        raise CircularRedirect.new(@response) if followed_location?(@response['location'])
 
-        raise TooManyRedirects if followed_locations.size > max_redirects
+        raise TooManyRedirects.new(@response) if followed_locations.size > max_redirects
 
         add_followed_location(@response['location'])
       end
