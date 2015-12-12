@@ -1,4 +1,5 @@
 require 'feed2email/http_fetcher'
+require 'uri'
 
 module Feed2Email
   class RedirectionChecker
@@ -21,7 +22,7 @@ module Feed2Email
       begin
         fetcher.response
       rescue Feed2Email::HTTPFetcher::TooManyRedirects => e
-        @location = e.response['location']
+        @location = URI.parse(e.response['location']).to_s
       rescue Feed2Email::HTTPFetcher::HTTPFetcherError # order is significant
         # @location remains nil
       end
