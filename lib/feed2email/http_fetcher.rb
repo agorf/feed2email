@@ -27,29 +27,29 @@ module Feed2Email
     attr_accessor :max_redirects, :request_headers
 
     def response
-      http = resp = nil
+      return @response if @response
 
       loop do
         http = build_http
-        resp = http.request(build_head_request)
+        @response = http.request(build_head_request)
 
-        unless REDIRECT_CODES.include?(resp.code.to_i)
-          resp = http.request(build_get_request) unless headers_only
+        unless REDIRECT_CODES.include?(@response.code.to_i)
+          @response = http.request(build_get_request) unless headers_only
           break
         end
 
-        raise MissingLocation if resp['location'].nil?
+        raise MissingLocation if @response['location'].nil?
 
-        raise InvalidLocation if resp['location'] !~ LOCATION_REGEX
+        raise InvalidLocation if @response['location'] !~ LOCATION_REGEX
 
-        raise CircularRedirect if visited_location?(resp['location'])
+        raise CircularRedirect if visited_location?(@response['location'])
 
         raise TooManyRedirects if locations.size > max_redirects
 
-        add_location(resp['location'])
+        add_location(@response['location'])
       end
 
-      resp
+      @response
     end
 
     def url
