@@ -18,6 +18,8 @@ module Feed2Email
       @request_headers    = request_headers
       @max_redirects      = max_redirects
       @headers_only       = headers_only
+
+      yield(self) if block_given?
     end
 
     attr_reader :followed_locations
