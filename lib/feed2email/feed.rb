@@ -1,12 +1,13 @@
 require 'feedzirra'
+require 'net/http'
 require 'sequel'
 require 'feed2email'
 require 'feed2email/config'
 require 'feed2email/configurable'
 require 'feed2email/core_ext'
 require 'feed2email/entry'
+require 'feed2email/http_fetcher'
 require 'feed2email/loggable'
-require 'feed2email/open-uri'
 require 'feed2email/redirection_checker'
 require 'feed2email/version'
 
@@ -74,21 +75,23 @@ module Feed2Email
       logger.debug 'Fetching feed...'
 
       begin
-        open(uri, fetch_options) do |f|
-          handle_redirection if uri != f.base_uri.to_s
+        handle_redirection!
 
-          self.last_modified = f.meta['last-modified']
-          self.etag = f.meta['etag']
+        Feed2Email::HTTPFetcher.new(uri, request_headers: fetch_headers) do |f|
+          if f.response.is_a?(Net::HTTPNotModified)
+            logger.info 'Feed not modified; skipping...'
 
-          return f.read
+            return false
+          end
+
+          self.last_modified = f.response['last-modified']
+          self.etag = f.response['etag']
+
+          return f.data
         end
       rescue => e
-        if e.is_a?(OpenURI::HTTPError) && e.message == '304 Not Modified'
-          logger.info 'Feed not modified; skipping...'
-        else
-          logger.error 'Failed to fetch feed'
-          log_exception(e)
-        end
+        logger.error 'Failed to fetch feed'
+        log_exception(e)
 
         return false
       end
@@ -101,21 +104,21 @@ module Feed2Email
       end
     end
 
-    def fetch_options
-      options = { 'User-Agent' => "feed2email/#{VERSION}" }
+    def fetch_headers
+      headers = { 'User-Agent' => "feed2email/#{VERSION}" }
 
       if last_modified
-        options['If-Modified-Since'] = last_modified
+        headers['If-Modified-Since'] = last_modified
       end
 
       if etag
-        options['If-None-Match'] = etag
+        headers['If-None-Match'] = etag
       end
 
-      options
+      headers
     end
 
-    def handle_redirection
+    def handle_redirection!
       checker = RedirectionChecker.new(uri)
 
       if checker.permanently_redirected?
