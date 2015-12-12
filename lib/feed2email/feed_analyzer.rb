@@ -48,11 +48,11 @@ module Feed2Email
     end
 
     def response
-      @response ||= fetcher.response
+      fetcher.response
     end
 
     def path
-      @path ||= fetcher.uri_path
+      fetcher.uri_path
     end
 
     attr_reader :url
