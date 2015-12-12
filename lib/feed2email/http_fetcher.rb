@@ -14,15 +14,15 @@ module Feed2Email
     REDIRECT_CODES = [301, 302, 303, 307]
 
     def initialize(url, request_headers: {}, max_redirects: MAX_REDIRECTS, headers_only: false)
-      @locations       = [url]
-      @request_headers = request_headers
-      @max_redirects   = max_redirects
-      @headers_only    = headers_only
+      @followed_locations = [url]
+      @request_headers    = request_headers
+      @max_redirects      = max_redirects
+      @headers_only       = headers_only
     end
 
-    attr_accessor :headers_only
+    attr_reader :followed_locations
 
-    attr_reader :locations
+    attr_accessor :headers_only
 
     attr_accessor :max_redirects, :request_headers
 
@@ -42,31 +42,25 @@ module Feed2Email
 
         raise InvalidLocation if @response['location'] !~ LOCATION_REGEX
 
-        raise CircularRedirect if visited_location?(@response['location'])
+        raise CircularRedirect if followed_location?(@response['location'])
 
-        raise TooManyRedirects if locations.size > max_redirects
+        raise TooManyRedirects if followed_locations.size > max_redirects
 
-        add_location(@response['location'])
+        add_followed_location(@response['location'])
       end
 
       @response
     end
 
     def url
-      locations.last
+      followed_locations.last
     end
 
     private
 
-    def add_location(url)
+    def add_followed_location(url)
       @uri = nil # invalidate cache to cause url re-parsing
-      locations << url
-    end
-
-    def build_request(method)
-      request = request_class(method).new(uri.request_uri)
-      request.initialize_http_header(request_headers)
-      request
+      followed_locations << url
     end
 
     def build_get_request
@@ -83,16 +77,22 @@ module Feed2Email
       end
     end
 
+    def build_request(method)
+      request = request_class(method).new(uri.request_uri)
+      request.initialize_http_header(request_headers)
+      request
+    end
+
+    def followed_location?(location)
+      followed_locations.map {|loc| URI.parse(loc) }.include?(URI.parse(location))
+    end
+
     def request_class(method)
       Net::HTTP.const_get(method.capitalize)
     end
 
     def uri
       @uri ||= URI.parse(url)
-    end
-
-    def visited_location?(location)
-      locations.map {|loc| URI.parse(loc) }.include?(URI.parse(location))
     end
   end
 end
