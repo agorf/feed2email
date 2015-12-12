@@ -11,10 +11,10 @@ module Feed2Email
       attr_reader :response
     end
 
-    class MissingLocation  < HTTPFetcherError;  end
-    class InvalidLocation  < HTTPFetcherError;  end
-    class CircularRedirect < HTTPFetcherError;  end
-    class TooManyRedirects < HTTPFetcherError;  end
+    class MissingLocation  < HTTPFetcherError; end
+    class InvalidLocation  < HTTPFetcherError; end
+    class CircularRedirect < HTTPFetcherError; end
+    class TooManyRedirects < HTTPFetcherError; end
 
     LOCATION_REGEX = %r{\Ahttps?://}
     MAX_REDIRECTS  = 3
