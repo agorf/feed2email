@@ -20,11 +20,11 @@ describe Feed2Email::OPMLWriter do
       expect(Time).to receive(:now).and_return('2015-12-03 00:20:14 +0200')
       expect(ENV).to receive(:[]).with('USER').and_return('agorf')
 
-      stub_request(:get, uris[0]).to_return(
+      stub_request(:any, uris[0]).to_return(
         body: File.read(fixture_path('github_agorf.atom')),
         headers: { content_type: 'application/atom+xml' }
       )
-      stub_request(:get, uris[1]).to_return(
+      stub_request(:any, uris[1]).to_return(
         body: File.read(fixture_path('github_feed2email.atom')),
         headers: { content_type: 'application/atom+xml' }
       )
