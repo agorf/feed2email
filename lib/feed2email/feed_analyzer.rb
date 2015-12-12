@@ -52,7 +52,7 @@ module Feed2Email
     end
 
     def path
-      @path ||= fetcher.uri.path
+      @path ||= fetcher.uri_path
     end
 
     attr_reader :url

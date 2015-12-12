@@ -69,6 +69,10 @@ module Feed2Email
 
     attr_reader :uri
 
+    def uri_path
+      uri.path
+    end
+
     def url
       followed_locations.last
     end
