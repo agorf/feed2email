@@ -19,6 +19,7 @@ module Feed2Email
     LOCATION_REGEX = %r{\Ahttps?://}
     MAX_REDIRECTS  = 3
     REDIRECT_CODES = [301, 302, 303, 307]
+    METHOD_CLASSES = { get: Net::HTTP::Get, head: Net::HTTP::Head }
 
     def initialize(url, request_headers: {}, max_redirects: MAX_REDIRECTS, headers_only: false)
       @followed_locations = []
@@ -111,7 +112,7 @@ module Feed2Email
     attr_reader :followed_locations
 
     def request_class(method)
-      Net::HTTP.const_get(method.capitalize)
+      METHOD_CLASSES.fetch(method)
     end
   end
 end
