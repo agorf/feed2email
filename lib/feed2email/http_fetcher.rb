@@ -21,10 +21,12 @@ module Feed2Email
     REDIRECT_CODES = [301, 302, 303, 307]
 
     def initialize(url, request_headers: {}, max_redirects: MAX_REDIRECTS, headers_only: false)
-      @followed_locations = [url]
-      @request_headers    = request_headers
-      @max_redirects      = max_redirects
-      @headers_only       = headers_only
+      @followed_locations = []
+      add_followed_location(url)
+
+      @request_headers = request_headers
+      @max_redirects   = max_redirects
+      @headers_only    = headers_only
 
       yield(self) if block_given?
     end
@@ -37,11 +39,7 @@ module Feed2Email
       response.body
     end
 
-    attr_reader :followed_locations
-
-    attr_accessor :headers_only
-
-    attr_accessor :max_redirects, :request_headers
+    attr_accessor :headers_only, :max_redirects, :request_headers
 
     def response
       return @response if @response
@@ -69,9 +67,7 @@ module Feed2Email
       @response
     end
 
-    def uri
-      @uri ||= URI.parse(url)
-    end
+    attr_reader :uri
 
     def url
       followed_locations.last
@@ -80,8 +76,8 @@ module Feed2Email
     private
 
     def add_followed_location(url)
-      @uri = nil # invalidate cache to cause url re-parsing
-      followed_locations << url
+      @uri = URI.parse(url)
+      followed_locations << uri.to_s
     end
 
     def build_get_request
@@ -104,9 +100,11 @@ module Feed2Email
       end
     end
 
-    def followed_location?(location)
-      followed_locations.map {|loc| URI.parse(loc) }.include?(URI.parse(location))
+    def followed_location?(url)
+      followed_locations.include?(URI.parse(url).to_s)
     end
+
+    attr_reader :followed_locations
 
     def request_class(method)
       Net::HTTP.const_get(method.capitalize)
