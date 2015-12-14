@@ -13,6 +13,8 @@ Gem::Specification.new do |gem|
   gem.executables   = Dir['bin/*'].map {|f| File.basename(f) }
   gem.require_paths = ['lib']
 
+  gem.required_ruby_version = '>= 2.0'
+
   gem.add_dependency 'feedzirra', '~> 0.7.0'
   gem.add_dependency 'mail', '~> 2.5.4'
   gem.add_dependency 'sanitize', '~> 2.1.0'
