@@ -41,3 +41,11 @@ end
 def fixture_path(filename)
   File.join('spec', 'fixtures', filename)
 end
+
+def stub_redirects(urls, status = 301)
+  urls.each_cons(2) do |url_from, url_to|
+    stub_request(:head, url_from).to_return(
+      status: status, headers: { location: url_to }
+    )
+  end
+end
