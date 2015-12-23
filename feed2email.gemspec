@@ -30,6 +30,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'travis-lint'
   gem.add_development_dependency 'aruba', '~> 0.6.2'
   gem.add_development_dependency 'webmock', '~> 1.22.3'
+  gem.add_development_dependency 'simplecov', '~> 0.11.1'
 
   gem.post_install_message = %{\
 * Since version 0.12.0, the config directory of feed2email is
