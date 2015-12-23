@@ -100,33 +100,45 @@ describe Feed2Email::HTTPFetcher do
     end
   end
 
-  describe '#response' do
-    subject { super().response }
+  context 'with some valid redirects' do
+    let(:body) { 'OK' }
 
-    context 'few valid redirects' do
-      let(:body) { 'OK' }
+    let(:content_type) { 'text/plain' }
 
-      let(:content_type) { 'text/plain' }
+    let(:locations) do
+      [
+        'http://a.com/',
+        'http://b.com/',
+        'http://c.com/',
+        'http://d.com/',
+      ]
+    end
 
-      let(:locations) do
-        [
-          'http://a.com/',
-          'http://b.com/',
-          'http://c.com/',
-          'http://d.com/',
-        ]
-      end
+    let(:url) { locations.first }
 
-      let(:url) { locations.first }
+    before do
+      stub_redirects(locations)
+      stub_request(:any, locations.last).to_return(
+        status:  200,
+        body:    body,
+        headers: { content_type: content_type }
+      )
+    end
 
-      before do
-        stub_redirects(locations)
-        stub_request(:any, locations.last).to_return(
-          status:  200,
-          body:    body,
-          headers: { content_type: content_type }
-        )
-      end
+    describe '#content_type' do
+      subject { super().content_type }
+
+      it { is_expected.to eq content_type }
+    end
+
+    describe '#data' do
+      subject { super().data }
+
+      it { is_expected.to eq body }
+    end
+
+    describe '#response' do
+      subject { super().response }
 
       it 'sets response' do
         expect(subject).to be
@@ -134,14 +146,6 @@ describe Feed2Email::HTTPFetcher do
 
       it 'follows the redirects' do
         expect { subject }.to change(fetcher, :url).from(url).to(locations.last)
-      end
-
-      it 'has correct content type' do
-        expect(fetcher.content_type).to eq content_type
-      end
-
-      it 'has correct data' do
-        expect(fetcher.data).to eq body
       end
 
       context 'already called' do
@@ -152,88 +156,164 @@ describe Feed2Email::HTTPFetcher do
 
         it 'memoizes the response' do
           expect(a_request(:head, locations.last)).not_to have_been_made
-          fetcher.response
+          fetcher.response # subject is already evaluated and wouldn't call #response here
         end
       end
     end
 
-    context 'location is missing' do
-      before do
-        stub_request(:head, url).to_return(status: 301)
-      end
+    describe '#uri' do
+      subject { super().uri }
 
-      it 'raises error' do
-        expect { subject }.to raise_error Feed2Email::HTTPFetcher::MissingLocation
-      end
+      it { is_expected.to eq uri }
     end
 
-    context 'location is invalid' do
-      before do
-        stub_redirects([url, 'file:///etc/passwd'])
-      end
+    describe '#uri_path' do
+      subject { super().uri_path }
 
-      it 'raises error' do
-        expect { subject }.to raise_error Feed2Email::HTTPFetcher::InvalidLocation
-      end
-    end
-
-    context 'circular redirects' do
-      let(:locations) do
-        [
-          'http://a.com/',
-          'http://b.com/',
-          'http://c.com/',
-          'http://a.com/',
-        ]
-      end
-
-      let(:url) { locations.first }
-
-      before do
-        stub_redirects(locations)
-      end
-
-      it 'raises error' do
-        expect { subject }.to raise_error Feed2Email::HTTPFetcher::CircularRedirect
-      end
-    end
-
-    context 'too many redirects' do
-      let(:locations) do
-        [
-          'http://a.com/',
-          'http://b.com/',
-          'http://c.com/',
-          'http://d.com/',
-          'http://e.com/',
-        ]
-      end
-
-      let(:url) { locations.first }
-
-      before do
-        stub_redirects(locations)
-      end
-
-      it 'raises error' do
-        expect { subject }.to raise_error Feed2Email::HTTPFetcher::TooManyRedirects
-      end
+      it { is_expected.to eq uri.path }
     end
   end
 
-  describe '#uri' do
-    subject { super().uri }
+  context 'with missing location' do
+    before do
+      stub_request(:head, url).to_return(status: 301)
+    end
 
-    it 'returns the last followed URI' do
-      expect(subject).to eq uri
+    describe '#content_type' do
+      subject do
+        -> { fetcher.content_type }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::MissingLocation }
+    end
+
+    describe '#data' do
+      subject do
+        -> { fetcher.data }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::MissingLocation }
+    end
+
+    describe '#response' do
+      subject do
+        -> { fetcher.response }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::MissingLocation }
     end
   end
 
-  describe '#uri_path' do
-    subject { super().uri_path }
+  context 'with invalid location' do
+    before do
+      stub_redirects([url, 'file:///etc/passwd'])
+    end
 
-    it 'returns the path of the last followed URI' do
-      expect(subject).to eq uri.path
+    describe '#content_type' do
+      subject do
+        -> { fetcher.content_type }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::InvalidLocation }
+    end
+
+    describe '#data' do
+      subject do
+        -> { fetcher.data }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::InvalidLocation }
+    end
+
+    describe '#response' do
+      subject do
+        -> { fetcher.response }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::InvalidLocation }
+    end
+  end
+
+  context 'with circular redirects' do
+    let(:locations) do
+      [
+        'http://a.com/',
+        'http://b.com/',
+        'http://c.com/',
+        'http://a.com/',
+      ]
+    end
+
+    let(:url) { locations.first }
+
+    before do
+      stub_redirects(locations)
+    end
+
+    describe '#content_type' do
+      subject do
+        -> { fetcher.content_type }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::CircularRedirects }
+    end
+
+    describe '#data' do
+      subject do
+        -> { fetcher.data }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::CircularRedirects }
+    end
+
+    describe '#response' do
+      subject do
+        -> { fetcher.response }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::CircularRedirects }
+    end
+  end
+
+  context 'with too many redirects' do
+    let(:locations) do
+      [
+        'http://a.com/',
+        'http://b.com/',
+        'http://c.com/',
+        'http://d.com/',
+        'http://e.com/',
+      ]
+    end
+
+    let(:url) { locations.first }
+
+    before do
+      stub_redirects(locations)
+    end
+
+    describe '#content_type' do
+      subject do
+        -> { fetcher.content_type }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::TooManyRedirects }
+    end
+
+    describe '#data' do
+      subject do
+        -> { fetcher.data }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::TooManyRedirects }
+    end
+
+    describe '#response' do
+      subject do
+        -> { fetcher.response }
+      end
+
+      it { is_expected.to raise_error Feed2Email::HTTPFetcher::TooManyRedirects }
     end
   end
 end
