@@ -155,21 +155,27 @@ module Feed2Email
       total = processable_entries.size
       processed = true
 
-      processable_entries.each_with_index do |parsed_entry, i|
-        logger.info "Processing entry #{i + 1}/#{total} #{parsed_entry.url} ..."
-        processed = false unless process_entry(parsed_entry)
+      processable_entries.each.with_index(1) do |parsed_entry, i|
+        processed = false unless process_entry(parsed_entry, i, total)
       end
 
       processed
     end
 
-    def process_entry(parsed_entry)
-      entry = Entry.new(feed_id: id, uri: parsed_entry.url)
+    def process_entry(parsed_entry, index, total)
+      entry_uri = parsed_entry.url
+
+      # Make relative entry URL absolute by prepending feed URL
+      if entry_uri && entry_uri.start_with?('/') && !entry_uri.start_with?('//')
+        entry_uri = URI.join(uri[%r{https?://[^/]+}], entry_uri).to_s
+      end
+
+      entry = Entry.new(feed_id: id, uri: entry_uri)
       entry.data      = parsed_entry
       entry.feed_data = parsed_feed
-      entry.feed_uri  = uri
 
       begin
+        logger.info "Processing entry #{index}/#{total} #{entry_uri} ..."
         return entry.process
       rescue => e
         log_exception(e)

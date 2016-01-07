@@ -20,7 +20,7 @@ module Feed2Email
     include Configurable
     include Loggable
 
-    attr_accessor :data, :feed_data, :feed_uri
+    attr_accessor :data, :feed_data
 
     def process
       if missing_data?
@@ -161,19 +161,6 @@ module Feed2Email
       if data.title
         data.title.strip
       end
-    end
-
-    def uri
-      return @uri if @uri
-
-      @uri = data.url
-
-      # Make relative entry URL absolute by prepending feed URL
-      if @uri && @uri.start_with?('/') && !@uri.start_with?('//')
-        @uri = URI.join(feed_uri[%r{https?://[^/]+}], @uri).to_s
-      end
-
-      @uri
     end
   end
 end
