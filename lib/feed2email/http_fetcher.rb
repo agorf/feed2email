@@ -95,6 +95,7 @@ module Feed2Email
 
     def build_http
       Net::HTTP.new(uri.host, uri.port).tap do |http|
+        http.open_timeout = http.read_timeout = 30 # seconds
         http.use_ssl = (uri.scheme == 'https')
       end
     end
