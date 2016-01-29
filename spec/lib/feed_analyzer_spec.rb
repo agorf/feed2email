@@ -4,10 +4,10 @@ require 'feed2email/feed_analyzer'
 describe Feed2Email::FeedAnalyzer do
   subject(:analyzer) { Feed2Email::FeedAnalyzer.new(uri) }
 
-  let(:basename) { 'agorf' }
+  let(:basename) { 'master' }
   let(:ext) { 'atom' }
-  let(:uri) { "https://github.com/#{basename}.#{ext}" }
-  let(:body) { File.read(fixture_path('github_agorf.atom')) }
+  let(:uri) { "https://github.com/agorf/feed2email/commits/#{basename}.#{ext}" }
+  let(:body) { File.read(fixture_path('github_feed2email.atom')) }
   let(:content_type) { 'application/atom+xml' }
 
   before do
@@ -20,7 +20,7 @@ describe Feed2Email::FeedAnalyzer do
   describe '#title' do
     subject { analyzer.title }
 
-    it { is_expected.to eq 'agorf’s Activity' }
+    it { is_expected.to eq 'Recent Commits to feed2email:master' }
 
     context 'body is empty' do
       let(:body) { '' }
