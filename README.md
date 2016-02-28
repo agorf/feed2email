@@ -152,7 +152,7 @@ Added feed:   2 https://github.com/agorf.atom
 ~~~
 
 Passing a website URL to the `add` command will have feed2email autodiscover any
-feeds in that page:
+feeds in that page that you are not already subscribed to:
 
 ~~~
 $ f2e add http://www.rubyinside.com/
@@ -170,8 +170,8 @@ $ f2e add http://thechangelog.com/137/
 Please enter a feed to subscribe to (or Ctrl-C to abort): [0] ^C
 ~~~
 
-**Note:** When autodiscovering feeds, feed2email lists only those that don't
-already exist in your feed subscriptions.
+Passing the `--send-existing` option to `add` will send email for existing
+entries when the feed is first processed.
 
 The feed list so far:
 
@@ -299,8 +299,7 @@ standard output, unless configured otherwise.
 
 When a new feed is detected (which is the case when feed2email runs for the
 first time on your feed list), all of its entries are skipped and no email is
-sent. This is so that you don't get spammed when you add a feed for the first
-time.
+sent, unless you provided the `--send-existing` option when adding it.
 
 ### Getting help
 

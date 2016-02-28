@@ -28,7 +28,7 @@ module Feed2Email
         return false
       end
 
-      unless feed.old?
+      if !feed.old? && !feed.send_existing
         logger.debug 'Skipping new feed entry...'
         save # record as seen
         return true

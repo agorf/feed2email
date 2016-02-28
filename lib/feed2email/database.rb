@@ -20,6 +20,7 @@ module Feed2Email
         primary_key :id
         String :uri, null: false, unique: true
         TrueClass :enabled, null: false, default: true
+        FalseClass :send_existing, null: false, default: false
         String :etag
         String :last_modified
         Time :last_processed_at

@@ -13,6 +13,8 @@ require 'feed2email/version'
 module Feed2Email
   class Cli < Thor
     desc 'add URL', 'Subscribe to feed at URL'
+    option :send_existing, type: :boolean, default: false,
+      desc: 'Send email for existing entries'
     def add(uri)
       uri = autodiscover_feeds(uri)
 
@@ -20,7 +22,7 @@ module Feed2Email
         abort "Feed already exists: #{feed}"
       end
 
-      feed = Feed.new(uri: uri)
+      feed = Feed.new(uri: uri, send_existing: options[:send_existing])
 
       if feed.save(raise_on_failure: false)
         puts "Added feed: #{feed}"
