@@ -170,8 +170,9 @@ $ f2e add http://thechangelog.com/137/
 Please enter a feed to subscribe to (or Ctrl-C to abort): [0] ^C
 ~~~
 
-Passing the `--send-existing` option to `add` will send email for existing
-entries when the feed is first processed.
+**Note:** Passing the `--send-existing` option to `add` will send email for the
+`max_entries` latest, existing entries when the feed is **processed for the
+first time**. The default is to skip them.
 
 The feed list so far:
 
@@ -296,10 +297,6 @@ $ feed2email process
 When run, feed2email will go through your feed list, fetch each feed (if
 necessary) and send an email for each new entry. Output is logged to the
 standard output, unless configured otherwise.
-
-When a new feed is detected (which is the case when feed2email runs for the
-first time on your feed list), all of its entries are skipped and no email is
-sent, unless you provided the `--send-existing` option when adding it.
 
 ### Getting help
 
