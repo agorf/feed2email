@@ -130,14 +130,16 @@ module Feed2Email
 
     desc 'process', 'Process feed subscriptions'
     def process
+      feeds = Feed.enabled.oldest_first
+
       if config_data["send_method"] == "smtp"
         with_smtp_connection do |smtp|
           Feed2Email.smtp_connection = smtp
-          Feed.enabled.oldest_first.each(&:process)
+          feeds.each(&:process)
           Feed2Email.smtp_connection = nil
         end
       else
-        Feed.enabled.oldest_first.each(&:process)
+        feeds.each(&:process)
       end
     end
 
