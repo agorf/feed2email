@@ -121,17 +121,18 @@ module Feed2Email
 
     def defaults
       {
-        'log_level'      => 'info',
-        'log_path'       => true,
-        'log_shift_age'  => 0,
-        'log_shift_size' => 1, # megabyte
-        'mail_path'      => File.join(ENV['HOME'], 'Mail'),
-        'max_entries'    => 20,
-        'send_delay'     => 10,
-        'send_method'    => 'file',
-        'sendmail_path'  => '/usr/sbin/sendmail',
-        'smtp_auth'      => 'login',
-        'smtp_starttls'  => true,
+        'log_level'       => 'info',
+        'log_path'        => true,
+        'log_shift_age'   => 0,
+        'log_shift_size'  => 1, # megabyte
+        'mail_path'       => File.join(ENV['HOME'], 'Mail'),
+        'max_entries'     => 20,
+        'send_delay'      => 10,
+        'send_exceptions' => false,
+        'send_method'     => 'file',
+        'sendmail_path'   => '/usr/sbin/sendmail',
+        'smtp_auth'       => 'login',
+        'smtp_starttls'   => true,
       }
     end
 

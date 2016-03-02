@@ -28,6 +28,12 @@ describe String do
     end
   end
 
+  describe '#lstrip_lines' do
+    it 'strips leading whitespace from each line' do
+      expect("\n foo\n \t\rbar\n".lstrip_lines).to eq "foo\nbar\n"
+    end
+  end
+
   describe '#numeric?' do
     subject { str.numeric? }
 

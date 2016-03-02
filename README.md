@@ -79,6 +79,8 @@ pair is separated with a colon, e.g.: `foo: bar`
   avoid SMTP server throttling errors (default is `10`; use `0` to disable)
 * `max_entries` (optional) is the maximum number of entries to process per feed
   (default is `20`; use `0` for unlimited)
+* `send_exceptions` (optional) specifies whether to send any exceptions via
+  email to `recipient` and can be `true` or `false` (default)
 
 ### Logging options
 

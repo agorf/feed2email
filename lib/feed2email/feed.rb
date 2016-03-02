@@ -5,6 +5,7 @@ require 'feed2email'
 require 'feed2email/config'
 require 'feed2email/configurable'
 require 'feed2email/core_ext'
+require 'feed2email/email'
 require 'feed2email/entry'
 require 'feed2email/http_fetcher'
 require 'feed2email/loggable'
@@ -71,6 +72,10 @@ module Feed2Email
       last_modified || etag
     end
 
+    def feed_title
+      parsed_feed.title
+    end
+
     def fetch
       logger.debug 'Fetching feed...'
 
@@ -91,7 +96,7 @@ module Feed2Email
         end
       rescue => e
         logger.error 'Failed to fetch feed'
-        log_exception(e)
+        record_exception(e)
 
         return false
       end
@@ -140,7 +145,7 @@ module Feed2Email
         Feedzirra::Feed.parse(xml_data)
       rescue => e
         logger.error 'Failed to parse feed'
-        log_exception(e)
+        record_exception(e)
         return false
       end
     end
@@ -178,7 +183,7 @@ module Feed2Email
         logger.info "Processing entry #{index}/#{total} #{entry_uri} ..."
         return entry.process
       rescue => e
-        log_exception(e)
+        record_exception(e)
         return false
       end
     end
@@ -189,6 +194,20 @@ module Feed2Email
 
     def processable_entries
       parsed_entries.first(config['max_entries'])
+    end
+
+    def record_exception(error)
+      log_exception(error)
+      send_exception(error) if config['send_exceptions']
+    end
+
+    def send_exception(error)
+      Email.new(
+        from:      %{"#{feed_title}" <#{config['sender']}>},
+        to:        config['recipient'],
+        subject:   "#{error.class}: #{error.message.strip}",
+        html_body: "<p>#{error.backtrace.join('<br>')}</p>",
+      ).deliver!
     end
   end
 end
