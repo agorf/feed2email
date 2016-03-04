@@ -49,7 +49,7 @@ module Feed2Email
     end
 
     def delivery_method_params
-      case config['send_method']
+      @delivery_method_params ||= case config['send_method']
       when 'file'
         [:file, location: config['mail_path']]
       when 'sendmail'
