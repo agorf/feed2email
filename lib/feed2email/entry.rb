@@ -40,7 +40,7 @@ module Feed2Email
         return true
       end
 
-      return send_mail
+      send_mail
     end
 
     private
@@ -122,7 +122,7 @@ module Feed2Email
       if build_mail.deliver!
         self.last_email_sent_at = Time.now
         save # record as seen
-        return true
+        true
       end
     end
 

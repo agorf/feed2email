@@ -85,20 +85,17 @@ module Feed2Email
         Feed2Email::HTTPFetcher.new(uri, request_headers: fetch_headers) do |f|
           if f.response.is_a?(Net::HTTPNotModified)
             logger.info 'Feed not modified; skipping...'
-
             return false
           end
 
           self.last_modified = f.response['last-modified']
           self.etag = f.response['etag']
-
-          return f.data
+          f.data
         end
       rescue => e
         logger.error 'Failed to fetch feed'
         record_exception(e)
-
-        return false
+        false
       end
     end
 
@@ -153,7 +150,7 @@ module Feed2Email
       rescue => e
         logger.error 'Failed to parse feed'
         record_exception(e)
-        return false
+        false
       end
     end
 
@@ -183,10 +180,10 @@ module Feed2Email
 
       begin
         logger.info "Processing entry #{index}/#{total} #{entry_url} ..."
-        return entry.process
+        entry.process
       rescue => e
         record_exception(e)
-        return false
+        false
       end
     end
 

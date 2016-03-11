@@ -35,9 +35,9 @@ module Feed2Email
 
       case File.basename(path)
       when 'rss.xml', 'rdf.xml'
-        return 'rss'
+        'rss'
       when 'atom.xml'
-        return 'atom'
+        'atom'
       end
     end
 
