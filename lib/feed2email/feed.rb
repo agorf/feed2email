@@ -123,6 +123,13 @@ module Feed2Email
       headers
     end
 
+    def fully_qualified_entry_url(entry_url_or_path)
+      return if entry_url_or_path.blank?
+      return entry_url_or_path unless entry_url_or_path =~ %r{\A/[^/]}
+
+      URI.join(uri[%r{https?://[^/]+}], entry_url_or_path).to_s
+    end
+
     def handle_redirection!
       checker = RedirectionChecker.new(uri)
 
@@ -168,19 +175,14 @@ module Feed2Email
     end
 
     def process_entry(parsed_entry, index, total)
-      entry_uri = parsed_entry.url
+      entry_url = fully_qualified_entry_url(parsed_entry.url)
 
-      # Make relative entry URL absolute by prepending feed URL
-      if entry_uri && entry_uri.start_with?('/') && !entry_uri.start_with?('//')
-        entry_uri = URI.join(uri[%r{https?://[^/]+}], entry_uri).to_s
-      end
-
-      entry = Entry.new(feed_id: id, uri: entry_uri)
+      entry = Entry.new(feed_id: id, uri: entry_url)
       entry.data      = parsed_entry
       entry.feed_data = parsed_feed
 
       begin
-        logger.info "Processing entry #{index}/#{total} #{entry_uri} ..."
+        logger.info "Processing entry #{index}/#{total} #{entry_url} ..."
         return entry.process
       rescue => e
         record_exception(e)

@@ -9,7 +9,37 @@ describe Numeric do
   end
 end
 
+describe NilClass do
+  describe '#blank?' do
+    subject { nil.blank? }
+
+    it { is_expected.to be true }
+  end
+end
+
 describe String do
+  describe '#blank?' do
+    subject { str.blank? }
+
+    context 'string is empty' do
+      let(:str) { '' }
+
+      it { is_expected.to be true }
+    end
+
+    context 'string contains only whitespace' do
+      let(:str) { " \t\r\n" }
+
+      it { is_expected.to be true }
+    end
+
+    context 'string does not contain only whitespace' do
+      let(:str) { ' foo' }
+
+      it { is_expected.to be false }
+    end
+  end
+
   describe '#escape_html' do
     it 'escapes &' do
       expect('&'.escape_html).to eq '&amp;'
