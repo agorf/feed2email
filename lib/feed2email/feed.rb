@@ -34,7 +34,7 @@ module Feed2Email
 
       return false unless fetch_and_parse
 
-      unless processable?
+      if processable_entries.empty?
         logger.warn 'Feed does not have entries'
         return
       end
@@ -185,10 +185,6 @@ module Feed2Email
         record_exception(e)
         false
       end
-    end
-
-    def processable?
-      processable_entries.size > 0
     end
 
     def processable_entries
