@@ -1,6 +1,4 @@
-require 'mail'
 require 'sequel'
-require 'uri'
 require 'feed2email'
 require 'feed2email/configurable'
 require 'feed2email/core_ext'

@@ -1,6 +1,6 @@
-require 'feed2email/http_fetcher'
 require 'nokogiri'
 require 'uri'
+require 'feed2email/http_fetcher'
 
 module Feed2Email
   class FeedAutodiscoverer

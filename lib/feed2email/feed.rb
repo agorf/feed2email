@@ -1,6 +1,7 @@
 require 'feedzirra'
 require 'net/http'
 require 'sequel'
+require 'uri'
 require 'feed2email'
 require 'feed2email/config'
 require 'feed2email/configurable'

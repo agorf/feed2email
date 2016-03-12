@@ -1,3 +1,6 @@
+require 'mail'
+require 'feed2email/core_ext'
+
 module Feed2Email
   class Email
     include Configurable

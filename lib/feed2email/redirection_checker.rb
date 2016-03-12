@@ -1,5 +1,5 @@
-require 'feed2email/http_fetcher'
 require 'uri'
+require 'feed2email/http_fetcher'
 
 module Feed2Email
   class RedirectionChecker
