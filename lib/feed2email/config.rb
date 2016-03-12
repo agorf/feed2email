@@ -116,7 +116,7 @@ module Feed2Email
     end
 
     def data
-      @data ||= YAML.load(File.read(path))
+      @data ||= YAML.safe_load(File.read(path))
     end
 
     def defaults
