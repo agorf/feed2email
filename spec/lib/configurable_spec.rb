@@ -3,7 +3,8 @@ require 'feed2email/configurable'
 
 describe Feed2Email::Configurable do
   subject do
-    Class.new { include Feed2Email::Configurable }.new.config
+    klass = described_class
+    Class.new { include klass }.new.config
   end
 
   describe '#config' do

@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'feed2email/http_fetcher'
 
 describe Feed2Email::HTTPFetcher do
-  subject(:fetcher) { Feed2Email::HTTPFetcher.new(url) }
+  subject(:fetcher) { described_class.new(url) }
 
   let(:url) { 'http://github.com/agorf/feed2email' }
 
@@ -29,7 +29,7 @@ describe Feed2Email::HTTPFetcher do
 
     context 'with options' do
       subject {
-        Feed2Email::HTTPFetcher.new(
+        described_class.new(
           url,
           request_headers: request_headers,
           max_redirects:   max_redirects,
@@ -184,7 +184,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.content_type }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::MissingLocation }
+      it { is_expected.to raise_error described_class::MissingLocation }
     end
 
     describe '#data' do
@@ -192,7 +192,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.data }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::MissingLocation }
+      it { is_expected.to raise_error described_class::MissingLocation }
     end
 
     describe '#response' do
@@ -200,7 +200,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.response }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::MissingLocation }
+      it { is_expected.to raise_error described_class::MissingLocation }
     end
   end
 
@@ -214,7 +214,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.content_type }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::InvalidLocation }
+      it { is_expected.to raise_error described_class::InvalidLocation }
     end
 
     describe '#data' do
@@ -222,7 +222,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.data }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::InvalidLocation }
+      it { is_expected.to raise_error described_class::InvalidLocation }
     end
 
     describe '#response' do
@@ -230,7 +230,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.response }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::InvalidLocation }
+      it { is_expected.to raise_error described_class::InvalidLocation }
     end
   end
 
@@ -255,7 +255,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.content_type }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::CircularRedirects }
+      it { is_expected.to raise_error described_class::CircularRedirects }
     end
 
     describe '#data' do
@@ -263,7 +263,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.data }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::CircularRedirects }
+      it { is_expected.to raise_error described_class::CircularRedirects }
     end
 
     describe '#response' do
@@ -271,7 +271,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.response }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::CircularRedirects }
+      it { is_expected.to raise_error described_class::CircularRedirects }
     end
   end
 
@@ -297,7 +297,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.content_type }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::TooManyRedirects }
+      it { is_expected.to raise_error described_class::TooManyRedirects }
     end
 
     describe '#data' do
@@ -305,7 +305,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.data }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::TooManyRedirects }
+      it { is_expected.to raise_error described_class::TooManyRedirects }
     end
 
     describe '#response' do
@@ -313,7 +313,7 @@ describe Feed2Email::HTTPFetcher do
         -> { fetcher.response }
       end
 
-      it { is_expected.to raise_error Feed2Email::HTTPFetcher::TooManyRedirects }
+      it { is_expected.to raise_error described_class::TooManyRedirects }
     end
   end
 end

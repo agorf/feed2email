@@ -4,7 +4,7 @@ require 'feed2email/opml_reader'
 describe Feed2Email::OPMLReader do
   let(:io) { File.open(fixture_path('feeds.opml')) }
 
-  subject { Feed2Email::OPMLReader.new(io) }
+  subject { described_class.new(io) }
 
   describe '#urls' do
     subject { super().urls }

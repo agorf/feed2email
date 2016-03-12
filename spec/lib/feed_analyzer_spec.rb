@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'feed2email/feed_analyzer'
 
 describe Feed2Email::FeedAnalyzer do
-  subject(:analyzer) { Feed2Email::FeedAnalyzer.new(uri) }
+  subject(:analyzer) { described_class.new(uri) }
 
   let(:basename) { 'master' }
   let(:ext) { 'atom' }

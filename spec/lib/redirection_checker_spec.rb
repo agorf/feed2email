@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'feed2email/redirection_checker'
 
 describe Feed2Email::RedirectionChecker do
-  subject { Feed2Email::RedirectionChecker.new(checked_uri) }
+  subject { described_class.new(checked_uri) }
 
   let(:checked_uri) { 'http://github.com/agorf/feed2email' } # HTTP
   let(:location) { 'https://github.com/agorf/feed2email' } # HTTPS

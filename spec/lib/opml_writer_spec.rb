@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'feed2email/opml_writer'
 
 describe Feed2Email::OPMLWriter do
-  subject { Feed2Email::OPMLWriter.new(uris) }
+  subject { described_class.new(uris) }
 
   describe '#write' do
     subject { super().write(io) }

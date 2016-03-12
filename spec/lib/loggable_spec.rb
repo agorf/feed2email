@@ -3,7 +3,8 @@ require 'feed2email/loggable'
 
 describe Feed2Email::Loggable do
   subject do
-    Class.new { include Feed2Email::Loggable }.new.logger
+    klass = described_class
+    Class.new { include klass }.new.logger
   end
 
   describe '#logger' do
