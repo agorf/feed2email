@@ -119,9 +119,7 @@ module Feed2Email
     end
 
     def title
-      if data.title
-        data.title.strip
-      end
+      data.title.strip if data.title
     end
   end
 end
