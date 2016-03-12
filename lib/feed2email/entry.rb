@@ -46,9 +46,9 @@ module Feed2Email
     def apply_send_delay
       return if config['send_delay'] == 0 || config['send_method'] == 'file'
 
-      return if last_email_sent_at.nil?
+      return if Entry.last_email_sent_at.nil?
 
-      secs_since_last_email = Time.now - last_email_sent_at
+      secs_since_last_email = Time.now - Entry.last_email_sent_at
       secs_to_sleep = config['send_delay'] - secs_since_last_email
 
       return if secs_to_sleep <= 0
@@ -73,12 +73,6 @@ module Feed2Email
     end
 
     def feed_title; feed_data.title end
-
-    def last_email_sent_at; Entry.last_email_sent_at end
-
-    def last_email_sent_at=(time)
-      Entry.last_email_sent_at = time
-    end
 
     def mail_html_body
       %{
@@ -118,7 +112,7 @@ module Feed2Email
       logger.debug 'Sending new entry...'
 
       if build_mail.deliver!
-        self.last_email_sent_at = Time.now
+        Entry.last_email_sent_at = Time.now
         save # record as seen
         true
       end
