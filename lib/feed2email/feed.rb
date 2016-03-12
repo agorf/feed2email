@@ -82,7 +82,7 @@ module Feed2Email
       begin
         handle_redirection!
 
-        Feed2Email::HTTPFetcher.new(uri, request_headers: fetch_headers) do |f|
+        HTTPFetcher.new(uri, request_headers: fetch_headers) do |f|
           if f.response.is_a?(Net::HTTPNotModified)
             logger.info 'Feed not modified; skipping...'
             return false

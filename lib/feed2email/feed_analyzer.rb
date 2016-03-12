@@ -44,7 +44,7 @@ module Feed2Email
     private
 
     def fetcher
-      @fetcher ||= Feed2Email::HTTPFetcher.new(url)
+      @fetcher ||= HTTPFetcher.new(url)
     end
 
     def response

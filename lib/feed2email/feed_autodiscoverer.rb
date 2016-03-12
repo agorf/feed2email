@@ -43,7 +43,7 @@ module Feed2Email
     end
 
     def fetcher
-      @fetcher ||= Feed2Email::HTTPFetcher.new(url)
+      @fetcher ||= HTTPFetcher.new(url)
     end
 
     def html_head

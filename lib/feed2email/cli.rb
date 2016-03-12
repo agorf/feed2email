@@ -186,7 +186,7 @@ module Feed2Email
 
     desc 'version', 'Show feed2email version'
     def version
-      puts "feed2email #{Feed2Email::VERSION}"
+      puts "feed2email #{VERSION}"
     end
 
     no_commands do

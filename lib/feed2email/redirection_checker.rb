@@ -17,13 +17,13 @@ module Feed2Email
     private
 
     def check
-      fetcher = Feed2Email::HTTPFetcher.new(url, max_redirects: 0, headers_only: true)
+      fetcher = HTTPFetcher.new(url, max_redirects: 0, headers_only: true)
 
       begin
         fetcher.response
-      rescue Feed2Email::HTTPFetcher::TooManyRedirects => e
+      rescue HTTPFetcher::TooManyRedirects => e
         @location = URI.parse(e.response['location']).to_s
-      rescue Feed2Email::HTTPFetcher::HTTPFetcherError # order is significant
+      rescue HTTPFetcher::HTTPFetcherError # order is significant
         # @location remains nil
       end
 
