@@ -106,8 +106,8 @@ module Feed2Email
 
     def fetch_and_parse
       if xml_data = fetch
-        @parsed_feed = parse(xml_data)
-        @parsed_feed && @parsed_feed.respond_to?(:entries)
+        self.parsed_feed = parse(xml_data)
+        parsed_feed && parsed_feed.respond_to?(:entries)
       end
     end
 
@@ -163,7 +163,7 @@ module Feed2Email
       parsed_feed.entries
     end
 
-    attr_reader :parsed_feed
+    attr_accessor :parsed_feed
 
     def process_entries
       total = processable_entries.size
