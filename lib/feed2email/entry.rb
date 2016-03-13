@@ -19,7 +19,7 @@ module Feed2Email
     include Configurable
     include Loggable
 
-    attr_accessor :data, :feed_data
+    attr_accessor :author, :content, :published, :title, :feed_title
 
     def process
       if missing_data?
@@ -57,8 +57,6 @@ module Feed2Email
       sleep(secs_to_sleep)
     end
 
-    def author; data.author end
-
     def build_mail
       Email.new(
         from:      %{"#{feed_title}" <#{config['sender']}>},
@@ -67,12 +65,6 @@ module Feed2Email
         html_body: mail_html_body,
       )
     end
-
-    def content
-      data.content || data.summary
-    end
-
-    def feed_title; feed_data.title end
 
     def mail_html_body
       %{
@@ -96,8 +88,6 @@ module Feed2Email
       feed.entries_dataset.where(uri: uri).any?
     end
 
-    def published; data.published end
-
     def published_line
       return unless author || published
       text = 'Published'
@@ -116,10 +106,6 @@ module Feed2Email
         save # record as seen
         true
       end
-    end
-
-    def title
-      data.title.strip if data.title
     end
   end
 end

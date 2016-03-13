@@ -78,8 +78,11 @@ module Feed2Email
       entry_url = fully_qualified_entry_url(parsed_entry.url)
 
       Entry.new(feed_id: id, uri: entry_url).tap do |e|
-        e.data      = parsed_entry
-        e.feed_data = parsed_feed
+        e.author     = parsed_entry.author
+        e.content    = parsed_entry.content || parsed_entry.summary
+        e.published  = parsed_entry.published
+        e.title      = parsed_entry.title.strip if parsed_entry.title
+        e.feed_title = parsed_feed.title
       end
     end
 
