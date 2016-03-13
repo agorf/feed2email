@@ -23,10 +23,6 @@ class String
     CGI.escapeHTML(self)
   end
 
-  def lstrip_lines
-    gsub(/^\s+/, '')
-  end
-
   def numeric?
     !!(self =~ /\A\d+\z/)
   end

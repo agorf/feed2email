@@ -25,7 +25,7 @@ module Feed2Email
         #{VERSION}</a> at #{Time.now}</p>
         </body>
         </html>
-      }.lstrip_lines
+      }
     end
 
     def body_text
