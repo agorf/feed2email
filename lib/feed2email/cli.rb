@@ -118,7 +118,7 @@ module Feed2Email
         puts Feed.oldest_first.to_a
         print "\nSubscribed to #{'feed'.pluralize(Feed.count)}"
 
-        if Feed.where(enabled: false).count > 0
+        if Feed.disabled.any?
           print " (#{Feed.enabled.count} enabled)"
         end
 

@@ -19,6 +19,7 @@ module Feed2Email
 
     one_to_many :entries
 
+    subset(:disabled, enabled: false)
     subset(:enabled, enabled: true)
 
     def_dataset_method(:oldest_first) { order(:id) }
