@@ -57,6 +57,10 @@ module Feed2Email
       save_changes
     end
 
+    def save_without_raising(options = {})
+      save(options.merge(raise_on_failure: false))
+    end
+
     def to_s
       parts = [id.to_s.rjust(3)] # align right 1-999
       parts << "\e[31mDISABLED\e[0m" unless enabled
@@ -206,7 +210,7 @@ module Feed2Email
     end
 
     def save_changes
-      save(changed: true)
+      save_without_raising(changed: true)
     end
 
     def send_exception(error)

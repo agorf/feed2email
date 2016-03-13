@@ -24,7 +24,7 @@ module Feed2Email
 
       feed = Feed.new(uri: uri, send_existing: options[:send_existing])
 
-      if feed.save(raise_on_failure: false)
+      if feed.save_without_raising
         puts "Added feed: #{feed}"
       else
         abort 'Failed to add feed'
@@ -86,7 +86,7 @@ module Feed2Email
         else
           feed = Feed.new(uri: uri)
 
-          if feed.save(raise_on_failure: false)
+          if feed.save_without_raising
             puts "Imported feed: #{feed}"
             imported += 1
           else
