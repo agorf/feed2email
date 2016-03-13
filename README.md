@@ -76,7 +76,8 @@ pair is separated with a colon, e.g.: `foo: bar`
 * `send_method` (optional) is the method to send email with and can be `file`
   (default), `sendmail` or `smtp`
 * `send_delay` (optional) is the number of seconds to wait between each email to
-  avoid SMTP server throttling errors (default is `10`; use `0` to disable)
+  avoid SMTP server throttling errors when `send_method` is `sendmail` or `smtp`
+  (default is `10`; use `0` to disable)
 * `max_entries` (optional) is the maximum number of entries to process per feed
   (default is `20`; use `0` for unlimited)
 * `send_exceptions` (optional) specifies whether to send exceptions via email to
