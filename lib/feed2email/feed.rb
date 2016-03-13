@@ -53,7 +53,7 @@ module Feed2Email
 
       self.last_processed_at = Time.now
 
-      save(changed: true)
+      save(changed: true) # Save only changed columns
     end
 
     def to_s
