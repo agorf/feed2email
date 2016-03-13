@@ -27,7 +27,7 @@ module Feed2Email
         return false
       end
 
-      if !feed.old? && !feed.send_existing
+      if skip?
         logger.debug 'Skipping new feed entry...'
         save # record as seen
         return true
@@ -110,6 +110,10 @@ module Feed2Email
         save # record as seen
         true
       end
+    end
+
+    def skip?
+      !feed.old? && !feed.send_existing
     end
   end
 end
