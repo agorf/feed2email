@@ -113,15 +113,8 @@ module Feed2Email
 
     def fetch_headers
       headers = { 'User-Agent' => "feed2email/#{VERSION}" }
-
-      if last_modified
-        headers['If-Modified-Since'] = last_modified
-      end
-
-      if etag
-        headers['If-None-Match'] = etag
-      end
-
+      headers['If-Modified-Since'] = last_modified if last_modified
+      headers['If-None-Match'] = etag if etag
       headers
     end
 
