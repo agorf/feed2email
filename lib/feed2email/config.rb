@@ -67,7 +67,7 @@ module Feed2Email
     def check_send_method
       unless SEND_METHODS.include?(config['send_method'])
         raise InvalidConfigOptionError,
-          "Option send_method not one of: #{SEND_METHODS.join(' ')}"
+          "Option send_method not one of: #{SEND_METHODS.join(', ')}"
       end
     end
 
