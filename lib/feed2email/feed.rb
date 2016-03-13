@@ -85,7 +85,7 @@ module Feed2Email
         e.author     = parsed_entry.author
         e.content    = parsed_entry.content || parsed_entry.summary
         e.published  = parsed_entry.published
-        e.title      = parsed_entry.title.strip if parsed_entry.title
+        e.title      = parsed_entry.title.strip.strip_html if parsed_entry.title
         e.feed_title = parsed_feed.title
       end
     end

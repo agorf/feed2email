@@ -61,14 +61,14 @@ module Feed2Email
       Email.new(
         from:      %{"#{feed_title}" <#{config['sender']}>},
         to:        config['recipient'],
-        subject:   title.strip_html,
+        subject:   title,
         html_body: mail_html_body,
       )
     end
 
     def mail_html_body
       %{
-        <h1><a href="#{safe_url}">#{title_text}</a></h1>
+        <h1><a href="#{safe_url}">#{title}</a></h1>
         #{content}
         <p>#{published_line}</p>
         <p><a href="#{safe_url}">#{safe_url}</a></p>
@@ -105,10 +105,6 @@ module Feed2Email
         save # record as seen
         true
       end
-    end
-
-    def title_text
-      title.strip_html
     end
   end
 end
