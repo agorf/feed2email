@@ -88,19 +88,21 @@ module Feed2Email
       begin
         handle_redirection!
 
-        HTTPFetcher.new(uri, request_headers: fetch_headers) do |f|
-          if f.response.is_a?(Net::HTTPNotModified)
-            logger.info 'Feed not modified; skipping...'
-            return false
-          end
+        fetcher = HTTPFetcher.new(uri, request_headers: fetch_headers)
 
-          self.last_modified = f.response['last-modified']
-          self.etag = f.response['etag']
-          f.data
+        if fetcher.response.is_a?(Net::HTTPNotModified)
+          logger.info 'Feed not modified; skipping...'
+          return false
         end
+
+        self.last_modified = fetcher.response['last-modified']
+        self.etag = fetcher.response['etag']
+
+        fetcher.data
       rescue => e
         logger.error 'Failed to fetch feed'
         record_exception(e)
+
         false
       end
     end
