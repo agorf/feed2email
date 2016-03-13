@@ -34,7 +34,6 @@ describe Feed2Email::HTTPFetcher do
           request_headers: request_headers,
           max_redirects:   max_redirects,
           headers_only:    headers_only,
-          &block
         )
       }
 
@@ -46,10 +45,6 @@ describe Feed2Email::HTTPFetcher do
 
       let(:headers_only) { true }
 
-      let(:block) do
-        ->(f) { } # does nothing
-      end
-
       it 'sets request_headers' do
         expect(subject.request_headers).to eq request_headers
       end
@@ -60,16 +55,6 @@ describe Feed2Email::HTTPFetcher do
 
       it 'sets headers_only' do
         expect(subject.headers_only).to eq headers_only
-      end
-
-      context 'given a block' do
-        let(:block) do
-          ->(f) { f.max_redirects += 1 }
-        end
-
-        it 'calls it with the new instance' do
-          expect(subject.max_redirects).to eq max_redirects + 1
-        end
       end
     end
   end
