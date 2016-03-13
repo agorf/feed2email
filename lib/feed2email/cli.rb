@@ -114,18 +114,19 @@ module Feed2Email
 
     desc 'list', 'List feed subscriptions'
     def list
-      if Feed.any?
-        puts Feed.oldest_first.to_a
-        print "\nSubscribed to #{'feed'.pluralize(Feed.count)}"
-
-        if Feed.disabled.any?
-          print " (#{Feed.enabled.count} enabled)"
-        end
-
-        puts
-      else
+      if Feed.empty?
         puts 'No feeds'
+        return
       end
+
+      puts Feed.oldest_first.to_a
+      print "\nSubscribed to #{'feed'.pluralize(Feed.count)}"
+
+      if Feed.disabled.any?
+        print " (#{Feed.enabled.count} enabled)"
+      end
+
+      puts
     end
 
     desc 'process', 'Process feed subscriptions'
