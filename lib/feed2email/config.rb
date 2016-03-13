@@ -95,13 +95,9 @@ module Feed2Email
     def config
       return @config if @config
 
-      begin
-        check_file
-        @config = defaults.merge(data)
-        check_options
-      rescue ConfigError => e
-        abort e.message
-      end
+      check_file
+      @config = defaults.merge(data)
+      check_options
 
       @config
     end
