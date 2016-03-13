@@ -54,7 +54,7 @@ module Feed2Email
 
       self.last_processed_at = Time.now
 
-      save(changed: true) # Save only changed columns
+      save_changes
     end
 
     def to_s
@@ -203,6 +203,10 @@ module Feed2Email
     def record_exception(error)
       log_exception(error)
       send_exception(error) if config['send_exceptions']
+    end
+
+    def save_changes
+      save(changed: true)
     end
 
     def send_exception(error)
