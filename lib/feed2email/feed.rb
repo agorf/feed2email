@@ -26,7 +26,9 @@ module Feed2Email
     include Configurable
     include Loggable
 
-    def old?; last_processed_at end
+    def old?
+      !last_processed_at.nil?
+    end
 
     def process
       logger.info "Processing feed #{uri} ..."
