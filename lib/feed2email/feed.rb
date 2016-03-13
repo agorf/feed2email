@@ -35,7 +35,7 @@ module Feed2Email
 
       old_last_modified, old_etag = last_modified, etag
 
-      return false unless fetch_and_parse
+      return unless fetch_and_parse
 
       if processable_entries.empty?
         logger.warn 'Feed does not have entries'
