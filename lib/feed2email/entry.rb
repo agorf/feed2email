@@ -44,14 +44,13 @@ module Feed2Email
     private
 
     def apply_send_delay
-      return if config['send_delay'] == 0 || config['send_method'] == 'file'
-
+      return if config['send_delay'] == 0
+      return if config['send_method'] == 'file'
       return if Entry.last_email_sent_at.nil?
 
-      secs_since_last_email = Time.now - Entry.last_email_sent_at
-      secs_to_sleep = config['send_delay'] - secs_since_last_email
+      secs_to_sleep = calculate_secs_to_sleep
 
-      return if secs_to_sleep <= 0
+      return if secs_to_sleep == 0
 
       logger.debug "Sleeping for #{secs_to_sleep} seconds..."
       sleep(secs_to_sleep)
@@ -64,6 +63,12 @@ module Feed2Email
         subject:   title,
         html_body: mail_html_body,
       )
+    end
+
+    def calculate_secs_to_sleep
+      secs_since_last_email = Time.now - Entry.last_email_sent_at
+      secs_to_sleep = config['send_delay'] - secs_since_last_email
+      [secs_to_sleep, 0].max # ensure >= 0
     end
 
     def mail_html_body
