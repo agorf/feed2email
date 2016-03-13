@@ -42,8 +42,10 @@ module Feed2Email
         return
       end
 
-      # Reset feed caching parameters unless all entries were processed. This
-      # makes sure the feed will be fetched on next processing.
+      # Restore feed caching parameters unless all entries were processed. This
+      # ensures the feed will not be skipped as unchanged next time feed2email
+      # runs so that entries that failed to be processed are given another
+      # chance.
       unless process_entries
         self.last_modified = old_last_modified
         self.etag = old_etag
