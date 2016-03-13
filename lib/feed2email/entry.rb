@@ -68,15 +68,10 @@ module Feed2Email
 
     def mail_html_body
       %{
-        <h1><a href="%{uri}">%{title}</a></h1>
-        %{content}
-        <p>%{published}</p>
-        <p><a href="%{uri}">%{uri}</a></p>
-      }.lstrip_lines % {
-        content:   content,
-        published: published_line,
-        title:     title.strip_html,
-        uri:       uri.escape_html,
+        <h1><a href="#{safe_url}">#{title_text}</a></h1>
+        #{content}
+        <p>#{published_line}</p>
+        <p><a href="#{safe_url}">#{safe_url}</a></p>
       }
     end
 
@@ -96,6 +91,10 @@ module Feed2Email
       text
     end
 
+    def safe_url
+      uri.escape_html
+    end
+
     def send_mail
       apply_send_delay
 
@@ -106,6 +105,10 @@ module Feed2Email
         save # record as seen
         true
       end
+    end
+
+    def title_text
+      title.strip_html
     end
   end
 end
