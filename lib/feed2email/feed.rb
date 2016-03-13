@@ -74,6 +74,15 @@ module Feed2Email
 
     private
 
+    def build_entry(parsed_entry)
+      entry_url = fully_qualified_entry_url(parsed_entry.url)
+
+      Entry.new(feed_id: id, uri: entry_url).tap do |e|
+        e.data      = parsed_entry
+        e.feed_data = parsed_feed
+      end
+    end
+
     def cached?
       last_modified || etag
     end
@@ -173,14 +182,10 @@ module Feed2Email
     end
 
     def process_entry(parsed_entry, index, total)
-      entry_url = fully_qualified_entry_url(parsed_entry.url)
-
-      entry = Entry.new(feed_id: id, uri: entry_url)
-      entry.data      = parsed_entry
-      entry.feed_data = parsed_feed
+      entry = build_entry(parsed_entry)
 
       begin
-        logger.info "Processing entry #{index}/#{total} #{entry_url} ..."
+        logger.info "Processing entry #{index}/#{total} #{entry.uri} ..."
         entry.process
       rescue => e
         record_exception(e)
