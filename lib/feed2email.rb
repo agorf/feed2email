@@ -36,11 +36,11 @@ module Feed2Email
     @logger
   end
 
-  def self.setup_database
+  def self.setup_database(logger = nil)
     Sequel::Model.db = Database.new(
       adapter:       'sqlite',
       database:      database_path,
-      loggers:       [logger],
+      loggers:       Array(logger),
       sql_log_level: :debug
     ).connection
   end

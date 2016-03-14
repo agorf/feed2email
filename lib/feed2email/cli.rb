@@ -1,14 +1,4 @@
-require 'feed2email'
-
-Feed2Email.setup_database
-
-require 'net/smtp'
 require 'thor'
-require 'feed2email/feed'
-require 'feed2email/feed_autodiscoverer'
-require 'feed2email/opml_reader'
-require 'feed2email/opml_writer'
-require 'feed2email/version'
 
 module Feed2Email
   class Cli < Thor
@@ -16,6 +6,10 @@ module Feed2Email
     option :send_existing, type: :boolean, default: false,
       desc: 'Send email for existing entries'
     def add(uri)
+      require 'feed2email'
+      Feed2Email.setup_database
+      require 'feed2email/feed'
+
       uri = autodiscover_feeds(uri)
 
       if feed = Feed[uri: uri]
@@ -33,11 +27,15 @@ module Feed2Email
 
     desc 'backend', 'Open an SQLite console to the database'
     def backend
+      require 'feed2email'
+
       exec('sqlite3', Feed2Email.database_path)
     end
 
     desc 'config', 'Open configuration file with $EDITOR'
     def config
+      require 'feed2email'
+
       if ENV['EDITOR']
         exec(ENV['EDITOR'], Feed2Email.config_path)
       else
@@ -47,6 +45,11 @@ module Feed2Email
 
     desc 'export PATH', 'Export feed subscriptions as OPML to PATH'
     def export(path)
+      require 'feed2email'
+      Feed2Email.setup_database
+      require 'feed2email/feed'
+      require 'feed2email/opml_writer'
+
       abort "File already exists" if File.exist?(path)
 
       abort "No feeds to export" if Feed.empty?
@@ -72,6 +75,11 @@ module Feed2Email
     option :remove, type: :boolean, default: false,
       desc: "Unsubscribe from feeds not in imported list"
     def import(path)
+      require 'feed2email'
+      Feed2Email.setup_database
+      require 'feed2email/feed'
+      require 'feed2email/opml_reader'
+
       abort "File does not exist" unless File.exist?(path)
 
       puts "Importing..."
@@ -114,6 +122,10 @@ module Feed2Email
 
     desc 'list', 'List feed subscriptions'
     def list
+      require 'feed2email'
+      Feed2Email.setup_database
+      require 'feed2email/feed'
+
       if Feed.empty?
         puts 'No feeds'
         return
@@ -131,6 +143,10 @@ module Feed2Email
 
     desc 'process', 'Process feed subscriptions'
     def process
+      require 'feed2email'
+      Feed2Email.setup_database(Feed2Email.logger)
+      require 'feed2email/feed'
+
       feeds = Feed.enabled.oldest_first
 
       if config_data["send_method"] == "smtp"
@@ -146,6 +162,10 @@ module Feed2Email
 
     desc 'remove ID', 'Unsubscribe from feed with id ID'
     def remove(id)
+      require 'feed2email'
+      Feed2Email.setup_database
+      require 'feed2email/feed'
+
       unless feed = Feed[id]
         abort "Feed not found. Is #{id} a valid id?"
       end
@@ -165,6 +185,10 @@ module Feed2Email
 
     desc 'toggle ID', 'Enable/disable feed with id ID'
     def toggle(id)
+      require 'feed2email'
+      Feed2Email.setup_database
+      require 'feed2email/feed'
+
       feed = Feed[id]
 
       if feed && feed.toggle
@@ -176,6 +200,10 @@ module Feed2Email
 
     desc 'uncache ID', 'Clear fetch cache for feed with id ID'
     def uncache(id)
+      require 'feed2email'
+      Feed2Email.setup_database
+      require 'feed2email/feed'
+
       feed = Feed[id]
 
       if feed && feed.uncache
@@ -192,6 +220,8 @@ module Feed2Email
 
     no_commands do
       def autodiscover_feeds(uri)
+        require 'feed2email/feed_autodiscoverer'
+
         discoverer = FeedAutodiscoverer.new(uri)
 
         # Exclude already subscribed feeds from results
