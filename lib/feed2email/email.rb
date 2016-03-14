@@ -5,8 +5,11 @@ module Feed2Email
   class Email
     include Configurable
 
-    def initialize(options)
-      @options = options
+    def initialize(from:, to:, subject:, html_body:)
+      @from      = from
+      @to        = to
+      @subject   = subject
+      @html_body = html_body
     end
 
     def deliver!
@@ -19,7 +22,7 @@ module Feed2Email
       %{
         <html>
         <body>
-        #{options.fetch(:html_body)}
+        #{html_body}
         <p>--<br>
         Sent by <a href="https://github.com/agorf/feed2email">feed2email
         #{VERSION}</a> at #{Time.now}</p>
@@ -34,9 +37,9 @@ module Feed2Email
 
     def build_mail
       Mail.new.tap do |m|
-        m.from      = options.fetch(:from)
-        m.to        = options.fetch(:to)
-        m.subject   = options.fetch(:subject)
+        m.from      = from
+        m.to        = to
+        m.subject   = subject
         m.html_part = build_mail_part('text/html', body_html)
         m.text_part = build_mail_part('text/plain', body_text)
 
@@ -62,6 +65,6 @@ module Feed2Email
       end
     end
 
-    attr_reader :options
+    attr_reader :from, :html_body, :options, :subject, :to
   end
 end
