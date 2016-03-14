@@ -6,6 +6,8 @@ unless File.new(LOCK_FILE, 'w').flock(File::LOCK_NB | File::LOCK_EX)
   abort 'An instance of feed2email is already running. Exiting...'
 end
 
+require 'feed2email/config'
+
 begin
   require 'feed2email/cli'
 rescue Feed2Email::Config::ConfigError => e
