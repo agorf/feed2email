@@ -3,8 +3,6 @@ require 'feed2email/core_ext'
 
 module Feed2Email
   class Email
-    include Configurable
-
     def initialize(from:, to:, subject:, html_body:)
       @from      = from
       @to        = to
@@ -42,8 +40,6 @@ module Feed2Email
         m.subject   = subject
         m.html_part = build_mail_part('text/html', body_html)
         m.text_part = build_mail_part('text/plain', body_text)
-
-        m.delivery_method(*delivery_method_params)
       end
     end
 
@@ -52,17 +48,6 @@ module Feed2Email
       part.content_type = "#{content_type}; charset=UTF-8"
       part.body = body
       part
-    end
-
-    def delivery_method_params
-      @delivery_method_params ||= case config['send_method']
-      when 'file'
-        [:file, location: config['mail_path']]
-      when 'sendmail'
-        [:sendmail, location: config['sendmail_path']]
-      when 'smtp'
-        [:smtp_connection, connection: Feed2Email.smtp_connection]
-      end
     end
 
     attr_reader :from, :html_body, :options, :subject, :to

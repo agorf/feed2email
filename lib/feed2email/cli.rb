@@ -145,6 +145,7 @@ module Feed2Email
     def process
       require 'feed2email'
       Feed2Email.setup_database(Feed2Email.logger)
+      Feed2Email.setup_mail_defaults
       require 'feed2email/feed'
 
       feeds = Feed.enabled.oldest_first

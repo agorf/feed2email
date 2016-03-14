@@ -21,6 +21,17 @@ module Feed2Email
     root_path.join('feed2email.db').to_s
   end
 
+  def self.delivery_method_params
+    case config['send_method']
+    when 'file'
+      [:file, location: config['mail_path']]
+    when 'sendmail'
+      [:sendmail, location: config['sendmail_path']]
+    when 'smtp'
+      [:smtp_connection, connection: Feed2Email.smtp_connection]
+    end
+  end
+
   def self.logger
     return @logger if @logger
 
@@ -36,6 +47,10 @@ module Feed2Email
     @logger
   end
 
+  def self.root_path
+    @root_path ||= Pathname.new(ENV['HOME']).join('.config', 'feed2email')
+  end
+
   def self.setup_database(logger = nil)
     Sequel::Model.db = Database.new(
       adapter:       'sqlite',
@@ -45,7 +60,9 @@ module Feed2Email
     ).connection
   end
 
-  def self.root_path
-    @root_path ||= Pathname.new(ENV["HOME"]).join(".config", "feed2email")
+  def self.setup_mail_defaults
+    Mail.defaults do
+      delivery_method(*Feed2Email.delivery_method_params)
+    end
   end
 end
