@@ -16,7 +16,7 @@ to be simple, fast and easy to use.
 * Email sending with SMTP, [Sendmail][] (or compatible [MTA][]) or by writing to
   a file
 * _text/html_ and _text/plain_ (Markdown) multipart emails
-* Permanent redirection support for feed URLs
+* Temporary and permanent redirection support for feed URLs
 
 [OPML]: http://en.wikipedia.org/wiki/OPML
 [Sendmail]: http://en.wikipedia.org/wiki/Sendmail
