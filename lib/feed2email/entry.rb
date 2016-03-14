@@ -107,8 +107,7 @@ module Feed2Email
 
       if build_mail.deliver!
         Entry.last_email_sent_at = Time.now
-        save # record as seen
-        true
+        !save(raise_on_failure: false).nil? # record as seen
       end
     end
 
