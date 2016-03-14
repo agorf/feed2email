@@ -61,7 +61,7 @@ module Feed2Email
         from:      %{"#{feed_title}" <#{config['sender']}>},
         to:        config['recipient'],
         subject:   title,
-        html_body: mail_html_body,
+        html_body: html_body,
       )
     end
 
@@ -71,7 +71,7 @@ module Feed2Email
       [secs_to_sleep, 0].max # ensure >= 0
     end
 
-    def mail_html_body
+    def html_body
       %{
         <h1><a href="#{safe_url}">#{title}</a></h1>
         #{content}
