@@ -8,7 +8,7 @@ describe Feed2Email::Config do
 
   subject { described_class.new(config_path) }
 
-  before do
+  after do
     FileUtils.rm_f(config_path)
   end
 
