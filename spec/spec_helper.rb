@@ -52,3 +52,9 @@ def stub_redirects(urls, status = 301)
     )
   end
 end
+
+require 'mail'
+
+Mail.defaults do
+  delivery_method :test
+end
