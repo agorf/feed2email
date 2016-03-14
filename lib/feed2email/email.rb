@@ -1,5 +1,6 @@
 require 'mail'
 require 'feed2email/core_ext'
+require 'feed2email/version'
 
 module Feed2Email
   class Email
