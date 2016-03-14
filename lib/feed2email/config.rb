@@ -53,7 +53,7 @@ module Feed2Email
     end
 
     def check_permissions
-      if '%o' % (File.stat(path).mode & 0777) != '600'
+      if File.stat(path).mode & 0777 != 0600
         raise InvalidConfigPermissionsError,
           'Invalid permissions for config file' +
           "\nTo fix it, issue: chmod 600 #{path}"

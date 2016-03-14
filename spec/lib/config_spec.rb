@@ -51,7 +51,7 @@ describe Feed2Email::Config do
 
     it 'has correct permissions' do
       subject
-      expect('%o' % (File.stat(config_path).mode & 0777)).to eq '600'
+      expect(File.stat(config_path).mode & 0777).to eq 0600
     end
 
     it 'contains the defaults' do
