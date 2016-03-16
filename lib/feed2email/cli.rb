@@ -35,6 +35,7 @@ module Feed2Email
     desc 'config', 'Open configuration file with $EDITOR'
     def config
       require 'feed2email'
+      Feed2Email.config # create default config if necessary
 
       if ENV['EDITOR']
         exec(ENV['EDITOR'], Feed2Email.config_path)
