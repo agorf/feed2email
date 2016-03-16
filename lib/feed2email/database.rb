@@ -1,18 +1,25 @@
+require 'forwardable'
 require 'sequel'
 
 module Feed2Email
   class Database
-    attr_reader :connection
+    extend Forwardable
 
-    def initialize(connect_options)
-      setup_connection(connect_options)
-      setup_schema
+    delegate :create_table? => :connection
+
+    def initialize(options)
+      @options = options
+      create_schema
+    end
+
+    def connection
+      @connection ||= Sequel.connect(options)
     end
 
     private
 
     def create_entries_table
-      connection.create_table? :entries do
+      create_table? :entries do
         primary_key :id
         foreign_key :feed_id, :feeds, null: false, index: true,
                                       on_delete: :cascade
@@ -23,7 +30,7 @@ module Feed2Email
     end
 
     def create_feeds_table
-      connection.create_table? :feeds do
+      create_table? :feeds do
         primary_key :id
         String :uri, null: false, unique: true
         TrueClass :enabled, null: false, default: true
@@ -36,13 +43,11 @@ module Feed2Email
       end
     end
 
-    def setup_connection(options)
-      @connection = Sequel.connect(options)
-    end
-
-    def setup_schema
+    def create_schema
       create_feeds_table
       create_entries_table
     end
+
+    attr_reader :options
   end
 end
