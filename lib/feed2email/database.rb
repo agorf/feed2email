@@ -11,11 +11,18 @@ module Feed2Email
 
     private
 
-    def setup_connection(options)
-      @connection = Sequel.connect(options)
+    def create_entries_table
+      connection.create_table? :entries do
+        primary_key :id
+        foreign_key :feed_id, :feeds, null: false, index: true,
+                                      on_delete: :cascade
+        String :uri, null: false, unique: true
+        Time :created_at
+        Time :updated_at
+      end
     end
 
-    def setup_schema
+    def create_feeds_table
       connection.create_table? :feeds do
         primary_key :id
         String :uri, null: false, unique: true
@@ -27,15 +34,15 @@ module Feed2Email
         Time :created_at
         Time :updated_at
       end
+    end
 
-      connection.create_table? :entries do
-        primary_key :id
-        foreign_key :feed_id, :feeds, null: false, index: true,
-                                      on_delete: :cascade
-        String :uri, null: false, unique: true
-        Time :created_at
-        Time :updated_at
-      end
+    def setup_connection(options)
+      @connection = Sequel.connect(options)
+    end
+
+    def setup_schema
+      create_feeds_table
+      create_entries_table
     end
   end
 end
