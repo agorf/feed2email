@@ -129,6 +129,18 @@ describe Feed2Email::Config do
               expect { subject }.not_to raise_error
             end
 
+            context 'when send method is missing' do
+              let(:config_data) do
+                super().merge('send_method' => nil)
+              end
+
+              it 'raises error about invalid send_method option' do
+                expect { subject }.to raise_error(
+                  described_class::InvalidConfigOptionError,
+                  /send_method not one of/)
+              end
+            end
+
             context 'when send method is invalid' do
               let(:config_data) do
                 super().merge('send_method' => 'foo')
