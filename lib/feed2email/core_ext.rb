@@ -24,7 +24,7 @@ class String
   end
 
   def numeric?
-    !!(self =~ /\A\d+\z/)
+    !(self =~ /\A\d+\z/).nil?
   end
 
   def pluralize(count, plural = self + 's')
