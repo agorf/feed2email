@@ -262,16 +262,7 @@ module Feed2Email
           exit
         end
 
-        unless response.numeric? &&
-            (0...discovered_feeds.size).include?(response.to_i)
-          abort 'Invalid index'
-        end
-
-        feed = discovered_feeds[response.to_i]
-
-        abort 'Invalid index' unless feed && feed[:uri]
-
-        feed[:uri]
+        discovered_feeds[response.to_i][:uri]
       end
 
       def config_data

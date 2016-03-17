@@ -58,28 +58,6 @@ describe String do
     end
   end
 
-  describe '#numeric?' do
-    subject { str.numeric? }
-
-    context 'string contains only a decimal number' do
-      let(:str) { '1337' }
-
-      it { is_expected.to be true }
-    end
-
-    context 'string contains only an octal number' do
-      let(:str) { '01' }
-
-      it { is_expected.to be true }
-    end
-
-    context 'string does not contain only a number' do
-      let(:str) { '1337!' }
-
-      it { is_expected.to be false }
-    end
-  end
-
   describe '#pluralize' do
     subject { singular.pluralize(count) }
 

@@ -23,10 +23,6 @@ class String
     CGI.escapeHTML(self)
   end
 
-  def numeric?
-    !(self =~ /\A\d+\z/).nil?
-  end
-
   def pluralize(count, plural = self + 's')
     "#{count} #{count == 1 ? self : plural}"
   end
