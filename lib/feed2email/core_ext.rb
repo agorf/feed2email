@@ -8,17 +8,7 @@ class Numeric
   end
 end
 
-class NilClass
-  def blank?
-    true
-  end
-end
-
 class String
-  def blank?
-    !(self =~ /\A\s*\z/).nil?
-  end
-
   def escape_html
     CGI.escapeHTML(self)
   end
