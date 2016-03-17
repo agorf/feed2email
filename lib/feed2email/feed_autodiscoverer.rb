@@ -19,17 +19,7 @@ module Feed2Email
 
       html_head.css('link[rel=alternate]').select {|link|
         link['href'] && link['type'] =~ /\Aapplication\/(rss|atom)\+xml\z/
-      }.map do |link|
-        feed = { content_type: link['type'], title: link['title'] }
-
-        feed[:uri] = if link['href'] =~ %r{\Ahttps?://} # absolute
-          link['href']
-        else
-          URI.join(base_uri, link['href']).to_s # relative
-        end
-
-        feed
-      end
+      }.map {|link| feed_hash_from_link(link) }
     end
 
     private
@@ -40,6 +30,18 @@ module Feed2Email
       else
         fetcher.url
       end
+    end
+
+    def feed_hash_from_link(link)
+      feed = { content_type: link['type'], title: link['title'] }
+
+      feed[:uri] = if link['href'] =~ %r{\Ahttps?://} # absolute
+        link['href']
+      else
+        URI.join(base_uri, link['href']).to_s # relative
+      end
+
+      feed
     end
 
     def fetcher
