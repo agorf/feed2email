@@ -62,21 +62,3 @@ describe String do
     it { is_expected.to eq markdown }
   end
 end
-
-describe Time do
-  describe '#past?' do
-    subject { (Time.now + time_diff).past? }
-
-    context 'time is in the past' do
-      let(:time_diff) { -60 }
-
-      it { is_expected.to be true }
-    end
-
-    context 'time is in the future' do
-      let(:time_diff) { 60 }
-
-      it { is_expected.to be false }
-    end
-  end
-end

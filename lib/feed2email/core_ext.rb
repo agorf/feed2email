@@ -19,9 +19,3 @@ class String
     ReverseMarkdown.convert(self, unknown_tags: :drop)
   end
 end
-
-class Time
-  def past?
-    self < Time.now
-  end
-end
