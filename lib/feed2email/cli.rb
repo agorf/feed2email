@@ -1,7 +1,10 @@
 require 'thor'
+require 'feed2email/core_ext/string_refinements'
 
 module Feed2Email
   class Cli < Thor
+    using CoreExt::StringRefinements
+
     desc 'add URL', 'Subscribe to feed at URL'
     option :send_existing, type: :boolean, default: false,
       desc: 'Send email for existing entries'

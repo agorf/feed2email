@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'feed2email/core_ext'
 require 'feed2email/email'
 require 'feed2email/version'
 
@@ -72,7 +71,7 @@ describe Feed2Email::Email do
         end
 
         it 'contains the passed HTML body as Markdown' do
-          expect(subject).to match(/#{Regexp.escape(html_body.to_markdown)}/)
+          expect(subject).to match(/#{Regexp.escape('This is the **body**.')}/)
         end
 
         it 'mentions feed2email' do

@@ -5,7 +5,7 @@ require 'uri'
 require 'feed2email'
 require 'feed2email/config'
 require 'feed2email/configurable'
-require 'feed2email/core_ext'
+require 'feed2email/core_ext/string_refinements'
 require 'feed2email/email'
 require 'feed2email/entry'
 require 'feed2email/http_fetcher'
@@ -15,6 +15,8 @@ require 'feed2email/version'
 
 module Feed2Email
   class Feed < Sequel::Model(:feeds)
+    using CoreExt::StringRefinements
+
     plugin :timestamps
 
     one_to_many :entries

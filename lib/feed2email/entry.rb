@@ -1,13 +1,15 @@
 require 'sequel'
 require 'feed2email'
 require 'feed2email/configurable'
-require 'feed2email/core_ext'
+require 'feed2email/core_ext/string_refinements'
 require 'feed2email/email'
 require 'feed2email/loggable'
 require 'feed2email/version'
 
 module Feed2Email
   class Entry < Sequel::Model(:entries)
+    using CoreExt::StringRefinements
+
     plugin :timestamps
 
     many_to_one :feed
