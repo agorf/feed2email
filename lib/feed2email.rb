@@ -2,7 +2,6 @@ require 'logger'
 require 'mail'
 require 'pathname'
 require 'feed2email/config'
-require 'feed2email/core_ext'
 require 'feed2email/database'
 
 module Feed2Email
