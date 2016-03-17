@@ -1,14 +1,6 @@
 require 'spec_helper'
 require 'feed2email/core_ext'
 
-describe Numeric do
-  describe '#megabytes' do
-    it 'returns the corresponding number of bytes' do
-      expect(5.megabytes).to eq 5242880
-    end
-  end
-end
-
 describe String do
   describe '#escape_html' do
     it 'escapes &' do

@@ -42,7 +42,7 @@ module Feed2Email
     end
 
     @logger = Logger.new(logdev, config['log_shift_age'],
-                         config['log_shift_size'].megabytes)
+                         config['log_shift_size'] * 1024 * 1024)
     @logger.level = Logger.const_get(config['log_level'].upcase)
     @logger
   end
