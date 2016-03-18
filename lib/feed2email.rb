@@ -1,3 +1,4 @@
+require 'fileutils'
 require 'logger'
 require 'mail'
 require 'pathname'
@@ -52,6 +53,8 @@ module Feed2Email
   end
 
   def self.setup_database(logger = nil)
+    FileUtils.mkdir_p(File.dirname(database_path))
+
     Sequel::Model.db = Database.new(
       adapter:       'sqlite',
       database:      database_path,
