@@ -83,7 +83,7 @@ describe Feed2Email::Config do
 
     it 'raises error about permissions' do
       expect { subject }.to raise_error(
-        described_class::InvalidConfigPermissionsError)
+        described_class::InvalidPermissionsError)
     end
 
     context 'when it has correct permissions' do
@@ -93,7 +93,7 @@ describe Feed2Email::Config do
 
       it 'raises error about type of data' do
         expect { subject }.to raise_error(
-          described_class::InvalidConfigDataTypeError)
+          described_class::InvalidDataTypeError)
       end
 
       context 'when it has correct type of data' do
@@ -107,7 +107,7 @@ describe Feed2Email::Config do
 
         it 'raises error about recipient option missing' do
           expect { subject }.to raise_error(
-            described_class::MissingConfigOptionError, /recipient missing/)
+            described_class::MissingOptionError, /recipient missing/)
         end
 
         context 'when it has recipient option' do
@@ -117,7 +117,7 @@ describe Feed2Email::Config do
 
           it 'raises error about sender option missing' do
             expect { subject }.to raise_error(
-              described_class::MissingConfigOptionError, /sender missing/)
+              described_class::MissingOptionError, /sender missing/)
           end
 
           context 'when it has sender option' do
@@ -136,7 +136,7 @@ describe Feed2Email::Config do
 
               it 'raises error about invalid send_method option' do
                 expect { subject }.to raise_error(
-                  described_class::InvalidConfigOptionError,
+                  described_class::InvalidOptionError,
                   /send_method not one of/)
               end
             end
@@ -148,7 +148,7 @@ describe Feed2Email::Config do
 
               it 'raises error about invalid send_method option' do
                 expect { subject }.to raise_error(
-                  described_class::InvalidConfigOptionError,
+                  described_class::InvalidOptionError,
                   /send_method not one of/)
               end
             end
@@ -160,7 +160,7 @@ describe Feed2Email::Config do
 
               it 'raises error about missing smtp_host option' do
                 expect { subject }.to raise_error(
-                  described_class::MissingConfigOptionError,
+                  described_class::MissingOptionError,
                   /smtp_host missing/)
               end
 
@@ -171,7 +171,7 @@ describe Feed2Email::Config do
 
                 it 'raises error about missing smtp_port option' do
                   expect { subject }.to raise_error(
-                    described_class::MissingConfigOptionError,
+                    described_class::MissingOptionError,
                     /smtp_port missing/)
                 end
 
@@ -182,7 +182,7 @@ describe Feed2Email::Config do
 
                   it 'raises error about missing smtp_user option' do
                     expect { subject }.to raise_error(
-                      described_class::MissingConfigOptionError,
+                      described_class::MissingOptionError,
                       /smtp_user missing/)
                   end
 
@@ -193,7 +193,7 @@ describe Feed2Email::Config do
 
                     it 'raises error about missing smtp_pass option' do
                       expect { subject }.to raise_error(
-                        described_class::MissingConfigOptionError,
+                        described_class::MissingOptionError,
                         /smtp_pass missing/)
                     end
 

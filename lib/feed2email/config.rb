@@ -5,11 +5,11 @@ require 'yaml'
 module Feed2Email
   class Config
     class ConfigError < StandardError; end
-    class InvalidConfigPermissionsError < ConfigError; end
-    class InvalidConfigSyntaxError < ConfigError; end
-    class InvalidConfigDataTypeError < ConfigError; end
-    class MissingConfigOptionError < ConfigError; end
-    class InvalidConfigOptionError < ConfigError; end
+    class InvalidPermissionsError < ConfigError; end
+    class InvalidSyntaxError < ConfigError; end
+    class InvalidDataTypeError < ConfigError; end
+    class MissingOptionError < ConfigError; end
+    class InvalidOptionError < ConfigError; end
 
     SEND_METHODS = %w{file sendmail smtp}
 
@@ -27,7 +27,7 @@ module Feed2Email
 
     def check_data_type
       if !data.is_a?(Hash)
-        raise InvalidConfigDataTypeError,
+        raise InvalidDataTypeError,
           "Invalid data type (not a Hash) for config file #{path}"
       end
     end
@@ -40,7 +40,7 @@ module Feed2Email
 
     def check_option(option)
       if config[option].nil?
-        raise MissingConfigOptionError,
+        raise MissingOptionError,
           "Option #{option} missing from config file #{path}"
       end
     end
@@ -54,7 +54,7 @@ module Feed2Email
 
     def check_permissions
       if File.stat(path).mode & 0777 != 0600
-        raise InvalidConfigPermissionsError,
+        raise InvalidPermissionsError,
           'Invalid permissions for config file' +
           "\nTo fix it, issue: chmod 600 #{path}"
       end
@@ -66,7 +66,7 @@ module Feed2Email
 
     def check_send_method
       unless SEND_METHODS.include?(config['send_method'])
-        raise InvalidConfigOptionError,
+        raise InvalidOptionError,
           "Option send_method not one of: #{SEND_METHODS.join(', ')}"
       end
     end
@@ -87,7 +87,7 @@ module Feed2Email
       begin
         data
       rescue Psych::SyntaxError
-        raise InvalidConfigSyntaxError,
+        raise InvalidSyntaxError,
           "Invalid YAML syntax for config file #{path}"
       end
     end
