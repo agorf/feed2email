@@ -13,6 +13,12 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = 'random'
+
+  config.around(:each) do |example|
+    Sequel::Model.db.transaction(rollback: :always, auto_savepoint: true) do
+      example.run
+    end
+  end
 end
 
 def capture_stdout(&block)
@@ -58,3 +64,8 @@ require 'mail'
 Mail.defaults do
   delivery_method :test
 end
+
+require 'sequel'
+require 'feed2email'
+
+Feed2Email.setup_database(connection: Sequel.sqlite)
