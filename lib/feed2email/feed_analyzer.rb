@@ -18,12 +18,14 @@ module Feed2Email
     def type
       return unless response
 
-      type_from_content_type(fetcher.content_type[/[^;]+/]) ||
-        type_from_extname(path) ||
-        type_from_basename(path)
+      type_from_content_type || type_from_extname || type_from_basename
     end
 
     private
+
+    def content_type
+      fetcher.content_type[/[^;]+/]
+    end
 
     def fetcher
       @fetcher ||= HTTPFetcher.new(url)
@@ -37,7 +39,7 @@ module Feed2Email
       fetcher.uri_path
     end
 
-    def type_from_basename(path)
+    def type_from_basename
       case File.basename(path)
       when 'rss.xml', 'rdf.xml'
         'rss'
@@ -46,7 +48,7 @@ module Feed2Email
       end
     end
 
-    def type_from_content_type(content_type)
+    def type_from_content_type
       case content_type
       when 'text/rss', 'text/rss+xml', 'application/rss+xml',
            'application/rdf+xml', 'application/xml', 'text/xml'
@@ -56,7 +58,7 @@ module Feed2Email
       end
     end
 
-    def type_from_extname(path)
+    def type_from_extname
       case File.extname(path)
       when '.rdf', '.rss'
         'rss'
