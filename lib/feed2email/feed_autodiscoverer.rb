@@ -31,12 +31,14 @@ module Feed2Email
     end
 
     def feed_hash_from_link(link)
-      feed = { content_type: link['type'], title: link['title'] }
+      feed = {
+        content_type: link['type'],
+        title:        link['title'],
+        uri:          link['href'],
+      }
 
-      feed[:uri] = if link['href'] =~ %r{\Ahttps?://} # absolute
-        link['href']
-      else
-        URI.join(base_uri, link['href']).to_s # relative
+      if link['href'] !~ %r{\Ahttps?://} # relative
+        feed[:uri] = URI.join(base_uri, feed[:uri]).to_s
       end
 
       feed
