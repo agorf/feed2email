@@ -52,9 +52,11 @@ apt-get install sqlite3
 
 ## Configuration
 
-Through a [YAML][] file at `~/.config/feed2email/config.yml`.
+The config file is a [YAML][] file located at `~/.config/feed2email/config.yml`.
+Each line contains a key-value pair and each key-value pair is separated with a
+colon, e.g.: `foo: bar`
 
-Edit it with the `config` command:
+To edit the config file, use the `config` command:
 
 ~~~
 $ # same as "f2e c"
@@ -63,9 +65,6 @@ $ feed2email config
 
 **Note:** The command will fail if the `EDITOR` environmental variable is not
 set.
-
-Each line in the configuration file contains a key-value pair. Each key-value
-pair is separated with a colon, e.g.: `foo: bar`
 
 [YAML]: http://en.wikipedia.org/wiki/YAML
 
@@ -85,6 +84,8 @@ pair is separated with a colon, e.g.: `foo: bar`
 
 ### Logging options
 
+You can probably skip these as they are mostly useful for debugging.
+
 * `log_path` (optional) is the _absolute_ path to the log file (default is
   `true` which logs to standard output; use `false` to disable logging)
 * `log_level` (optional) is the logging verbosity level and can be `fatal`
@@ -97,25 +98,6 @@ pair is separated with a colon, e.g.: `foo: bar`
   `1`)
 
 ### Sending options
-
-#### File
-
-This method simply writes emails to a file (named after the `recipient` config
-option) in a path that you specify.
-
-* `mail_path` (optional) is the path to write emails in (default is `~/Mail/`)
-
-#### Sendmail
-
-For this method you need to have [Sendmail][] or an [MTA][] with a
-Sendmail-compatible interface (e.g. [msmtp][], [Postfix][]) set up and working
-in your system.
-
-* `sendmail_path` (optional) is the path to the Sendmail binary (default is
-  `/usr/sbin/sendmail`)
-
-[msmtp]: http://msmtp.sourceforge.net/
-[Postfix]: http://en.wikipedia.org/wiki/Postfix_(software)
 
 #### SMTP
 
@@ -139,6 +121,25 @@ To set the correct permissions, issue `chmod 600
 ~/.config/feed2email/config.yml`.
 
 [Mailgun]: http://www.mailgun.com/
+
+#### Sendmail
+
+For this method you need to have [Sendmail][] or an [MTA][] with a
+Sendmail-compatible interface (e.g. [msmtp][], [Postfix][]) set up and working
+in your system.
+
+* `sendmail_path` (optional) is the path to the Sendmail binary (default is
+  `/usr/sbin/sendmail`)
+
+[msmtp]: http://msmtp.sourceforge.net/
+[Postfix]: http://en.wikipedia.org/wiki/Postfix_(software)
+
+#### File
+
+This method simply writes emails to a file (named after the `recipient` config
+option) in a path that you specify.
+
+* `mail_path` (optional) is the path to write emails in (default is `~/Mail/`)
 
 ## Use
 
