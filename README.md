@@ -13,8 +13,8 @@ to be simple, fast and easy to use.
 * Feed fetching caching (_Last-Modified_ and _ETag_ HTTP headers)
 * [Feed autodiscovery](http://www.rssboard.org/rss-autodiscovery)
 * [OPML][] import/export of feed subscriptions
-* Email sending with SMTP, [Sendmail][] (or compatible [MTA][]) or by writing to
-  a file
+* Email sending with SMTP, [Sendmail][]-compatible [MTA][] or by writing to a
+  file
 * _text/html_ and _text/plain_ (Markdown) multipart emails
 * Temporary and permanent redirection support for feed URLs
 
@@ -143,9 +143,7 @@ option) in a path that you specify.
 
 ## Use
 
-### Managing feeds
-
-Add some feeds:
+### Add a feed
 
 ~~~
 $ feed2email add https://github.com/agorf/feed2email/commits.atom
@@ -154,6 +152,12 @@ $ # same as "feed2email add https://github.com/agorf.atom"
 $ f2e a https://github.com/agorf.atom
 Added feed:   2 https://github.com/agorf.atom
 ~~~
+
+Passing the `--send-existing` option to `add` will send email for the
+`max_entries` latest, existing entries when the feed is **processed for the
+first time**. The default is to skip them.
+
+#### Feed autodiscovery
 
 Passing a website URL to the `add` command will have feed2email autodiscover any
 feeds in that page that you are not already subscribed to:
@@ -174,11 +178,7 @@ $ f2e add http://thechangelog.com/137/
 Please enter a feed to subscribe to (or Ctrl-C to abort): [0] ^C
 ~~~
 
-**Note:** Passing the `--send-existing` option to `add` will send email for the
-`max_entries` latest, existing entries when the feed is **processed for the
-first time**. The default is to skip them.
-
-The feed list so far:
+### List subscribed feeds
 
 ~~~
 $ # same as "f2e l"
@@ -190,6 +190,8 @@ $ feed2email list
 
 Subscribed to 4 feeds
 ~~~
+
+### Enable/Disable a feed
 
 A feed can be disabled so that it is not processed when `feed2email process`
 runs with the `toggle` command:
@@ -208,7 +210,9 @@ $ f2e t 1
 Toggled feed:   1 https://github.com/agorf/feed2email/commits.atom
 ~~~
 
-It can also be removed from feed subscriptions permanently:
+### Remove a feed
+
+A feed can also be removed from feed subscriptions permanently:
 
 ~~~
 $ # same as "f2e r 1"
@@ -218,7 +222,7 @@ Are you sure? [y, n] y
 Removed
 ~~~
 
-### Importing/exporting feeds
+### Import/Export feeds
 
 feed2email supports importing and exporting feed subscriptions as [OPML][]. This
 makes it easy to migrate to and away from feed2email anytime you want.
