@@ -17,9 +17,7 @@ module Feed2Email
 
       return @feeds = [] unless discoverable?
 
-      html_head.css('link[rel=alternate]').select {|link|
-        link['href'] && link['type'] =~ /\Aapplication\/(rss|atom)\+xml\z/
-      }.map {|link| feed_hash_from_link(link) }
+      feed_links.map {|link| feed_hash_from_link(link) }
     end
 
     private
@@ -44,12 +42,22 @@ module Feed2Email
       feed
     end
 
+    def feed_links
+      links.select {|link|
+        link['href'] && link['type'] =~ /\Aapplication\/(rss|atom)\+xml\z/
+      }
+    end
+
     def fetcher
       @fetcher ||= HTTPFetcher.new(url)
     end
 
     def html_head
       @html_head ||= Nokogiri.HTML(fetcher.data).at_css("head")
+    end
+
+    def links
+      html_head.css('link[rel=alternate]')
     end
 
     attr_reader :url
