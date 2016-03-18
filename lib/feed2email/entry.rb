@@ -30,7 +30,7 @@ module Feed2Email
       end
 
       if skip?
-        logger.debug 'Skipping new feed entry...'
+        logger.warn 'Skipping new feed entry...'
         save # record as seen
         return true
       end
