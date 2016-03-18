@@ -17,7 +17,7 @@ module Feed2Email
 
       return @feeds = [] unless discoverable?
 
-      feed_links.map {|link| feed_hash_from_link(link) }
+      feed_links.map {|link| feed_from_link(link) }
     end
 
     private
@@ -30,7 +30,7 @@ module Feed2Email
       end
     end
 
-    def feed_hash_from_link(link)
+    def feed_from_link(link)
       feed = {
         content_type: link['type'],
         title:        link['title'],
