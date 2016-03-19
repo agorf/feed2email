@@ -4,7 +4,7 @@ require 'spec_helper'
 require 'feed2email/config'
 
 describe Feed2Email::Config do
-  let(:config_path) { File.join(Dir.mktmpdir, 'config.yml') }
+  let(:config_path) { Feed2Email.config_path }
 
   subject { described_class.new(config_path) }
 
