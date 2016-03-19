@@ -4,8 +4,6 @@ require 'sequel'
 module Feed2Email
   module Database
     def self.connection(logger:, path:)
-      FileUtils.mkdir_p(File.dirname(path))
-
       Sequel.connect(
         adapter:       'sqlite',
         database:      path,

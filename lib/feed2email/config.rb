@@ -1,4 +1,3 @@
-require 'fileutils'
 require 'forwardable'
 require 'yaml'
 
@@ -107,10 +106,9 @@ module Feed2Email
     end
 
     def create_default_config
-      FileUtils.mkdir_p(File.dirname(path))
-      FileUtils.touch(path)
+      open(path, 'w') # touch
       File.chmod(0600, path)
-      File.open(path, "w") {|f| f << defaults.to_yaml }
+      open(path, 'w') {|f| f << defaults.to_yaml }
     end
 
     def data
