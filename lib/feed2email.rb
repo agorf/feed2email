@@ -1,4 +1,3 @@
-require 'fileutils'
 require 'logger'
 require 'mail'
 require 'pathname'
@@ -17,17 +16,6 @@ module Feed2Email
 
   def self.config_path
     root_path.join('config.yml').to_s
-  end
-
-  def self.database_connection(logger)
-    FileUtils.mkdir_p(File.dirname(database_path))
-
-    Sequel.connect(
-      adapter:       'sqlite',
-      database:      database_path,
-      loggers:       Array(logger),
-      sql_log_level: :debug
-    )
   end
 
   def self.database_path
@@ -65,11 +53,10 @@ module Feed2Email
   end
 
   def self.setup_database(connection: nil, log: false)
-    if connection.nil?
-      logger = log ? logger : nil
-      connection = database_connection(logger)
-    end
-
+    connection ||= Database.connection(
+      logger: log ? logger : nil,
+      path: Feed2Email.database_path
+    )
     Database.create_schema(connection)
     Sequel::Model.db = connection
   end

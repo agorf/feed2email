@@ -1,5 +1,19 @@
+require 'fileutils'
+require 'sequel'
+
 module Feed2Email
   module Database
+    def self.connection(logger:, path:)
+      FileUtils.mkdir_p(File.dirname(path))
+
+      Sequel.connect(
+        adapter:       'sqlite',
+        database:      path,
+        loggers:       Array(logger),
+        sql_log_level: :debug
+      )
+    end
+
     def self.create_schema(connection)
       connection.create_table? :feeds do
         primary_key :id
