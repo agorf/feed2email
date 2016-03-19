@@ -31,8 +31,7 @@ module Feed2Email
 
       if skip?
         logger.warn 'Skipping new feed entry...'
-        save # record as seen
-        return true
+        return persist
       end
 
       if old?
@@ -90,6 +89,10 @@ module Feed2Email
       feed.entries_dataset.where(uri: uri).any?
     end
 
+    def persist
+      !save(raise_on_failure: false).nil?
+    end
+
     def published_line
       return unless author || published
       text = 'Published'
@@ -109,7 +112,7 @@ module Feed2Email
 
       if build_mail.deliver!
         Entry.last_email_sent_at = Time.now
-        !save(raise_on_failure: false).nil? # record as seen
+        persist
       end
     end
 
