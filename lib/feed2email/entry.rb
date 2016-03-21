@@ -78,7 +78,7 @@ module Feed2Email
         #{content}
         <p>#{published_line}</p>
         <p><a href="#{safe_url}">#{safe_url}</a></p>
-      }
+      }.lstrip_lines
     end
 
     def missing_data?

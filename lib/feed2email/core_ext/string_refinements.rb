@@ -10,6 +10,10 @@ module Feed2Email
           CGI.escapeHTML(self)
         end
 
+        def lstrip_lines
+          gsub(/^\s+/, '')
+        end
+
         def pluralize(count, plural = self + 's')
           "#{count} #{count == 1 ? self : plural}"
         end

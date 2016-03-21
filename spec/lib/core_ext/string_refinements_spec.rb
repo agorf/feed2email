@@ -16,6 +16,10 @@ class RefinedClass
     end
   end
 
+  def self.lstrip_lines(str)
+    str.lstrip_lines
+  end
+
   def self.strip_html(html)
     html.strip_html
   end
@@ -52,6 +56,14 @@ describe String do
 
       it { is_expected.to eq '&gt;' }
     end
+  end
+
+  describe '#lstrip_lines' do
+    subject { RefinedClass.lstrip_lines(text) }
+
+    let(:text) { "\n foo\n \t\rbar\n" }
+
+    it { is_expected.to eq "foo\nbar\n" }
   end
 
   describe '#pluralize' do
