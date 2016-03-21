@@ -29,14 +29,14 @@ module Feed2Email
         return false
       end
 
-      if skip?
-        logger.warn 'Skipping new feed entry...'
-        return persist
-      end
-
       if old?
         logger.debug 'Skipping old entry...'
         return true
+      end
+
+      if !feed.old? && !feed.send_existing
+        logger.warn 'Skipping new feed entry...'
+        return persist
       end
 
       send_mail
@@ -114,10 +114,6 @@ module Feed2Email
         Entry.last_email_sent_at = Time.now
         persist
       end
-    end
-
-    def skip?
-      !feed.old? && !feed.send_existing
     end
   end
 end
