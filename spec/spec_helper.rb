@@ -15,15 +15,9 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = 'random'
 
-  config.before(:all) do
-    Feed2Email.home_path = Dir.mktmpdir
-  end
-
-  config.after(:all) do
-    Feed2Email.home_path = ENV['HOME']
-  end
-
   config.before(:each) do
+    Feed2Email.home_path = Dir.mktmpdir
+
     Mail::TestMailer.deliveries.clear
   end
 
