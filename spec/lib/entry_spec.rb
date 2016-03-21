@@ -179,7 +179,11 @@ describe Feed2Email::Entry do
               before do
                 Feed2Email::Entry.last_email_sent_at = last_email_sent_at
 
-                allow(Time).to receive(:now).and_return(now)
+                Timecop.freeze(now)
+              end
+
+              after do
+                Timecop.return
               end
 
               context 'sent more than send_delay seconds ago' do
@@ -237,7 +241,11 @@ describe Feed2Email::Entry do
         let(:now) { Time.now }
 
         before do
-          allow(Time).to receive(:now).and_return(now)
+          Timecop.freeze(now)
+        end
+
+        after do
+          Timecop.return
         end
 
         it 'sets when the last email was sent' do

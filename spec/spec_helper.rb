@@ -3,6 +3,7 @@ SimpleCov.start
 
 require 'mail'
 require 'pry'
+require 'timecop'
 require 'webmock/rspec'
 
 RSpec.configure do |config|
