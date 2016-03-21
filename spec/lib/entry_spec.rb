@@ -255,6 +255,8 @@ describe Feed2Email::Entry do
           let(:now) { Time.parse('2016-03-21 23:09:12 +0200') }
 
           before do
+            ENV['TZ'] = 'Europe/Athens'
+
             entry.process
           end
 
