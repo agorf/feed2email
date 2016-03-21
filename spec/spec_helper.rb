@@ -1,6 +1,7 @@
 require 'simplecov'
 SimpleCov.start
 
+require 'mail'
 require 'pry'
 require 'webmock/rspec'
 
@@ -20,6 +21,10 @@ RSpec.configure do |config|
 
   config.after(:all) do
     Feed2Email.home_path = ENV['HOME']
+  end
+
+  config.before(:each) do
+    Mail::TestMailer.deliveries.clear
   end
 
   config.around(:each) do |example|
@@ -66,8 +71,6 @@ def stub_redirects(urls, status = 301)
     )
   end
 end
-
-require 'mail'
 
 Mail.defaults do
   delivery_method :test
