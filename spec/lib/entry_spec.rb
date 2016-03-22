@@ -48,7 +48,7 @@ describe Feed2Email::Entry do
 
     allow(Feed2Email).to receive(:config).and_return(config)
 
-    Feed2Email::Entry.last_email_sent_at = nil
+    described_class.last_email_sent_at = nil
   end
 
   describe '#process' do
@@ -163,7 +163,7 @@ describe Feed2Email::Entry do
 
             context 'with no previously sent email' do
               before do
-                Feed2Email::Entry.last_email_sent_at = nil
+                described_class.last_email_sent_at = nil
               end
 
               it 'does not sleep' do
@@ -177,7 +177,7 @@ describe Feed2Email::Entry do
               let(:now) { Time.now }
 
               before do
-                Feed2Email::Entry.last_email_sent_at = last_email_sent_at
+                described_class.last_email_sent_at = last_email_sent_at
 
                 allow(Time).to receive(:now).and_return(now)
               end
@@ -242,7 +242,7 @@ describe Feed2Email::Entry do
 
         it 'sets when the last email was sent' do
           expect { subject }.to change {
-            Feed2Email::Entry.last_email_sent_at }.from(nil).to(now)
+            described_class.last_email_sent_at }.from(nil).to(now)
         end
 
         it 'persists the entry record' do
@@ -303,7 +303,7 @@ describe Feed2Email::Entry do
 
           it 'does not set when the last email was sent' do
             expect { subject }.not_to change {
-              Feed2Email::Entry.last_email_sent_at }
+              described_class.last_email_sent_at }
           end
 
           it 'does not persist the entry record' do
