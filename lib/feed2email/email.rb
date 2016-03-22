@@ -26,7 +26,7 @@ module Feed2Email
         #{html_body}
         <p>--<br>
         Sent by <a href="https://github.com/agorf/feed2email">feed2email
-        #{VERSION}</a> at #{Time.now}</p>
+        #{VERSION}</a></p>
         </body>
         </html>
       }.lstrip_lines
