@@ -58,5 +58,15 @@ describe Feed2Email::Database do
         connection.table_exists?(:entries)
       }.from(false).to(true)
     end
+
+    context 'when called more than once' do
+      before do
+        described_class.create_schema(connection)
+      end
+
+      it 'does not blow up' do
+        expect { subject }.not_to raise_error
+      end
+    end
   end
 end
