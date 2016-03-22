@@ -1,4 +1,3 @@
-require 'fileutils'
 require 'sequel'
 
 module Feed2Email
