@@ -2,10 +2,10 @@ require 'sequel'
 
 module Feed2Email
   module Database
-    def self.connection(logger:, path:)
+    def self.connection(database:, logger: nil)
       Sequel.connect(
         adapter:       'sqlite',
-        database:      path,
+        database:      database,
         loggers:       Array(logger),
         sql_log_level: :debug
       )

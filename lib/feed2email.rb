@@ -61,8 +61,8 @@ module Feed2Email
 
   def self.setup_database(connection: nil, log: false)
     connection ||= Database.connection(
-      logger: log ? logger : nil,
-      path: Feed2Email.database_path
+      database: Feed2Email.database_path,
+      logger:   log ? logger : nil
     )
     Database.create_schema(connection)
     Sequel::Model.db = connection
