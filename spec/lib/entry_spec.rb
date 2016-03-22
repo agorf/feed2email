@@ -252,11 +252,7 @@ describe Feed2Email::Entry do
         describe 'sent email' do
           subject(:delivery) { Mail::TestMailer.deliveries.first }
 
-          let(:now) { Time.parse('2016-03-21 23:09:12 +0200') }
-
           before do
-            ENV['TZ'] = 'Europe/Athens'
-
             entry.process
           end
 
@@ -276,21 +272,14 @@ describe Feed2Email::Entry do
             expect(subject).to be_multipart
           end
 
-          it 'contains the entry content in HTML' do
+          it 'contains the entry content' do
             expect(
               delivery.parts.find {|p| p.content_type['text/html'] }.body.raw_source
-            ).to eq(%{
-              <html>
-              <body>
+            ).to match(%{
               <h1><a href="https://github.com/agorf/feed2email/commit/8a4581aa9e51b5adbaeb22374e5dc8aca0acdefd">Test cached feeds are actually returned</a></h1>
               <pre style='white-space:pre-wrap;width:81ex'>Test cached feeds are actually returned</pre>
               <p>Published by agorf at 2015-12-02 20:29:22 UTC</p>
               <p><a href="https://github.com/agorf/feed2email/commit/8a4581aa9e51b5adbaeb22374e5dc8aca0acdefd">https://github.com/agorf/feed2email/commit/8a4581aa9e51b5adbaeb22374e5dc8aca0acdefd</a></p>
-              <p>--<br>
-              Sent by <a href="https://github.com/agorf/feed2email">feed2email
-              #{Feed2Email::VERSION}</a> at 2016-03-21 23:09:12 +0200</p>
-              </body>
-              </html>
             }.gsub(/^\s+/, ''))
           end
         end
