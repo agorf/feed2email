@@ -177,7 +177,7 @@ module Feed2Email
 
       puts "Remove feed: #{feed}"
 
-      if ask('Are you sure?', limited_to: %w{y n}) == 'y'
+      if interruptible_ask('Are you sure?', limited_to: %w{y n}) == 'y'
         if feed.delete
           puts 'Removed'
         else
@@ -255,21 +255,25 @@ module Feed2Email
           }
         end
 
-        begin
-          response = ask(
-            'Please enter a feed to subscribe to (or Ctrl-C to abort):',
-            limited_to: (0...discovered_feeds.size).to_a.map(&:to_s)
-          )
-        rescue Interrupt # Ctrl-C
-          puts
-          exit
-        end
+        response = interruptible_ask(
+          'Please enter a feed to subscribe to (or Ctrl-C to abort):',
+          limited_to: (0...discovered_feeds.size).to_a.map(&:to_s)
+        )
 
         discovered_feeds[response.to_i][:uri]
       end
 
       def config_data
         Feed2Email.config
+      end
+
+      def interruptible_ask(*args)
+        begin
+          ask(*args)
+        rescue Interrupt # Ctrl-C
+          puts
+          exit
+        end
       end
 
       # TODO make lazy with a wrapper
