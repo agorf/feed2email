@@ -65,6 +65,7 @@ module Feed2Email
       parts = [id.to_s.rjust(3)] # align right 1-999
       parts << "\e[31mDISABLED\e[0m" unless enabled
       parts << uri
+      parts << "last email at #{last_email_at}" if last_email_at
       parts.join(' ')
     end
 
@@ -153,6 +154,11 @@ module Feed2Email
         self.uri = checker.location
         logger.warn "Updated feed location to #{checker.location}"
       end
+    end
+
+    def last_email_at
+      return unless old?
+      entries_dataset.order(Sequel.desc(:created_at)).first.created_at
     end
 
     def log_exception(error)
