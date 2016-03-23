@@ -13,7 +13,11 @@ module Feed2Email
       Feed2Email.setup_database
       require 'feed2email/feed'
 
-      uri = autodiscover_feeds(uri)
+      begin
+        uri = autodiscover_feeds(uri)
+      rescue => e
+        abort e.message
+      end
 
       if feed = Feed[uri: uri]
         abort "Feed already exists: #{feed}"
