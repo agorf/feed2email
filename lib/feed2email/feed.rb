@@ -189,7 +189,7 @@ module Feed2Email
       processed = true
 
       processable_entries.each.with_index(1) do |parsed_entry, i|
-        processed = false unless process_entry(parsed_entry, i, total)
+        processed = false unless process_entry(parsed_entry, i, total) # &&= won't do; see c85a6647
       end
 
       processed
