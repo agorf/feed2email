@@ -96,6 +96,17 @@ describe Feed2Email::Config do
           described_class::InvalidDataTypeError)
       end
 
+      context 'when it has invalid YAML syntax' do
+        before do
+          open(config_path, 'w') {|f| f << ':' }
+        end
+
+        it 'raises error about invalid syntax' do
+          expect { subject }.to raise_error(
+            described_class::InvalidSyntaxError, /invalid YAML syntax/i)
+        end
+      end
+
       context 'when it has correct type of data' do
         let(:config_data) do
           {}
