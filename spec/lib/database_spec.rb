@@ -13,15 +13,15 @@ describe Feed2Email::Database do
 
     let(:logger) { Logger.new($stdout) }
 
-    it 'uses the passed adapter' do
+    it 'uses the specified adapter' do
       expect(subject[:adapter]).to eq 'sqlite'
     end
 
-    it 'creates database at the passed path' do
+    it 'creates the database at the specified path' do
       expect(subject[:database]).to eq database
     end
 
-    it 'uses the passed logger' do
+    it 'uses the specified logger' do
       expect(subject[:loggers]).to eq [logger]
     end
 
@@ -29,7 +29,7 @@ describe Feed2Email::Database do
       expect(subject[:sql_log_level]).to eq :debug
     end
 
-    context 'when logger is not passed' do
+    context 'when logger is not specified' do
       subject { described_class.connection(database: database).opts }
 
       it 'defaults to nil' do
