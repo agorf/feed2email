@@ -17,16 +17,10 @@ describe Feed2Email::Entry do
 
   let(:feed_title) { parsed_feed.title }
   let(:feed_url) { 'https://github.com/agorf/feed2email/commits/master.atom' }
-  let(:feed_last_processed_at) { Time.now }
   let(:feed_send_existing) { false }
-
-  let(:feed) do
-    Feed2Email::Feed.create(
-      uri: feed_url,
-      last_processed_at: feed_last_processed_at,
-      send_existing: feed_send_existing,
-    )
-  end
+  let(:feed) {
+    Feed2Email::Feed.create(uri: feed_url, send_existing: feed_send_existing)
+  }
 
   subject(:entry) do
     described_class.new(feed_id: feed.id, uri: url).tap do |e|
@@ -42,6 +36,8 @@ describe Feed2Email::Entry do
   let(:config) { {} }
 
   before do
+    described_class.create(feed_id: feed.id, uri: parsed_feed.entries[1].url) # Feed#old? => true
+
     allow(logger).to receive(:warn)
     allow(logger).to receive(:debug)
     allow(Feed2Email).to receive(:logger).and_return(logger)
@@ -105,8 +101,11 @@ describe Feed2Email::Entry do
     end
 
     context 'with new feed entry that should be skipped' do
-      let(:feed_last_processed_at) { nil }
       let(:feed_send_existing) { false }
+
+      before do
+        feed.entries_dataset.delete # Feed#old? => false
+      end
 
       it { is_expected.to be true }
 

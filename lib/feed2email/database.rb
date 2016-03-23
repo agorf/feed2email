@@ -19,7 +19,6 @@ module Feed2Email
         FalseClass :send_existing, null: false, default: false
         String :etag
         String :last_modified
-        Time :last_processed_at
         Time :created_at
         Time :updated_at
       end

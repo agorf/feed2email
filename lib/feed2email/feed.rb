@@ -30,7 +30,7 @@ module Feed2Email
     include Loggable
 
     def old?
-      !last_processed_at.nil?
+      entries_dataset.any?
     end
 
     def process
@@ -53,8 +53,6 @@ module Feed2Email
         self.last_modified = old_last_modified
         self.etag = old_etag
       end
-
-      self.last_processed_at = Time.now
 
       save_changes
     end
