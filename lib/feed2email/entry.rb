@@ -39,7 +39,10 @@ module Feed2Email
         return persist
       end
 
-      send_mail
+      if send_mail
+        Entry.last_email_sent_at = Time.now
+        persist
+      end
     end
 
     private
@@ -110,10 +113,7 @@ module Feed2Email
 
       logger.debug 'Sending new entry...'
 
-      if build_mail.deliver!
-        Entry.last_email_sent_at = Time.now
-        persist
-      end
+      build_mail.deliver!
     end
   end
 end
