@@ -91,10 +91,6 @@ module Feed2Email
       end
     end
 
-    def feed_title
-      parsed_feed.title
-    end
-
     def fetch
       logger.debug 'Fetching feed...'
 
@@ -218,7 +214,7 @@ module Feed2Email
 
     def send_exception(error)
       Email.new(
-        from:      %{"#{feed_title}" <#{config['sender']}>},
+        from:      %{"#{parsed_feed.title}" <#{config['sender']}>},
         to:        config['recipient'],
         subject:   "#{error.class}: #{error.message.strip}",
         html_body: "<p>#{error.backtrace.join('<br>')}</p>",
