@@ -63,7 +63,7 @@ module Feed2Email
 
     def to_s
       parts = [id.to_s.rjust(3)] # align right 1-999
-      parts << "\e[31mDISABLED\e[0m" unless enabled
+      parts << 'DISABLED' unless enabled
       parts << uri
       parts << "last email at #{last_email_at}" if last_email_at
       parts.join(' ')
