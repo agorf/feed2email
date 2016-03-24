@@ -191,7 +191,7 @@ module Feed2Email
       end
     end
 
-    desc 'toggle ID', 'Enable/disable feed with id ID'
+    desc 'toggle ID', 'Enable/Disable feed with id ID'
     def toggle(id)
       require 'feed2email'
       Feed2Email.setup_database
