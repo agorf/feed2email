@@ -34,6 +34,13 @@ RSpec.configure do |config|
   end
 end
 
+def discard_output
+  stdout, stderr = $stdout, $stderr # backup
+  $stdout = $stderr = StringIO.new
+  yield
+  $stdout, $stdeer = stdout, stderr # restore
+end
+
 def fixture_path(filename)
   File.join('spec', 'fixtures', filename)
 end
