@@ -16,20 +16,20 @@ module Feed2Email
       begin
         uri = autodiscover_feeds(uri)
       rescue => e
-        abort e.message
+        error e.message
       end
 
       if feed = Feed[uri: uri]
-        abort "Feed already exists: #{feed}"
+        error "Feed already exists: #{feed}"
       end
 
       feed = Feed.new(uri: uri, send_existing: options[:send_existing])
 
-      if feed.save_without_raising
-        puts "Added feed: #{feed}"
-      else
-        abort 'Failed to add feed'
+      unless feed.save_without_raising
+        error 'Failed to add feed'
       end
+
+      puts "Added feed: #{feed}"
     end
 
     desc 'backend', 'Open an SQLite console to the database'
@@ -40,26 +40,27 @@ module Feed2Email
 
     desc 'config', 'Open configuration file with $EDITOR'
     def config
+      if ENV['EDITOR'].nil?
+        error 'EDITOR environmental variable not set'
+      end
+
       require 'feed2email'
       Feed2Email.config # create default config if necessary
 
-      if ENV['EDITOR']
-        exec(ENV['EDITOR'], Feed2Email.config_path)
-      else
-        abort 'EDITOR environmental variable not set'
-      end
+      exec(ENV['EDITOR'], Feed2Email.config_path)
     end
 
     desc 'export PATH', 'Export feed subscriptions as OPML to PATH'
     def export(path)
+      return if File.exist?(path) && !file_collision(path)
+
       require 'feed2email'
       Feed2Email.setup_database
       require 'feed2email/feed'
+
+      error 'No feeds to export' if Feed.empty?
+
       require 'feed2email/opml_writer'
-
-      abort "File already exists" if File.exist?(path)
-
-      abort "No feeds to export" if Feed.empty?
 
       puts "Exporting... (this may take a while)"
 
@@ -82,12 +83,12 @@ module Feed2Email
     option :remove, type: :boolean, default: false,
       desc: "Unsubscribe from feeds not in imported list"
     def import(path)
+      error 'File does not exist' unless File.exist?(path)
+
       require 'feed2email'
       Feed2Email.setup_database
       require 'feed2email/feed'
       require 'feed2email/opml_reader'
-
-      abort "File does not exist" unless File.exist?(path)
 
       puts "Importing..."
 
@@ -97,7 +98,7 @@ module Feed2Email
 
       feeds.each do |uri|
         if feed = Feed[uri: uri]
-          warn "Feed already exists: #{feed}"
+          puts "Feed already exists: #{feed}"
         else
           feed = Feed.new(uri: uri)
 
@@ -105,7 +106,7 @@ module Feed2Email
             puts "Imported feed: #{feed}"
             imported += 1
           else
-            warn "Failed to import feed: #{feed}"
+            puts "Failed to import feed: #{feed}"
           end
         end
       end
@@ -115,7 +116,7 @@ module Feed2Email
           if feed.delete
             puts "Removed feed: #{feed}"
           else
-            warn "Failed to remove feed: #{feed}"
+            puts "Failed to remove feed: #{feed}"
           end
         end
       end
@@ -133,10 +134,7 @@ module Feed2Email
       Feed2Email.setup_database
       require 'feed2email/feed'
 
-      if Feed.empty?
-        puts 'No feeds'
-        return
-      end
+      error 'No feeds' if Feed.empty?
 
       puts Feed.oldest_first.to_a
       print "\nSubscribed to #{'feed'.pluralize(Feed.count)}"
@@ -175,17 +173,17 @@ module Feed2Email
       require 'feed2email/feed'
 
       unless feed = Feed[id]
-        abort "Feed not found. Is #{id} a valid id?"
+        error "Feed not found. Is #{id} a valid id?"
       end
 
       puts "Remove feed: #{feed}"
 
-      if interruptible_ask('Are you sure?', limited_to: %w{y n}) == 'y'
-        if feed.delete
-          puts 'Removed'
-        else
-          abort 'Failed to remove feed'
+      if interruptible { yes?('Are you sure?') }
+        unless feed.delete
+          error 'Failed to remove feed'
         end
+
+        puts 'Removed'
       else
         puts 'Not removed'
       end
@@ -197,13 +195,15 @@ module Feed2Email
       Feed2Email.setup_database
       require 'feed2email/feed'
 
-      feed = Feed[id]
-
-      if feed && feed.toggle
-        puts "Toggled feed: #{feed}"
-      else
-        abort "Failed to toggle feed. Is #{id} a valid id?"
+      unless feed = Feed[id]
+        error "Feed not found. Is #{id} a valid id?"
       end
+
+      unless feed.toggle
+        error 'Failed to toggle feed'
+      end
+
+      puts "Toggled feed: #{feed}"
     end
 
     desc 'uncache ID', 'Clear fetch cache for feed with id ID'
@@ -212,13 +212,15 @@ module Feed2Email
       Feed2Email.setup_database
       require 'feed2email/feed'
 
-      feed = Feed[id]
-
-      if feed && feed.uncache
-        puts "Uncached feed: #{feed}"
-      else
-        abort "Failed to uncache feed. Is #{id} a valid id?"
+      unless feed = Feed[id]
+        error "Feed not found. Is #{id} a valid id?"
       end
+
+      unless feed.uncache
+        error 'Failed to uncache feed'
+      end
+
+      puts "Uncached feed: #{feed}"
     end
 
     desc 'version', 'Show feed2email version'
@@ -258,10 +260,12 @@ module Feed2Email
           }
         end
 
-        response = interruptible_ask(
-          'Please enter a feed to subscribe to (or Ctrl-C to abort):',
-          limited_to: (0...discovered_feeds.size).to_a.map(&:to_s)
-        )
+        response = interruptible {
+          ask(
+            'Please enter a feed to subscribe to (or Ctrl-C to abort):',
+            limited_to: (0...discovered_feeds.size).to_a.map(&:to_s)
+          )
+        }
 
         discovered_feeds[response.to_i][:uri]
       end
@@ -270,9 +274,13 @@ module Feed2Email
         Feed2Email.config
       end
 
-      def interruptible_ask(*args)
+      def error(message)
+        raise Thor::Error, message
+      end
+
+      def interruptible
         begin
-          ask(*args)
+          yield
         rescue Interrupt # Ctrl-C
           puts
           exit
