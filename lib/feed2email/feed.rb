@@ -74,7 +74,7 @@ module Feed2Email
     end
 
     def uncache
-      !cached? || update(last_modified: nil, etag: nil)
+      update(last_modified: nil, etag: nil)
     end
 
     private
@@ -89,10 +89,6 @@ module Feed2Email
         e.title      = parsed_entry.title.strip.strip_html if parsed_entry.title
         e.feed_title = parsed_feed.title
       end
-    end
-
-    def cached?
-      last_modified || etag
     end
 
     def feed_title
