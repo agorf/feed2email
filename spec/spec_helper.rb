@@ -2,6 +2,12 @@ require 'simplecov'
 SimpleCov.start
 
 require 'mail'
+Mail.defaults { delivery_method :test }
+
+require 'sequel'
+require 'feed2email'
+Feed2Email.setup_database(connection: Sequel.sqlite)
+
 require 'pry'
 require 'webmock/rspec'
 
@@ -39,12 +45,3 @@ def stub_redirects(urls, status = 301)
     )
   end
 end
-
-Mail.defaults do
-  delivery_method :test
-end
-
-require 'sequel'
-require 'feed2email'
-
-Feed2Email.setup_database(connection: Sequel.sqlite)
