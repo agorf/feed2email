@@ -247,7 +247,7 @@ module Feed2Email
 
         # Exclude already subscribed feeds from results
         discovered_new_feeds = discoverer.feeds.reject {|feed|
-          subscribed_feed_uris.include?(feed[:uri])
+          subscribed_feed_uris.include?(feed.url)
         }
 
         if discovered_new_feeds.empty?
@@ -259,9 +259,9 @@ module Feed2Email
         discovered_new_feeds.each_with_index do |feed, i|
           puts '%{index}: %{uri} %{title}(%{content_type})' % {
             index:        i.to_s.rjust(width),
-            uri:          feed[:uri],
-            title:        feed[:title] ? "\"#{feed[:title]}\" " : '',
-            content_type: feed[:content_type]
+            uri:          feed.url,
+            title:        feed.title ? "\"#{feed.title}\" " : '',
+            content_type: feed.content_type
           }
         end
 
@@ -272,7 +272,7 @@ module Feed2Email
           ).to_i
         }
 
-        discovered_new_feeds[response][:uri]
+        discovered_new_feeds[response].url
       end
 
       def config_data

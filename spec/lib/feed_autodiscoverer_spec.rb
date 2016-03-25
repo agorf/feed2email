@@ -38,11 +38,11 @@ describe Feed2Email::FeedAutodiscoverer do
 
     let(:feeds) {
       [
-        {
-          uri:          feed_uri,
-          content_type: 'application/rss+xml',
-          title:        'Recent News (RSS)'
-        }
+        described_class::DiscoveredFeed.new(
+          feed_uri,
+          'application/rss+xml',
+          'Recent News (RSS)'
+        )
       ]
     }
 

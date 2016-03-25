@@ -4,6 +4,8 @@ require 'feed2email/http_fetcher'
 
 module Feed2Email
   class FeedAutodiscoverer
+    DiscoveredFeed = Struct.new(:url, :content_type, :title)
+
     def initialize(url)
       @url = url
     end
@@ -17,7 +19,7 @@ module Feed2Email
 
       return @feeds = [] unless discoverable?
 
-      @feeds = feed_links.map {|link| feed_from_link(link) }
+      @feeds = feed_links.map {|link| build_feed_from_link(link) }
     end
 
     private
@@ -30,18 +32,14 @@ module Feed2Email
       end
     end
 
-    def feed_from_link(link)
-      feed = {
-        content_type: link['type'],
-        title:        link['title'],
-        uri:          link['href'],
-      }
+    def build_feed_from_link(link)
+      url = link['href']
 
       if link['href'] !~ %r{\Ahttps?://} # relative
-        feed[:uri] = URI.join(base_uri, feed[:uri]).to_s
+        url = URI.join(base_uri, url).to_s
       end
 
-      feed
+      DiscoveredFeed.new(url, link['type'], link['title'])
     end
 
     def feed_links
