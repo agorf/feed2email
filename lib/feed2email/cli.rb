@@ -246,17 +246,17 @@ module Feed2Email
         subscribed_feed_uris = Feed.select_map(:uri)
 
         # Exclude already subscribed feeds from results
-        discovered_feeds = discoverer.feeds.reject {|feed|
+        discovered_new_feeds = discoverer.feeds.reject {|feed|
           subscribed_feed_uris.include?(feed[:uri])
         }
 
-        if discovered_feeds.empty?
+        if discovered_new_feeds.empty?
           error 'Could not find any new feeds'
         end
 
-        width = discovered_feeds.size.to_s.size
+        width = discovered_new_feeds.size.to_s.size
 
-        discovered_feeds.each_with_index do |feed, i|
+        discovered_new_feeds.each_with_index do |feed, i|
           puts '%{index}: %{uri} %{title}(%{content_type})' % {
             index:        i.to_s.rjust(width),
             uri:          feed[:uri],
@@ -268,11 +268,11 @@ module Feed2Email
         response = interruptible {
           ask(
             'Please enter a feed to subscribe to (or Ctrl-C to abort):',
-            limited_to: (0...discovered_feeds.size).to_a.map(&:to_s)
+            limited_to: (0...discovered_new_feeds.size).to_a.map(&:to_s)
           ).to_i
         }
 
-        discovered_feeds[response][:uri]
+        discovered_new_feeds[response][:uri]
       end
 
       def config_data
