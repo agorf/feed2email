@@ -17,7 +17,7 @@ module Feed2Email
 
       return @feeds = [] unless discoverable?
 
-      feed_links.map {|link| feed_from_link(link) }
+      @feeds = feed_links.map {|link| feed_from_link(link) }
     end
 
     private
