@@ -92,9 +92,7 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(
-              "Toggled feed:   1 DISABLED https://github.com/agorf/feed2email/commits/master.atom\n"
-            ).to_stdout
+            expect { subject }.to output(/\bToggled feed\b/).to_stdout
           end
         end
 
@@ -109,9 +107,7 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(
-              "Toggled feed:   1 https://github.com/agorf/feed2email/commits/master.atom\n"
-            ).to_stdout
+            expect { subject }.to output(/\bToggled feed\b/).to_stdout
           end
         end
       end
@@ -162,9 +158,7 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(
-              "Uncached feed:   1 https://github.com/agorf/feed2email/commits/master.atom\n"
-            ).to_stdout
+            expect { subject }.to output(/\bUncached feed\b/).to_stdout
           end
         end
 
@@ -181,9 +175,7 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(
-              "Uncached feed:   1 https://github.com/agorf/feed2email/commits/master.atom\n"
-            ).to_stdout
+            expect { subject }.to output(/\bUncached feed\b/).to_stdout
           end
         end
       end
