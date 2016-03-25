@@ -240,7 +240,7 @@ module Feed2Email
         end
 
         if discoverer.feeds.empty?
-          error 'Could not find any feeds'
+          error 'No feeds found'
         end
 
         subscribed_feed_uris = Feed.select_map(:uri)
@@ -251,7 +251,7 @@ module Feed2Email
         }
 
         if discovered_new_feeds.empty?
-          error 'Could not find any new feeds'
+          error 'No new feeds found'
         end
 
         width = discovered_new_feeds.size.to_s.size
