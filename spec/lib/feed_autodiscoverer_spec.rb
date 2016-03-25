@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'feed2email/feed_autodiscoverer'
 
 describe Feed2Email::FeedAutodiscoverer do
-  subject { described_class.new(uri) }
+  subject(:discoverer) { described_class.new(uri) }
 
   let(:uri) { 'https://www.ruby-lang.org/' }
   let(:body) { File.read(fixture_path('ruby-lang.org.html')) }
@@ -16,7 +16,7 @@ describe Feed2Email::FeedAutodiscoverer do
   end
 
   describe '#discoverable?' do
-    subject { super().discoverable? }
+    subject { discoverer.discoverable? }
 
     it { is_expected.to be true }
 
@@ -34,7 +34,7 @@ describe Feed2Email::FeedAutodiscoverer do
   end
 
   describe '#feeds' do
-    subject { super().feeds }
+    subject { discoverer.feeds }
 
     let(:feeds) {
       [
