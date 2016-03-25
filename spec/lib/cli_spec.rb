@@ -32,7 +32,7 @@ describe Feed2Email::Cli do
         ENV.delete('EDITOR')
       end
 
-      it 'raises error with a relevant message' do
+      it 'raises error with relevant message' do
         expect { subject }.to raise_error(Thor::Error).with_message(
           "EDITOR environmental variable not set")
       end
@@ -59,7 +59,7 @@ describe Feed2Email::Cli do
     context 'with invalid feed id' do
       let(:id) { 100_000_000 }
 
-      it 'raises error with a relevant message' do
+      it 'raises error with relevant message' do
         expect { subject }.to raise_error(Thor::Error).with_message(
           "Feed not found. Is #{id} a valid id?")
       end
@@ -74,7 +74,7 @@ describe Feed2Email::Cli do
           allow(feed).to receive(:toggle).and_return(false)
         end
 
-        it 'raises error with a relevant message' do
+        it 'raises error with relevant message' do
           expect { subject }.to raise_error(Thor::Error).with_message(
             'Failed to toggle feed')
         end
@@ -124,7 +124,7 @@ describe Feed2Email::Cli do
     context 'with invalid feed id' do
       let(:id) { 100_000_000 }
 
-      it 'raises error with a relevant message' do
+      it 'raises error with relevant message' do
         expect { subject }.to raise_error(Thor::Error).with_message(
           "Feed not found. Is #{id} a valid id?")
       end
@@ -139,14 +139,14 @@ describe Feed2Email::Cli do
           allow(feed).to receive(:uncache).and_return(false)
         end
 
-        it 'raises error with a relevant message' do
+        it 'raises error with relevant message' do
           expect { subject }.to raise_error(Thor::Error).with_message(
             'Failed to uncache feed')
         end
       end
 
       context 'and successful uncache' do
-        context 'with cached feed' do
+        context 'and cached feed' do
           before do
             feed.update(etag: etag, last_modified: last_modified)
           end
@@ -168,7 +168,7 @@ describe Feed2Email::Cli do
           end
         end
 
-        context 'with uncached feed' do
+        context 'and uncached feed' do
           before do
             feed.update(etag: nil, last_modified: nil)
           end
