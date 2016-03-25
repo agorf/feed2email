@@ -19,10 +19,6 @@ module Feed2Email
         error e.message
       end
 
-      if feed = Feed[uri: uri]
-        error "Feed already exists: #{feed}"
-      end
-
       feed = Feed.new(uri: uri, send_existing: options[:send_existing])
 
       unless feed.save_without_raising
@@ -235,26 +231,34 @@ module Feed2Email
 
         discoverer = FeedAutodiscoverer.new(uri)
 
-        # Exclude already subscribed feeds from results
-        subscribed_feed_uris = Feed.select_map(:uri)
-        discovered_feeds = discoverer.feeds.reject {|feed|
-          subscribed_feed_uris.include?(feed[:uri])
-        }
-
-        if discovered_feeds.empty?
-          if discoverer.discoverable?
-            puts 'Could not find any new feeds'
-            exit
+        unless discoverer.discoverable?
+          if feed = Feed[uri: uri]
+            error "Feed already exists: #{feed}"
           end
 
           return uri
         end
 
-        justify = discovered_feeds.size.to_s.size
+        if discoverer.feeds.empty?
+          error 'Could not find any feeds'
+        end
+
+        subscribed_feed_uris = Feed.select_map(:uri)
+
+        # Exclude already subscribed feeds from results
+        discovered_feeds = discoverer.feeds.reject {|feed|
+          subscribed_feed_uris.include?(feed[:uri])
+        }
+
+        if discovered_feeds.empty?
+          error 'Could not find any new feeds'
+        end
+
+        width = discovered_feeds.size.to_s.size
 
         discovered_feeds.each_with_index do |feed, i|
           puts '%{index}: %{uri} %{title}(%{content_type})' % {
-            index:        i.to_s.rjust(justify),
+            index:        i.to_s.rjust(width),
             uri:          feed[:uri],
             title:        feed[:title] ? "\"#{feed[:title]}\" " : '',
             content_type: feed[:content_type]
@@ -265,10 +269,10 @@ module Feed2Email
           ask(
             'Please enter a feed to subscribe to (or Ctrl-C to abort):',
             limited_to: (0...discovered_feeds.size).to_a.map(&:to_s)
-          )
+          ).to_i
         }
 
-        discovered_feeds[response.to_i][:uri]
+        discovered_feeds[response][:uri]
       end
 
       def config_data
