@@ -34,7 +34,7 @@ describe Feed2Email::Cli do
 
       it 'raises error with relevant message' do
         expect { subject }.to raise_error(Thor::Error).with_message(
-          "EDITOR environmental variable not set")
+          'EDITOR environmental variable not set')
       end
     end
 
