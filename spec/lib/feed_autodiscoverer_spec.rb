@@ -45,20 +45,10 @@ describe Feed2Email::FeedAutodiscoverer do
         }
       ]
     }
+
     let(:feed_uri) { 'https://www.ruby-lang.org/en/feeds/news.rss' }
 
     it { is_expected.to eq feeds }
-
-    context 'called before' do
-      before { subject }
-
-      it { is_expected.to eq feeds }
-
-      it 'caches discovered feeds' do
-        expect(Nokogiri).not_to receive(:HTML)
-        subject
-      end
-    end
 
     context 'not discoverable' do
       let(:content_type) { 'text/plain' }
