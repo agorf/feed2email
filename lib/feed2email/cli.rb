@@ -178,15 +178,16 @@ module Feed2Email
 
       puts "Remove feed: #{feed}"
 
-      if interruptible { yes?('Are you sure?') }
-        unless feed.delete
-          error 'Failed to remove feed'
-        end
-
-        puts 'Removed'
-      else
+      unless interruptible { yes?('Are you sure?') }
         puts 'Not removed'
+        return
       end
+
+      unless feed.delete
+        error 'Failed to remove feed'
+      end
+
+      puts 'Removed'
     end
 
     desc 'toggle ID', 'Enable/Disable feed with id ID'
