@@ -53,6 +53,71 @@ describe Feed2Email::Cli do
     end
   end
 
+  describe '#remove' do
+    subject { cli.remove(id) }
+
+    context 'with invalid feed id' do
+      let(:id) { 100_000_000 }
+
+      it 'raises error with relevant message' do
+        expect { subject }.to raise_error(Thor::Error).with_message(
+          "Feed not found. Is #{id} a valid id?")
+      end
+    end
+
+    context 'with valid feed id' do
+      let(:id) { feed.id }
+
+      before do
+        allow(cli).to receive(:yes?).with('Are you sure?').and_return(
+          confirmed_removal)
+      end
+
+      context 'and unconfirmed removal' do
+        let(:confirmed_removal) { false }
+
+        it 'does not remove feed' do
+          discard_output { subject }
+
+          expect { feed.refresh }.not_to raise_error
+        end
+
+        it 'prints a relevant message' do
+          expect { subject }.to output(/\bNot removed\b/).to_stdout
+        end
+      end
+
+      context 'and confirmed removal' do
+        let(:confirmed_removal) { true }
+
+        context 'and unsuccessful removal' do
+          before do
+            allow(Feed2Email::Feed).to receive(:[]).with(id).and_return(feed)
+            allow(feed).to receive(:delete).and_return(false)
+          end
+
+          it 'raises error with relevant message' do
+            expect { discard_output { subject } }.to raise_error(
+              Thor::Error).with_message('Failed to remove feed')
+          end
+        end
+
+        context 'and successful removal' do
+          it 'removes feed' do
+            discard_output { subject }
+
+            expect { feed.refresh }.to raise_error(Sequel::Error).with_message(
+              /Record not found/)
+          end
+
+          it 'prints a relevant message' do
+            expect { subject }.to output(/\bRemoved\b/).to_stdout
+          end
+        end
+      end
+    end
+  end
+
   describe '#toggle' do
     subject { cli.toggle(id) }
 
