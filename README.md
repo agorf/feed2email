@@ -78,7 +78,7 @@ set.
   avoid SMTP server throttling errors when `send_method` is `sendmail` or `smtp`
   (default is `10`; use `0` to disable)
 * `max_entries` (optional) is the maximum number of entries to process per feed
-  (default is `20`; use `0` for unlimited)
+  (default is `20`; use `false` for unlimited)
 * `send_exceptions` (optional) specifies whether to send exceptions via email to
   `recipient` and can be `true` or `false` (default)
 

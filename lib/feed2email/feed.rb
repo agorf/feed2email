@@ -200,7 +200,11 @@ module Feed2Email
     end
 
     def processable_entries
-      parsed_entries.first(config['max_entries'])
+      if config['max_entries'] == false
+        parsed_entries # unlimited
+      else
+        parsed_entries.first(config['max_entries'])
+      end
     end
 
     def record_exception(error)
