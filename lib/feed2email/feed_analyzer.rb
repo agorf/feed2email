@@ -13,8 +13,6 @@ module Feed2Email
       Feedzirra::Feed.parse(response.body).title rescue nil
     end
 
-    # Based from
-    # https://github.com/yugui/rubycommitters/blob/master/opml-generator.rb
     def type
       return unless response
 
