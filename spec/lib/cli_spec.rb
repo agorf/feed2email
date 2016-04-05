@@ -217,9 +217,10 @@ describe Feed2Email::Cli do
 
           it 'uncaches it' do
             expect { discard_output { subject } }.to change {
-              feed.refresh
-              [feed.etag, feed.last_modified]
-            }.from([etag, last_modified]).to([nil, nil])
+              feed.refresh.etag
+            }.from(etag).to(nil).and change {
+              feed.refresh.last_modified
+            }.from(last_modified).to(nil)
           end
 
           it 'prints a relevant message' do
