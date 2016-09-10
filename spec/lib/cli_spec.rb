@@ -81,10 +81,8 @@ describe Feed2Email::Cli do
               end
 
               it 'prints a relevant message' do
-                expect($stdout).to receive(:puts).with(
-                  'Added feed:   1 https://github.com/agorf/feed2email/commits/master.atom')
-
-                subject
+                expect { subject }.to output("Added feed:   1 #{feed_url}\n").
+                  to_stdout
               end
             end
 
@@ -101,10 +99,8 @@ describe Feed2Email::Cli do
               end
 
               it 'prints a relevant message' do
-                expect($stdout).to receive(:puts).with(
-                  "Added feed:   1 #{feed_url}")
-
-                subject
+                expect { subject }.to output("Added feed:   1 #{feed_url}\n").
+                  to_stdout
               end
             end
           end
