@@ -426,7 +426,7 @@ describe Feed2Email::Cli do
 
         context 'and uncached feed' do
           before do
-            feed.update(etag: nil, last_modified: nil)
+            feed.uncache
           end
 
           it 'remains uncached' do
