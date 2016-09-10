@@ -253,14 +253,24 @@ describe Feed2Email::Cli do
 
       before do
         feed.save
-
-        expect(Thor::LineEditor).to receive(:readline).with(
-          'Are you sure? ', add_to_history: false
-        ).and_return(removal_confirmation)
       end
 
-      context 'and unconfirmed removal' do
-        let(:removal_confirmation) { 'n' }
+      context 'and removal is interrupted' do
+        before do
+          expect(Thor::LineEditor).to receive(:readline).with(
+            'Are you sure? ', add_to_history: false).and_raise(Interrupt)
+        end
+
+        it 'exits' do
+          expect { discard_output { subject } }.to raise_error(SystemExit)
+        end
+      end
+
+      context 'and removal is not confirmed' do
+        before do
+          expect(Thor::LineEditor).to receive(:readline).with(
+            'Are you sure? ', add_to_history: false).and_return('n')
+        end
 
         it 'does not remove feed' do
           discard_output { subject }
@@ -274,8 +284,11 @@ describe Feed2Email::Cli do
         end
       end
 
-      context 'and confirmed removal' do
-        let(:removal_confirmation) { 'y' }
+      context 'and removal is confirmed' do
+        before do
+          expect(Thor::LineEditor).to receive(:readline).with(
+            'Are you sure? ', add_to_history: false).and_return('y')
+        end
 
         context 'and unsuccessful removal' do
           before do
