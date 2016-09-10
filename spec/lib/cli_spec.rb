@@ -279,8 +279,8 @@ describe Feed2Email::Cli do
 
         context 'and unsuccessful removal' do
           before do
-            allow(Feed2Email::Feed).to receive(:[]).with(id).and_return(feed)
-            allow(feed).to receive(:delete).and_return(false)
+            allow_any_instance_of(Feed2Email::Feed).to receive(:delete).
+              and_return(false)
           end
 
           it 'raises error with relevant message' do
@@ -327,8 +327,8 @@ describe Feed2Email::Cli do
 
       context 'and unsuccessful toggle' do
         before do
-          allow(Feed2Email::Feed).to receive(:[]).with(id).and_return(feed)
-          allow(feed).to receive(:toggle).and_return(false)
+          allow_any_instance_of(Feed2Email::Feed).to receive(:update).
+            with(enabled: false).and_return(false)
         end
 
         it 'raises error with relevant message' do
@@ -392,8 +392,8 @@ describe Feed2Email::Cli do
 
       context 'and unsuccessful uncache' do
         before do
-          allow(Feed2Email::Feed).to receive(:[]).with(id).and_return(feed)
-          allow(feed).to receive(:uncache).and_return(false)
+          allow_any_instance_of(Feed2Email::Feed).to receive(:update).
+            with(last_modified: nil, etag: nil).and_return(false)
         end
 
         it 'raises error with relevant message' do
