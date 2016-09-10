@@ -254,12 +254,13 @@ describe Feed2Email::Cli do
       before do
         feed.save
 
-        allow(cli).to receive(:yes?).with('Are you sure?').and_return(
-          confirmed_removal)
+        expect(Thor::LineEditor).to receive(:readline).with(
+          'Are you sure? ', add_to_history: false
+        ).and_return(removal_confirmation)
       end
 
       context 'and unconfirmed removal' do
-        let(:confirmed_removal) { false }
+        let(:removal_confirmation) { 'n' }
 
         it 'does not remove feed' do
           discard_output { subject }
@@ -274,7 +275,7 @@ describe Feed2Email::Cli do
       end
 
       context 'and confirmed removal' do
-        let(:confirmed_removal) { true }
+        let(:removal_confirmation) { 'y' }
 
         context 'and unsuccessful removal' do
           before do
