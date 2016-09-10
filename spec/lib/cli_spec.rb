@@ -318,6 +318,10 @@ describe Feed2Email::Cli do
     context 'with valid feed id' do
       let(:id) { feed.id }
 
+      before do
+        feed.save
+      end
+
       context 'and unsuccessful toggle' do
         before do
           allow(Feed2Email::Feed).to receive(:[]).with(id).and_return(feed)
