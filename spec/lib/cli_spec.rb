@@ -5,13 +5,200 @@ require 'feed2email/feed'
 require 'feed2email/version'
 
 describe Feed2Email::Cli do
-  subject(:cli) { described_class.new }
+  subject(:cli) { described_class.new([], cli_options) }
+
+  let(:cli_options) { {} }
+
+  let(:feed) { Feed2Email::Feed.new(uri: feed_url) }
 
   let(:feed_url) { 'https://github.com/agorf/feed2email/commits/master.atom' }
-  let(:feed) { Feed2Email::Feed.create(uri: feed_url) }
 
   before do
     allow(Feed2Email).to receive(:setup_database)
+  end
+
+  describe '#add' do
+    subject { cli.add(add_url) }
+
+    context 'with invalid URL' do
+      let(:add_url) { feed_url.sub('.com/', '.invalid/') }
+
+      let(:error) { SocketError.new('getaddrinfo: Name or service not known') }
+
+      before do
+        stub_request(:head, add_url).to_raise(error)
+      end
+
+      it 'does not add feed' do
+        expect { discard_thor_error { subject } }.not_to change {
+          Feed2Email::Feed.where(uri: feed_url).count }
+      end
+
+      it 'raises error with relevant message' do
+        expect { subject }.to raise_error(Thor::Error).with_message(
+          error.message)
+      end
+    end
+
+    context 'with valid URL' do
+      context 'of a feed' do
+        let(:add_url) { feed_url }
+
+        before do
+          stub_request(:any, add_url).to_return(
+            body: File.read(fixture_path('github_feed2email.atom')),
+            headers: { content_type: 'application/rss+xml' }
+          )
+        end
+
+        context 'and a feed with the same URL already exists' do
+          before do
+            feed.save
+          end
+
+          it 'raises error with relevant message' do
+            expect { subject }.to raise_error(Thor::Error).with_message(
+              /\bFeed already exists\b/)
+          end
+        end
+
+        context 'and a feed with the same URL does not exist' do
+          before do
+            Feed2Email::Feed.where(uri: feed_url).delete
+          end
+
+          context 'and successful feed save' do
+            context 'and without --send-existing option' do
+              before do
+                cli_options[:send_existing] = false
+              end
+
+              it 'adds the feed with the option to false' do
+                expect { discard_output { subject } }.to change {
+                  Feed2Email::Feed.where(uri: feed_url, send_existing: false).
+                    count
+                }.from(0).to(1)
+              end
+
+              it 'prints a relevant message' do
+                expect($stdout).to receive(:puts).with(
+                  'Added feed:   1 https://github.com/agorf/feed2email/commits/master.atom')
+
+                subject
+              end
+            end
+
+            context 'and with --send-existing option' do
+              before do
+                cli_options[:send_existing] = true
+              end
+
+              it 'adds the feed with the option to true' do
+                expect { discard_output { subject } }.to change {
+                  Feed2Email::Feed.where(uri: feed_url, send_existing: true).
+                    count
+                }.from(0).to(1)
+              end
+
+              it 'prints a relevant message' do
+                expect($stdout).to receive(:puts).with(
+                  "Added feed:   1 #{feed_url}")
+
+                subject
+              end
+            end
+          end
+
+          context 'and unsuccessful feed save' do
+            before do
+              allow_any_instance_of(Feed2Email::Feed).to receive(:save).
+                and_return(false)
+            end
+
+            it 'does not add feed' do
+              expect { discard_thor_error { subject } }.not_to change {
+                Feed2Email::Feed.where(uri: feed_url).count }
+            end
+
+            it 'raises error with relevant message' do
+              expect { subject }.to raise_error(Thor::Error).with_message(
+                'Failed to add feed')
+            end
+          end
+        end
+      end
+
+      context 'of an HTML page' do
+        let(:add_url) { 'https://www.ruby-lang.org/en/' }
+
+        before do
+          stub_request(:any, add_url).to_return(
+            body: body,
+            headers: { content_type: 'text/html' }
+          )
+        end
+
+        context 'containing no linked feeds' do
+          let(:body) { '<html><head></head><body></body></html>' }
+
+          it 'raises error with relevant message' do
+            expect { subject }.to raise_error(Thor::Error).with_message(
+              'No feeds found')
+          end
+        end
+
+        context 'containing a linked feed' do
+          let(:body) { File.read(fixture_path('ruby-lang.org.html')) }
+
+          let(:feed_url) { 'https://www.ruby-lang.org/en/feeds/news.rss' }
+
+          context 'and a feed with the same URL already exists' do
+            before do
+              feed.save
+            end
+
+            it 'raises error with relevant message' do
+              expect { subject }.to raise_error(Thor::Error).with_message(
+                'No new feeds found')
+            end
+          end
+
+          context 'and a feed with the same URL does not exist' do
+            before do
+              Feed2Email::Feed.where(uri: feed_url).delete
+            end
+
+            context 'and selection is interrupted' do
+              before do
+                expect(Thor::LineEditor).to receive(:readline).
+                  with('Please enter a feed to subscribe to (or Ctrl-C to abort): [0] ',
+                       limited_to: ['0']).and_raise(Interrupt)
+              end
+
+              it 'exits' do
+                expect { discard_output { subject } }.to raise_error(SystemExit)
+              end
+            end
+
+            context 'and feed is selected' do
+              before do
+                expect(Thor::LineEditor).to receive(:readline).
+                  with('Please enter a feed to subscribe to (or Ctrl-C to abort): [0] ',
+                       limited_to: ['0']).and_return('0')
+
+                cli_options[:send_existing] = false
+              end
+
+              it 'adds the feed' do
+                expect { discard_output { subject } }.to change {
+                  Feed2Email::Feed.where(uri: feed_url).count
+                }.from(0).to(1)
+              end
+            end
+          end
+        end
+      end
+    end
   end
 
   describe '#backend' do

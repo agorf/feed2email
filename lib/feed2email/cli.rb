@@ -25,7 +25,7 @@ module Feed2Email
         error 'Failed to add feed'
       end
 
-      puts "Added feed: #{feed}"
+      $stdout.puts "Added feed: #{feed}"
     end
 
     desc 'backend', 'Open an SQLite console to the database'

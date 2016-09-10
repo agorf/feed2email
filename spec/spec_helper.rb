@@ -41,6 +41,13 @@ def discard_output
   $stdout, $stdeer = stdout, stderr # restore
 end
 
+def discard_thor_error
+  begin
+    yield
+  rescue Thor::Error
+  end
+end
+
 def fixture_path(filename)
   File.join('spec', 'fixtures', filename)
 end
