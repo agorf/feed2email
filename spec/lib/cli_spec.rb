@@ -35,8 +35,7 @@ describe Feed2Email::Cli do
       end
 
       it 'raises error with relevant message' do
-        expect { subject }.to raise_error(Thor::Error).with_message(
-          error.message)
+        expect { subject }.to raise_error(Thor::Error, error.message)
       end
     end
 
@@ -57,8 +56,8 @@ describe Feed2Email::Cli do
           end
 
           it 'raises error with relevant message' do
-            expect { subject }.to raise_error(Thor::Error).with_message(
-              /\bFeed already exists\b/)
+            expect { subject }.to raise_error(Thor::Error,
+              "Feed already exists: #{feed}")
           end
         end
 
@@ -117,7 +116,7 @@ describe Feed2Email::Cli do
             end
 
             it 'raises error with relevant message' do
-              expect { subject }.to raise_error(Thor::Error).with_message(
+              expect { subject }.to raise_error(Thor::Error,
                 'Failed to add feed')
             end
           end
@@ -138,8 +137,7 @@ describe Feed2Email::Cli do
           let(:body) { '<html><head></head><body></body></html>' }
 
           it 'raises error with relevant message' do
-            expect { subject }.to raise_error(Thor::Error).with_message(
-              'No feeds found')
+            expect { subject }.to raise_error(Thor::Error, 'No feeds found')
           end
         end
 
@@ -154,7 +152,7 @@ describe Feed2Email::Cli do
             end
 
             it 'raises error with relevant message' do
-              expect { subject }.to raise_error(Thor::Error).with_message(
+              expect { subject }.to raise_error(Thor::Error,
                 'No new feeds found')
             end
           end
@@ -216,7 +214,7 @@ describe Feed2Email::Cli do
       end
 
       it 'raises error with relevant message' do
-        expect { subject }.to raise_error(Thor::Error).with_message(
+        expect { subject }.to raise_error(Thor::Error,
           'EDITOR environmental variable not set')
       end
     end
@@ -243,7 +241,7 @@ describe Feed2Email::Cli do
       let(:id) { 100_000_000 }
 
       it 'raises error with relevant message' do
-        expect { subject }.to raise_error(Thor::Error).with_message(
+        expect { subject }.to raise_error(Thor::Error,
           "Feed not found. Is #{id} a valid id?")
       end
     end
@@ -297,8 +295,8 @@ describe Feed2Email::Cli do
           end
 
           it 'raises error with relevant message' do
-            expect { discard_output { subject } }.to raise_error(
-              Thor::Error).with_message('Failed to remove feed')
+            expect { discard_output { subject } }.to raise_error(Thor::Error,
+              'Failed to remove feed')
           end
         end
 
@@ -306,8 +304,8 @@ describe Feed2Email::Cli do
           it 'removes feed' do
             discard_output { subject }
 
-            expect { feed.refresh }.to raise_error(Sequel::Error).with_message(
-              /Record not found/)
+            expect { feed.refresh }.to raise_error(Sequel::Error,
+              'Record not found')
           end
 
           it 'prints a relevant message' do
@@ -326,7 +324,7 @@ describe Feed2Email::Cli do
       let(:id) { 100_000_000 }
 
       it 'raises error with relevant message' do
-        expect { subject }.to raise_error(Thor::Error).with_message(
+        expect { subject }.to raise_error(Thor::Error,
           "Feed not found. Is #{id} a valid id?")
       end
     end
@@ -345,7 +343,7 @@ describe Feed2Email::Cli do
         end
 
         it 'raises error with relevant message' do
-          expect { subject }.to raise_error(Thor::Error).with_message(
+          expect { subject }.to raise_error(Thor::Error,
             'Failed to toggle feed')
         end
       end
@@ -391,7 +389,7 @@ describe Feed2Email::Cli do
       let(:id) { 100_000_000 }
 
       it 'raises error with relevant message' do
-        expect { subject }.to raise_error(Thor::Error).with_message(
+        expect { subject }.to raise_error(Thor::Error,
           "Feed not found. Is #{id} a valid id?")
       end
     end
@@ -410,7 +408,7 @@ describe Feed2Email::Cli do
         end
 
         it 'raises error with relevant message' do
-          expect { subject }.to raise_error(Thor::Error).with_message(
+          expect { subject }.to raise_error(Thor::Error,
             'Failed to uncache feed')
         end
       end
