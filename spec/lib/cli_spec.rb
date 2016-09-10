@@ -252,6 +252,8 @@ describe Feed2Email::Cli do
       let(:id) { feed.id }
 
       before do
+        feed.save
+
         allow(cli).to receive(:yes?).with('Are you sure?').and_return(
           confirmed_removal)
       end
