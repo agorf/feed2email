@@ -268,7 +268,8 @@ describe Feed2Email::Cli do
         end
 
         it 'prints a relevant message' do
-          expect { subject }.to output(/\bNot removed\b/).to_stdout
+          expect { subject }.to output("Remove feed: #{feed}\nNot removed\n").
+            to_stdout
         end
       end
 
@@ -296,7 +297,8 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(/\bRemoved\b/).to_stdout
+            expect { subject }.to output("Remove feed: #{feed}\nRemoved\n").
+              to_stdout
           end
         end
       end
@@ -346,7 +348,7 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(/\bToggled feed\b/).to_stdout
+            expect { subject }.to output { "Toggled feed: #{feed}\n" }.to_stdout
           end
         end
 
@@ -361,7 +363,7 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(/\bToggled feed\b/).to_stdout
+            expect { subject }.to output { "Toggled feed: #{feed}\n" }.to_stdout
           end
         end
       end
@@ -417,7 +419,7 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(/\bUncached feed\b/).to_stdout
+            expect { subject }.to output("Uncached feed: #{feed}\n").to_stdout
           end
         end
 
@@ -434,7 +436,7 @@ describe Feed2Email::Cli do
           end
 
           it 'prints a relevant message' do
-            expect { subject }.to output(/\bUncached feed\b/).to_stdout
+            expect { subject }.to output("Uncached feed: #{feed}\n").to_stdout
           end
         end
       end
@@ -445,8 +447,8 @@ describe Feed2Email::Cli do
     subject { cli.version }
 
     it 'prints the feed2email version' do
-      expect { subject }.to output(
-        "feed2email #{Feed2Email::VERSION}\n").to_stdout
+      expect { subject }.to output("feed2email #{Feed2Email::VERSION}\n").
+        to_stdout
     end
   end
 end
