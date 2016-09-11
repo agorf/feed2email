@@ -234,6 +234,64 @@ describe Feed2Email::Cli do
     end
   end
 
+  describe '#list' do
+    subject { cli.list }
+
+    context 'with no feeds' do
+      before do
+        Feed2Email::Feed.dataset.delete
+      end
+
+      it 'raises error with relevant message' do
+        expect { subject }.to raise_error(Thor::Error, 'No feeds')
+      end
+    end
+
+    context 'with a feed' do
+      before do
+        feed.save
+      end
+
+      it 'prints them and their count' do
+        expect { subject }.to output(
+          "#{feed}\n"\
+          "\n"\
+          "Subscribed to 1 feed\n"
+        ).to_stdout
+      end
+
+      context 'and a second feed' do
+        let!(:another_feed) { Feed2Email::Feed.create(uri: another_feed_url) }
+
+        let(:another_feed_url) { 'https://www.ruby-lang.org/en/feeds/news.rss' }
+
+        it 'prints them oldest-first and their count' do
+          expect { subject }.to output(
+            "#{feed}\n"\
+            "#{another_feed}\n"\
+            "\n"\
+            "Subscribed to 2 feeds\n"
+          ).to_stdout
+        end
+
+        context 'that is disabled' do
+          before do
+            another_feed.toggle
+          end
+
+          it 'prints them oldest-first and their total/enabled count' do
+            expect { subject }.to output(
+              "#{feed}\n"\
+              "#{another_feed}\n"\
+              "\n"\
+              "Subscribed to 2 feeds (1 enabled)\n"
+            ).to_stdout
+          end
+        end
+      end
+    end
+  end
+
   describe '#remove' do
     subject { cli.remove(id) }
 
