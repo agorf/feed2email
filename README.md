@@ -313,7 +313,7 @@ get helpful text on how to use feed2email.
 
 ## Contributing
 
-Using feed2email and want to help? [Let me know](http://agorf.gr/) how you use
+Using feed2email and want to help? [Let me know](https://agorf.gr/) how you use
 it and if you have any ideas on how to improve it.
 
 ## License
@@ -324,4 +324,4 @@ Licensed under the MIT license (see [LICENSE.txt][license]).
 
 ## Author
 
-Angelos Orfanakos, <http://agorf.gr/>
+Angelos Orfanakos, <https://agorf.gr/>
