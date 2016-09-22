@@ -11,7 +11,7 @@ describe Feed2Email::Cli do
 
   let(:feed) { Feed2Email::Feed.new(uri: feed_url) }
 
-  let(:feed_url) { 'https://github.com/agorf/feed2email/commits/master.atom' }
+  let(:feed_url) { 'https://github.com/agorf.atom' }
 
   before do
     allow(Feed2Email).to receive(:setup_database)
@@ -231,6 +231,121 @@ describe Feed2Email::Cli do
 
         subject
       end
+    end
+  end
+
+  describe '#export' do
+    subject { cli.export(path) }
+
+    let(:path) { File.join(Dir.mktmpdir, 'feeds.opml') }
+
+    shared_examples 'export examples' do |existing_file_data|
+      context 'and there are no subscribed feeds' do
+        before do
+          Feed2Email::Feed.dataset.delete
+        end
+
+        it 'raises error with relevant message' do
+          expect { subject }.to raise_error(Thor::Error, 'No feeds to export')
+        end
+      end
+
+      context 'and there is a subscribed feed' do
+        before do
+          feed.save
+
+          stub_request(:any, feed.uri).to_return(
+            body: File.read(fixture_path('github_agorf.atom')),
+            headers: { content_type: 'application/atom+xml' }
+          )
+        end
+
+        it 'prints a relevant message with singular form' do
+          expect { subject }.to output(
+            "Exporting... (this may take a while)\n"\
+            "Exported 1 feed subscription to #{path}\n").to_stdout
+        end
+
+        context 'and there is another subscribed feed' do
+          let!(:another_feed) {
+            Feed2Email::Feed.create(uri: another_feed_url)
+          }
+
+          let(:another_feed_url) {
+            'https://github.com/agorf/feed2email/commits/master.atom'
+          }
+
+          before do
+            expect(Time).to receive(:now).and_return('2015-12-03 00:20:14 +0200')
+            expect(ENV).to receive(:[]).with('USER').and_return('agorf')
+
+            stub_request(:any, another_feed.uri).to_return(
+              body: File.read(fixture_path('github_feed2email.atom')),
+              headers: { content_type: 'application/atom+xml' }
+            )
+          end
+
+          it 'prints a relevant message with plural form' do
+            expect { subject }.to output(
+              "Exporting... (this may take a while)\n"\
+              "Exported 2 feed subscriptions to #{path}\n").to_stdout
+          end
+
+          it 'exports feeds as OPML to specified path' do
+            expect { discard_output { subject } }.to change {
+              begin
+                File.read(path)
+              rescue Errno::ENOENT
+              end
+            }.from(existing_file_data).to(File.read(fixture_path('feeds.opml')))
+          end
+        end
+
+        context 'and no bytes are written' do
+          before do
+            expect_any_instance_of(Feed2Email::OPMLWriter).to receive(:write).
+              and_return(0)
+          end
+
+          it 'prints a relevant message' do
+            expect { subject }.to output(
+              "Exporting... (this may take a while)\n"\
+              "No feed subscriptions exported\n").to_stdout
+          end
+        end
+      end
+    end
+
+    context 'when file already exists' do
+      before do
+        open(path, 'w') {|f| f.write('foo') }
+
+        expect(Thor::LineEditor).to receive(:readline).with(
+          "Overwrite #{path}? (enter \"h\" for help) [Ynaqh] ",
+          add_to_history: false).and_return(overwrite_response)
+      end
+
+      context 'and overwrite is not confirmed' do
+        let(:overwrite_response) { 'n' }
+
+        it 'does not overwrite the file' do
+          expect { subject }.not_to change { File.read(path) }
+        end
+      end
+
+      context 'and overwrite is confirmed' do
+        let(:overwrite_response) { 'y' }
+
+        include_examples 'export examples', 'foo'
+      end
+    end
+
+    context 'when file does not exist' do
+      before do
+        FileUtils.rm_f(path)
+      end
+
+      include_examples 'export examples', nil
     end
   end
 
