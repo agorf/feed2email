@@ -352,7 +352,7 @@ describe Feed2Email::Cli do
   describe '#list' do
     subject { cli.list }
 
-    context 'with no feeds' do
+    context 'when there are no subscribed feeds' do
       before do
         Feed2Email::Feed.dataset.delete
       end
@@ -362,12 +362,12 @@ describe Feed2Email::Cli do
       end
     end
 
-    context 'with a feed' do
+    context 'when there is a subscribed feed' do
       before do
         feed.save
       end
 
-      it 'prints them and their count' do
+      it 'prints the feeds and their count' do
         expect { subject }.to output(
           "#{feed}\n"\
           "\n"\
@@ -375,12 +375,12 @@ describe Feed2Email::Cli do
         ).to_stdout
       end
 
-      context 'and a second feed' do
+      context 'and another feed' do
         let!(:another_feed) { Feed2Email::Feed.create(uri: another_feed_url) }
 
         let(:another_feed_url) { 'https://www.ruby-lang.org/en/feeds/news.rss' }
 
-        it 'prints them oldest-first and their count' do
+        it 'prints the feeds oldest-first and their count' do
           expect { subject }.to output(
             "#{feed}\n"\
             "#{another_feed}\n"\
@@ -394,7 +394,7 @@ describe Feed2Email::Cli do
             another_feed.toggle
           end
 
-          it 'prints them oldest-first and their total/enabled count' do
+          it 'prints the feeds oldest-first and their total/enabled count' do
             expect { subject }.to output(
               "#{feed}\n"\
               "#{another_feed}\n"\
