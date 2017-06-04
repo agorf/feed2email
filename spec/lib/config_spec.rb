@@ -42,6 +42,8 @@ describe Feed2Email::Config do
   context 'when config does not exist' do
     before do
       FileUtils.rm_f(config_path)
+
+      expect(Socket).to receive(:gethostname).and_return('olympus').twice
     end
 
     it 'gets created' do
@@ -54,22 +56,12 @@ describe Feed2Email::Config do
       expect(File.stat(config_path).mode & 0777).to eq 0600
     end
 
-    it 'contains the defaults' do
+    it 'contains a default config' do
       subject
 
       expect(YAML.safe_load(File.read(config_path))).to eq(
-        'log_level'       => 'info',
-        'log_path'        => true,
-        'log_shift_age'   => 0,
-        'log_shift_size'  => 1,
-        'mail_path'       => File.join(ENV['HOME'], 'Mail'),
-        'max_entries'     => 20,
-        'send_delay'      => 10,
-        'send_exceptions' => false,
-        'send_method'     => 'file',
-        'sendmail_path'   => '/usr/sbin/sendmail',
-        'smtp_auth'       => 'login',
-        'smtp_starttls'   => true,
+        'sender' => 'feed2email@olympus',
+        'recipient' => ENV['USER'] + '@olympus',
       )
     end
   end

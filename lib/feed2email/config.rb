@@ -108,7 +108,7 @@ module Feed2Email
     def create_default_config
       open(path, 'w') # touch
       File.chmod(0600, path)
-      open(path, 'w') {|f| f << defaults.to_yaml }
+      open(path, 'w') {|f| f << default_config.to_yaml }
     end
 
     def data
@@ -130,6 +130,18 @@ module Feed2Email
         'smtp_auth'       => 'login',
         'smtp_starttls'   => true,
       }
+    end
+
+    def default_config
+      {
+        'sender' => "feed2email@#{hostname}",
+        'recipient' => ENV.fetch('USER') + "@#{hostname}",
+      }
+    end
+
+    def hostname
+      require 'socket'
+      Socket.gethostname
     end
 
     attr_reader :path
