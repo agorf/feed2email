@@ -1,14 +1,16 @@
 # feed2email [![Gem Version](https://badge.fury.io/rb/feed2email.svg)](http://badge.fury.io/rb/feed2email) [![Build Status](https://travis-ci.org/agorf/feed2email.png?branch=master)](https://travis-ci.org/agorf/feed2email)
 
-feed2email is a [headless][] RSS/Atom feed aggregator that sends feed entries
-via email. It was initially written as a replacement of [rss2email][] and aims
-to be simple, fast and easy to use.
+feed2email is a [headless][] feed aggregator that sends feed entries via email.
+
+It was initially written as a replacement of [rss2email][] and aims to be
+simple, fast and easy to use.
 
 [headless]: http://en.wikipedia.org/wiki/Headless_software
 [rss2email]: http://www.allthingsrss.com/rss2email/
 
 ## Features
 
+* [RSS][] and [Atom][] feed format support
 * Command-line feed management (add, remove, enable/disable)
 * Feed fetching caching (_Last-Modified_ and _ETag_ HTTP headers)
 * [Feed autodiscovery](http://www.rssboard.org/rss-autodiscovery)
@@ -18,6 +20,8 @@ to be simple, fast and easy to use.
 * _text/html_ and _text/plain_ (Markdown) multipart emails
 * Temporary and permanent redirection support for feed URLs
 
+[RSS]: http://www.rssboard.org/rss-specification
+[Atom]: https://tools.ietf.org/html/rfc4287
 [OPML]: http://en.wikipedia.org/wiki/OPML
 [Sendmail]: http://en.wikipedia.org/wiki/Sendmail
 [MTA]: http://en.wikipedia.org/wiki/Message_transfer_agent
