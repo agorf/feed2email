@@ -167,7 +167,8 @@ $ f2e add http://www.rubyinside.com/
 0: http://www.rubyinside.com/feed/ "Ruby Inside" (application/rss+xml)
 Please enter a feed to subscribe to (or Ctrl-C to abort): [0] 0
 Added feed:   3 http://www.rubyinside.com/feed/
-$ f2e add http://thechangelog.com/137/
+$ # the http:// part is optional
+$ f2e add thechangelog.com/137/
 0: http://thechangelog.com/137/feed/ "The Changelog » #137: Better GitHub Issues with HuBoard and Ryan Rauh Comments Feed" (application/rss+xml)
 1: http://thechangelog.com/feed/ "RSS 2.0 Feed" (application/rss+xml)
 Please enter a feed to subscribe to (or Ctrl-C to abort): [0, 1] 1
