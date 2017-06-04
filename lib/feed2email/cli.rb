@@ -13,6 +13,8 @@ module Feed2Email
       Feed2Email.setup_database
       require 'feed2email/feed'
 
+      uri = "http://#{uri}" unless uri =~ %r{\Ahttps?://}
+
       begin
         uri = autodiscover_feeds(uri)
       rescue => e

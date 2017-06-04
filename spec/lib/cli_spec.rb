@@ -83,6 +83,19 @@ describe Feed2Email::Cli do
                 expect { subject }.to output("Added feed:   1 #{feed_url}\n").
                   to_stdout
               end
+
+              context 'and URL has no protocol' do
+                let(:add_url) { feed_url.sub(%r{\Ahttps?://}, '') }
+
+                let(:added_url) { "http://#{add_url}" }
+
+                it 'adds the feed with the option to false' do
+                  expect { discard_output { subject } }.to change {
+                    Feed2Email::Feed.where(uri: added_url,
+                                           send_existing: false).count
+                  }.from(0).to(1)
+                end
+              end
             end
 
             context 'and with --send-existing option' do
