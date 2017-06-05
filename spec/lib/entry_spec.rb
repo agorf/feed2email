@@ -47,6 +47,44 @@ describe Feed2Email::Entry do
     described_class.last_email_sent_at = nil
   end
 
+  describe '.build_from_parsed_entry' do
+    subject(:entry) do
+      described_class.build_from_parsed_entry(parsed_entry, url: url,
+                                              feed_id: feed.id,
+                                              feed_title: feed_title)
+    end
+
+    describe 'entry author' do
+      subject { entry.author }
+
+      it { is_expected.to eq author }
+    end
+
+    describe 'entry content' do
+      subject { entry.content }
+
+      it { is_expected.to eq content }
+    end
+
+    describe 'entry published' do
+      subject { entry.published }
+
+      it { is_expected.to eq published }
+    end
+
+    describe 'entry title' do
+      subject { entry.title }
+
+      it { is_expected.to eq title }
+    end
+
+    describe 'entry feed title' do
+      subject { entry.feed_title }
+
+      it { is_expected.to eq feed_title }
+    end
+  end
+
   describe '#process' do
     subject { entry.process }
 

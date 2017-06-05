@@ -23,6 +23,16 @@ module Feed2Email
 
     attr_accessor :author, :content, :published, :title, :feed_title
 
+    def self.build_from_parsed_entry(parsed_entry, url:, feed_id:, feed_title:)
+      Entry.new(feed_id: feed_id, uri: url).tap do |e|
+        e.author     = parsed_entry.author
+        e.content    = parsed_entry.content || parsed_entry.summary
+        e.published  = parsed_entry.published
+        e.title      = parsed_entry.title.strip.strip_html if parsed_entry.title
+        e.feed_title = feed_title
+      end
+    end
+
     def process
       if missing_data?
         logger.warn 'Skipping entry with missing data...'
