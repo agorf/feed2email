@@ -4,6 +4,10 @@ require 'feed2email/core_ext/string_refinements'
 class RefinedClass
   using Feed2Email::CoreExt::StringRefinements
 
+  def self.blank?(str)
+    str.blank?
+  end
+
   def self.escape_html(html)
     html.escape_html
   end
@@ -30,6 +34,28 @@ class RefinedClass
 end
 
 describe String do
+  describe '#blank?' do
+    subject { RefinedClass.blank?(str) }
+
+    context 'input is nil' do
+      let(:str) { nil }
+
+      it { is_expected.to eq true }
+    end
+
+    context 'input is empty' do
+      let(:str) { ' ' }
+
+      it { is_expected.to eq true }
+    end
+
+    context 'input is neither nil, nor empty' do
+      let(:str) { ' foo' }
+
+      it { is_expected.to eq false }
+    end
+  end
+
   describe '#escape_html' do
     subject { RefinedClass.escape_html(html) }
 

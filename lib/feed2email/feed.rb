@@ -131,8 +131,7 @@ module Feed2Email
     end
 
     def fully_qualified_entry_url(entry_url_or_path)
-      return if entry_url_or_path.nil?
-      return if entry_url_or_path.strip.empty?
+      return if entry_url_or_path.blank?
       return entry_url_or_path unless entry_url_or_path =~ %r{\A/[^/]}
 
       URI.join(uri[%r{https?://[^/]+}], entry_url_or_path).to_s

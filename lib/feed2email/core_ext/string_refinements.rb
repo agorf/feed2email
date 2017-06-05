@@ -6,6 +6,10 @@ module Feed2Email
   module CoreExt
     module StringRefinements
       refine String do
+        def blank?
+          nil? || lstrip.empty?
+        end
+
         def escape_html
           CGI.escapeHTML(self)
         end
