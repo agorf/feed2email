@@ -19,11 +19,11 @@ describe Feed2Email::Entry do
   let(:feed_url) { 'https://github.com/agorf/feed2email/commits/master.atom' }
   let(:feed_send_existing) { false }
   let(:feed) {
-    Feed2Email::Feed.create(uri: feed_url, send_existing: feed_send_existing)
+    Feed2Email::Feed.create(url: feed_url, send_existing: feed_send_existing)
   }
 
   subject(:entry) do
-    described_class.new(feed_id: feed.id, uri: url).tap do |e|
+    described_class.new(feed_id: feed.id, url: url).tap do |e|
       e.author     = author
       e.content    = content
       e.published  = published
@@ -36,7 +36,7 @@ describe Feed2Email::Entry do
   let(:config) { {} }
 
   before do
-    described_class.create(feed_id: feed.id, uri: parsed_feed.entries[1].url) # Feed#old? => true
+    described_class.create(feed_id: feed.id, url: parsed_feed.entries[1].url) # Feed#old? => true
 
     allow(logger).to receive(:warn)
     allow(logger).to receive(:debug)

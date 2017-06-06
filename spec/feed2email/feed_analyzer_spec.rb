@@ -2,16 +2,16 @@ require 'spec_helper'
 require 'feed2email/feed_analyzer'
 
 describe Feed2Email::FeedAnalyzer do
-  subject(:analyzer) { described_class.new(uri) }
+  subject(:analyzer) { described_class.new(url) }
 
   let(:basename) { 'master' }
   let(:ext) { 'atom' }
-  let(:uri) { "https://github.com/agorf/feed2email/commits/#{basename}.#{ext}" }
+  let(:url) { "https://github.com/agorf/feed2email/commits/#{basename}.#{ext}" }
   let(:body) { File.read(fixture_path('github_feed2email.atom')) }
   let(:content_type) { 'application/atom+xml' }
 
   before do
-    stub_request(:any, uri).to_return(
+    stub_request(:any, url).to_return(
       body: body,
       headers: { content_type: content_type }
     )

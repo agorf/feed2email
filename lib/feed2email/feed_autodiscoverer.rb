@@ -26,8 +26,8 @@ module Feed2Email
 
     attr_reader :url
 
-    def base_uri
-      @base_uri ||= if base = html_head.at_css('base[href]')
+    def base_url
+      @base_url ||= if base = html_head.at_css('base[href]')
         base['href']
       else
         fetcher.url
@@ -38,7 +38,7 @@ module Feed2Email
       url = link['href']
 
       if link['href'] !~ %r{\Ahttps?://} # relative
-        url = URI.join(base_uri, url).to_s
+        url = URI.join(base_url, url).to_s
       end
 
       DiscoveredFeed.new(url, link['type'], link['title'])

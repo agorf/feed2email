@@ -36,7 +36,7 @@ module Feed2Email
     end
 
     def path
-      fetcher.uri_path
+      fetcher.url_path
     end
 
     def type_from_basename

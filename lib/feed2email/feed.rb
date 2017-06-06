@@ -34,7 +34,7 @@ module Feed2Email
     end
 
     def process
-      logger.info "Processing feed #{uri} ..."
+      logger.info "Processing feed #{url} ..."
 
       old_last_modified, old_etag = last_modified, etag
 
@@ -64,7 +64,7 @@ module Feed2Email
     def to_s
       parts = [id.to_s.rjust(3)] # align right 1-999
       parts << 'DISABLED' unless enabled
-      parts << uri
+      parts << url
       parts << "last email at #{last_email_at}" if last_email_at
       parts.join(' ')
     end
@@ -93,7 +93,7 @@ module Feed2Email
       begin
         handle_redirection!
 
-        fetcher = HTTPFetcher.new(uri, request_headers: fetch_headers)
+        fetcher = HTTPFetcher.new(url, request_headers: fetch_headers)
 
         if fetcher.not_modified?
           logger.info 'Feed not modified; skipping...'
@@ -130,15 +130,15 @@ module Feed2Email
       return if entry_url_or_path.blank?
       return entry_url_or_path unless entry_url_or_path =~ %r{\A/[^/]}
 
-      URI.join(uri[%r{https?://[^/]+}], entry_url_or_path).to_s
+      URI.join(url[%r{https?://[^/]+}], entry_url_or_path).to_s
     end
 
     def handle_redirection!
-      checker = RedirectionChecker.new(uri)
+      checker = RedirectionChecker.new(url)
 
       if checker.permanently_redirected?
         logger.warn 'Got permanently redirected!'
-        self.uri = checker.location
+        self.url = checker.location
         logger.warn "Updated feed location to #{checker.location}"
       end
     end
@@ -184,7 +184,7 @@ module Feed2Email
       entry = build_entry(parsed_entry)
 
       begin
-        logger.info "Processing entry #{index}/#{total} #{entry.uri} ..."
+        logger.info "Processing entry #{index}/#{total} #{entry.url} ..."
         entry.process
       rescue => e
         record_exception(e)

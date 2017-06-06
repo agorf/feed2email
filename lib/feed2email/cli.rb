@@ -8,20 +8,20 @@ module Feed2Email
     desc 'add URL', 'Subscribe to feed at URL'
     option :send_existing, type: :boolean, default: false,
       desc: 'Send email for existing entries'
-    def add(uri)
+    def add(url)
       require 'feed2email'
       Feed2Email.setup_database
       require 'feed2email/feed'
 
-      uri = "http://#{uri}" unless uri =~ %r{\Ahttps?://}
+      url = "http://#{url}" unless url =~ %r{\Ahttps?://}
 
       begin
-        uri = autodiscover_feeds(uri)
+        url = autodiscover_feeds(url)
       rescue => e
         error e.message
       end
 
-      feed = Feed.new(uri: uri, send_existing: options[:send_existing])
+      feed = Feed.new(url: url, send_existing: options[:send_existing])
 
       unless feed.save_without_raising
         error 'Failed to add feed'
@@ -63,10 +63,10 @@ module Feed2Email
       puts "Exporting... (this may take a while)"
 
       exported = File.open(path, "w") do |f|
-        uris = Feed.oldest_first.select_map(:uri)
+        urls = Feed.oldest_first.select_map(:url)
 
-        if OPMLWriter.new(uris).write(f) > 0
-          uris.size
+        if OPMLWriter.new(urls).write(f) > 0
+          urls.size
         end
       end
 
@@ -90,15 +90,15 @@ module Feed2Email
 
       puts "Importing..."
 
-      feeds = File.open(path) {|f| OPMLReader.new(f).urls }
+      feed_urls = File.open(path) {|f| OPMLReader.new(f).urls }
 
       imported = 0
 
-      feeds.each do |uri|
-        if feed = Feed[uri: uri]
+      feed_urls.each do |url|
+        if feed = Feed[url: url]
           puts "Feed already exists: #{feed}"
         else
-          feed = Feed.new(uri: uri)
+          feed = Feed.new(url: url)
 
           if feed.save_without_raising
             puts "Imported feed: #{feed}"
@@ -110,7 +110,7 @@ module Feed2Email
       end
 
       if options[:remove]
-        Feed.exclude(uri: feeds).each do |feed|
+        Feed.exclude(url: feed_urls).each do |feed|
           if feed.delete
             puts "Removed feed: #{feed}"
           else
@@ -228,28 +228,28 @@ module Feed2Email
     end
 
     no_commands do
-      def autodiscover_feeds(uri)
+      def autodiscover_feeds(url)
         require 'feed2email/feed_autodiscoverer'
 
-        discoverer = FeedAutodiscoverer.new(uri)
+        discoverer = FeedAutodiscoverer.new(url)
 
         unless discoverer.discoverable?
-          if feed = Feed[uri: uri]
+          if feed = Feed[url: url]
             error "Feed already exists: #{feed}"
           end
 
-          return uri
+          return url
         end
 
         if discoverer.feeds.empty?
           error 'No feeds found'
         end
 
-        subscribed_feed_uris = Feed.select_map(:uri)
+        subscribed_feed_urls = Feed.select_map(:url)
 
         # Exclude already subscribed feeds from results
         discovered_new_feeds = discoverer.feeds.reject {|feed|
-          subscribed_feed_uris.include?(feed.url)
+          subscribed_feed_urls.include?(feed.url)
         }
 
         if discovered_new_feeds.empty?
@@ -259,9 +259,9 @@ module Feed2Email
         width = discovered_new_feeds.size.to_s.size
 
         discovered_new_feeds.each_with_index do |feed, i|
-          puts '%{index}: %{uri} %{title}(%{content_type})' % {
+          puts '%{index}: %{url} %{title}(%{content_type})' % {
             index:        i.to_s.rjust(width),
-            uri:          feed.url,
+            url:          feed.url,
             title:        feed.title ? "\"#{feed.title}\" " : '',
             content_type: feed.content_type
           }

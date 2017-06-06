@@ -9,7 +9,7 @@ describe Feed2Email::Cli do
 
   let(:cli_options) { {} }
 
-  let(:feed) { Feed2Email::Feed.new(uri: feed_url) }
+  let(:feed) { Feed2Email::Feed.new(url: feed_url) }
 
   let(:feed_url) { 'https://github.com/agorf.atom' }
 
@@ -31,7 +31,7 @@ describe Feed2Email::Cli do
 
       it 'does not add feed' do
         expect { discard_thor_error { subject } }.not_to change {
-          Feed2Email::Feed.where(uri: feed_url).count }
+          Feed2Email::Feed.where(url: feed_url).count }
       end
 
       it 'raises error with relevant message' do
@@ -63,7 +63,7 @@ describe Feed2Email::Cli do
 
         context 'and a feed with the same URL does not exist' do
           before do
-            Feed2Email::Feed.where(uri: feed_url).delete
+            Feed2Email::Feed.where(url: feed_url).delete
           end
 
           context 'and successful feed save' do
@@ -74,7 +74,7 @@ describe Feed2Email::Cli do
 
               it 'adds the feed with the option to false' do
                 expect { discard_output { subject } }.to change {
-                  Feed2Email::Feed.where(uri: feed_url, send_existing: false).
+                  Feed2Email::Feed.where(url: feed_url, send_existing: false).
                     count
                 }.from(0).to(1)
               end
@@ -91,7 +91,7 @@ describe Feed2Email::Cli do
 
                 it 'adds the feed with the option to false' do
                   expect { discard_output { subject } }.to change {
-                    Feed2Email::Feed.where(uri: added_url,
+                    Feed2Email::Feed.where(url: added_url,
                                            send_existing: false).count
                   }.from(0).to(1)
                 end
@@ -105,7 +105,7 @@ describe Feed2Email::Cli do
 
               it 'adds the feed with the option to true' do
                 expect { discard_output { subject } }.to change {
-                  Feed2Email::Feed.where(uri: feed_url, send_existing: true).
+                  Feed2Email::Feed.where(url: feed_url, send_existing: true).
                     count
                 }.from(0).to(1)
               end
@@ -125,7 +125,7 @@ describe Feed2Email::Cli do
 
             it 'does not add feed' do
               expect { discard_thor_error { subject } }.not_to change {
-                Feed2Email::Feed.where(uri: feed_url).count }
+                Feed2Email::Feed.where(url: feed_url).count }
             end
 
             it 'raises error with relevant message' do
@@ -172,7 +172,7 @@ describe Feed2Email::Cli do
 
           context 'and a feed with the same URL does not exist' do
             before do
-              Feed2Email::Feed.where(uri: feed_url).delete
+              Feed2Email::Feed.where(url: feed_url).delete
             end
 
             context 'and selection is interrupted' do
@@ -198,7 +198,7 @@ describe Feed2Email::Cli do
 
               it 'adds the feed' do
                 expect { discard_output { subject } }.to change {
-                  Feed2Email::Feed.where(uri: feed_url).count
+                  Feed2Email::Feed.where(url: feed_url).count
                 }.from(0).to(1)
               end
             end
@@ -267,7 +267,7 @@ describe Feed2Email::Cli do
         before do
           feed.save
 
-          stub_request(:any, feed.uri).to_return(
+          stub_request(:any, feed.url).to_return(
             body: File.read(fixture_path('github_agorf.atom')),
             headers: { content_type: 'application/atom+xml' }
           )
@@ -281,7 +281,7 @@ describe Feed2Email::Cli do
 
         context 'and there is another subscribed feed' do
           let!(:another_feed) {
-            Feed2Email::Feed.create(uri: another_feed_url)
+            Feed2Email::Feed.create(url: another_feed_url)
           }
 
           let(:another_feed_url) {
@@ -292,7 +292,7 @@ describe Feed2Email::Cli do
             expect(Time).to receive(:now).and_return('2015-12-03 00:20:14 +0200')
             expect(ENV).to receive(:[]).with('USER').and_return('agorf')
 
-            stub_request(:any, another_feed.uri).to_return(
+            stub_request(:any, another_feed.url).to_return(
               body: File.read(fixture_path('github_feed2email.atom')),
               headers: { content_type: 'application/atom+xml' }
             )
@@ -389,7 +389,7 @@ describe Feed2Email::Cli do
       end
 
       context 'and another feed' do
-        let!(:another_feed) { Feed2Email::Feed.create(uri: another_feed_url) }
+        let!(:another_feed) { Feed2Email::Feed.create(url: another_feed_url) }
 
         let(:another_feed_url) { 'https://www.ruby-lang.org/en/feeds/news.rss' }
 

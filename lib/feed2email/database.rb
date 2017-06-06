@@ -14,7 +14,7 @@ module Feed2Email
     def self.create_schema(connection)
       connection.create_table? :feeds do
         primary_key :id
-        String :uri, null: false, unique: true
+        String :url, null: false, unique: true
         TrueClass :enabled, null: false, default: true
         FalseClass :send_existing, null: false, default: false
         String :etag
@@ -27,7 +27,7 @@ module Feed2Email
         primary_key :id
         foreign_key :feed_id, :feeds, null: false, index: true,
                                       on_delete: :cascade
-        String :uri, null: false, unique: true
+        String :url, null: false, unique: true
         Time :created_at
         Time :updated_at
       end

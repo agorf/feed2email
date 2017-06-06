@@ -194,8 +194,14 @@ describe Feed2Email::HTTPFetcher do
       it { is_expected.to eq uri }
     end
 
-    describe '#uri_path' do
-      subject { super().uri_path }
+    describe '#url' do
+      subject { super().url }
+
+      it { is_expected.to eq uri.to_s }
+    end
+
+    describe '#url_path' do
+      subject { super().url_path }
 
       it { is_expected.to eq uri.path }
     end

@@ -24,7 +24,7 @@ module Feed2Email
     attr_accessor :author, :content, :published, :title, :feed_title
 
     def self.build_from_parsed_entry(parsed_entry, url:, feed_id:, feed_title:)
-      Entry.new(feed_id: feed_id, uri: url).tap do |e|
+      Entry.new(feed_id: feed_id, url: url).tap do |e|
         e.author     = parsed_entry.author
         e.content    = parsed_entry.content || parsed_entry.summary
         e.published  = parsed_entry.published
@@ -95,11 +95,11 @@ module Feed2Email
     end
 
     def missing_data?
-      [content, feed_title, title, uri].include?(nil)
+      [content, feed_title, title, url].include?(nil)
     end
 
     def old?
-      feed.entries_dataset.where(uri: uri).any?
+      feed.entries_dataset.where(url: url).any?
     end
 
     def persist
@@ -115,7 +115,7 @@ module Feed2Email
     end
 
     def safe_url
-      uri.escape_html
+      url.escape_html
     end
 
     def send_mail

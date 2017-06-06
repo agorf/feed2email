@@ -2,14 +2,14 @@ require 'spec_helper'
 require 'feed2email/redirection_checker'
 
 describe Feed2Email::RedirectionChecker do
-  subject { described_class.new(checked_uri) }
+  subject { described_class.new(checked_url) }
 
-  let(:checked_uri) { 'http://github.com/agorf/feed2email' } # HTTP
+  let(:checked_url) { 'http://github.com/agorf/feed2email' } # HTTP
   let(:location) { 'https://github.com/agorf/feed2email' } # HTTPS
   let(:status) { 301 } # permanent
 
   before do
-    stub_request(:head, checked_uri).to_return(
+    stub_request(:head, checked_url).to_return(
       status: status, headers: { location: location }
     )
   end
@@ -32,7 +32,7 @@ describe Feed2Email::RedirectionChecker do
     end
 
     context 'redirected' do
-      context 'location is present, valid and different from checked URI' do
+      context 'location is present, valid and different from checked URL' do
         it { is_expected.to be true }
       end
 
@@ -48,8 +48,8 @@ describe Feed2Email::RedirectionChecker do
         it { is_expected.to be false }
       end
 
-      context 'location matches checked URI' do
-        let(:location) { checked_uri }
+      context 'location matches checked URL' do
+        let(:location) { checked_url }
 
         it { is_expected.to be false }
       end

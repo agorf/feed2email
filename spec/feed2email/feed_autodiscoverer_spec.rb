@@ -2,14 +2,14 @@ require 'spec_helper'
 require 'feed2email/feed_autodiscoverer'
 
 describe Feed2Email::FeedAutodiscoverer do
-  subject(:discoverer) { described_class.new(uri) }
+  subject(:discoverer) { described_class.new(url) }
 
-  let(:uri) { 'https://www.ruby-lang.org/en/' }
+  let(:url) { 'https://www.ruby-lang.org/en/' }
   let(:body) { File.read(fixture_path('ruby-lang.org.html')) }
   let(:content_type) { 'text/html' }
 
   before do
-    stub_request(:any, uri).to_return(
+    stub_request(:any, url).to_return(
       body: body,
       headers: { content_type: content_type }
     )
@@ -39,14 +39,14 @@ describe Feed2Email::FeedAutodiscoverer do
     let(:feeds) {
       [
         described_class::DiscoveredFeed.new(
-          feed_uri,
+          feed_url,
           'application/rss+xml',
           'Recent News (RSS)'
         )
       ]
     }
 
-    let(:feed_uri) { 'https://www.ruby-lang.org/en/feeds/news.rss' }
+    let(:feed_url) { 'https://www.ruby-lang.org/en/feeds/news.rss' }
 
     it { is_expected.to eq feeds }
 
@@ -56,9 +56,9 @@ describe Feed2Email::FeedAutodiscoverer do
       it { is_expected.to be_empty }
     end
 
-    context 'feed URI is absolute' do
+    context 'feed URL is absolute' do
       before do
-        body.sub!('/en/feeds/news.rss', feed_uri)
+        body.sub!('/en/feeds/news.rss', feed_url)
       end
 
       it { is_expected.to eq feeds }
@@ -66,7 +66,7 @@ describe Feed2Email::FeedAutodiscoverer do
 
     context '<base> is present' do
       let(:base) { 'http://agorf.gr/' } # dummy to ensure it's taken into account
-      let(:feed_uri) { URI.join(base, '/en/feeds/news.rss').to_s }
+      let(:feed_url) { URI.join(base, '/en/feeds/news.rss').to_s }
 
       before do
         body.sub!('<head>', %Q{<head><base href="#{base}">})

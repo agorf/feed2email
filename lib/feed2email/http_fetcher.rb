@@ -80,12 +80,12 @@ module Feed2Email
       @response
     end
 
-    def uri_path
-      uri.path
-    end
-
     def url
       uri.to_s
+    end
+
+    def url_path
+      uri.path
     end
 
     private
