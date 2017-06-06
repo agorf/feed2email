@@ -86,9 +86,23 @@ describe Feed2Email::HTTPFetcher do
   end
 
   context 'with some valid redirects' do
+    let(:status) { 200 }
+
     let(:body) { 'OK' }
 
     let(:content_type) { 'text/plain' }
+
+    let(:etag) { 'e0aa021e21dddbd6d8cecec71e9cf564' }
+
+    let(:last_modified) { Time.now.strftime('%a, %d %b %Y %H:%M:%S %Z') }
+
+    let(:response_headers) {
+      {
+        content_type: content_type,
+        etag: etag,
+        last_modified: last_modified,
+      }
+    }
 
     let(:locations) do
       [
@@ -104,9 +118,9 @@ describe Feed2Email::HTTPFetcher do
     before do
       stub_redirects(locations)
       stub_request(:any, locations.last).to_return(
-        status:  200,
+        status:  status,
         body:    body,
-        headers: { content_type: content_type }
+        headers: response_headers,
       )
     end
 
@@ -120,6 +134,34 @@ describe Feed2Email::HTTPFetcher do
       subject { super().data }
 
       it { is_expected.to eq body }
+    end
+
+    describe '#etag' do
+      subject { super().etag }
+
+      it { is_expected.to eq etag }
+    end
+
+    describe '#last_modified' do
+      subject { super().last_modified }
+
+      it { is_expected.to eq last_modified }
+    end
+
+    describe '#not_modified?' do
+      subject { super().not_modified? }
+
+      context 'and a Not Modified response status' do
+        let(:status) { 304 }
+
+        it { is_expected.to eq true }
+      end
+
+      context 'and an OK response status' do
+        let(:status) { 200 }
+
+        it { is_expected.to eq false }
+      end
     end
 
     describe '#response' do
@@ -180,6 +222,30 @@ describe Feed2Email::HTTPFetcher do
       it { is_expected.to raise_error described_class::MissingLocation }
     end
 
+    describe '#etag' do
+      subject do
+        -> { fetcher.etag }
+      end
+
+      it { is_expected.to raise_error described_class::MissingLocation }
+    end
+
+    describe '#last_modified' do
+      subject do
+        -> { fetcher.last_modified }
+      end
+
+      it { is_expected.to raise_error described_class::MissingLocation }
+    end
+
+    describe '#not_modified?' do
+      subject do
+        -> { fetcher.not_modified? }
+      end
+
+      it { is_expected.to raise_error described_class::MissingLocation }
+    end
+
     describe '#response' do
       subject do
         -> { fetcher.response }
@@ -205,6 +271,30 @@ describe Feed2Email::HTTPFetcher do
     describe '#data' do
       subject do
         -> { fetcher.data }
+      end
+
+      it { is_expected.to raise_error described_class::InvalidLocation }
+    end
+
+    describe '#etag' do
+      subject do
+        -> { fetcher.etag }
+      end
+
+      it { is_expected.to raise_error described_class::InvalidLocation }
+    end
+
+    describe '#last_modified' do
+      subject do
+        -> { fetcher.last_modified }
+      end
+
+      it { is_expected.to raise_error described_class::InvalidLocation }
+    end
+
+    describe '#not_modified?' do
+      subject do
+        -> { fetcher.not_modified? }
       end
 
       it { is_expected.to raise_error described_class::InvalidLocation }
@@ -251,6 +341,30 @@ describe Feed2Email::HTTPFetcher do
       it { is_expected.to raise_error described_class::CircularRedirects }
     end
 
+    describe '#etag' do
+      subject do
+        -> { fetcher.etag }
+      end
+
+      it { is_expected.to raise_error described_class::CircularRedirects }
+    end
+
+    describe '#last_modified' do
+      subject do
+        -> { fetcher.last_modified }
+      end
+
+      it { is_expected.to raise_error described_class::CircularRedirects }
+    end
+
+    describe '#not_modified?' do
+      subject do
+        -> { fetcher.not_modified? }
+      end
+
+      it { is_expected.to raise_error described_class::CircularRedirects }
+    end
+
     describe '#response' do
       subject do
         -> { fetcher.response }
@@ -288,6 +402,30 @@ describe Feed2Email::HTTPFetcher do
     describe '#data' do
       subject do
         -> { fetcher.data }
+      end
+
+      it { is_expected.to raise_error described_class::TooManyRedirects }
+    end
+
+    describe '#etag' do
+      subject do
+        -> { fetcher.etag }
+      end
+
+      it { is_expected.to raise_error described_class::TooManyRedirects }
+    end
+
+    describe '#last_modified' do
+      subject do
+        -> { fetcher.last_modified }
+      end
+
+      it { is_expected.to raise_error described_class::TooManyRedirects }
+    end
+
+    describe '#not_modified?' do
+      subject do
+        -> { fetcher.not_modified? }
       end
 
       it { is_expected.to raise_error described_class::TooManyRedirects }

@@ -42,6 +42,18 @@ module Feed2Email
       response.body
     end
 
+    def etag
+      response['etag']
+    end
+
+    def last_modified
+      response['last-modified']
+    end
+
+    def not_modified?
+      response.is_a?(Net::HTTPNotModified)
+    end
+
     def response
       return @response if @response
 

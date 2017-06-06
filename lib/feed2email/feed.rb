@@ -95,13 +95,13 @@ module Feed2Email
 
         fetcher = HTTPFetcher.new(uri, request_headers: fetch_headers)
 
-        if fetcher.response.is_a?(Net::HTTPNotModified)
+        if fetcher.not_modified?
           logger.info 'Feed not modified; skipping...'
           return false
         end
 
-        self.last_modified = fetcher.response['last-modified']
-        self.etag = fetcher.response['etag']
+        self.last_modified = fetcher.last_modified
+        self.etag = fetcher.etag
 
         fetcher.data
       rescue => e
