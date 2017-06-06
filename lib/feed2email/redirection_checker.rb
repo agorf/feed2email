@@ -16,6 +16,8 @@ module Feed2Email
 
     private
 
+    attr_reader :code, :url
+
     def check
       fetcher = HTTPFetcher.new(url, max_redirects: 0, headers_only: true)
 
@@ -29,7 +31,5 @@ module Feed2Email
 
       @code = fetcher.response.code
     end
-
-    attr_reader :code, :url
   end
 end

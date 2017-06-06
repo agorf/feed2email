@@ -21,6 +21,10 @@ module Feed2Email
     REDIRECT_CODES = [301, 302, 303, 307]
     METHOD_CLASSES = { get: Net::HTTP::Get, head: Net::HTTP::Head }
 
+    attr_accessor :headers_only, :max_redirects, :request_headers
+
+    attr_reader :uri
+
     def initialize(url, request_headers: {}, max_redirects: MAX_REDIRECTS, headers_only: false)
       @followed_locations = []
       add_followed_location(url)
@@ -37,8 +41,6 @@ module Feed2Email
     def data
       response.body
     end
-
-    attr_accessor :headers_only, :max_redirects, :request_headers
 
     def response
       return @response if @response
@@ -66,8 +68,6 @@ module Feed2Email
       @response
     end
 
-    attr_reader :uri
-
     def uri_path
       uri.path
     end
@@ -77,6 +77,8 @@ module Feed2Email
     end
 
     private
+
+    attr_reader :followed_locations
 
     def add_followed_location(url)
       @uri = URI.parse(url)
@@ -107,8 +109,6 @@ module Feed2Email
     def followed_location?(url)
       followed_locations.include?(URI.parse(url).to_s)
     end
-
-    attr_reader :followed_locations
 
     def request_class(method)
       METHOD_CLASSES.fetch(method)

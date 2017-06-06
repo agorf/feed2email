@@ -13,6 +13,8 @@ module Feed2Email
 
     private
 
+    attr_reader :urls
+
     def builder
       Nokogiri::XML::Builder.new do |xml|
         xml.root do
@@ -44,8 +46,6 @@ module Feed2Email
         end
       end
     end
-
-    attr_reader :urls
 
     def to_xml
       builder.to_xml

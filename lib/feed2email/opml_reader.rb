@@ -14,10 +14,10 @@ module Feed2Email
 
     private
 
+    attr_reader :io
+
     def data
       io.read
     end
-
-    attr_reader :io
   end
 end

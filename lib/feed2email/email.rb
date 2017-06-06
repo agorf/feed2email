@@ -19,6 +19,8 @@ module Feed2Email
 
     private
 
+    attr_reader :from, :html_body, :options, :subject, :to
+
     def body_html
       %{
         <html>
@@ -52,7 +54,5 @@ module Feed2Email
       part.body = body
       part
     end
-
-    attr_reader :from, :html_body, :options, :subject, :to
   end
 end

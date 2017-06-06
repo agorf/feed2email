@@ -24,6 +24,8 @@ module Feed2Email
 
     private
 
+    attr_reader :path
+
     def check_data_type
       if !data.is_a?(Hash)
         raise InvalidDataTypeError,
@@ -143,7 +145,5 @@ module Feed2Email
       require 'socket'
       Socket.gethostname
     end
-
-    attr_reader :path
   end
 end

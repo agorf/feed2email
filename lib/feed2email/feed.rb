@@ -79,6 +79,8 @@ module Feed2Email
 
     private
 
+    attr_reader :parsed_feed
+
     def build_entry(parsed_entry)
       entry_url = fully_qualified_entry_url(parsed_entry.url)
       Entry.build_from_parsed_entry(parsed_entry, url: entry_url,
@@ -166,8 +168,6 @@ module Feed2Email
     def parsed_entries
       parsed_feed.entries
     end
-
-    attr_reader :parsed_feed
 
     def process_entries
       total = processable_entries.size

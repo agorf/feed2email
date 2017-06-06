@@ -24,6 +24,8 @@ module Feed2Email
 
     private
 
+    attr_reader :url
+
     def base_uri
       @base_uri ||= if base = html_head.at_css('base[href]')
         base['href']
@@ -59,7 +61,5 @@ module Feed2Email
     def links
       html_head.css('link[rel=alternate]')
     end
-
-    attr_reader :url
   end
 end

@@ -21,6 +21,8 @@ module Feed2Email
 
     private
 
+    attr_reader :url
+
     def content_type
       fetcher.content_type[/[^;]+/]
     end
@@ -64,7 +66,5 @@ module Feed2Email
         'atom'
       end
     end
-
-    attr_reader :url
   end
 end
