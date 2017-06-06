@@ -6,7 +6,7 @@ It was initially written as a replacement of [rss2email][] and aims to be
 simple, fast and easy to use.
 
 [headless]: http://en.wikipedia.org/wiki/Headless_software
-[rss2email]: http://www.allthingsrss.com/rss2email/
+[rss2email]: http://www.aaronsw.com/weblog/001148
 
 ## Features
 
