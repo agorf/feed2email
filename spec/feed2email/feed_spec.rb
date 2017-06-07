@@ -14,8 +14,6 @@ describe Feed2Email::Feed do
 
   let(:url) { 'https://github.com/agorf/feed2email/commits/master.atom' }
 
-  let(:url) { parsed_entry.url }
-
   let(:enabled) { true }
 
   let(:last_modified) { nil }
