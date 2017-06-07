@@ -170,9 +170,7 @@ module Feed2Email
       Feed2Email.setup_database
       require 'feed2email/feed'
 
-      unless feed = Feed[id]
-        error "Feed not found. Is #{id} a valid id?"
-      end
+      feed = find_feed(id)
 
       puts "Remove feed: #{feed}"
 
@@ -194,9 +192,7 @@ module Feed2Email
       Feed2Email.setup_database
       require 'feed2email/feed'
 
-      unless feed = Feed[id]
-        error "Feed not found. Is #{id} a valid id?"
-      end
+      feed = find_feed(id)
 
       unless feed.toggle
         error 'Failed to toggle feed'
@@ -211,9 +207,7 @@ module Feed2Email
       Feed2Email.setup_database
       require 'feed2email/feed'
 
-      unless feed = Feed[id]
-        error "Feed not found. Is #{id} a valid id?"
-      end
+      feed = find_feed(id)
 
       unless feed.uncache
         error 'Failed to uncache feed'
@@ -283,6 +277,12 @@ module Feed2Email
 
       def error(message)
         raise Thor::Error, message
+      end
+
+      def find_feed(id)
+        feed = Feed[id]
+        return feed if feed
+        error "Feed not found. Is #{id} a valid id?"
       end
 
       def interruptible
