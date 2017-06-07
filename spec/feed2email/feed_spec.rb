@@ -32,6 +32,67 @@ describe Feed2Email::Feed do
 
   let(:entry_url) { parsed_entry.url }
 
+  describe '.disabled' do
+    subject { described_class.disabled }
+
+    context 'when feed is disabled' do
+      let(:enabled) { false }
+
+      it { is_expected.to include(feed) }
+    end
+
+    context 'when feed is enabled' do
+      let(:enabled) { true }
+
+      it { is_expected.not_to include(feed) }
+    end
+  end
+
+  describe '.enabled' do
+    subject { described_class.enabled }
+
+    context 'when feed is enabled' do
+      let(:enabled) { true }
+
+      it { is_expected.to include(feed) }
+    end
+
+    context 'when feed is disabled' do
+      let(:enabled) { false }
+
+      it { is_expected.not_to include(feed) }
+    end
+  end
+
+  describe '.oldest_first' do
+    subject { described_class.oldest_first.to_a }
+
+    let(:another_feed) do
+      described_class.create(url: 'https://github.com/agorf.atom',
+                             created_at: created_at)
+    end
+
+    context 'when feed is the oldest' do
+      let(:created_at) { feed.created_at + 1 }
+
+      before do
+        another_feed # create both feeds
+      end
+
+      it { is_expected.to eq [feed, another_feed] }
+    end
+
+    context 'when feed is not the oldest' do
+      let(:created_at) { feed.created_at - 1 }
+
+      before do
+        another_feed # create both feeds
+      end
+
+      it { is_expected.to eq [another_feed, feed] }
+    end
+  end
+
   describe '#old?' do
     subject { feed.old? }
 

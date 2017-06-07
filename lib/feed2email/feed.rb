@@ -24,7 +24,7 @@ module Feed2Email
     subset(:disabled, enabled: false)
     subset(:enabled, enabled: true)
 
-    def_dataset_method(:oldest_first) { order(:id) }
+    def_dataset_method(:oldest_first) { order(:created_at) }
 
     include Configurable
     include Loggable
