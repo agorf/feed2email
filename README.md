@@ -308,7 +308,7 @@ $ # same as "f2e p"
 $ feed2email process
 ~~~
 
-When run, feed2email will go through your feed list, fetch each feed (if
+When ran, feed2email will go through your feed list, fetch each feed (if
 necessary) and send an email for each new entry. Output is logged to the
 standard output, unless configured otherwise.
 
