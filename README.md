@@ -12,6 +12,7 @@ simple, fast and easy to use.
 
 * [RSS][] and [Atom][] feed format support
 * Command-line feed management (add, remove, enable/disable)
+* Feed fetching compression (gzip, deflate) support
 * Feed fetching caching (_Last-Modified_ and _ETag_ HTTP headers)
 * [Feed autodiscovery](http://www.rssboard.org/rss-autodiscovery)
 * [OPML][] import/export of feed subscriptions
