@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'feed2email/redirection_checker'
 
 describe Feed2Email::RedirectionChecker do
-  subject { described_class.new(checked_url) }
+  subject(:checker) { described_class.new(checked_url) }
 
   let(:checked_url) { 'http://github.com/agorf/feed2email' } # HTTP
   let(:location) { 'https://github.com/agorf/feed2email' } # HTTPS
@@ -23,7 +23,7 @@ describe Feed2Email::RedirectionChecker do
   end
 
   describe '#permanently_redirected?' do
-    subject { super().permanently_redirected? }
+    subject { checker.permanently_redirected? }
 
     context 'not redirected' do
       let(:status) { 200 }

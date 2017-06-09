@@ -6,7 +6,7 @@ require 'feed2email/config'
 describe Feed2Email::Config do
   let(:config_path) { Feed2Email.config_path }
 
-  subject { described_class.new(config_path) }
+  subject(:config) { described_class.new(config_path) }
 
   after do
     FileUtils.rm_f(config_path)
@@ -67,7 +67,7 @@ describe Feed2Email::Config do
   end
 
   context 'when config exists' do
-    subject { super()['send_method'] }
+    subject { config['send_method'] }
 
     before do
       FileUtils.touch(config_path)

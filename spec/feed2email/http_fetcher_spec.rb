@@ -125,31 +125,31 @@ describe Feed2Email::HTTPFetcher do
     end
 
     describe '#content_type' do
-      subject { super().content_type }
+      subject { fetcher.content_type }
 
       it { is_expected.to eq content_type }
     end
 
     describe '#data' do
-      subject { super().data }
+      subject { fetcher.data }
 
       it { is_expected.to eq body }
     end
 
     describe '#etag' do
-      subject { super().etag }
+      subject { fetcher.etag }
 
       it { is_expected.to eq etag }
     end
 
     describe '#last_modified' do
-      subject { super().last_modified }
+      subject { fetcher.last_modified }
 
       it { is_expected.to eq last_modified }
     end
 
     describe '#not_modified?' do
-      subject { super().not_modified? }
+      subject { fetcher.not_modified? }
 
       context 'and a Not Modified response status' do
         let(:status) { 304 }
@@ -165,7 +165,7 @@ describe Feed2Email::HTTPFetcher do
     end
 
     describe '#response' do
-      subject { super().response }
+      subject { fetcher.response }
 
       it 'sets response' do
         expect(subject).to be
@@ -189,19 +189,19 @@ describe Feed2Email::HTTPFetcher do
     end
 
     describe '#uri' do
-      subject { super().uri }
+      subject { fetcher.uri }
 
       it { is_expected.to eq uri }
     end
 
     describe '#url' do
-      subject { super().url }
+      subject { fetcher.url }
 
       it { is_expected.to eq uri.to_s }
     end
 
     describe '#url_path' do
-      subject { super().url_path }
+      subject { fetcher.url_path }
 
       it { is_expected.to eq uri.path }
     end

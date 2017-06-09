@@ -2,10 +2,10 @@ require 'spec_helper'
 require 'feed2email/opml_writer'
 
 describe Feed2Email::OPMLWriter do
-  subject { described_class.new(urls) }
+  subject(:writer) { described_class.new(urls) }
 
   describe '#write' do
-    subject { super().write(io) }
+    subject { writer.write(io) }
 
     let(:io) { StringIO.new }
     let(:opml) { File.read(fixture_path('feeds.opml')) }
