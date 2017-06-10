@@ -18,7 +18,6 @@ module Feed2Email
 
     LOCATION_REGEX = %r{\Ahttps?://}
     MAX_REDIRECTS  = 3
-    REDIRECT_CODES = [301, 302, 303, 307]
     METHOD_CLASSES = { get: Net::HTTP::Get, head: Net::HTTP::Head }
 
     attr_accessor :headers_only, :max_redirects, :request_headers
@@ -61,7 +60,7 @@ module Feed2Email
         http = build_http
         @response = http.request(build_head_request)
 
-        unless REDIRECT_CODES.include?(@response.code.to_i)
+        unless redirected?
           @response = http.request(build_get_request) unless headers_only
           break
         end
@@ -128,6 +127,11 @@ module Feed2Email
 
     def followed_location?(url)
       followed_locations.include?(URI.parse(url).to_s)
+    end
+
+    def redirected?
+      response.is_a?(Net::HTTPRedirection) &&
+        !response.is_a?(Net::HTTPNotModified)
     end
 
     def request_class(method)
