@@ -66,13 +66,21 @@ module Feed2Email
           break
         end
 
-        raise MissingLocation.new(@response) if @response['location'].nil?
+        if @response['location'].nil?
+          raise MissingLocation.new(@response)
+        end
 
-        raise InvalidLocation.new(@response) if @response['location'] !~ LOCATION_REGEX
+        if @response['location'] !~ LOCATION_REGEX
+          raise InvalidLocation.new(@response)
+        end
 
-        raise CircularRedirects.new(@response) if followed_location?(@response['location'])
+        if followed_location?(@response['location'])
+          raise CircularRedirects.new(@response)
+        end
 
-        raise TooManyRedirects.new(@response) if followed_locations.size > max_redirects
+        if followed_locations.size > max_redirects
+          raise TooManyRedirects.new(@response)
+        end
 
         add_followed_location(@response['location'])
       end
