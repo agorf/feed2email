@@ -222,6 +222,66 @@ describe Feed2Email::HTTPFetcher do
     end
   end
 
+  context 'with an HTTP error' do
+    before do
+      stub_request(:head, url).to_return(status: 404)
+    end
+
+    describe '#content_type' do
+      subject do
+        -> { fetcher.content_type }
+      end
+
+      it { is_expected.
+           to raise_error(described_class::HTTPError, /\bNet::HTTPNotFound\b/) }
+    end
+
+    describe '#data' do
+      subject do
+        -> { fetcher.data }
+      end
+
+      it { is_expected.
+           to raise_error(described_class::HTTPError, /\bNet::HTTPNotFound\b/) }
+    end
+
+    describe '#etag' do
+      subject do
+        -> { fetcher.etag }
+      end
+
+      it { is_expected.
+           to raise_error(described_class::HTTPError, /\bNet::HTTPNotFound\b/) }
+    end
+
+    describe '#last_modified' do
+      subject do
+        -> { fetcher.last_modified }
+      end
+
+      it { is_expected.
+           to raise_error(described_class::HTTPError, /\bNet::HTTPNotFound\b/) }
+    end
+
+    describe '#not_modified?' do
+      subject do
+        -> { fetcher.not_modified? }
+      end
+
+      it { is_expected.
+           to raise_error(described_class::HTTPError, /\bNet::HTTPNotFound\b/) }
+    end
+
+    describe '#response' do
+      subject do
+        -> { fetcher.response }
+      end
+
+      it { is_expected.
+           to raise_error(described_class::HTTPError, /\bNet::HTTPNotFound\b/) }
+    end
+  end
+
   context 'with missing location' do
     before do
       stub_request(:head, url).to_return(status: 301)

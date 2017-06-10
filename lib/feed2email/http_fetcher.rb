@@ -5,12 +5,15 @@ module Feed2Email
   class HTTPFetcher
     class HTTPFetcherError < StandardError
       def initialize(response)
+        super(response.class.name)
+
         @response = response
       end
 
       attr_reader :response
     end
 
+    class HTTPError         < HTTPFetcherError; end
     class MissingLocation   < HTTPFetcherError; end
     class InvalidLocation   < HTTPFetcherError; end
     class CircularRedirects < HTTPFetcherError; end
@@ -59,6 +62,10 @@ module Feed2Email
       loop do
         http = build_http
         @response = http.request(build_head_request)
+
+        if http_error?
+          raise HTTPError.new(@response)
+        end
 
         unless redirected?
           @response = http.request(build_get_request) unless headers_only
@@ -127,6 +134,11 @@ module Feed2Email
 
     def followed_location?(url)
       followed_locations.include?(URI.parse(url).to_s)
+    end
+
+    def http_error?
+      response.is_a?(Net::HTTPClientError) ||
+        response.is_a?(Net::HTTPServerError)
     end
 
     def redirected?
