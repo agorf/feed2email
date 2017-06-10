@@ -116,7 +116,7 @@ describe Feed2Email::HTTPFetcher do
     let(:url) { locations.first }
 
     before do
-      stub_redirects(locations)
+      stub_redirects(locations, redirect_status)
       stub_request(:any, locations.last).to_return(
         status:  status,
         body:    body,
@@ -124,86 +124,101 @@ describe Feed2Email::HTTPFetcher do
       )
     end
 
-    describe '#content_type' do
-      subject { fetcher.content_type }
+    shared_examples 'valid redirects' do
+      describe '#content_type' do
+        subject { fetcher.content_type }
 
-      it { is_expected.to eq content_type }
-    end
-
-    describe '#data' do
-      subject { fetcher.data }
-
-      it { is_expected.to eq body }
-    end
-
-    describe '#etag' do
-      subject { fetcher.etag }
-
-      it { is_expected.to eq etag }
-    end
-
-    describe '#last_modified' do
-      subject { fetcher.last_modified }
-
-      it { is_expected.to eq last_modified }
-    end
-
-    describe '#not_modified?' do
-      subject { fetcher.not_modified? }
-
-      context 'and a Not Modified response status' do
-        let(:status) { 304 }
-
-        it { is_expected.to eq true }
+        it { is_expected.to eq content_type }
       end
 
-      context 'and an OK response status' do
-        let(:status) { 200 }
+      describe '#data' do
+        subject { fetcher.data }
 
-        it { is_expected.to eq false }
-      end
-    end
-
-    describe '#response' do
-      subject { fetcher.response }
-
-      it 'sets response' do
-        expect(subject).to be
+        it { is_expected.to eq body }
       end
 
-      it 'follows the redirects' do
-        expect { subject }.to change(fetcher, :url).from(url).to(locations.last)
+      describe '#etag' do
+        subject { fetcher.etag }
+
+        it { is_expected.to eq etag }
       end
 
-      context 'already called' do
-        before do
-          subject
-          WebMock.reset!
+      describe '#last_modified' do
+        subject { fetcher.last_modified }
+
+        it { is_expected.to eq last_modified }
+      end
+
+      describe '#not_modified?' do
+        subject { fetcher.not_modified? }
+
+        context 'and a Not Modified response status' do
+          let(:status) { 304 }
+
+          it { is_expected.to eq true }
         end
 
-        it 'memoizes the response' do
-          expect(a_request(:head, locations.last)).not_to have_been_made
-          fetcher.response # subject is already evaluated and wouldn't call #response here
+        context 'and an OK response status' do
+          let(:status) { 200 }
+
+          it { is_expected.to eq false }
         end
+      end
+
+      describe '#response' do
+        subject { fetcher.response }
+
+        it 'sets response' do
+          expect(subject).to be
+        end
+
+        it 'follows the redirects' do
+          expect { subject }.
+            to change(fetcher, :url).from(url).to(locations.last)
+        end
+
+        context 'already called' do
+          before do
+            subject
+            WebMock.reset!
+          end
+
+          it 'memoizes the response' do
+            expect(a_request(:head, locations.last)).not_to have_been_made
+            fetcher.response # subject is already evaluated and wouldn't call #response here
+          end
+        end
+      end
+
+      describe '#uri' do
+        subject { fetcher.uri }
+
+        it { is_expected.to eq uri }
+      end
+
+      describe '#url' do
+        subject { fetcher.url }
+
+        it { is_expected.to eq uri.to_s }
+      end
+
+      describe '#url_path' do
+        subject { fetcher.url_path }
+
+        it { is_expected.to eq uri.path }
       end
     end
 
-    describe '#uri' do
-      subject { fetcher.uri }
+    context 'that are temporary' do
+      let(:redirect_status) { 302 }
 
-      it { is_expected.to eq uri }
+      it_behaves_like 'valid redirects'
     end
 
-    describe '#url' do
-      subject { fetcher.url }
+    context 'that are permanent' do
+      let(:redirect_status) { 301 }
 
-      it { is_expected.to eq uri.to_s }
-    end
-
-    describe '#url_path' do
-      subject { fetcher.url_path }
-
-      it { is_expected.to eq uri.path }
+      it_behaves_like 'valid redirects'
     end
   end
 
