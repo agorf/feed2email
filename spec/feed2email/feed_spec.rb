@@ -91,6 +91,26 @@ describe Feed2Email::Feed do
     end
   end
 
+  describe '#entries' do
+    subject { feed.entries }
+
+    context 'when feed has entries' do
+      let!(:entry) {
+        Feed2Email::Entry.create(feed_id: feed.id, url: entry_url)
+      }
+
+      it { is_expected.to eq [entry] }
+    end
+
+    context 'when feed has no entries' do
+      before do
+        feed.entries_dataset.destroy
+      end
+
+      it { is_expected.to eq [] }
+    end
+  end
+
   describe '#old?' do
     subject { feed.old? }
 
