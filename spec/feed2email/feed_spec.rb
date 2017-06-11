@@ -131,7 +131,92 @@ describe Feed2Email::Feed do
     end
   end
 
-  describe '#process'
+  describe '#process' do
+    subject { feed.process }
+
+    let(:logger) { double('logger') }
+
+    before do
+      allow(logger).to receive(:error)
+      allow(logger).to receive(:info)
+      allow(logger).to receive(:debug)
+      allow(Feed2Email).to receive(:logger).and_return(logger)
+    end
+
+    context 'when feed fetch fails' do
+      shared_examples 'feed fetch failure' do |error|
+        it 'logs the feed being processed' do
+          expect(logger).to receive(:info).with(/\bprocessing feed\b/i)
+
+          subject
+        end
+
+        it 'logs the feed being fetched' do
+          expect(logger).to receive(:debug).with(/\bfetching feed\b/i)
+
+          subject
+        end
+
+        it 'logs the feed fetch failure' do
+          expect(logger).to receive(:error).with(/\bfailed to fetch\b/i)
+
+          subject
+        end
+
+        it 'logs the error' do
+          expect(logger).to receive(:error).with(/\b#{Regexp.escape(error)}\b/)
+
+          subject
+        end
+
+        it 'does not send any emails' do
+          expect { subject }.
+            not_to change { Mail::TestMailer.deliveries.size }.from(0)
+        end
+
+        it "does not change feed's last_modified" do
+          expect { subject }.
+            not_to change { feed.reload.last_modified }.from(nil)
+        end
+
+        it "does not change feed's etag" do
+          expect { subject }.not_to change { feed.reload.etag }.from(nil)
+        end
+      end
+
+      context 'due to a connection error' do
+        before do
+          stub_request(:head, url).to_raise(SocketError)
+        end
+
+        it_behaves_like 'feed fetch failure', 'SocketError'
+      end
+
+      context 'due to a timeout' do
+        before do
+          stub_request(:head, url).to_timeout
+        end
+
+        it_behaves_like 'feed fetch failure', 'Timeout::Error'
+      end
+
+      context 'due to a 404 Not Found HTTP error' do
+        before do
+          stub_request(:head, url).to_return(status: 404)
+        end
+
+        it_behaves_like 'feed fetch failure', 'Net::HTTPNotFound'
+      end
+
+      context 'due to a 500 Internal Server Error HTTP error' do
+        before do
+          stub_request(:head, url).to_return(status: 500)
+        end
+
+        it_behaves_like 'feed fetch failure', 'Net::HTTPInternalServerError'
+      end
+    end
+  end
 
   describe '#save_without_raising' do
     subject { feed.save_without_raising }
