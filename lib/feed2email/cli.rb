@@ -148,19 +148,32 @@ module Feed2Email
     def process
       require 'feed2email'
       Feed2Email.setup_database(log: true)
-      Feed2Email.setup_mail_defaults
       require 'feed2email/feed'
 
       feeds = Feed.enabled.oldest_first
 
-      if config_data["send_method"] == "smtp"
-        with_smtp_connection do |smtp|
-          Feed2Email.smtp_connection = smtp
-          feeds.each(&:process)
-          Feed2Email.smtp_connection = nil
-        end
-      else
+      if config_data['send_method'] != 'smtp'
+        Feed2Email.setup_mail_defaults
         feeds.each(&:process)
+        return
+      end
+
+      require 'feed2email/smtp_connection_proxy'
+
+      smtp = Net::SMTP.new(config_data['smtp_host'], config_data['smtp_port'])
+      smtp.enable_starttls if config_data['smtp_starttls']
+
+      Feed2Email.smtp_connection = SMTPConnectionProxy.new(smtp) do
+        smtp.start('localhost', config_data['smtp_user'],
+                   config_data['smtp_pass'], config_data['smtp_auth'].to_sym)
+      end
+
+      Feed2Email.setup_mail_defaults
+
+      feeds.each(&:process)
+
+      if Feed2Email.smtp_connection.started?
+        Feed2Email.smtp_connection.finish
       end
     end
 
@@ -292,14 +305,6 @@ module Feed2Email
           puts
           exit
         end
-      end
-
-      # TODO make lazy with a wrapper
-      def with_smtp_connection(&block)
-        smtp = Net::SMTP.new(config_data["smtp_host"], config_data["smtp_port"])
-        smtp.enable_starttls if config_data["smtp_starttls"]
-        smtp.start("localhost", config_data["smtp_user"], config_data["smtp_pass"],
-                   config_data["smtp_auth"].to_sym, &block)
       end
     end
   end
