@@ -362,6 +362,379 @@ describe Feed2Email::Cli do
     end
   end
 
+  describe '#import' do
+    subject { cli.import(path) }
+
+    let(:path) { File.join(Dir.mktmpdir, 'feeds.opml') }
+
+    context 'when the file to import does not exist' do
+      before do
+        FileUtils.rm_f(path)
+      end
+
+      it 'raises an error with a relevant message' do
+        expect { subject }.to raise_error(Thor::Error, 'File does not exist')
+      end
+    end
+
+    context 'when the file to import exists' do
+      before do
+        FileUtils.cp(fixture_path('feeds.opml'), path)
+      end
+
+      context 'and contains an old feed' do
+        let!(:old_feed) {
+          Feed2Email::Feed.create(url: 'https://github.com/agorf.atom')
+        }
+
+        context 'and a new feed' do
+          def new_feed_where
+            Feed2Email::Feed.where(url: new_feed_url)
+          end
+
+          let(:new_feed_url) {
+            'https://github.com/agorf/feed2email/commits/master.atom'
+          }
+
+          let(:new_feed) { new_feed_where.first }
+
+          before do
+            new_feed_where.delete
+          end
+
+          context 'and import succeeds' do
+            it 'prints a message that importing has started' do
+              expect { subject }.to output(/\bImporting\b/).to_stdout
+            end
+
+            it 'does not remove the old feed' do
+              discard_output { subject }
+
+              expect { old_feed.refresh }.not_to raise_error
+            end
+
+            it 'prints a message that the old feed exists' do
+              expect { subject }.
+                to output(/\bFeed already exists: #{old_feed}\s/).to_stdout
+            end
+
+            it 'adds the new feed' do
+              expect { discard_output { subject } }.
+                to change { new_feed_where.empty? }.from(true).to(false)
+            end
+
+            it 'prints a message that the new feed was imported' do
+              expect { subject }.
+                to output(/\bImported feed: #{new_feed}\s/).to_stdout
+            end
+
+            it 'prints a message about the result of the operation' do
+              expect { subject }.to output(
+                /\bImported 1 feed subscription from #{path}\b/
+              ).to_stdout
+            end
+
+            it 'imports the right number of feeds' do
+              expect { discard_output { subject } }.
+                to change(Feed2Email::Feed, :count).from(1).to(2)
+            end
+          end
+
+          context 'and import fails' do
+            before do
+              allow_any_instance_of(Feed2Email::Feed).to receive(:save).
+                and_return(false)
+            end
+
+            it 'prints a message that importing has started' do
+              expect { subject }.to output(/\bImporting\b/).to_stdout
+            end
+
+            it 'does not remove the old feed' do
+              discard_output { subject }
+
+              expect { old_feed.refresh }.not_to raise_error
+            end
+
+            it 'prints a message that the old feed exists' do
+              expect { subject }.
+                to output(/\bFeed already exists: #{old_feed}\s/).to_stdout
+            end
+
+            it 'does not add the new feed' do
+              expect { discard_output { subject } }.
+                not_to change { new_feed_where.empty? }.from(true)
+            end
+
+            it 'prints a message that the new feed was not imported' do
+              expect { subject }.to output(
+                /\bFailed to import feed: #{new_feed_url}\s/
+              ).to_stdout
+            end
+
+            it 'prints a message about the result of the operation' do
+              expect { subject }.to output(
+                /\bNo feed subscriptions imported\b/
+              ).to_stdout
+            end
+
+            it 'does not import any other feeds' do
+              expect { discard_output { subject } }.
+                not_to change(Feed2Email::Feed, :count).from(1)
+            end
+          end
+        end
+      end
+
+      context 'and does not contain an old feed' do
+        let(:new_feed_urls) {
+          [
+            'https://github.com/agorf.atom',
+            'https://github.com/agorf/feed2email/commits/master.atom',
+          ]
+        }
+
+        before do
+          Feed2Email::Feed.where(url: new_feed_urls).delete
+        end
+
+        context 'and an old feed exists' do
+          let(:old_feed_url) { 'https://www.ruby-lang.org/en/feeds/news.rss' }
+
+          let!(:old_feed) { Feed2Email::Feed.create(url: old_feed_url) }
+
+          context 'and there is no --remove option' do
+            before do
+              cli_options[:remove] = false
+            end
+
+            it 'prints a message that importing has started' do
+              expect { subject }.to output(/\bImporting\b/).to_stdout
+            end
+
+            it 'adds the first feed' do
+              expect { discard_output { subject } }.to change {
+                Feed2Email::Feed.where(url: new_feed_urls[0]).empty?
+              }.from(true).to(false)
+            end
+
+            it 'prints a message that the first feed was imported' do
+              feed = Feed2Email::Feed.where(url: new_feed_urls[0]).first
+
+              expect { subject }.
+                to output(/\bImported feed: #{feed}\s/).to_stdout
+            end
+
+            it 'adds the second feed' do
+              expect { discard_output { subject } }.to change {
+                Feed2Email::Feed.where(url: new_feed_urls[1]).empty?
+              }.from(true).to(false)
+            end
+
+            it 'prints a message that the second feed was imported' do
+              feed = Feed2Email::Feed.where(url: new_feed_urls[1]).first
+
+              expect { subject }.
+                to output(/\bImported feed: #{feed}\s/).to_stdout
+            end
+
+            it 'does not remove the old feed' do
+              discard_output { subject }
+
+              expect { old_feed.refresh }.not_to raise_error
+            end
+
+            it 'does not print a message about the old feed' do
+              feed = Feed2Email::Feed.where(url: old_feed_url).first
+
+              expect { subject }.not_to output(/#{feed}/).to_stdout
+            end
+
+            it 'prints a message about the result of the operation' do
+              expect { subject }.to output(
+                /\bImported 2 feed subscriptions from #{path}\b/
+              ).to_stdout
+            end
+
+            it 'imports the right number of feeds' do
+              expect { discard_output { subject } }.
+                to change(Feed2Email::Feed, :count).from(1).to(3)
+            end
+          end
+
+          context 'and there is a --remove option' do
+            before do
+              cli_options[:remove] = true
+            end
+
+            context 'and removal succeeds' do
+              it 'prints a message that importing has started' do
+                expect { subject }.to output(/\bImporting\b/).to_stdout
+              end
+
+              it 'adds the first feed' do
+                expect { discard_output { subject } }.to change {
+                  Feed2Email::Feed.where(url: new_feed_urls[0]).empty?
+                }.from(true).to(false)
+              end
+
+              it 'prints a message that the first feed was imported' do
+                feed = Feed2Email::Feed.where(url: new_feed_urls[0]).first
+
+                expect { subject }.
+                  to output(/\bImported feed: #{feed}\s/).to_stdout
+              end
+
+              it 'adds the second feed' do
+                expect { discard_output { subject } }.to change {
+                  Feed2Email::Feed.where(url: new_feed_urls[1]).empty?
+                }.from(true).to(false)
+              end
+
+              it 'prints a message that the second feed was imported' do
+                feed = Feed2Email::Feed.where(url: new_feed_urls[1]).first
+
+                expect { subject }.
+                  to output(/\bImported feed: #{feed}\s/).to_stdout
+              end
+
+              it 'removes the old feed' do
+                discard_output { subject }
+
+                expect { old_feed.refresh }.
+                  to raise_error(Sequel::Error, 'Record not found')
+              end
+
+              it 'prints a message that the old feed was removed' do
+                feed = Feed2Email::Feed.where(url: old_feed_url).first
+
+                expect { subject }.
+                  to output(/\bRemoved feed: #{feed}\s/).to_stdout
+              end
+
+              it 'prints a message about the result of the operation' do
+                expect { subject }.to output(
+                  /\bImported 2 feed subscriptions from #{path}\b/
+                ).to_stdout
+              end
+
+              it 'imports the right number of feeds' do
+                expect { discard_output { subject } }.
+                  to change(Feed2Email::Feed, :count).from(1).to(2)
+              end
+            end
+
+            context 'and removal fails' do
+              before do
+                allow_any_instance_of(Feed2Email::Feed).to receive(:delete).
+                  and_return(false)
+              end
+
+              it 'prints a message that importing has started' do
+                expect { subject }.to output(/\bImporting\b/).to_stdout
+              end
+
+              it 'adds the first feed' do
+                expect { discard_output { subject } }.to change {
+                  Feed2Email::Feed.where(url: new_feed_urls[0]).empty?
+                }.from(true).to(false)
+              end
+
+              it 'prints a message that the first feed was imported' do
+                feed = Feed2Email::Feed.where(url: new_feed_urls[0]).first
+
+                expect { subject }.
+                  to output(/\bImported feed: #{feed}\s/).to_stdout
+              end
+
+              it 'adds the second feed' do
+                expect { discard_output { subject } }.to change {
+                  Feed2Email::Feed.where(url: new_feed_urls[1]).empty?
+                }.from(true).to(false)
+              end
+
+              it 'prints a message that the second feed was imported' do
+                feed = Feed2Email::Feed.where(url: new_feed_urls[1]).first
+
+                expect { subject }.
+                  to output(/\bImported feed: #{feed}\s/).to_stdout
+              end
+
+              it 'does not remove the old feed' do
+                discard_output { subject }
+
+                expect { old_feed.refresh }.not_to raise_error
+              end
+
+              it 'prints a message that the old feed was not removed' do
+                feed = Feed2Email::Feed.where(url: old_feed_url).first
+
+                expect { subject }.
+                  to output(/\bFailed to remove feed: #{feed}\s/).to_stdout
+              end
+
+              it 'prints a message about the result of the operation' do
+                expect { subject }.to output(
+                  /\bImported 2 feed subscriptions from #{path}\b/
+                ).to_stdout
+              end
+
+              it 'imports the right number of feeds' do
+                expect { discard_output { subject } }.
+                  to change(Feed2Email::Feed, :count).from(1).to(3)
+              end
+            end
+          end
+        end
+
+        context 'and an old feed does not exist' do
+          before do
+            Feed2Email::Feed.dataset.delete
+          end
+
+          it 'prints a message that importing has started' do
+            expect { subject }.to output(/\bImporting\b/).to_stdout
+          end
+
+          it 'adds the first feed' do
+            expect { discard_output { subject } }.to change {
+              Feed2Email::Feed.where(url: new_feed_urls[0]).empty?
+            }.from(true).to(false)
+          end
+
+          it 'prints a message that the first feed was imported' do
+            feed = Feed2Email::Feed.where(url: new_feed_urls[0]).first
+
+            expect { subject }.to output(/\bImported feed: #{feed}\s/).to_stdout
+          end
+
+          it 'adds the second feed' do
+            expect { discard_output { subject } }.to change {
+              Feed2Email::Feed.where(url: new_feed_urls[1]).empty?
+            }.from(true).to(false)
+          end
+
+          it 'prints a message that the second feed was imported' do
+            feed = Feed2Email::Feed.where(url: new_feed_urls[1]).first
+
+            expect { subject }.to output(/\bImported feed: #{feed}\s/).to_stdout
+          end
+
+          it 'prints a message about the result of the operation' do
+            expect { subject }.to output(
+              /\bImported 2 feed subscriptions from #{path}\b/
+            ).to_stdout
+          end
+
+          it 'imports the right number of feeds' do
+            expect { discard_output { subject } }.
+              to change(Feed2Email::Feed, :count).from(0).to(2)
+          end
+        end
+      end
+    end
+  end
+
   describe '#list' do
     subject { cli.list }
 
