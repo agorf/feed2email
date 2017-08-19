@@ -4,10 +4,12 @@ SimpleCov.start
 require 'mail'
 Mail.defaults { delivery_method :test }
 
-require 'sequel'
 require 'feed2email'
+require 'sequel'
 Feed2Email.setup_database(connection: Sequel.sqlite)
+Feed2Email.home_path = Dir.mktmpdir
 
+require 'fileutils'
 require 'pry'
 require 'webmock/rspec'
 
@@ -22,7 +24,10 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.before(:each) do
-    Feed2Email.home_path = Dir.mktmpdir
+    if Feed2Email.root_path.start_with?('/tmp/')
+      FileUtils.rm_rf(Feed2Email.root_path)
+      FileUtils.mkdir_p(Feed2Email.root_path)
+    end
 
     Mail::TestMailer.deliveries.clear
   end
