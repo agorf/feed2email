@@ -30,7 +30,7 @@ module Feed2Email
     include Loggable
 
     def old?
-      entries_dataset.any?
+      exists? && entries_dataset.any?
     end
 
     def process

@@ -114,17 +114,29 @@ describe Feed2Email::Feed do
   describe '#old?' do
     subject { feed.old? }
 
-    context 'when feed has entries' do
-      let!(:entry) {
-        Feed2Email::Entry.create(feed_id: feed.id, url: entry_url)
-      }
+    context 'when feed is persisted' do
+      context 'and has entries' do
+        let!(:entry) {
+          Feed2Email::Entry.create(feed_id: feed.id, url: entry_url)
+        }
 
-      it { is_expected.to eq true }
+        it { is_expected.to eq true }
+      end
+
+      context 'and has no entries' do
+        before do
+          feed.entries_dataset.destroy
+        end
+
+        it { is_expected.to eq false }
+      end
     end
 
-    context 'when feed has no entries' do
-      before do
-        feed.entries_dataset.destroy
+    context 'when feed is not persisted' do
+      let(:feed) { described_class.new(url: url) }
+
+      it 'does not raise an error' do
+        expect { subject }.not_to raise_error
       end
 
       it { is_expected.to eq false }
