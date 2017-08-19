@@ -238,52 +238,70 @@ describe Feed2Email::Feed do
   describe '#to_s' do
     subject { feed.to_s }
 
-    context 'when feed is enabled' do
-      let(:enabled) { true }
+    context 'when feed is persisted' do
+      context 'and is enabled' do
+        let(:enabled) { true }
 
-      context 'and no email has been sent' do
-        before do
-          feed.entries_dataset.destroy
+        context 'and no email has been sent' do
+          before do
+            feed.entries_dataset.destroy
+          end
+
+          it { is_expected.to eq "  #{feed.id} #{feed.url}" }
         end
 
-        it { is_expected.to eq "  #{feed.id} #{feed.url}" }
+        context 'and an email has been sent' do
+          let!(:entry) do
+            Feed2Email::Entry.create(feed_id: feed.id, url: entry_url,
+                                     created_at: now, updated_at: now)
+          end
+
+          let(:now) { Time.now }
+
+          it { is_expected.to eq "  #{feed.id} #{feed.url} last email at #{now}" }
+        end
       end
 
-      context 'and an email has been sent' do
-        let!(:entry) do
-          Feed2Email::Entry.create(feed_id: feed.id, url: entry_url,
-                                   created_at: now, updated_at: now)
+      context 'and is disabled' do
+        let(:enabled) { false }
+
+        context 'and no email has been sent' do
+          before do
+            feed.entries_dataset.destroy
+          end
+
+          it { is_expected.to eq "  #{feed.id} DISABLED #{feed.url}" }
         end
 
-        let(:now) { Time.now }
+        context 'and an email has been sent' do
+          let!(:entry) do
+            Feed2Email::Entry.create(feed_id: feed.id, url: entry_url,
+                                     created_at: now, updated_at: now)
+          end
 
-        it { is_expected.to eq "  #{feed.id} #{feed.url} last email at #{now}" }
+          let(:now) { Time.now }
+
+          it {
+            is_expected.
+              to eq "  #{feed.id} DISABLED #{feed.url} last email at #{now}"
+          }
+        end
       end
     end
 
-    context 'when feed is disabled' do
-      let(:enabled) { false }
+    context 'when feed is not persisted' do
+      let(:feed) { described_class.new(url: url, enabled: enabled) }
 
-      context 'and no email has been sent' do
-        before do
-          feed.entries_dataset.destroy
-        end
+      context 'and is enabled' do
+        let(:enabled) { true }
 
-        it { is_expected.to eq "  #{feed.id} DISABLED #{feed.url}" }
+        it { is_expected.to eq feed.url }
       end
 
-      context 'and an email has been sent' do
-        let!(:entry) do
-          Feed2Email::Entry.create(feed_id: feed.id, url: entry_url,
-                                   created_at: now, updated_at: now)
-        end
+      context 'and is disabled' do
+        let(:enabled) { false }
 
-        let(:now) { Time.now }
-
-        it {
-          is_expected.
-            to eq "  #{feed.id} DISABLED #{feed.url} last email at #{now}"
-        }
+        it { is_expected.to eq feed.url }
       end
     end
   end

@@ -62,6 +62,8 @@ module Feed2Email
     end
 
     def to_s
+      return url if new?
+
       parts = [id.to_s.rjust(3)] # align right 1-999
       parts << 'DISABLED' unless enabled
       parts << url
