@@ -108,7 +108,7 @@ module Feed2Email
     end
 
     def create_default_config
-      open(path, 'w') # touch
+      open(path, 'w').close # touch
       File.chmod(0600, path)
       open(path, 'w') {|f| f << default_config.to_yaml }
     end
