@@ -27,6 +27,7 @@ RSpec.configure do |config|
     if Feed2Email.root_path.start_with?('/tmp/')
       FileUtils.rm_rf(Feed2Email.root_path)
       FileUtils.mkdir_p(Feed2Email.root_path)
+      Feed2Email.instance_variable_set(:@config, nil) # bust cache
     end
 
     Mail::TestMailer.deliveries.clear
