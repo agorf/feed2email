@@ -73,7 +73,7 @@ describe Feed2Email::Cli do
               end
 
               it 'adds the feed with the option to false' do
-                expect { discard_output { subject } }.to change {
+                expect { discard_stdout { subject } }.to change {
                   Feed2Email::Feed.where(url: feed_url, send_existing: false).
                     count
                 }.from(0).to(1)
@@ -90,7 +90,7 @@ describe Feed2Email::Cli do
                 let(:added_url) { "http://#{add_url}" }
 
                 it 'adds the feed with the option to false' do
-                  expect { discard_output { subject } }.to change {
+                  expect { discard_stdout { subject } }.to change {
                     Feed2Email::Feed.where(url: added_url,
                                            send_existing: false).count
                   }.from(0).to(1)
@@ -104,7 +104,7 @@ describe Feed2Email::Cli do
               end
 
               it 'adds the feed with the option to true' do
-                expect { discard_output { subject } }.to change {
+                expect { discard_stdout { subject } }.to change {
                   Feed2Email::Feed.where(url: feed_url, send_existing: true).
                     count
                 }.from(0).to(1)
@@ -183,7 +183,7 @@ describe Feed2Email::Cli do
               end
 
               it 'exits' do
-                expect { discard_output { subject } }.to raise_error(SystemExit)
+                expect { discard_stdout { subject } }.to raise_error(SystemExit)
               end
             end
 
@@ -197,7 +197,7 @@ describe Feed2Email::Cli do
               end
 
               it 'adds the feed' do
-                expect { discard_output { subject } }.to change {
+                expect { discard_stdout { subject } }.to change {
                   Feed2Email::Feed.where(url: feed_url).count
                 }.from(0).to(1)
               end
@@ -305,7 +305,7 @@ describe Feed2Email::Cli do
           end
 
           it 'exports feeds as OPML to specified path' do
-            expect { discard_output { subject } }.to change {
+            expect { discard_stdout { subject } }.to change {
               begin
                 File.read(path)
               rescue Errno::ENOENT
@@ -408,7 +408,7 @@ describe Feed2Email::Cli do
             end
 
             it 'does not remove the old feed' do
-              discard_output { subject }
+              discard_stdout { subject }
 
               expect { old_feed.refresh }.not_to raise_error
             end
@@ -419,7 +419,7 @@ describe Feed2Email::Cli do
             end
 
             it 'adds the new feed' do
-              expect { discard_output { subject } }.
+              expect { discard_stdout { subject } }.
                 to change { new_feed_where.empty? }.from(true).to(false)
             end
 
@@ -435,7 +435,7 @@ describe Feed2Email::Cli do
             end
 
             it 'imports the right number of feeds' do
-              expect { discard_output { subject } }.
+              expect { discard_stdout { subject } }.
                 to change(Feed2Email::Feed, :count).from(1).to(2)
             end
           end
@@ -451,7 +451,7 @@ describe Feed2Email::Cli do
             end
 
             it 'does not remove the old feed' do
-              discard_output { subject }
+              discard_stdout { subject }
 
               expect { old_feed.refresh }.not_to raise_error
             end
@@ -462,7 +462,7 @@ describe Feed2Email::Cli do
             end
 
             it 'does not add the new feed' do
-              expect { discard_output { subject } }.
+              expect { discard_stdout { subject } }.
                 not_to change { new_feed_where.empty? }.from(true)
             end
 
@@ -479,7 +479,7 @@ describe Feed2Email::Cli do
             end
 
             it 'does not import any other feeds' do
-              expect { discard_output { subject } }.
+              expect { discard_stdout { subject } }.
                 not_to change(Feed2Email::Feed, :count).from(1)
             end
           end
@@ -513,7 +513,7 @@ describe Feed2Email::Cli do
             end
 
             it 'adds the first feed' do
-              expect { discard_output { subject } }.to change {
+              expect { discard_stdout { subject } }.to change {
                 Feed2Email::Feed.where(url: new_feed_urls[0]).empty?
               }.from(true).to(false)
             end
@@ -526,7 +526,7 @@ describe Feed2Email::Cli do
             end
 
             it 'adds the second feed' do
-              expect { discard_output { subject } }.to change {
+              expect { discard_stdout { subject } }.to change {
                 Feed2Email::Feed.where(url: new_feed_urls[1]).empty?
               }.from(true).to(false)
             end
@@ -539,7 +539,7 @@ describe Feed2Email::Cli do
             end
 
             it 'does not remove the old feed' do
-              discard_output { subject }
+              discard_stdout { subject }
 
               expect { old_feed.refresh }.not_to raise_error
             end
@@ -557,7 +557,7 @@ describe Feed2Email::Cli do
             end
 
             it 'imports the right number of feeds' do
-              expect { discard_output { subject } }.
+              expect { discard_stdout { subject } }.
                 to change(Feed2Email::Feed, :count).from(1).to(3)
             end
           end
@@ -573,7 +573,7 @@ describe Feed2Email::Cli do
               end
 
               it 'adds the first feed' do
-                expect { discard_output { subject } }.to change {
+                expect { discard_stdout { subject } }.to change {
                   Feed2Email::Feed.where(url: new_feed_urls[0]).empty?
                 }.from(true).to(false)
               end
@@ -586,7 +586,7 @@ describe Feed2Email::Cli do
               end
 
               it 'adds the second feed' do
-                expect { discard_output { subject } }.to change {
+                expect { discard_stdout { subject } }.to change {
                   Feed2Email::Feed.where(url: new_feed_urls[1]).empty?
                 }.from(true).to(false)
               end
@@ -599,7 +599,7 @@ describe Feed2Email::Cli do
               end
 
               it 'removes the old feed' do
-                discard_output { subject }
+                discard_stdout { subject }
 
                 expect { old_feed.refresh }.
                   to raise_error(Sequel::Error, 'Record not found')
@@ -619,7 +619,7 @@ describe Feed2Email::Cli do
               end
 
               it 'imports the right number of feeds' do
-                expect { discard_output { subject } }.
+                expect { discard_stdout { subject } }.
                   to change(Feed2Email::Feed, :count).from(1).to(2)
               end
             end
@@ -635,7 +635,7 @@ describe Feed2Email::Cli do
               end
 
               it 'adds the first feed' do
-                expect { discard_output { subject } }.to change {
+                expect { discard_stdout { subject } }.to change {
                   Feed2Email::Feed.where(url: new_feed_urls[0]).empty?
                 }.from(true).to(false)
               end
@@ -648,7 +648,7 @@ describe Feed2Email::Cli do
               end
 
               it 'adds the second feed' do
-                expect { discard_output { subject } }.to change {
+                expect { discard_stdout { subject } }.to change {
                   Feed2Email::Feed.where(url: new_feed_urls[1]).empty?
                 }.from(true).to(false)
               end
@@ -661,7 +661,7 @@ describe Feed2Email::Cli do
               end
 
               it 'does not remove the old feed' do
-                discard_output { subject }
+                discard_stdout { subject }
 
                 expect { old_feed.refresh }.not_to raise_error
               end
@@ -680,7 +680,7 @@ describe Feed2Email::Cli do
               end
 
               it 'imports the right number of feeds' do
-                expect { discard_output { subject } }.
+                expect { discard_stdout { subject } }.
                   to change(Feed2Email::Feed, :count).from(1).to(3)
               end
             end
@@ -697,7 +697,7 @@ describe Feed2Email::Cli do
           end
 
           it 'adds the first feed' do
-            expect { discard_output { subject } }.to change {
+            expect { discard_stdout { subject } }.to change {
               Feed2Email::Feed.where(url: new_feed_urls[0]).empty?
             }.from(true).to(false)
           end
@@ -709,7 +709,7 @@ describe Feed2Email::Cli do
           end
 
           it 'adds the second feed' do
-            expect { discard_output { subject } }.to change {
+            expect { discard_stdout { subject } }.to change {
               Feed2Email::Feed.where(url: new_feed_urls[1]).empty?
             }.from(true).to(false)
           end
@@ -727,7 +727,7 @@ describe Feed2Email::Cli do
           end
 
           it 'imports the right number of feeds' do
-            expect { discard_output { subject } }.
+            expect { discard_stdout { subject } }.
               to change(Feed2Email::Feed, :count).from(0).to(2)
           end
         end
@@ -819,7 +819,7 @@ describe Feed2Email::Cli do
         end
 
         it 'exits' do
-          expect { discard_output { subject } }.to raise_error(SystemExit)
+          expect { discard_stdout { subject } }.to raise_error(SystemExit)
         end
       end
 
@@ -830,7 +830,7 @@ describe Feed2Email::Cli do
         end
 
         it 'does not remove feed' do
-          discard_output { subject }
+          discard_stdout { subject }
 
           expect { feed.refresh }.not_to raise_error
         end
@@ -854,14 +854,14 @@ describe Feed2Email::Cli do
           end
 
           it 'raises error with relevant message' do
-            expect { discard_output { subject } }.to raise_error(Thor::Error,
+            expect { discard_stdout { subject } }.to raise_error(Thor::Error,
               'Failed to remove feed')
           end
         end
 
         context 'and successful removal' do
           it 'removes feed' do
-            discard_output { subject }
+            discard_stdout { subject }
 
             expect { feed.refresh }.to raise_error(Sequel::Error,
               'Record not found')
@@ -914,7 +914,7 @@ describe Feed2Email::Cli do
           end
 
           it 'disables it' do
-            expect { discard_output { subject } }.to change {
+            expect { discard_stdout { subject } }.to change {
               feed.refresh.enabled }.from(true).to(false)
           end
 
@@ -929,7 +929,7 @@ describe Feed2Email::Cli do
           end
 
           it 'enables it' do
-            expect { discard_output { subject } }.to change {
+            expect { discard_stdout { subject } }.to change {
               feed.refresh.enabled }.from(false).to(true)
           end
 
@@ -982,7 +982,7 @@ describe Feed2Email::Cli do
           let(:last_modified) { Time.now.to_s }
 
           it 'uncaches it' do
-            expect { discard_output { subject } }.to change {
+            expect { discard_stdout { subject } }.to change {
               feed.refresh.etag
             }.from(etag).to(nil).and change {
               feed.refresh.last_modified
@@ -1000,7 +1000,7 @@ describe Feed2Email::Cli do
           end
 
           it 'remains uncached' do
-            expect { discard_output { subject } }.not_to change {
+            expect { discard_stdout { subject } }.not_to change {
               feed.refresh
               [feed.etag, feed.last_modified]
             }

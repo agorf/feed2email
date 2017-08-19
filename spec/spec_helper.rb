@@ -34,11 +34,13 @@ RSpec.configure do |config|
   end
 end
 
-def discard_output
-  stdout, stderr = $stdout, $stderr # backup
-  $stdout = $stderr = StringIO.new
+$orig_stdout = $stdout # backup
+
+def discard_stdout
+  $stdout = open(File::NULL, 'w')
   yield
-  $stdout, $stdeer = stdout, stderr # restore
+  $stdout.close
+  $stdout = $orig_stdout
 end
 
 def discard_thor_error
