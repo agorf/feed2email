@@ -1,3 +1,9 @@
+# This project is no longer maintained!
+
+[feedigest](https://github.com/agorf/feedigest) is a simpler alternative that groups all updates in a digest email.
+
+---
+
 # feed2email [![Gem Version](https://badge.fury.io/rb/feed2email.svg)](http://badge.fury.io/rb/feed2email) [![Build Status](https://travis-ci.org/agorf/feed2email.png?branch=master)](https://travis-ci.org/agorf/feed2email)
 
 feed2email is a [headless][] feed aggregator that sends feed entries via email.
